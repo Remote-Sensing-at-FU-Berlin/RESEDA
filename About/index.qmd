@@ -1,0 +1,58 @@
+---
+sidebar: false
+---
+
+::: {#main .site-main role="main"}
+::: entry-header
+# About {#about .entry-title}
+:::
+
+::: entry-content
+## Legal Notice according to § 5 TMG (Telemediengesetz)
+
+## Institution
+
+Freie Universität Berlin -- represented by the [President](https://www.fu-berlin.de/einrichtungen/organe/praesidium/praesident/index.html){target="_self"} --
+
+## Address
+
+Freie Universität Berlin\
+Office of the President\
+Kaiserswerther Str. 16/18\
+14195 Berlin
+
+## **Turnover Tax ID**
+
+DE 811304768
+
+## Web Content Editors
+
+[M.Sc. Johannes Rosentreter](http://www.geo.fu-berlin.de/en/geog/fachrichtungen/geoinformatik/mitarbeiter/jrosentreter/index.html) (Web content development)\
+E-mail: [rosentreter.johannes\@gmail.de](mailto:rosentreter.johannes@gmail.de){.email}\
+Phone:
+
+[Dipl.-Ing. Kristin Fenske](http://www.geo.fu-berlin.de/en/geog/fachrichtungen/geoinformatik/mitarbeiter/jrosentreter/index.html) (Web content development)\
+E-mail: [kristin.fenske\@fu-berlin.de](mailto:kristin.fenske@fu-berlin.de){.email}\
+Phone: [(+49 30) 838 65326](tel:+49%2030%20838%2065326)
+
+[Prof. Dr. Hannes Feilhauer](https://www.geo.fu-berlin.de/en/geog/fachrichtungen/geoinformatik/mitarbeiter/hfeilhauer/index.html){target="_blank" rel="noopener"} (Content-related support)\
+E-mail: [hfeilhauer\@zedat.fu-berlin.de](mailto:hfeilhauer@zedat.fu-berlin.de){.email}\
+Phone: [(+49 30) 838 66172](tel:+493083866172)
+
+[Dr. Marion Stellmes](http://www.geo.fu-berlin.de/en/geog/fachrichtungen/geoinformatik/mitarbeiter/mstellmes/index.html) (Content-related support)\
+E-mail: [marion.stellmes\@fu-berlin.de](mailto:marion.stellmes@fu-berlin.de){.email}\
+Phone: [(+49 30) 838 61978](tel:+493083861978)
+
+[Dipl. Geog. Rolf Rissiek](http://www.geo.fu-berlin.de/en/geog/fachrichtungen/geoinformatik/mitarbeiter/rrissiek/index.html) (Laboratory assistance)\
+E-mail: [rolf.rissiek\@fu-berlin.de](mailto:rolf.rissiek@fu-berlin.de){.email}\
+Phone: [(+49 30) 838 70263](tel:+493083870263)
+
+## **Privacy Statement**
+
+See our [Privacy Policy](https://www.fu-berlin.de/en/redaktion/impressum/datenschutzhinweise/index.html)
+
+## Legal Form
+
+Freie Universität Berlin is a statutory body under public law in accordance with §§1 and 2 of the Berlin Law Relating to Institutions of Higher Learning (Berliner Hochschulgesetz, BerlHG). The web site of Freie Universität Berlin is subject to current [copyright law](https://www.fu-berlin.de/en/redaktion/copyright/index.html). Please also take notice of our [disclaimer](https://www.fu-berlin.de/en/redaktion/disclaimer/index.html).
+:::
+:::

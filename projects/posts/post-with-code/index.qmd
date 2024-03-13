@@ -1,0 +1,38 @@
+---
+title: "Future Forest"
+author: "Remote sensing & geoinformatics group"
+date: "2024-03-09"
+categories: [Ongoing, sentinel-2, forest damage]
+image: "futureforest_landshut_map_cropped.jpg"
+sidebar: false
+---
+
+The aim of FutureForest is to use artificial intelligence (AI) methods to provide information that can support climate-adapted forest conversion.
+
+***Ongoing Projects***
+
+-   [FutureForest
+    (future-forest.eu)](https://future-forest.eu/ "Future Forest"): The
+    aim of FutureForest is to use artificial intelligence (AI) methods
+    to provide information that can support climate-adapted forest
+    conversion. The effects of different climate forecasts and forest
+    conversion scenarios are to be simulated and the possible effects of
+    different management methods are to be assessed.
+    Main tasks of FU Berlin include:
+    -   Sentinel-2 time series based detection of forest damaged areas
+        in Germany
+    -   Operational \"near real-time\" monitoring using Deep Learning
+        (DL)
+    -   Early detection of damaged areas
+    -   Provision of a Germany-wide map of current forest
+        damage/warnings
+
+-   UAV based analysis of the deciduous forests under drought stress in
+    the historical garden districts of Berlin and Potsdam in 2020 (in
+    cooperation with „Stiftung Preußische Schlösser & Gärten
+    Berlin-Brandenburg" (SPSG) and „Grünflächenamt Berlin
+    Steglitz-Zehlendorf"
+
+You can visit the live dashboard of the Installation site
+[**here**](https://www.geo.fu-berlin.de/en/geog/fachrichtungen/geoinformatik/projekte-fegeoinf/futureforestdashboard2/index.html "here"){target="_blank"}.
+

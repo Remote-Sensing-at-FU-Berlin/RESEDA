@@ -1,0 +1,42 @@
+---
+page-layout: full
+sidebar: false
+image: "img/TLS_Scan_Baum_Campus_fu_gruen.png"
+about:
+  template: trestles
+  id: about-block
+  links:
+    - icon: github
+      text: Github
+      href: https://github.com/Remote-Sensing-at-FU-Berlin
+    - icon: envelope
+      text: Email
+      href: "mailto:marion.stellmes@fu-berlin.de" 
+    - icon: folder-symlink
+      href: https://blogs.fu-berlin.de/reseda/ 
+---
+
+:::{#about-block}
+
+# Welcome
+
+to your Remote Sensing Data Analysis online course, or RESEDA for short!
+
+This course helps you improve your analysis of remote sensing image data for the next data science project or thesis. We will have a look at basic and advanced concepts needed for a complete project implementation using remote sensing imagery – with a special focus on automatisation of individual operations and big data processing. This course will provide a great deal of knowledge and valuable expertise for all related fields of environmental earth sciences!
+
+For that purpose we will mainly use the statistical programming language R in a Linux environment – but please don’t panic, it’s not as bad as it sounds: You will be led through a complete analysis process, from data acquisition, to import, exploration and finally the export of your results, guided by a lot of reproduceable examples, exercises and pretty pictures!
+
+Keep in mind that this course content complements and extends the material covered in the classes Fernerkundung und Digitale Bildverarbeitung and Geographische Informationssysteme, both being taught at the Freie Universität Berlin.
+
+Please feel free to [contact us](mailto:fabian.fassnacht[at]fu-berlin.de) if you have any questions or would like to discuss potential projects.
+:::
+
+:::{#hero-heading}
+
+Best regards,
+your FU Berlin Remote Sensing and Geoinformatics staff
+
+:::
+
+
+

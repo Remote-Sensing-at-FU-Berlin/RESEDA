@@ -1,0 +1,71 @@
+---
+title: "MOFA"
+author: "Björn Waske"
+date: "2014-12-01"
+categories: [Completed,multitemporal,multisensor]
+image: "Captura.PNG"
+editor: 
+  markdown: 
+    wrap: 72
+sidebar: false
+---
+
+::: {.box .box-project-doc}
+# Monitoring Farmland Abandonment by multitemporal and multisensor remote sensing imagery (MOFA) 
+
+::: {.editor-content .abstract}
+The research project studies an area in the border region of Poland and
+Ukraine. With the fall of the Iron Curtain the region experienced
+drastic changes in political and socio- economic structures. Large
+farmland areas become abandoned and gradual processes of forest
+succession take place on the abandoned land. The aim of the project is
+the development of adequate strategies to monitor farmland abandonment,
+using multitemporal SAR and multispectral remote sensing data.\
+:::
+
+::: {.editor-content .box-project-doc-container}
+Finally enhanced maps should be provided, which enable more detailed
+analysis of the gradual process of land cover transitions. (PI: B.
+Waske, funding: German Research Foundation (DFG) WA 2728/2-1)
+
+Thus, remote sensing based mapping offers great opportunities to map
+these phenomena and ultimately to better understand patterns, processes
+and underlying causes. Existing studies are based on multispectral
+imagery, abandonment maps, however, are difficult to obtain due to
+spectral ambiguities, phenological variability and limited data
+availability. SAR data can overcome these problems and different remote
+sensing studies demonstrated the potential of multisensor imagery. The
+aim of the project is the development of adequate strategies to monitor
+farmland abandonment, using multitemporal SAR and multispectral remote
+sensing data. Finally enhanced maps should be provided, which enable
+more detailed analysis of the gradual process of land cover transitions.
+
+
+The study site within the border region of Poland and Ukraine (© Google,
+2012)
+
+**\
+**
+
+**Project Duration:** 01/2012 - 12/2014
+
+**Principal Investigator:** Björn Waske
+
+**Projects staff:** Jan Stefanski (University Bonn)
+
+**Project partners:**
+
+Prof. Dr. Tobias Kümmerle, Biogeography and Conservation Biology Group,
+Humboldt-University of Berlin
+
+Dr. Oleh Chaskovskyy, Ukrainian National Forestry University, Lviv
+(Ukraine)
+
+Dr. hab. Jacek Kozak, Department of GIS, Cartography and Remote Sensing,
+Jagiellonian University, Kraków (Poland)
+
+**Funding:** DFG - German Research Foundation (WA 2728/2-1)
+
+\
+:::
+:::

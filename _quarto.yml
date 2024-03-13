@@ -1,0 +1,131 @@
+# This file controls the settings for your Quarto template from www.marvinschmitt.com
+
+# website settings
+website:
+  #title: "RESEDA"        # Your name
+  description: "RESEDA - Basics of remote sensing"   # A brief slogan (optional)
+  image: img/reseda-logo.png
+  page-navigation: true
+  
+  favicon: img/favicon.png
+  
+  # start of the navigation bar at the top of the website
+  navbar:
+    pinned: true
+    logo: /img/RSG-Logo-RGB.png
+    
+    # your sub-pages
+    left:
+      - text: "Projects"
+        href: projects/index.qmd
+      - text: "Staff"
+        href: staff/index.qmd
+      - text: "R Crash Course"
+        href: R-Crash-Course/index.qmd
+      - text: "RESEDA"
+        href: RESEDA/index.qmd
+      - text: "About"
+        href: About/index.qmd
+    
+    # your social media handles
+    right:
+      - icon: folder-symlink
+        href: https://blogs.fu-berlin.de/reseda/
+      - icon: github
+        text: Github
+        href: https://github.com/Remote-Sensing-at-FU-Berlin
+      - icon: envelope
+        aria-label: email
+        href: "mailto:marion.stellmes@fu-berlin.de"  
+        
+  sidebar: 
+    - title: "R Crash Course"
+      style: "docked"
+      background: gray-400
+      contents:
+        - section: "Overview"
+          contents: 
+            - R-Crash-Course/index.qmd
+        - section: "Part I"
+          contents: 
+            - text: "Package management, variables and functions"
+              file: R-Crash-Course/contents/Part-I/index.qmd
+            - text: "Excersice I"
+              file: contents/Part-I/R–ExerciseI.qmd
+        - section: "Part II"
+          contents: 
+            - text: "Vectors and factors"
+              file: R-Crash-Course/contents/Part-II/index.qmd
+            - text: "Excersice II"
+              file: R-Crash-Course/contents/Part-II/R–ExerciseII.qmd
+        - section: "Part III"
+          contents: 
+            - text: "Matrices"
+              file: R-Crash-Course/contents/Part-III/index.qmd
+            - text: "Excersice III"
+              file: R-Crash-Course/contents/Part-III/R–ExerciseIII.qmd
+        - section: "Part IV"
+          contents: 
+            - text: "Lists"
+              file: R-Crash-Course/contents/Part-IV/index.qmd
+            - text: "Excersice IV"
+              file: R-Crash-Course/contents/Part-IV/R–ExerciseIV.qmd
+        - section: "Part V"
+          contents: 
+            - text: "Missing values and control structures"
+              file: R-Crash-Course/contents/Part-V/index.qmd
+            - text: "Excersice V"
+              file: R-Crash-Course/contents/Part-V/R–ExerciseV.qmd
+              
+    - title: "RESEDA"
+      style: "docked"
+      background: gray-400
+      contents:
+        - section: "Overview"
+          contents: 
+            - RESEDA/index.qmd
+        - section: "Preparations"
+          contents: 
+            - text: "Prepare yourself"
+              file: contents/PrepareYourself.qmd
+
+# Don't touch unless you know what you are doing :) ------------
+  search: 
+    location: navbar
+    type: textbox
+  page-footer: 
+    left: |
+      <span class="faux-block">&#169; 2023 Fernerkundung und Geoinformatik 1.0</span>
+    center: |
+      <span class="faux-block"><a href="https://www.marvinschmitt.com/blog/website-tutorial-quarto/">View the tutorial for this template!</a></span>
+    right: |
+      <span class="faux-block"><a href="https://github.com/marvinschmitt/quarto-website-template/">View source on GitHub</a></span>
+
+project:
+  type: website
+  output-dir: docs
+
+  preview: 
+    port: 22222
+    browser: true
+    watch-inputs: true
+    navigate: true
+
+execute:
+  freeze: true
+
+format:
+  html:
+#    code-fold: true
+#    code-tools: true
+      
+    fontsize: 1.1em
+    theme: 
+      - sadstone
+      - html/styles.scss
+    toc: false
+    code-link: true
+    anchor-sections: true
+    fig-cap-location: margin
+    reference-location: margin
+    footnotes-hover: true
