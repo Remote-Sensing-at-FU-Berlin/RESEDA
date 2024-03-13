@@ -1,0 +1,148 @@
+::: {#main .site-main role="main"}
+::: entry-header
+# R -- Exercise IV {#r-exercise-iv .entry-title}
+:::
+
+::: entry-content
+1) Create a data frame [df]{.crayon-inline} that contains the following variables for at least four observations:
+
+-   name: name of at least four friends or acquaintances
+-   age: the age of those persons
+-   size: the height of those persons in cm
+-   city: Place of residence of those persons (city)
+
+``` r
+df <- data.frame(
+  name = c("Anna", "Otto", "Natan", "Ede"), 
+  age  = c(66, 53, 22, 36),
+  size = c(170, 174, 182, 180),
+  city = c("Hamburg", "Berlin", "Berlin", "Cologne")
+  )
+
+df
+##    name age size    city
+## 1  Anna  66  170 Hamburg
+## 2  Otto  53  174  Berlin
+## 3 Natan  22  182  Berlin
+## 4   Ede  36  180 Cologne
+```
+
+2) Examine the dimensionality, structure and statistical summary of your data frame [df]{.crayon-inline}!
+
+``` r
+dim(df)
+## [1] 4 4
+
+str(df)
+## 'data.frame':    4 obs. of  4 variables:
+##  $ name: Factor w/ 4 levels "Anna","Ede","Natan",..: 1 4 3 2
+##  $ age : num  66 53 22 36
+##  $ size: num  170 174 182 180
+##  $ city: Factor w/ 3 levels "Berlin","Cologne",..: 3 1 1 2
+
+summary(df)
+##     name        age             size            city  
+##  Anna :1   Min.   :22.00   Min.   :170.0   Berlin :2  
+##  Ede  :1   1st Qu.:32.50   1st Qu.:173.0   Cologne:1  
+##  Natan:1   Median :44.50   Median :177.0   Hamburg:1  
+##  Otto :1   Mean   :44.25   Mean   :176.5              
+##            3rd Qu.:56.25   3rd Qu.:180.5              
+##            Max.   :66.00   Max.   :182.0
+```
+
+3) Index the second column with simple square brackets [[]]{.crayon-inline} and save the output as [df.subset]{.crayon-inline}! Which class does the output belong to?
+
+``` r
+df.subset <- df[2]
+
+df.subset
+##   age
+## 1  66
+## 2  53
+## 3  22
+## 4  36
+
+class(df.subset)
+## [1] "data.frame"
+```
+
+4) Index the variable [age]{.crayon-inline} with double square brackets [$$\[$$]]{.crayon-inline} and save the output as [age.persons]{.crayon-inline}. Which class does the output belong to?
+
+``` r
+age.persons <- df[["alter"]]
+
+# oder
+
+age.persons <- df[[2]]
+
+age.persons
+## [1] 66 53 22 36
+
+class(age.persons)
+## [1] "numeric"
+```
+
+5) Add the variable [weight]{.crayon-inline} in kg to the data frame [df]{.crayon-inline}!
+
+``` r
+df$weight <- c(115, 110.2, 95, 87)
+
+df
+##    name age size    city weight
+## 1  Anna  66  170 Hamburg  115.0
+## 2  Otto  53  174  Berlin  110.2
+## 3 Natan  22  182  Berlin   95.0
+## 4   Ede  36  180 Cologne   87.0
+```
+
+6) Add another observation (person) to your [df]{.crayon-inline}!
+
+``` r
+new.person <- data.frame(
+  "name"   = "Anna",
+  "age"    = 32,
+  "size"   = 174,
+  "weight" = 63,
+  "city"   = "Hamburg"
+)
+
+df <- rbind(df, new.person)
+
+df
+##    name age size    city weight
+## 1  Anna  66  170 Hamburg  115.0
+## 2  Otto  53  174  Berlin  110.2
+## 3 Natan  22  182  Berlin   95.0
+## 4   Ede  36  180 Cologne   87.0
+## 5  Anna  32  174 Hamburg   63.0
+```
+
+7) Calculate the mean value of the variable [age]{.crayon-inline} and save the result as [ages.mean]{.crayon-inline}!
+
+``` r
+ages.mean <- mean(df$age)
+```
+
+8) Index all observations (persons) that are older than the average [ages.mean]{.crayon-inline}!
+
+``` r
+df[df$age > ages.mean, ]
+```
+
+9) Index all persons, which are lighter than 100 kg AND at least 180 cm tall!
+
+``` r
+df[df$weight = 180, ]
+##    name age size    city weight
+## 3 Natan  22  182  Berlin     95
+## 4   Ede  36  180 Cologne     87
+
+# or
+
+subset(df, df$weight = 180)
+##    name age size    city weight
+## 3 Natan  22  182  Berlin     95
+## 4   Ede  36  180 Cologne     87
+```
+:::
+:::

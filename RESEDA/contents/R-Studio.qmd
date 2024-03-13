@@ -1,0 +1,66 @@
+::: {#main .site-main role="main"}
+::: entry-header
+# R-Studio {#r-studio}
+:::
+
+::: entry-content
+R is a programming language and software environment designed for statistical computing and graphic data output, which is very popular among data scientists. While R is operated purely by command line, there are several graphical user interfaces available, such as Rattle, R Commander, Deducer, RKWard, JGR, and R-Studio.
+
+In this online course we will use R-Studio as an *integrated development environments* (IDE). The default window layout of R-Studio is divided into four panes:
+
+[![](./R-Studio_files/laptop_rstudio.png)](./R-Studio_files/laptop_rstudio.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Default layout in R-Studio]{style="color: #686868;font-size: small"}
+:::
+
+-   [**1 Source Pane**]{style="color: #6b9e1f"}: for writing, saving and sending R code to the console. This pane does not exist by default when you start R-Studio. It appears only when you open at least one R-script via **File \> New File \> R script**
+-   [**2 Console Pane**]{style="color: #6b9e1f"}: Code you enter here is immediately processed by R. This pane is used for interactively testing code line-by-line before you copy your final code to the Source pane (1) above
+-   [**3 Environment Pane**]{style="color: #6b9e1f"}: presents a list of information about all variables/ objects in your current R-Studio session. This list contains their class, dimensions and names. There is a history of all processed lines accessible if you click the **History**-tab
+-   [**4 Files Pane**]{style="color: #6b9e1f"}: contains several tabs for a file browser (**Files**), an essential help function (**Help**), the package manager (**Packages**), and viewer for plots (**Plots**) and interactive R output (**Viewer**)
+
+Although initially confusing, you will get used to each pane over time and quickly learn to switch between them to optimize your workflow when coding!
+
+R-Studio provides a variety of features that make life easier for you, e.g., color highlighting of syntax, code completion, find and replace functionality, import functions for data sets, and many more. Especially the **Source pane** allows to save sequences of commands for later re-use, enhancing reproducibility.
+
+ 
+
+# Execute your code {#execute}
+
+There are multiple ways to execute code in R-Studio. The simplest and most straight-forward way is to type your code directly in the **Console pane** and press **enter key** (or return key).
+
+In order to execute a line of code from the **Source pane**, place your cursor in this line and press **Ctrl+Enter** or use the **Run** toolbar button (top right corner of the **Source pane**). R-Studio automatically advances the cursor to the next line, enabling a execution line-by-line.
+
+You can execute multiple lines at once by selecting requested lines and pressing **Ctrl+Enter**. It is even possible to select parts of a line and execute only this selection. Press **Ctrl+Shift+Enter** or the **Source** toolbar button (top right corner of the **Source pane**) to execute the whole code inside your **Source pane**.
+
+If you want to make use of previously executed commands, you can use the keyboard's up and down arrow keys when in Console pane to access the last entries, modify them if you want, and then press **Enter** again.
+
+ 
+
+# Get some help
+
+R provides a comprehensive built-in help system. At the command prompt in the Console pane of R-Studio type any of the following in order to view descriptions of any operators, functions and objects:
+
+``` r
+help.start()       # general help
+help(foo)          # help about function foo
+?foo               # help about function foo
+apropos("foo")     # list all functions having "foo" in their names
+example(foo)       # show an example of function foo
+```
+
+ 
+
+# Some useful shortcuts
+
+There are some time saving shortcuts implemented to manage your R scripts:
+
+-   **Ctrl+Shift+n** -- create a new R document
+-   **Ctrl+o** -- open a existing file
+-   **Ctrl+s** -- save your currently active file in the **Source Pane**
+-   **Ctrl+f** -- activate search/ replace functionality within **Source Pane**
+-   **Ctrl+Shift+c** -- comment/ uncomment selected parts of your code (commented code with a **\#** at the beginning of a line will not be executed)
+
+You can find all of those commands in the top toolbar of R-Studio as well.
+:::
+:::

@@ -1,0 +1,71 @@
+::: {#main .site-main role="main"}
+::: entry-header
+# R -- Exercise V {#r-exercise-v .entry-title}
+:::
+
+::: entry-content
+1) Use [ifelse()]{.crayon-inline} and your data frame [df]{.crayon-inline} from exercise IV: If the person is less than or equal to 175 cm, it should have the attribute "small", otherwise "tall". Save the result in your [df]{.crayon-inline} as the new column [size.category]{.crayon-inline}.
+
+``` r
+x <- ifelse(df$size <= 175, "small", "tall")
+
+x
+## [1] "small" "small" "tall" "tall" "small"
+
+df$size.categorie <- x
+
+df
+##    name age size    city weight size.categorie
+## 1  Anna  66  170 Hamburg  115.0          small
+## 2  Otto  53  174  Berlin  110.2          small
+## 3 Natan  22  182  Berlin   95.0          tall
+## 4   Ede  36  180 Cologne   87.0          tall
+## 5  Anna  32  174 Hamburg   63.0          small
+```
+
+2) Write a loop that outputs all integers from 5 to 15!
+
+``` r
+vektor <- 5:15
+vektor
+##  [1]  5  6  7  8  9 10 11 12 13 14 15
+
+for (i in vektor) {
+  print(i)
+}
+## [1] 5
+## [1] 6
+## [1] 7
+## [1] 8
+## [1] 9
+## [1] 10
+## [1] 11
+## [1] 12
+## [1] 13
+## [1] 14
+## [1] 15
+```
+
+3) Advanced: Create a for loop that outputs the arithmetic mean for each variable (column) of your data frame [df]{.crayon-inline} -- provided that the variable is numeric!
+
+``` r
+for (i in 1:ncol(df)) {
+  
+  if (class(df[[i]]) == "numeric") {
+    print(names(df)[i])
+    result <- mean(df[[i]], na.rm=TRUE)
+    print(result)
+  }
+  
+}
+## [1] "age"
+## [1] 41.8
+## [1] "size"
+## [1] 176
+## [1] "weight"
+## [1] 94.04
+
+# Even if it looks complicated, take your time and go through it line by line. Everything should be known by now! 
+```
+:::
+:::

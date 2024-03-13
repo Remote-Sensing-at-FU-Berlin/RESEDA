@@ -1,6 +1,6 @@
 ::: {#main .site-main role="main"}
 ::: entry-header
-# Prepare Yourself {#prepare-yourself .entry-title}
+# Prepare Yourself {#prepare-yourself}
 :::
 
 ::: entry-content
@@ -45,18 +45,5 @@ However, we recommend to **use a computer with at least 8 gb of main memory (RAM
 
 In future, every effort will be made on our part to ensure that the programs within the VirtualBox are properly working and updated. However, information given comes without warranty, either express or implied. Neither the authors, nor Freie Universitaet Berlin will be held liable for any damages caused or alleged to be caused directly or indirectly by provided software.\
 If you find any problems or errors we would appreciate if you [contact us](https://blogs.fu-berlin.de/reseda/about/).
-
-\
-
-# Software included in our VM
-
-All provided computer programs as well as the operating system itself (Linux Debian) are free and open-source. That is, you are freely licensed to use, copy, study and change the software in any way. The following overview lists all programs we need for this online course. Use this list in case you want to install everything by your own. **However, do not download each one individually if you want to use our VirtualBox** ([Get Your VM](https://blogs.fu-berlin.de/reseda/get-your-vm/)). A detailed step-by-step guide for the VM installation is given in the next section.
-
--   [R](https://cran.r-project.org/bin/windows/base/){target="_blank"} -- Progamming language
--   [R-Studio](https://www.rstudio.com/products/rstudio/download/){target="_blank"} -- Integrated development environment
--   [SNAP](http://step.esa.int/main/download/){target="_blank"} -- Remote sensing software
--   [QGIS](https://www.qgis.org/de/site/forusers/download.html){target="_blank"} -- Geographic Information System
--   [Bulk Download Application](https://earthexplorer.usgs.gov/bulk/){target="_blank"} -- Software for Bulk Downloading of remote sensing data
--   [GDAL](http://www.gdal.org/usergroup0.html){target="_blank"} -- Geospatial Data Abstraction Library
 :::
 :::

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>prepareyourself</title>
+<title>rexerciseiii</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -29,8 +63,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../RESEDA/contents/QGIS.qmd#execute" rel="next">
-<link href="../../RESEDA/index.html" rel="prev">
+<link href="../../R-Crash-Course/contents/PartIV.html" rel="next">
+<link href="../../R-Crash-Course/contents/PartIII.html" rel="prev">
 <link href="../../img/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -91,11 +125,11 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Staff</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../R-Crash-Course/index.html" rel="" target="">
+    <a class="nav-link active" href="../../R-Crash-Course/index.html" rel="" target="" aria-current="page">
  <span class="menu-text">R Crash Course</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../RESEDA/index.html" rel="" target="" aria-current="page">
+    <a class="nav-link" href="../../RESEDA/index.html" rel="" target="">
  <span class="menu-text">RESEDA</span></a>
   </li>  
   <li class="nav-item">
@@ -130,7 +164,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../RESEDA/contents/PrepareYourself.html">Preparations</a></li><li class="breadcrumb-item"><a href="../../RESEDA/contents/PrepareYourself.html">Chapter in a box</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../R-Crash-Course/contents/PartIII.html">Part III</a></li><li class="breadcrumb-item"><a href="../../R-Crash-Course/contents/RExerciseIII.html">Excersice III</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -153,8 +187,8 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">RESEDA</span></a>
+  <a href="../../R-Crash-Course/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">R Crash Course</span></a>
   </div>
 </li>
       </ul>
@@ -162,7 +196,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Preparations</span></a>
+ <span class="menu-text">Part I</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -170,26 +204,106 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/PrepareYourself.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Chapter in a box</span></a>
+  <a href="../../R-Crash-Course/contents/PartI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Package management, variables and functions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/QGIS.html#execute" class="sidebar-item-text sidebar-link">
- <span class="menu-text">QGIS</span></a>
+  <a href="../../contents/RExerciseI.qmd" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Excersice I</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Part II</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../R-Crash-Course/contents/PartII.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Vectors and factors</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/R-Studio.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">RStudio</span></a>
+  <a href="../../R-Crash-Course/contents/RExerciseII.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Excersice II</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Part III</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../R-Crash-Course/contents/PartIII.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Matrices</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/SNAP.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">SNAP</span></a>
+  <a href="../../R-Crash-Course/contents/RExerciseIII.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Excersice III</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Part IV</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../R-Crash-Course/contents/PartIV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lists</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../R-Crash-Course/contents/RExerciseIV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Excersice IV</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text">Part V</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../R-Crash-Course/contents/PartV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Missing values and control structures</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../R-Crash-Course/contents/RExerciseV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Excersice V</span></a>
   </div>
 </li>
       </ul>
@@ -206,42 +320,86 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div id="main" class="site-main" role="main">
-<section id="prepare-yourself" class="level1 entry-header">
-<h1>Prepare Yourself</h1>
+<section id="r-exercise-iii" class="level1 entry-title entry-header">
+<h1 class="entry-title">R – Exercise III</h1>
 </section>
 <div class="entry-content">
-<p>This chapter guides you on how to get all the necessary software you will need for this online course and introduce you to the fundamental layout of several useful programs. We will use a Virtual Machine (VM) which comes with all the software we need. Read on to find out what it is all about!</p>
-<section id="chapter-in-a-box" class="level1" style="background-color:#f1f1f1;padding:18px 30px 1px;margin-bottom: 30px">
-<h1>Chapter in a Box</h1>
-<p>In this chapter, the following content awaits you:</p>
-<p><a href="https://blogs.fu-berlin.de/reseda/prepare/#1"><strong>Intro</strong></a><br>
-– virtual machines explained<br>
-<a href="https://blogs.fu-berlin.de/reseda/get-your-vm/"><strong>Get Your VM</strong></a><br>
-– download your own virtual machine<br>
-– get guided how to install our virtual machine using VirtualBox<br>
-<a href="https://blogs.fu-berlin.de/reseda/r-studio/"><strong>R-Studio</strong></a><br>
-– introduction to R-Studio user interface<br>
-– instructions how to execute R commands in R-Studio<br>
-<a href="https://blogs.fu-berlin.de/reseda/qgis/"><strong>QGIS</strong></a><br>
-– introduction to QGIS user interface<br>
-<a href="https://blogs.fu-berlin.de/reseda/snap/"><strong>SNAP</strong></a><br>
-– introduction to SNAP user interface<br>
-<a href="https://blogs.fu-berlin.de/reseda/r-crash-course/"><strong>R Crash Course</strong></a><br>
-– get a basic understanding of data types in R<br>
-– prove your understanding with a lot of exercises</p>
-</section>
-<section id="virtual-machines-explained" class="level1">
-<h1>Virtual Machines Explained</h1>
-<p>Installations and updates of software packages are always a little annoying, no doubt. Often one software is being actively developed and updated, while others are not. This propably leads to modified functionalities or communication problems between programs. Unfortunately, we will need to work with several separate software bundles in order to achieve our goals…</p>
-<p>But there is no cause for concern – because <strong>we have prepaired your very own VirtualBox image</strong>! You are right to ask: What does it mean?</p>
-<p>VirtualBox is a cross-platform virtualization application. It installs a new virtual operating system (Virtual Machine, VM) on your computer, regardless of which system you currently use (e.g., Windows, Mac, Linux). Just think about VirtualBox as any other program, which you can easily delete if you want to get rid of it. It does not affect your underlying operating system in any way!</p>
-<p>Well, so why are we using this system? <strong>Within the VirtualBox image all required software is already installed and ready to use</strong>. This means that once the image is installed, there are no more installations and updates to worry about! Hooray!<br>
-There are several other advantages in using a VM, e.g., you can run multiple operating systems simultaneously, test new software, and switch back to a previous state or backup of your VM if something went terribly wrong. Read <a href="https://www.virtualbox.org/manual/ch01.html">here</a> for a more detailed explanation.</p>
-<p>Of course, the VirtualBox is not mandatory, it is just an offer that makes things easier if you are not familar with remote sensing software. You are free to install each software package by your own. The individual programs are listed and linked hereinafter. Be aware that thereby programs might differ in appearance and output from what is shown in this online course.</p>
-<p>However, we recommend to <strong>use a computer with at least 8 gb of main memory (RAM)</strong>, as remote sensing datasets are often very large and their processing computational demanding. Additionally you will need approximately 10 gb of free disk space on your harddrive.</p>
-<p>In future, every effort will be made on our part to ensure that the programs within the VirtualBox are properly working and updated. However, information given comes without warranty, either express or implied. Neither the authors, nor Freie Universitaet Berlin will be held liable for any damages caused or alleged to be caused directly or indirectly by provided software.<br>
-If you find any problems or errors we would appreciate if you <a href="https://blogs.fu-berlin.de/reseda/about/">contact us</a>.</p>
-</section>
+<ol type="1">
+<li>Create a matrix named <span class="crayon-inline">m1</span> with three rows and five columns and all the numeric (integer) values from 6 to 20!</li>
+</ol>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">6</span><span class="sc">:</span><span class="dv">20</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">5</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>m1</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="do">##      [,1] [,2] [,3] [,4] [,5]</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]    6    9   12   15   18</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]    7   10   13   16   19</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,]    8   11   14   17   20</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>Multiply all elements in <span class="crayon-inline">m1</span> by 0.5! Overwrite the matrix <span class="crayon-inline">m1</span> with the result!</li>
+</ol>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> m1 <span class="sc">*</span> <span class="fl">0.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>Create another matrix <span class="crayon-inline">m2</span> with one row and five columns and all the numeric (integer) values from 1 to 5!</li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">nrow =</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">5</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>m2</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="do">##      [,1] [,2] [,3] [,4] [,5]</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]    1    2    3    4    5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="4" type="1">
+<li>Calculate the sum of all elements in <span class="crayon-inline">m2</span>!</li>
+</ol>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(m2)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="5" type="1">
+<li>Combine <span class="crayon-inline">m1</span> and <span class="crayon-inline">m2</span> with <span class="crayon-inline">rbing()</span>. Save the result as <span class="crayon-inline">m3</span> and check the dimension of the new matrix!</li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(m1, m2)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>m3</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">##      [,1] [,2] [,3] [,4] [,5]</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]  3.0  4.5  6.0  7.5  9.0</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]  3.5  5.0  6.5  8.0  9.5</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,]  4.0  5.5  7.0  8.5 10.0</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [4,]  1.0  2.0  3.0  4.0  5.0</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(m3)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 4 5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="6" type="1">
+<li>Index the 5th column of <span class="crayon-inline">m3</span>!</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>m3[ , <span class="dv">5</span>]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1]  9.0  9.5 10.0  5.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="7" type="1">
+<li>Index the 2nd and 4th lines of <span class="crayon-inline">m3</span>!</li>
+</ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>m3[ <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>), ]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">##      [,1] [,2] [,3] [,4] [,5]</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]  3.5    5  6.5    8  9.5</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]  1.0    2  3.0    4  5.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="8" type="1">
+<li>Calculate the sums for all columns in <span class="crayon-inline">m3</span>!</li>
+</ol>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(m3)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 11.5 17.0 22.5 28.0 33.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="9" type="1">
+<li>Calculate the standard deviation for the 3rd column in <span class="crayon-inline">m3</span>!</li>
+</ol>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>( m3[ , <span class="dv">3</span>] )</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 1.796988</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="10" type="1">
+<li>From <span class="crayon-inline">m3</span>, index the element in the 2nd column and 2nd line and all eight adjacent elements! Save the result as <span class="crayon-inline">m4</span> and examine its object class!</li>
+</ol>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>m4 <span class="ot">&lt;-</span> m3[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>m4</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="do">##      [,1] [,2] [,3]</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]  5.0  6.5  8.0</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]  5.5  7.0  8.5</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,]  2.0  3.0  4.0</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(m4)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "matrix"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 
@@ -483,13 +641,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../RESEDA/index.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">RESEDA</span>
+      <a href="../../R-Crash-Course/contents/PartIII.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Matrices</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../RESEDA/contents/QGIS.html#execute" class="pagination-link">
-        <span class="nav-page-text">QGIS</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../R-Crash-Course/contents/PartIV.html" class="pagination-link">
+        <span class="nav-page-text">Lists</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

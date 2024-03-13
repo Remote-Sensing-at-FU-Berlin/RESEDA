@@ -49,33 +49,33 @@ website:
         - section: "Part I"
           contents: 
             - text: "Package management, variables and functions"
-              file: R-Crash-Course/contents/Part-I/index.qmd
+              file: R-Crash-Course/contents/PartI.qmd
             - text: "Excersice I"
-              file: contents/Part-I/R–ExerciseI.qmd
+              file: R-Crash-Course/contents/RExerciseI.qmd
         - section: "Part II"
           contents: 
             - text: "Vectors and factors"
-              file: R-Crash-Course/contents/Part-II/index.qmd
+              file: R-Crash-Course/contents/PartII.qmd
             - text: "Excersice II"
-              file: R-Crash-Course/contents/Part-II/R–ExerciseII.qmd
+              file: R-Crash-Course/contents/RExerciseII.qmd
         - section: "Part III"
           contents: 
             - text: "Matrices"
-              file: R-Crash-Course/contents/Part-III/index.qmd
+              file: R-Crash-Course/contents/PartIII.qmd
             - text: "Excersice III"
-              file: R-Crash-Course/contents/Part-III/R–ExerciseIII.qmd
+              file: R-Crash-Course/contents/RExerciseIII.qmd
         - section: "Part IV"
           contents: 
             - text: "Lists"
-              file: R-Crash-Course/contents/Part-IV/index.qmd
+              file: R-Crash-Course/contents/PartIV.qmd
             - text: "Excersice IV"
-              file: R-Crash-Course/contents/Part-IV/R–ExerciseIV.qmd
+              file: R-Crash-Course/contents/RExerciseIV.qmd
         - section: "Part V"
           contents: 
             - text: "Missing values and control structures"
-              file: R-Crash-Course/contents/Part-V/index.qmd
+              file: R-Crash-Course/contents/PartV.qmd
             - text: "Excersice V"
-              file: R-Crash-Course/contents/Part-V/R–ExerciseV.qmd
+              file: R-Crash-Course/contents/RExerciseV.qmd
               
     - title: "RESEDA"
       style: "docked"
@@ -86,8 +86,24 @@ website:
             - RESEDA/index.qmd
         - section: "Preparations"
           contents: 
-            - text: "Prepare yourself"
-              file: contents/PrepareYourself.qmd
+            - text: "Chapter in a box"
+              file: RESEDA/contents/PrepareYourself.qmd
+            - text: "QGIS"
+              file: RESEDA/contents/QGIS.qmd
+            - text: "RStudio"
+              file: RESEDA/contents/R-Studio.qmd
+            - text: "Execute"
+              file: RESEDA/contents/R-Studio.qmd#execute
+            - text: "SNAP"
+              file: RESEDA/contents/SNAP.qmd
+        - section: "Acquire"
+          contents: 
+            - text: "Chapter in a box"
+              file: RESEDA/contents/Acquireyourdata.qmd
+            - text: "Download"
+              file: RESEDA/contents/Download.qmd
+            - text: "Sensor basics"
+              file: RESEDA/contents/SensorBasics.qmd
 
 # Don't touch unless you know what you are doing :) ------------
   search: 

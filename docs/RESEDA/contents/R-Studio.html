@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>prepareyourself</title>
+<title>r-studio</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -29,8 +63,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../RESEDA/contents/QGIS.qmd#execute" rel="next">
-<link href="../../RESEDA/index.html" rel="prev">
+<link href="../../RESEDA/contents/R-Studio.qmd#execute" rel="next">
+<link href="../../RESEDA/contents/QGIS.html" rel="prev">
 <link href="../../img/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -130,7 +164,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../RESEDA/contents/PrepareYourself.html">Preparations</a></li><li class="breadcrumb-item"><a href="../../RESEDA/contents/PrepareYourself.html">Chapter in a box</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../RESEDA/contents/PrepareYourself.html">Preparations</a></li><li class="breadcrumb-item"><a href="../../RESEDA/contents/R-Studio.html">RStudio</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
     </div>
@@ -170,20 +204,26 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/PrepareYourself.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../RESEDA/contents/PrepareYourself.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Chapter in a box</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/QGIS.html#execute" class="sidebar-item-text sidebar-link">
+  <a href="../../RESEDA/contents/QGIS.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">QGIS</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/R-Studio.html" class="sidebar-item-text sidebar-link">
+  <a href="../../RESEDA/contents/R-Studio.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">RStudio</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/R-Studio.html#execute" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Execute</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -206,41 +246,58 @@ ul.task-list li input[type="checkbox"] {
 
 
 <div id="main" class="site-main" role="main">
-<section id="prepare-yourself" class="level1 entry-header">
-<h1>Prepare Yourself</h1>
+<section id="r-studio" class="level1 entry-header">
+<h1>R-Studio</h1>
 </section>
 <div class="entry-content">
-<p>This chapter guides you on how to get all the necessary software you will need for this online course and introduce you to the fundamental layout of several useful programs. We will use a Virtual Machine (VM) which comes with all the software we need. Read on to find out what it is all about!</p>
-<section id="chapter-in-a-box" class="level1" style="background-color:#f1f1f1;padding:18px 30px 1px;margin-bottom: 30px">
-<h1>Chapter in a Box</h1>
-<p>In this chapter, the following content awaits you:</p>
-<p><a href="https://blogs.fu-berlin.de/reseda/prepare/#1"><strong>Intro</strong></a><br>
-– virtual machines explained<br>
-<a href="https://blogs.fu-berlin.de/reseda/get-your-vm/"><strong>Get Your VM</strong></a><br>
-– download your own virtual machine<br>
-– get guided how to install our virtual machine using VirtualBox<br>
-<a href="https://blogs.fu-berlin.de/reseda/r-studio/"><strong>R-Studio</strong></a><br>
-– introduction to R-Studio user interface<br>
-– instructions how to execute R commands in R-Studio<br>
-<a href="https://blogs.fu-berlin.de/reseda/qgis/"><strong>QGIS</strong></a><br>
-– introduction to QGIS user interface<br>
-<a href="https://blogs.fu-berlin.de/reseda/snap/"><strong>SNAP</strong></a><br>
-– introduction to SNAP user interface<br>
-<a href="https://blogs.fu-berlin.de/reseda/r-crash-course/"><strong>R Crash Course</strong></a><br>
-– get a basic understanding of data types in R<br>
-– prove your understanding with a lot of exercises</p>
+<p>R is a programming language and software environment designed for statistical computing and graphic data output, which is very popular among data scientists. While R is operated purely by command line, there are several graphical user interfaces available, such as Rattle, R Commander, Deducer, RKWard, JGR, and R-Studio.</p>
+<p>In this online course we will use R-Studio as an <em>integrated development environments</em> (IDE). The default window layout of R-Studio is divided into four panes:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./R-Studio_files/laptop_rstudio.png"><img src="./R-Studio_files/laptop_rstudio.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Default layout in R-Studio</span></p>
+</div>
+<ul>
+<li><span style="color: #6b9e1f"><strong>1 Source Pane</strong></span>: for writing, saving and sending R code to the console. This pane does not exist by default when you start R-Studio. It appears only when you open at least one R-script via <strong>File &gt; New File &gt; R script</strong></li>
+<li><span style="color: #6b9e1f"><strong>2 Console Pane</strong></span>: Code you enter here is immediately processed by R. This pane is used for interactively testing code line-by-line before you copy your final code to the Source pane (1) above</li>
+<li><span style="color: #6b9e1f"><strong>3 Environment Pane</strong></span>: presents a list of information about all variables/ objects in your current R-Studio session. This list contains their class, dimensions and names. There is a history of all processed lines accessible if you click the <strong>History</strong>-tab</li>
+<li><span style="color: #6b9e1f"><strong>4 Files Pane</strong></span>: contains several tabs for a file browser (<strong>Files</strong>), an essential help function (<strong>Help</strong>), the package manager (<strong>Packages</strong>), and viewer for plots (<strong>Plots</strong>) and interactive R output (<strong>Viewer</strong>)</li>
+</ul>
+<p>Although initially confusing, you will get used to each pane over time and quickly learn to switch between them to optimize your workflow when coding!</p>
+<p>R-Studio provides a variety of features that make life easier for you, e.g., color highlighting of syntax, code completion, find and replace functionality, import functions for data sets, and many more. Especially the <strong>Source pane</strong> allows to save sequences of commands for later re-use, enhancing reproducibility.</p>
+<p>&nbsp;</p>
+<section id="execute" class="level1">
+<h1>Execute your code</h1>
+<p>There are multiple ways to execute code in R-Studio. The simplest and most straight-forward way is to type your code directly in the <strong>Console pane</strong> and press <strong>enter key</strong> (or return key).</p>
+<p>In order to execute a line of code from the <strong>Source pane</strong>, place your cursor in this line and press <strong>Ctrl+Enter</strong> or use the <strong>Run</strong> toolbar button (top right corner of the <strong>Source pane</strong>). R-Studio automatically advances the cursor to the next line, enabling a execution line-by-line.</p>
+<p>You can execute multiple lines at once by selecting requested lines and pressing <strong>Ctrl+Enter</strong>. It is even possible to select parts of a line and execute only this selection. Press <strong>Ctrl+Shift+Enter</strong> or the <strong>Source</strong> toolbar button (top right corner of the <strong>Source pane</strong>) to execute the whole code inside your <strong>Source pane</strong>.</p>
+<p>If you want to make use of previously executed commands, you can use the keyboard’s up and down arrow keys when in Console pane to access the last entries, modify them if you want, and then press <strong>Enter</strong> again.</p>
+<p>&nbsp;</p>
 </section>
-<section id="virtual-machines-explained" class="level1">
-<h1>Virtual Machines Explained</h1>
-<p>Installations and updates of software packages are always a little annoying, no doubt. Often one software is being actively developed and updated, while others are not. This propably leads to modified functionalities or communication problems between programs. Unfortunately, we will need to work with several separate software bundles in order to achieve our goals…</p>
-<p>But there is no cause for concern – because <strong>we have prepaired your very own VirtualBox image</strong>! You are right to ask: What does it mean?</p>
-<p>VirtualBox is a cross-platform virtualization application. It installs a new virtual operating system (Virtual Machine, VM) on your computer, regardless of which system you currently use (e.g., Windows, Mac, Linux). Just think about VirtualBox as any other program, which you can easily delete if you want to get rid of it. It does not affect your underlying operating system in any way!</p>
-<p>Well, so why are we using this system? <strong>Within the VirtualBox image all required software is already installed and ready to use</strong>. This means that once the image is installed, there are no more installations and updates to worry about! Hooray!<br>
-There are several other advantages in using a VM, e.g., you can run multiple operating systems simultaneously, test new software, and switch back to a previous state or backup of your VM if something went terribly wrong. Read <a href="https://www.virtualbox.org/manual/ch01.html">here</a> for a more detailed explanation.</p>
-<p>Of course, the VirtualBox is not mandatory, it is just an offer that makes things easier if you are not familar with remote sensing software. You are free to install each software package by your own. The individual programs are listed and linked hereinafter. Be aware that thereby programs might differ in appearance and output from what is shown in this online course.</p>
-<p>However, we recommend to <strong>use a computer with at least 8 gb of main memory (RAM)</strong>, as remote sensing datasets are often very large and their processing computational demanding. Additionally you will need approximately 10 gb of free disk space on your harddrive.</p>
-<p>In future, every effort will be made on our part to ensure that the programs within the VirtualBox are properly working and updated. However, information given comes without warranty, either express or implied. Neither the authors, nor Freie Universitaet Berlin will be held liable for any damages caused or alleged to be caused directly or indirectly by provided software.<br>
-If you find any problems or errors we would appreciate if you <a href="https://blogs.fu-berlin.de/reseda/about/">contact us</a>.</p>
+<section id="get-some-help" class="level1">
+<h1>Get some help</h1>
+<p>R provides a comprehensive built-in help system. At the command prompt in the Console pane of R-Studio type any of the following in order to view descriptions of any operators, functions and objects:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help.start</span>()       <span class="co"># general help</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(foo)          <span class="co"># help about function foo</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>?foo               <span class="co"># help about function foo</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">apropos</span>(<span class="st">"foo"</span>)     <span class="co"># list all functions having "foo" in their names</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">example</span>(foo)       <span class="co"># show an example of function foo</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>&nbsp;</p>
+</section>
+<section id="some-useful-shortcuts" class="level1">
+<h1>Some useful shortcuts</h1>
+<p>There are some time saving shortcuts implemented to manage your R scripts:</p>
+<ul>
+<li><strong>Ctrl+Shift+n</strong> – create a new R document</li>
+<li><strong>Ctrl+o</strong> – open a existing file</li>
+<li><strong>Ctrl+s</strong> – save your currently active file in the <strong>Source Pane</strong></li>
+<li><strong>Ctrl+f</strong> – activate search/ replace functionality within <strong>Source Pane</strong></li>
+<li><strong>Ctrl+Shift+c</strong> – comment/ uncomment selected parts of your code (commented code with a <strong>#</strong> at the beginning of a line will not be executed)</li>
+</ul>
+<p>You can find all of those commands in the top toolbar of R-Studio as well.</p>
 </section>
 </div>
 </div>
@@ -483,13 +540,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../RESEDA/index.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">RESEDA</span>
+      <a href="../../RESEDA/contents/QGIS.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">QGIS</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../RESEDA/contents/QGIS.html#execute" class="pagination-link">
-        <span class="nav-page-text">QGIS</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../RESEDA/contents/R-Studio.html#execute" class="pagination-link">
+        <span class="nav-page-text">Execute</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

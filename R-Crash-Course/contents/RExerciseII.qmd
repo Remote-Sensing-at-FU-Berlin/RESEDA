@@ -1,0 +1,116 @@
+::: {#main .site-main role="main"}
+::: entry-header
+# R -- Exercise II {#r-exercise-ii .entry-title}
+:::
+
+::: entry-content
+1) Create an integer variable [e]{.crayon-inline} holding the value [42]{.crayon-inline}! Check the object class of [e]{.crayon-inline} with [class()]{.crayon-inline}!
+
+``` r
+e <- 42L
+
+class(e)
+## [1] "integer"
+```
+
+2) Convert [e]{.crayon-inline} to the character data type with [as.character()]{.crayon-inline}! Check the object class again!
+
+``` r
+e <- as.character(e)
+
+class(e)
+## [1] "character"
+```
+
+3) Create a character vector [friends]{.crayon-inline} with four names from your circle of friends or acquaintances!
+
+``` r
+friends <- c("Anna", "Otto", "Natan", "Ede")
+
+friends
+## [1] "Anna"  "Otto"  "Natan" "Ede"
+```
+
+4) Index the second element from the vector [friends]{.crayon-inline}!
+
+``` r
+friends[2]
+## [1] "Otto"
+```
+
+5) Replace the first element of the vector [friends]{.crayon-inline} with "Isolde" and check the updated vector again!
+
+``` r
+freunde[1] <- "Isolde"
+
+freunde
+## [1] "Isolde" "Otto"   "Natan"  "Ede"
+```
+
+6) Create a vector [v1]{.crayon-inline} from the following elements [ 1, "Hello", 2, "World" ]{.crayon-inline}! Check the object class!
+
+``` r
+v1 <- c(1, "Hello", 2, "World")
+
+v1
+## [1] "1"     "Hello" "2"     "World"
+
+class(v1)
+## [1] "character"
+```
+
+7) Create a vector v2 with numerical values ​​(only integers) ranging from 4 to 10!
+
+``` r
+v2 <- c(4, 5, 6, 7, 8, 9, 10)
+
+v2
+## [1]  4  5  6  7  8  9 10
+
+# or use the sequence operator ":"
+
+v2 <- c(4:10)
+
+v2
+## [1]  4  5  6  7  8  9 10
+```
+
+8) Index the first three elements from [v2]{.crayon-inline}!
+
+``` r
+v2[1:3]
+## [1] 4 5 6
+
+# or:
+
+v2[ c(1, 2, 3) ]
+## [1] 4 5 6
+```
+
+9) Index all elements of [v2]{.crayon-inline} except the second element and save the result as [v2.subset]{.crayon-inline}!
+
+``` r
+v2.subset <- v2[-2]
+
+v2.subset
+## [1]  4  6  7  8  9 10
+```
+
+10) Use the length () function to find out the length of [v2.subset]{.crayon-inline} (= the number of elements in the vector)!
+
+``` r
+length(v2.subset)
+## [1] 6
+```
+
+11) Calculate the arithmetic mean of vector [v2]{.crayon-inline}! In addition, determine the standard deviation of [v2.subset]{.crayon-inline}!
+
+``` r
+mean(v2)
+## [1] 7
+
+sd(v2.subset)
+## [1] 2.160247
+```
+:::
+:::

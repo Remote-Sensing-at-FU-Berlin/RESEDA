@@ -1,0 +1,21 @@
+::: {#main .site-main role="main"}
+::: entry-header
+# Download {#download .entry-title}
+:::
+
+::: entry-content
+We show you two platforms which allow users to view and download remote sensing data such as satellite images, aerial photographs, and cartographic products. You will learn how to use them in order to query and download Landsat 8, Sentinel 2 and Sentinel 1 data from the archives.
+
+\
+
+# Landsat Data via USGS EarthExplorer
+
+[![](./Download_files/USGS_thumb.png)](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/)
+
+\
+
+# Sentinel Data via ESA SciHUB
+
+[![](./Download_files/ESAsciHUB.png)](https://blogs.fu-berlin.de/reseda/esa-scihub/)
+:::
+:::

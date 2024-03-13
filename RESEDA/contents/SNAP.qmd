@@ -1,0 +1,80 @@
+::: {#main .site-main role="main"}
+::: entry-header
+# SNAP {#snap}
+:::
+
+::: entry-content
+The **S**e**N**tinel **A**pplication **P**latform (**SNAP**) is an open
+source architecture for European Space Agency (ESA) toolboxes designed
+for exploitation of earth observation data under the the Scientific
+Exploitation of Operational Missions (SEOM) programme. SNAP is the
+common architecture for the Sentinel 1, 2 and 3 Toolboxes, which support
+the scientific exploitation for the ERS-ENVISAT missions, the Sentinel
+1/2/3 missions and a range of national and third party missions. Those
+toolboxes contain the functionalities of previous toolboxes such as
+[BEAM](http://www.brockmann-consult.de/cms/web/beam/){target="_blank"},
+NEST and [Orfeo](https://www.orfeo-toolbox.org/){target="_blank"}
+Toolbox. SNAP not only enables simple functionalities, such as opening
+and exploring data products, but also creating and computing complex,
+user-defined processing chains.
+
+[![](./SNAP_files/laptop_snap.png){.aligncenter}](./SNAP_files/laptop_snap.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Default layout in SNAP]{style="color: #686868;font-size: small"}
+:::
+
+-   **1 Toolbar**: Main menu and standard tools for saving/opening data
+    products ![](./SNAP_files/SNAP_buttons_02.png){.alignnone .size-full
+    .wp-image-895 loading="lazy" width="68" height="31"}, navigation
+    over image data ![](./SNAP_files/SNAP_buttons_03.png){.alignnone
+    .size-full .wp-image-896 loading="lazy" width="144" height="30"}, as
+    well as point, line and polygon feature drawing tools
+    ![](./SNAP_files/SNAP_buttons_04.png){.alignnone .size-full
+    .wp-image-897 loading="lazy" width="322" height="30"
+    srcset="https://blogs.fu-berlin.de/reseda/files/2018/05/SNAP_buttons_04.png 322w, https://blogs.fu-berlin.de/reseda/files/2018/05/SNAP_buttons_04-300x28.png 300w"
+    sizes="(max-width: 322px) 85vw, 322px"}. The main functionality is
+    listed in the main menu under the menu items **Raster**, **Optical**
+    and **Radar**. Those are also accessible via the graph builder
+    ![](./SNAP_files/SNAP_buttons_05.png){.alignnone .size-full
+    .wp-image-899 loading="lazy" width="34" height="32"}, which we will
+    use to automate and chain operations later on
+-   **2 Product Explorer**: lists all loaded data products along with
+    their metadata and band information. The Pixel Info tab allows you
+    to get all the information about the coordinates and raster values
+    of where the mouse pointer is pointing. Double click a band in order
+    to visualize it in the Image View panel, or right click a file and
+    choose "open RGB image window" for a RGB composite
+-   **3 Navigation Tool Window**: The **Navigation** and **World View**
+    tabs allow you to spatially locate the current image view in the
+    overall picture and on a 3d globe. Furthermore the **Color
+    Manipulation** tab allows visual adjustments via histogram
+    stretching
+-   **4 Product Library**: browse and view metadata of your locally
+    stored Sentinel data products or search for new data sets on the ESA
+    SciHUB servers. Have a look at chapter [ESA
+    SciHUB](https://blogs.fu-berlin.de/reseda/esa-scihub/) for more
+-   **5 Image View**: data you have loaded in your current session can
+    be visualized here. If multiple data sets are open, you can switch
+    back and forth between them by clicking on the tabs at the top of
+    the Image View or tile them vertically or horizontal by clicking on
+    ![](./SNAP_files/SNAP_buttons.png){.alignnone .size-full
+    .wp-image-894 loading="lazy" width="126" height="30"} in the toolbar
+    (1).
+
+There is an official science toolbox expoitation platform,
+[STEP](http://step.esa.int/main/toolboxes/snap/){target="_blank"} for
+short. On this website you can access [useful video
+tutorials](http://step.esa.int/main/doc/tutorials/){target="_blank"}
+showing most of the basic functionalities of SNAP. Furthermore there is
+an [official STEP-forum](https://forum.step.esa.int/){target="_blank"},
+in which you can communicate with the SNAP developers or ask the sience
+community.
+
+SNAP not only supports the Sentinel missions, but also a wide range of
+third party products, including optical data (Sentinel 2 Toolbox), e.g.,
+RapidEye, SPOT, MODIS (Aqua and Terra), Landsat (TM), and SAR data
+(Sentinel 1 Toolbox), e.g., ERS-1/2, ENVISAT, ALOS PALSAR, TerraSAR-X,
+COSMO-SkyMed and RADARSAT-2.
+:::
+:::
