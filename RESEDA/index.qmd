@@ -1,0 +1,71 @@
+---
+title: "RESEDA"
+image: "reseda-logo.png"
+about:
+  template: trestles
+  id: about
+page-layout: full
+sidebar: true
+---
+
+
+:::{#about}
+
+# Welcome
+
+to your Remote Sensing Data Analysis online course, or RESEDA for short!
+
+This course helps you improve your analysis of remote sensing image data for the next data science project or thesis. We will have a look at basic and advanced concepts needed for a complete project implementation using remote sensing imagery – with a special focus on automatisation of individual operations and big data processing. This course will provide a great deal of knowledge and valuable expertise for all related fields of environmental earth sciences!
+
+For that purpose we will mainly use the statistical programming language R in a Linux environment – but please don’t panic, it’s not as bad as it sounds: You will be led through a complete analysis process, from data acquisition, to import, exploration and finally the export of your results, guided by a lot of reproduceable examples, exercises and pretty pictures!
+
+Keep in mind that this course content complements and extends the material covered in the classes Fernerkundung und Digitale Bildverarbeitung and Geographische Informationssysteme, both being taught at the Freie Universität Berlin.
+
+Please feel free to [contact me](mailto:lina.perez.garcia@fu-berlin.de) if you have any questions or would like to discuss potential projects.
+:::
+
+:::{#hero-heading}
+## Learning Objectives
+This online course is divided into separate sections covering particular topics, which together provide a whole workflow commonly used for remote sensing imagery. Although the sections are built on one another and we recommend to handle them in given order, feel free to skip parts you are already comfortable with and focus on the chapters you are interested in. In almost every section you will come across exercises, e.g., multiple choice questionnaires or coding exercises to proof your comprehension of previous sections.
+
+Let us have a look at the learning objectives and checkpoints of each individual section:
+
+### Prepare Yourself
+
+install our VirtualBox containing all required software
+get used to the GUIs of R-Studio, QGIS and SNAP
+refresh basics of the programming language R (if needed)
+
+### Acquire Data
+
+* repeat basics of optical and radar imagery
+* become familiar with online data provider and HUBs
+* automatically download many images using bulk downloads
+
+### Analyse Your Data
+
+* repeat basics of classification and regression tasks
+* classify image data in R with Random Forest and SVM
+* visualize results in R and QGIS
+
+### Validate Results
+
+* repeat validation basics
+* validate results in R with state of the art methods
+
+### SAR Processing
+
+* get deeper insights in SAR processing
+* process Sentinel imagery in SNAP
+* learn to do InSAR and texture analysis
+
+We wish you a lot of creative ideas, much findings and great results!
+
+Best regards,
+your FU Berlin Remote Sensing and Geoinformatics staff
+
+:::
+
+
+
+

@@ -1,0 +1,10 @@
+---
+title: "Fabian Faßnach"
+author: "Remote sensing & geoinformatics group"
+date: "2024-03-09"
+#categories: [Ongoing, sentinel-2, forest damage]
+image: "Fabian.png"
+sidebar: false
+---
+
+

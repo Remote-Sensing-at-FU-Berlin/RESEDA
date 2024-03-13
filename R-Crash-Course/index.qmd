@@ -1,0 +1,53 @@
+---
+page-layout: full
+sidebar: true
+---
+
+::: {#main .site-main role="main"}
+::: entry-header
+# R Crash Course {#r-crash-course .entry-title}
+:::
+
+::: entry-content
+This is a R crash course for anyone who previously had no or very little contact with script-based programming. It should establish the basic understanding needed for upcoming chapters.\
+You are an old hand in R programming and do not need this introduction? -- Skip this section and jump to the [next](https://blogs.fu-berlin.de/reseda/acquire/)!
+
+In order to deepen your knowledge, in particular with a view to statistical analysis, we recommend the advanced e-learning course [SOGA](https://www.geo.fu-berlin.de/en/v/soga/index.html){target="_blank" rel="noopener"} (Softwaregestützte Geodatenanalyse). User name and password for SOGA are "ilovestats" in a single word. Of course, there are lots of advanced [tutorials](https://www.rstudio.com/online-learning/#R){target="_blank" rel="noopener"} and relevant [literature](https://cran.r-project.org/doc/manuals/R-intro.pdf){target="_blank" rel="noopener"} out there, which should not go unmentioned here.
+
+::: {style="background-color: #f1f1f1;padding: 18px 30px 1px"}
+# Crash Course in a Box
+
+We subdivided this crash course into several sections. At the end of most sections you will get to test your knowledge with coding exercises (E)!
+
+1.  [Part I](./contents/Part-I/index.qmd) + [E I](./contents/Part-I/R-ExcerciseI):
+
+    1.  Package Management
+
+    2.  Calculate With R
+
+    3.  Variables
+
+    4.  Functions
+
+2.  [Part II](./contents/Part-II/index.qmd) + [E II](./contents/Part-I/R-ExcerciseII):
+
+    1.  Vectors
+
+    2.  Factors
+
+3.  [Part III](./contents/Part-III/index.qmd) + [E III](./contents/Part-I/R-ExcerciseIII):
+
+    1.  Matrices
+
+4.  [Part IV](./contents/Part-IV/index.qmd) + [E IV](./contents/Part-I/R-ExcerciseIV):
+
+    1.  Lists
+
+5.  [Part V](./contents/Part-V/index.qmd) + [E V](./contents/Part-I/R-ExcerciseV):
+
+    1.  Missing values
+
+    2.  Control structures
+:::
+:::
+:::

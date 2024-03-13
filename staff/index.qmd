@@ -1,0 +1,15 @@
+---
+title: "Staff"
+listing:
+  contents: people/*.qmd
+  sort: "date desc"
+  type: grid
+  categories: true
+  sort-ui: false
+  filter-ui: false
+  image-height: "15"
+page-layout: full
+sidebar: false
+---
+
+

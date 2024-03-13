@@ -1,0 +1,62 @@
+::: {#main .site-main role="main"}
+::: entry-header
+# Prepare Yourself {#prepare-yourself .entry-title}
+:::
+
+::: entry-content
+This chapter guides you on how to get all the necessary software you will need for this online course and introduce you to the fundamental layout of several useful programs. We will use a Virtual Machine (VM) which comes with all the software we need. Read on to find out what it is all about!
+
+::: {style="background-color:#f1f1f1;padding:18px 30px 1px;margin-bottom: 30px"}
+# Chapter in a Box
+
+In this chapter, the following content awaits you:
+
+[**Intro**](https://blogs.fu-berlin.de/reseda/prepare/#1)\
+-- virtual machines explained\
+[**Get Your VM**](https://blogs.fu-berlin.de/reseda/get-your-vm/)\
+-- download your own virtual machine\
+-- get guided how to install our virtual machine using VirtualBox\
+[**R-Studio**](https://blogs.fu-berlin.de/reseda/r-studio/)\
+-- introduction to R-Studio user interface\
+-- instructions how to execute R commands in R-Studio\
+[**QGIS**](https://blogs.fu-berlin.de/reseda/qgis/)\
+-- introduction to QGIS user interface\
+[**SNAP**](https://blogs.fu-berlin.de/reseda/snap/)\
+-- introduction to SNAP user interface\
+[**R Crash Course**](https://blogs.fu-berlin.de/reseda/r-crash-course/)\
+-- get a basic understanding of data types in R\
+-- prove your understanding with a lot of exercises
+:::
+
+# Virtual Machines Explained
+
+Installations and updates of software packages are always a little annoying, no doubt. Often one software is being actively developed and updated, while others are not. This propably leads to modified functionalities or communication problems between programs. Unfortunately, we will need to work with several separate software bundles in order to achieve our goals...
+
+But there is no cause for concern -- because **we have prepaired your very own VirtualBox image**! You are right to ask: What does it mean?
+
+VirtualBox is a cross-platform virtualization application. It installs a new virtual operating system (Virtual Machine, VM) on your computer, regardless of which system you currently use (e.g., Windows, Mac, Linux). Just think about VirtualBox as any other program, which you can easily delete if you want to get rid of it. It does not affect your underlying operating system in any way!
+
+Well, so why are we using this system? **Within the VirtualBox image all required software is already installed and ready to use**. This means that once the image is installed, there are no more installations and updates to worry about! Hooray!\
+There are several other advantages in using a VM, e.g., you can run multiple operating systems simultaneously, test new software, and switch back to a previous state or backup of your VM if something went terribly wrong. Read [here](https://www.virtualbox.org/manual/ch01.html) for a more detailed explanation.
+
+Of course, the VirtualBox is not mandatory, it is just an offer that makes things easier if you are not familar with remote sensing software. You are free to install each software package by your own. The individual programs are listed and linked hereinafter. Be aware that thereby programs might differ in appearance and output from what is shown in this online course.
+
+However, we recommend to **use a computer with at least 8 gb of main memory (RAM)**, as remote sensing datasets are often very large and their processing computational demanding. Additionally you will need approximately 10 gb of free disk space on your harddrive.
+
+In future, every effort will be made on our part to ensure that the programs within the VirtualBox are properly working and updated. However, information given comes without warranty, either express or implied. Neither the authors, nor Freie Universitaet Berlin will be held liable for any damages caused or alleged to be caused directly or indirectly by provided software.\
+If you find any problems or errors we would appreciate if you [contact us](https://blogs.fu-berlin.de/reseda/about/).
+
+\
+
+# Software included in our VM
+
+All provided computer programs as well as the operating system itself (Linux Debian) are free and open-source. That is, you are freely licensed to use, copy, study and change the software in any way. The following overview lists all programs we need for this online course. Use this list in case you want to install everything by your own. **However, do not download each one individually if you want to use our VirtualBox** ([Get Your VM](https://blogs.fu-berlin.de/reseda/get-your-vm/)). A detailed step-by-step guide for the VM installation is given in the next section.
+
+-   [R](https://cran.r-project.org/bin/windows/base/){target="_blank"} -- Progamming language
+-   [R-Studio](https://www.rstudio.com/products/rstudio/download/){target="_blank"} -- Integrated development environment
+-   [SNAP](http://step.esa.int/main/download/){target="_blank"} -- Remote sensing software
+-   [QGIS](https://www.qgis.org/de/site/forusers/download.html){target="_blank"} -- Geographic Information System
+-   [Bulk Download Application](https://earthexplorer.usgs.gov/bulk/){target="_blank"} -- Software for Bulk Downloading of remote sensing data
+-   [GDAL](http://www.gdal.org/usergroup0.html){target="_blank"} -- Geospatial Data Abstraction Library
+:::
+:::

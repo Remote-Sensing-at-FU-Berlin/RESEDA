@@ -1,0 +1,69 @@
+::: {#main .site-main role="main"}
+::: entry-header
+# R -- Exercise I {#r-exercise-i .entry-title}
+:::
+
+::: entry-content
+Welcome to your first training session!\
+No need to be nervous: this page contains not only tasks, but also their solutions as folded code elements. You can unfold these code blocks by simply clicking on them. Give it a try:
+
+``` {.theme:amityreseda .minimize:true title="Example: show code"}
+# Well done!
+
+# Spoiler! -  you will find your answer here
+```
+
+1) Create a variable called [a]{.crayon-inline} and assign the number *2017* to it!
+
+``` r
+# use the "<-" operator for variable assignments:
+a <- 2017
+```
+
+2) Calculate the square root of 1089 and save the result in variable [b]{.crayon-inline}!
+
+``` r
+# use the built- in function "sqrt()" and the number 1089 as an argument:
+b <- sqrt(1089)
+```
+
+3) Calculate the sum of [a]{.crayon-inline} and [b]{.crayon-inline}!
+
+``` r
+# done via standard operators:
+a + b
+## [1] 2050
+```
+
+4) Overwrite variable [a]{.crayon-inline} by assigning the value 2018 to it!
+
+``` r
+# simply assign a new value to an existing variable in order to overwrite it
+a <- 2018
+```
+
+5) Make a copy of variable [b]{.crayon-inline} and name it [c]{.crayon-inline}!
+
+``` r
+# variable assignment works from right (existing variable) to left (new variable):
+c <- b
+```
+
+6) Create your own function called [my.fun()]{.crayon-inline}, which requires three variables as input. The function should generate the square root of the product of all three variables and return one numeric value!
+
+``` r
+my.fun <- function( var1, var2, var3 ) {
+  result <- sqrt( var1 * var2 * var3 )
+  return(result)
+}
+```
+
+7) Use [a]{.crayon-inline}, [b]{.crayon-inline} and [c]{.crayon-inline} (from the previous tasks) as input into [my.fun()]{.crayon-inline} and save the output to variable [d]{.crayon-inline}! Check the resulting value!
+
+``` r
+d <- my.fun(a, b, c)
+d
+## [1] 1482.431
+```
+:::
+:::
