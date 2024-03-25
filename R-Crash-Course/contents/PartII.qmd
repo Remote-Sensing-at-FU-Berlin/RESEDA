@@ -1,13 +1,10 @@
-::: {#main .site-main role="main"}
-::: entry-header
+
 # Part II {#r-crash-course-part-ii .entry-title}
-:::
 
-::: entry-content
 
-# 5. Vectors {#vectors}
+# Vectors {#vectors}
 
-In R data can be represented in different structure types. Four main types are differentiated: vectors, matrices, lists and data frames. A conversion of these is possible with the corresponding functions [as.vector()]{.crayon-inline}, [as.matrix()]{.crayon-inline}, [as.list()]{.crayon-inline}, or [as.data.frame()]{.crayon-inline}.\
+In R data can be represented in different structure types. Four main types are differentiated: vectors, matrices, lists and data frames. A conversion of these is possible with the corresponding functions `as.vector()`, `as.matrix()`, `as.list()`, or `as.data.frame()`.\
 Let us have a look at the most basic of those data types: vectors.\
 There are six atomic vector types in R. In this context, "atomic" means that vectors contain only elements belonging to one of the following classes:
 
@@ -21,7 +18,7 @@ There are six atomic vector types in R. In this context, "atomic" means that vec
 | complex         | 1 + 2i, 3-6i                          |
 | raw             | raw sequences of bytes                |
 
-Thus, a vector is a simple collection of elements (e.g., character, integer, ...) containing only objects of the same class. Imagine a vector like a sequence of cells containing data. Vectors of different types can be generated via the [c()]{.crayon-inline} function ("c" like combine):
+Thus, a vector is a simple collection of elements (e.g., character, integer, ...) containing only objects of the same class. Imagine a vector like a sequence of cells containing data. Vectors of different types can be generated via the `c()` function ("c" like combine):
 
 ```r
 
@@ -52,7 +49,7 @@ length(a)                   # get number of elements in vector
 
 Integer values ​​must be explicitly declared with an "L", otherwise they are considered numeric or double.\
 Everything in R is an object that belongs to certain classes. This is because R is subject to an object-oriented paradigm. However, within this course, we only focus on the relevant aspects of object orientation in order not to go beyond the scope.\
-Objects have different properties, or attributes, such as column names, dimensionality, length or class membership, and many more. These attributes can be queried using, for example, [class()]{.crayon-inline} or [length()]{.crayon-inline} function (like above).\
+Objects have different properties, or attributes, such as column names, dimensionality, length or class membership, and many more. These attributes can be queried using, for example, `class()` or `length()` function (like above).\
 The official [cheat sheets](https://www.rstudio.com/resources/cheatsheets/) also provide a very good overview of data types and their most important properties.
 
 If several classes are combined in one vector, the conversion into a uniform class is automatically forced:
@@ -74,9 +71,9 @@ cd
 ## [1]  1 45  0 13
 ```
 
-It should be noted that the elements are then partially modified ([TRUE]{.crayon-inline}becomes the numeric value [1]{.crayon-inline})!
+It should be noted that the elements are then partially modified (`TRUE`becomes the numeric value `1`)!
 
-Conversions between classes is also possible. But when you try to convert a character vector to numeric values, [NA]{.crayon-inline} values ​​(NA for not available) are introduced:
+Conversions between classes is also possible. But when you try to convert a character vector to numeric values, `NA` values ​​(NA for not available) are introduced:
 
 ``` r
 x <- c(0L, 1L, 2L, 3L, 4L, 5L) 
@@ -98,9 +95,9 @@ y
 ## [1] NA NA NA
 ```
 
-**Indexing in vectors**
+## Indexing in vectors
 
-To address individual elements in our vector, we must "index" it. We index something in R by using square brackets [[]]{.crayon-inline} . Counting starts at 1 -- so we get the first element of the vector with [$$1$$]{.crayon-inline}. If the index number is greater than the length of the vector, [NA]{.crayon-inline} values ​​are obtained.\
+To address individual elements in our vector, we must "index" it. We index something in R by using square brackets `[]` . Counting starts at 1 -- so we get the first element of the vector with `[1]`. If the index number is greater than the length of the vector, `NA` values are obtained.\
 Since a vector is one-dimensional, we only need to write one number as an index between the square brackets in order to retrieve the respective entry. A minus sign in front of the index number leads to an exclusion of the respective entry:
 
 ``` r
@@ -121,7 +118,7 @@ x[c(2, 5)]     # only the second and fifth element
 ## [1] 2 3
 ```
 
-**Calculate with vectors**
+## Calculate with vectors
 
 Numerical vectors are calculated element by element. By multiplying a vector with the value 5, we again get a vector of the same length in which each element has been multiplied by 5:
 
@@ -217,8 +214,6 @@ levels(fa)
 ## [1] "bad"  "good"
 ```
 
-Factors are based on integer values, which we can show with the function [str()]{.crayon-inline}: Each individual expression in the vector represents a level and is assigned to an integer value (in this case [good]{.crayon-inline} is [2]{.crayon-inline} and [bad]{.crayon-inline} is [1]{.crayon-inline}) ). The assignment of the integer values ​​takes place alphabetically for character vectors.
+Factors are based on integer values, which we can show with the function `str()`: Each individual expression in the vector represents a level and is assigned to an integer value (in this case `good` is `2` and `bad` is `1`) ). The assignment of the integer values ​​takes place alphabetically for character vectors.
 
 So much for vectors in R. It is time for you to become active:
-:::
-:::

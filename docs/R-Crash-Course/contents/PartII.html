@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
 <link href="../../R-Crash-Course/contents/RExerciseII.html" rel="next">
-<link href="../../contents/RExerciseI.qmd" rel="prev">
+<link href="../../R-Crash-Course/contents/RExerciseI.html" rel="prev">
 <link href="../../img/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -96,12 +96,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed fullcontent">
+<body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -212,7 +210,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/RExerciseI.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../../R-Crash-Course/contents/RExerciseI.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Excersice I</span></a>
   </div>
 </li>
@@ -315,20 +313,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#r-crash-course-part-ii" id="toc-r-crash-course-part-ii" class="nav-link active" data-scroll-target="#r-crash-course-part-ii">Part II</a></li>
+  <li><a href="#vectors" id="toc-vectors" class="nav-link" data-scroll-target="#vectors">Vectors</a>
+  <ul class="collapse">
+  <li><a href="#indexing-in-vectors" id="toc-indexing-in-vectors" class="nav-link" data-scroll-target="#indexing-in-vectors">Indexing in vectors</a></li>
+  <li><a href="#calculate-with-vectors" id="toc-calculate-with-vectors" class="nav-link" data-scroll-target="#calculate-with-vectors">Calculate with vectors</a></li>
+  </ul></li>
+  <li><a href="#factors" id="toc-factors" class="nav-link" data-scroll-target="#factors">Factors</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
 
-<div id="main" class="site-main" role="main">
-<section id="r-crash-course-part-ii" class="level1 entry-title entry-header">
+<section id="r-crash-course-part-ii" class="level1 entry-title">
 <h1 class="entry-title">Part II</h1>
 </section>
-<div class="entry-content">
 <section id="vectors" class="level1">
-<h1>5. Vectors</h1>
-<p>In R data can be represented in different structure types. Four main types are differentiated: vectors, matrices, lists and data frames. A conversion of these is possible with the corresponding functions <span class="crayon-inline">as.vector()</span>, <span class="crayon-inline">as.matrix()</span>, <span class="crayon-inline">as.list()</span>, or <span class="crayon-inline">as.data.frame()</span>.<br>
+<h1>Vectors</h1>
+<p>In R data can be represented in different structure types. Four main types are differentiated: vectors, matrices, lists and data frames. A conversion of these is possible with the corresponding functions <code>as.vector()</code>, <code>as.matrix()</code>, <code>as.list()</code>, or <code>as.data.frame()</code>.<br>
 Let us have a look at the most basic of those data types: vectors.<br>
 There are six atomic vector types in R. In this context, “atomic” means that vectors contain only elements belonging to one of the following classes:</p>
 <table class="table">
@@ -363,7 +373,7 @@ There are six atomic vector types in R. In this context, “atomic” means that
 </tr>
 </tbody>
 </table>
-<p>Thus, a vector is a simple collection of elements (e.g., character, integer, …) containing only objects of the same class. Imagine a vector like a sequence of cells containing data. Vectors of different types can be generated via the <span class="crayon-inline">c()</span> function (“c” like combine):</p>
+<p>Thus, a vector is a simple collection of elements (e.g., character, integer, …) containing only objects of the same class. Imagine a vector like a sequence of cells containing data. Vectors of different types can be generated via the <code>c()</code> function (“c” like combine):</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Hello"</span>, <span class="st">"World"</span>)    <span class="co"># character/ string </span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -390,7 +400,7 @@ There are six atomic vector types in R. In this context, “atomic” means that
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Integer values ​​must be explicitly declared with an “L”, otherwise they are considered numeric or double.<br>
 Everything in R is an object that belongs to certain classes. This is because R is subject to an object-oriented paradigm. However, within this course, we only focus on the relevant aspects of object orientation in order not to go beyond the scope.<br>
-Objects have different properties, or attributes, such as column names, dimensionality, length or class membership, and many more. These attributes can be queried using, for example, <span class="crayon-inline">class()</span> or <span class="crayon-inline">length()</span> function (like above).<br>
+Objects have different properties, or attributes, such as column names, dimensionality, length or class membership, and many more. These attributes can be queried using, for example, <code>class()</code> or <code>length()</code> function (like above).<br>
 The official <a href="https://www.rstudio.com/resources/cheatsheets/">cheat sheets</a> also provide a very good overview of data types and their most important properties.</p>
 <p>If several classes are combined in one vector, the conversion into a uniform class is automatically forced:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ab <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Hello"</span>, <span class="fl">1.3</span>, <span class="st">"World"</span>, <span class="fl">5.6</span>)   </span>
@@ -407,8 +417,8 @@ The official <a href="https://www.rstudio.com/resources/cheatsheets/">cheat shee
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>cd</span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="do">## [1]  1 45  0 13</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>It should be noted that the elements are then partially modified (<span class="crayon-inline">TRUE</span>becomes the numeric value <span class="crayon-inline">1</span>)!</p>
-<p>Conversions between classes is also possible. But when you try to convert a character vector to numeric values, <span class="crayon-inline">NA</span> values ​​(NA for not available) are introduced:</p>
+<p>It should be noted that the elements are then partially modified (<code>TRUE</code>becomes the numeric value <code>1</code>)!</p>
+<p>Conversions between classes is also possible. But when you try to convert a character vector to numeric values, <code>NA</code> values ​​(NA for not available) are introduced:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(0L, 1L, 2L, 3L, 4L, 5L) </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0 1 2 3 4 5</span></span>
@@ -426,8 +436,9 @@ The official <a href="https://www.rstudio.com/resources/cheatsheets/">cheat shee
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>y</span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] NA NA NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Indexing in vectors</strong></p>
-<p>To address individual elements in our vector, we must “index” it. We index something in R by using square brackets <span class="crayon-inline">[]</span> . Counting starts at 1 – so we get the first element of the vector with <span class="crayon-inline"><span class="math display">\[1\]</span></span>. If the index number is greater than the length of the vector, <span class="crayon-inline">NA</span> values ​​are obtained.<br>
+<section id="indexing-in-vectors" class="level2">
+<h2 class="anchored" data-anchor-id="indexing-in-vectors">Indexing in vectors</h2>
+<p>To address individual elements in our vector, we must “index” it. We index something in R by using square brackets <code>[]</code> . Counting starts at 1 – so we get the first element of the vector with <code>[1]</code>. If the index number is greater than the length of the vector, <code>NA</code> values are obtained.<br>
 Since a vector is one-dimensional, we only need to write one number as an index between the square brackets in order to retrieve the respective entry. A minus sign in front of the index number leads to an exclusion of the respective entry:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">9</span>, <span class="dv">3</span>) </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x</span>
@@ -444,7 +455,9 @@ Since a vector is one-dimensional, we only need to write one number as an index 
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>x[<span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">5</span>)]     <span class="co"># only the second and fifth element</span></span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 2 3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Calculate with vectors</strong></p>
+</section>
+<section id="calculate-with-vectors" class="level2">
+<h2 class="anchored" data-anchor-id="calculate-with-vectors">Calculate with vectors</h2>
 <p>Numerical vectors are calculated element by element. By multiplying a vector with the value 5, we again get a vector of the same length in which each element has been multiplied by 5:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>v1 <span class="ot">&lt;-</span> <span class="fu">c</span>( <span class="dv">1</span>,  <span class="dv">3</span>,  <span class="dv">5</span>,  <span class="dv">7</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -499,6 +512,7 @@ Since a vector is one-dimensional, we only need to write one number as an index 
 <span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(v5, <span class="at">decreasing=</span><span class="cn">TRUE</span>)   <span class="co"># sort elements</span></span>
 <span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 8 6 4 3 2 1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
+</section>
 <section id="factors" class="level1">
 <h1>Factors</h1>
 <p>Another class that you might will stumble upon when working with datasets is the factors. Factors represent categorical data and are beneficial for many statistical analyzes as well as plotting the data. When importing data into R, strings are automatically converted to factors by default:</p>
@@ -520,13 +534,11 @@ Since a vector is one-dimensional, we only need to write one number as an index 
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(fa)</span>
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "bad"  "good"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Factors are based on integer values, which we can show with the function <span class="crayon-inline">str()</span>: Each individual expression in the vector represents a level and is assigned to an integer value (in this case <span class="crayon-inline">good</span> is <span class="crayon-inline">2</span> and <span class="crayon-inline">bad</span> is <span class="crayon-inline">1</span>) ). The assignment of the integer values ​​takes place alphabetically for character vectors.</p>
+<p>Factors are based on integer values, which we can show with the function <code>str()</code>: Each individual expression in the vector represents a level and is assigned to an integer value (in this case <code>good</code> is <code>2</code> and <code>bad</code> is <code>1</code>) ). The assignment of the integer values ​​takes place alphabetically for character vectors.</p>
 <p>So much for vectors in R. It is time for you to become active:</p>
+
+
 </section>
-</div>
-</div>
-
-
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -764,7 +776,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../contents/RExerciseI.qmd" class="pagination-link">
+      <a href="../../R-Crash-Course/contents/RExerciseI.html" class="pagination-link">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Excersice I</span>
       </a>          
   </div>

@@ -99,7 +99,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed fullcontent">
+<body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -234,27 +234,66 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Acquire</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Acquireyourdata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter in a box</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Download.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Download</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/SensorBasics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sensor basics</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#r-studio" id="toc-r-studio" class="nav-link active" data-scroll-target="#r-studio">R-Studio</a>
+  <ul class="collapse">
+  <li><a href="#execute" id="toc-execute" class="nav-link" data-scroll-target="#execute">Execute your code</a></li>
+  <li><a href="#get-some-help" id="toc-get-some-help" class="nav-link" data-scroll-target="#get-some-help">Get some help</a></li>
+  <li><a href="#some-useful-shortcuts" id="toc-some-useful-shortcuts" class="nav-link" data-scroll-target="#some-useful-shortcuts">Some useful shortcuts</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
 
-<div id="main" class="site-main" role="main">
-<section id="r-studio" class="level1 entry-header">
+<section id="r-studio" class="level1">
 <h1>R-Studio</h1>
-</section>
-<div class="entry-content">
 <p>R is a programming language and software environment designed for statistical computing and graphic data output, which is very popular among data scientists. While R is operated purely by command line, there are several graphical user interfaces available, such as Rattle, R Commander, Deducer, RKWard, JGR, and R-Studio.</p>
 <p>In this online course we will use R-Studio as an <em>integrated development environments</em> (IDE). The default window layout of R-Studio is divided into four panes:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./R-Studio_files/laptop_rstudio.png"><img src="./R-Studio_files/laptop_rstudio.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/laptop_rstudio.png"><img src="./img/laptop_rstudio.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 <div style="margin: -30px 0 20px 0;text-align: center">
@@ -269,16 +308,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Although initially confusing, you will get used to each pane over time and quickly learn to switch between them to optimize your workflow when coding!</p>
 <p>R-Studio provides a variety of features that make life easier for you, e.g., color highlighting of syntax, code completion, find and replace functionality, import functions for data sets, and many more. Especially the <strong>Source pane</strong> allows to save sequences of commands for later re-use, enhancing reproducibility.</p>
 <p>&nbsp;</p>
-<section id="execute" class="level1">
-<h1>Execute your code</h1>
+<section id="execute" class="level2">
+<h2 class="anchored" data-anchor-id="execute">Execute your code</h2>
 <p>There are multiple ways to execute code in R-Studio. The simplest and most straight-forward way is to type your code directly in the <strong>Console pane</strong> and press <strong>enter key</strong> (or return key).</p>
 <p>In order to execute a line of code from the <strong>Source pane</strong>, place your cursor in this line and press <strong>Ctrl+Enter</strong> or use the <strong>Run</strong> toolbar button (top right corner of the <strong>Source pane</strong>). R-Studio automatically advances the cursor to the next line, enabling a execution line-by-line.</p>
 <p>You can execute multiple lines at once by selecting requested lines and pressing <strong>Ctrl+Enter</strong>. It is even possible to select parts of a line and execute only this selection. Press <strong>Ctrl+Shift+Enter</strong> or the <strong>Source</strong> toolbar button (top right corner of the <strong>Source pane</strong>) to execute the whole code inside your <strong>Source pane</strong>.</p>
 <p>If you want to make use of previously executed commands, you can use the keyboard’s up and down arrow keys when in Console pane to access the last entries, modify them if you want, and then press <strong>Enter</strong> again.</p>
 <p>&nbsp;</p>
 </section>
-<section id="get-some-help" class="level1">
-<h1>Get some help</h1>
+<section id="get-some-help" class="level2">
+<h2 class="anchored" data-anchor-id="get-some-help">Get some help</h2>
 <p>R provides a comprehensive built-in help system. At the command prompt in the Console pane of R-Studio type any of the following in order to view descriptions of any operators, functions and objects:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help.start</span>()       <span class="co"># general help</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(foo)          <span class="co"># help about function foo</span></span>
@@ -287,8 +326,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">example</span>(foo)       <span class="co"># show an example of function foo</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>&nbsp;</p>
 </section>
-<section id="some-useful-shortcuts" class="level1">
-<h1>Some useful shortcuts</h1>
+<section id="some-useful-shortcuts" class="level2">
+<h2 class="anchored" data-anchor-id="some-useful-shortcuts">Some useful shortcuts</h2>
 <p>There are some time saving shortcuts implemented to manage your R scripts:</p>
 <ul>
 <li><strong>Ctrl+Shift+n</strong> – create a new R document</li>
@@ -298,11 +337,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Ctrl+Shift+c</strong> – comment/ uncomment selected parts of your code (commented code with a <strong>#</strong> at the beginning of a line will not be executed)</li>
 </ul>
 <p>You can find all of those commands in the top toolbar of R-Studio as well.</p>
+
+
 </section>
-</div>
-</div>
-
-
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

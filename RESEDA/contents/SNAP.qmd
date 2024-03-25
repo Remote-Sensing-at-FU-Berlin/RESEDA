@@ -1,9 +1,6 @@
-::: {#main .site-main role="main"}
-::: entry-header
-# SNAP {#snap}
-:::
 
-::: entry-content
+# SNAP {#snap}
+
 The **S**e**N**tinel **A**pplication **P**latform (**SNAP**) is an open
 source architecture for European Space Agency (ESA) toolboxes designed
 for exploitation of earth observation data under the the Scientific
@@ -18,25 +15,25 @@ Toolbox. SNAP not only enables simple functionalities, such as opening
 and exploring data products, but also creating and computing complex,
 user-defined processing chains.
 
-[![](./SNAP_files/laptop_snap.png){.aligncenter}](./SNAP_files/laptop_snap.png)
+[![](./img/laptop_snap.png){.aligncenter}](./img/laptop_snap.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Default layout in SNAP]{style="color: #686868;font-size: small"}
 :::
 
 -   **1 Toolbar**: Main menu and standard tools for saving/opening data
-    products ![](./SNAP_files/SNAP_buttons_02.png){.alignnone .size-full
+    products ![](./img/SNAP_buttons_02.png){.alignnone .size-full
     .wp-image-895 loading="lazy" width="68" height="31"}, navigation
-    over image data ![](./SNAP_files/SNAP_buttons_03.png){.alignnone
+    over image data ![](./img/SNAP_buttons_03.png){.alignnone
     .size-full .wp-image-896 loading="lazy" width="144" height="30"}, as
     well as point, line and polygon feature drawing tools
-    ![](./SNAP_files/SNAP_buttons_04.png){.alignnone .size-full
+    ![](./img/SNAP_buttons_04.png){.alignnone .size-full
     .wp-image-897 loading="lazy" width="322" height="30"
     srcset="https://blogs.fu-berlin.de/reseda/files/2018/05/SNAP_buttons_04.png 322w, https://blogs.fu-berlin.de/reseda/files/2018/05/SNAP_buttons_04-300x28.png 300w"
     sizes="(max-width: 322px) 85vw, 322px"}. The main functionality is
     listed in the main menu under the menu items **Raster**, **Optical**
     and **Radar**. Those are also accessible via the graph builder
-    ![](./SNAP_files/SNAP_buttons_05.png){.alignnone .size-full
+    ![](./img/SNAP_buttons_05.png){.alignnone .size-full
     .wp-image-899 loading="lazy" width="34" height="32"}, which we will
     use to automate and chain operations later on
 -   **2 Product Explorer**: lists all loaded data products along with
@@ -53,12 +50,12 @@ user-defined processing chains.
 -   **4 Product Library**: browse and view metadata of your locally
     stored Sentinel data products or search for new data sets on the ESA
     SciHUB servers. Have a look at chapter [ESA
-    SciHUB](https://blogs.fu-berlin.de/reseda/esa-scihub/) for more
+    SciHUB](./Download.qmd#Sentinel_SciHUB) for more
 -   **5 Image View**: data you have loaded in your current session can
     be visualized here. If multiple data sets are open, you can switch
     back and forth between them by clicking on the tabs at the top of
     the Image View or tile them vertically or horizontal by clicking on
-    ![](./SNAP_files/SNAP_buttons.png){.alignnone .size-full
+    ![](./img/SNAP_buttons.png){.alignnone .size-full
     .wp-image-894 loading="lazy" width="126" height="30"} in the toolbar
     (1).
 
@@ -76,5 +73,4 @@ third party products, including optical data (Sentinel 2 Toolbox), e.g.,
 RapidEye, SPOT, MODIS (Aqua and Terra), Landsat (TM), and SAR data
 (Sentinel 1 Toolbox), e.g., ERS-1/2, ENVISAT, ALOS PALSAR, TerraSAR-X,
 COSMO-SkyMed and RADARSAT-2.
-:::
-:::
+

@@ -29,7 +29,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../RESEDA/contents/R-Studio.qmd#execute" rel="next">
+<link href="../../RESEDA/contents/R-Studio.html" rel="next">
 <link href="../../RESEDA/contents/PrepareYourself.html" rel="prev">
 <link href="../../img/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
@@ -65,7 +65,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed fullcontent">
+<body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -182,8 +182,14 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/R-Studio.html#execute" class="sidebar-item-text sidebar-link">
+  <a href="../../RESEDA/contents/R-Studio.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">RStudio</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/R-Studio.html#execute" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Execute</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -194,27 +200,61 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Acquire</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Acquireyourdata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter in a box</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Download.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Download</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/SensorBasics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sensor basics</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#qgis" id="toc-qgis" class="nav-link active" data-scroll-target="#qgis">QGIS</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
 
-<div id="main" class="site-main" role="main">
-<section id="qgis" class="level1 entry-header">
+<section id="qgis" class="level1">
 <h1>QGIS</h1>
-</section>
-<div class="entry-content">
 <p>QGIS is a open-source geographic information system (GIS) for viewing, manipulating, and gathering spatial data and is licensed under the GNU General Public License. Essential features of the application are the broad support of common vector data and raster data, e.g., shapefiles and GeoTIFFs. There is an integration of sophisticated digitizing tools for creating vector data, as well as tools for a easy creation of cartographic maps, which you can use in publications and final papers.</p>
-<p>The layout and appearance of QGIS is highly modifiable. The panels in <a href="https://blogs.fu-berlin.de/reseda/get-your-vm/">our virtual machine</a> are arranged as follows:</p>
+<p>The layout and appearance of QGIS is highly modifiable. The panels are arranged as follows:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./QGIS_files/laptop_qgis.png"><img src="./QGIS_files/laptop_qgis.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/laptop_qgis.png"><img src="./img/laptop_qgis.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 <div style="margin: -30px 0 20px 0;text-align: center">
@@ -228,11 +268,10 @@ ul.task-list li input[type="checkbox"] {
 <li><span style="color: #6b9e1f"><strong>5 Status Bar</strong></span>: get all the information about the coordinates of where the mouse pointer is pointing, the scale, magnifier, rotation and the current coordinate system of your QGIS session</li>
 </ul>
 <p>So why do we use QGIS over other geographic information systems? At first it does not cost a penny and supports all types of operating systems. This is why the community is big and there are lots of help and tutorials available online, e.g., the <a href="https://docs.qgis.org/2.18/en/docs/index.html" target="_blank" rel="noopener">official User Manual</a> or internet forums, such as <a href="https://gis.stackexchange.com/questions/tagged/qgis" target="_blank" rel="noopener">Stack Exchange</a>. Furthermore it is actively developed by the QGIS Development Team and volunteer developers who regularly release updates and bug fixes.</p>
-<p>We will mainly use QGIS in this online course to prepare classification maps accordingly in sections <a href="https://blogs.fu-berlin.de/reseda/visualization/">Visualization</a> and <a href="https://blogs.fu-berlin.de/reseda/visualize-in-qgis/">Visualize in QGIS</a>.</p>
-</div>
-</div>
+<p>We will mainly use QGIS in this online course to prepare classification maps accordingly in sections <a href="./Visualization.qmd">Visualization</a> and <a href="./VisualizeinQGIS.qmd">Visualize in QGIS</a>.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -475,7 +514,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../RESEDA/contents/R-Studio.html#execute" class="pagination-link">
+      <a href="../../RESEDA/contents/R-Studio.html" class="pagination-link">
         <span class="nav-page-text">RStudio</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

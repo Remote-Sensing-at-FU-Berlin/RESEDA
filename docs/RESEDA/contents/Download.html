@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -29,8 +63,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../RESEDA/contents/SensorBasics.html" rel="next">
-<link href="../../RESEDA/contents/Acquireyourdata.html" rel="prev">
+<link href="../../RESEDA/contents/SensorBasics.html" rel="prev">
 <link href="../../img/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -65,7 +98,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed fullcontent">
+<body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -217,14 +250,14 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/Download.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Download</span></a>
+  <a href="../../RESEDA/contents/SensorBasics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sensor basics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/SensorBasics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Sensor basics</span></a>
+  <a href="../../RESEDA/contents/Download.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Download</span></a>
   </div>
 </li>
       </ul>
@@ -234,42 +267,461 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#download" id="toc-download" class="nav-link active" data-scroll-target="#download">Download</a></li>
+  <li><a href="#landsat-earthexplorer" id="toc-landsat-earthexplorer" class="nav-link" data-scroll-target="#landsat-earthexplorer">Landsat Landsat / EarthExplorer</a>
+  <ul class="collapse">
+  <li><a href="#section-in-a-box" id="toc-section-in-a-box" class="nav-link" data-scroll-target="#section-in-a-box">Section in a Box</a></li>
+  <li><a href="#usgs-earthexplorer-user-interface" id="toc-usgs-earthexplorer-user-interface" class="nav-link" data-scroll-target="#usgs-earthexplorer-user-interface">1 USGS EarthExplorer User Interface</a></li>
+  <li><a href="#registration" id="toc-registration" class="nav-link" data-scroll-target="#registration">2 Registration</a></li>
+  <li><a href="#perform-a-search" id="toc-perform-a-search" class="nav-link" data-scroll-target="#perform-a-search">3 Perform a Search</a></li>
+  <li><a href="#download-a-dataset" id="toc-download-a-dataset" class="nav-link" data-scroll-target="#download-a-dataset">4 Download a Dataset</a></li>
+  </ul></li>
+  <li><a href="#landsat-big-data" id="toc-landsat-big-data" class="nav-link" data-scroll-target="#landsat-big-data">Landsat BIG DATA</a>
+  <ul class="collapse">
+  <li><a href="#section-in-a-box-1" id="toc-section-in-a-box-1" class="nav-link" data-scroll-target="#section-in-a-box-1">Section in a Box</a></li>
+  <li><a href="#bulk-download-l8-level-1-data" id="toc-bulk-download-l8-level-1-data" class="nav-link" data-scroll-target="#bulk-download-l8-level-1-data">Bulk Download L8 Level-1 data</a></li>
+  <li><a href="#bulk-download-l8-level-2-data" id="toc-bulk-download-l8-level-2-data" class="nav-link" data-scroll-target="#bulk-download-l8-level-2-data">Bulk Download L8 Level-2 data</a></li>
+  <li><a href="#big-data-download" id="toc-big-data-download" class="nav-link" data-scroll-target="#big-data-download">BIG DATA Download</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
 
-<div id="main" class="site-main" role="main">
-<section id="download" class="level1 entry-title entry-header">
+<section id="download" class="level1 entry-title">
 <h1 class="entry-title">Download</h1>
-</section>
-<div class="entry-content">
 <p>We show you two platforms which allow users to view and download remote sensing data such as satellite images, aerial photographs, and cartographic products. You will learn how to use them in order to query and download Landsat 8, Sentinel 2 and Sentinel 1 data from the archives.</p>
 <p><br>
 </p>
-<section id="landsat-data-via-usgs-earthexplorer" class="level1">
-<h1>Landsat Data via USGS EarthExplorer</h1>
+<p><strong>Landsat Data via USGS EarthExplorer</strong></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/"><img src="./Download_files/USGS_thumb.png" class="img-fluid figure-img"></a></p>
+<p><a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/"><img src="./img/USGS_thumb.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 <p><br>
 </p>
-</section>
-<section id="sentinel-data-via-esa-scihub" class="level1">
-<h1>Sentinel Data via ESA SciHUB</h1>
+<p><strong>Sentinel Data via ESA SciHUB</strong></p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="https://blogs.fu-berlin.de/reseda/esa-scihub/"><img src="./Download_files/ESAsciHUB.png" class="img-fluid figure-img"></a></p>
+<p><a href="https://blogs.fu-berlin.de/reseda/esa-scihub/"><img src="./img/ESAsciHUB.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 </section>
+<section id="landsat-earthexplorer" class="level1">
+<h1>Landsat Landsat / EarthExplorer</h1>
+<p>You will get to know an online platform that lets you search and download Landsat 8 data – the USGS EarthExplorer. You need dozens of images? – No problem! Have a look at the <a href="https://blogs.fu-berlin.de/reseda/landsat-big-data-download/">section for bulk and BIG DATA downloading</a> and do not forget to test your knowledge at the end of this section!</p>
+<section id="section-in-a-box" class="level2" style="background-color:#f1f1f1;padding:18px 30px 1px">
+<h2 class="anchored" data-anchor-id="section-in-a-box">Section in a Box</h2>
+<p>In this section, the following content awaits you:</p>
+<p><a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#1"><strong>1 USGS EarthExplorer User Interface</strong></a><br>
+– visiting USGS EarthExplorer for the first time<br>
+<a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#2"><strong>2 Registration</strong></a><br>
+– do a registration in order to be allowed to download products<br>
+<a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#3"><strong>3 Perform a Search</strong></a><br>
+– create a search query to get products from the database<br>
+<a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#4"><strong>4 Download a Dataset</strong></a><br>
+– download Landsat Level 1 and Level 2 products<br>
+<a href="https://blogs.fu-berlin.de/reseda/earthexplorer-exercise/"><strong>EXERCISE</strong></a></p>
+</section>
+<p><br>
+</p>
+<section id="usgs-earthexplorer-user-interface" class="level2">
+<h2 class="anchored" data-anchor-id="usgs-earthexplorer-user-interface">1 USGS EarthExplorer User Interface</h2>
+<p>The EarthExplorer supports online search in comprehensive databases, quicklook visualizations, metadata export, and data download for earth science data from the archives of the U.S.Geological Survey (USGS). You get to the USGS EarthExplorer via the following URL using any web browser (Firefox in our RESEDA VM):</p>
+<p><a href="https://earthexplorer.usgs.gov/" target="_blank">https://earthexplorer.usgs.gov/</a></p>
+<p>Once clicked, the main EarthExplorer graphical user interface (GUI) should be loaded, which is composed of three key elements:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_001.png"><img src="./img/USGS_001.png" class="img-fluid figure-img"></a></p>
+</figure>
 </div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">USGS EarthExplorer user interface</span></p>
+</div>
+<ul>
+<li><strong>1 Header Menu Bar</strong>: Buttons for login and registration services, as well as help, RSS and feedback functionalities. After login you can save and load queries here</li>
+<li><strong>2 Data Search Side Bar</strong>: Search components are divided among four tabs and allow you to enter search criteria, select datasets to query, enter additional criteria, and review results in a tabular window</li>
+<li><strong>3 Image View with Navigation Elements</strong>: embedded Google Maps components to visualize search results, with standard Google Maps navigation tools, i.e., zoom in/ zoom out, street view (lower right corner), and coordinate information of current cursor position (upper right corner). You can toggle between satellite imagery view and GIS data view by selecting the adequate button in the top left corner</li>
+</ul>
+<p><br>
+</p>
+</section>
+<section id="registration" class="level2">
+<h2 class="anchored" data-anchor-id="registration">2 Registration</h2>
+<p>First of all, to fully use the services of the EarthExplorer, you need to register by clicking on the register button in the header menu bar and proceed through the user registration. Only registered users can download data. You definitely need a working email address for this. The information gathered from the registration process is not distributed to other organizations and is only used to determine trends in data usage. You have to work through a user affiliation/data usage and address page:</p>
+<div class="h5p-iframe-wrapper" style="">
+
+</div>
+<p>Once you have completed the registration, you should get an email on your given email address to confirm your account. After confirmation you will be redirected to the login page where you have to fill in your username and password (or click on “login” in the header menu bar).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_008.png"><img src="./img/USGS_008.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">USGS EarthExplorer login formular</span></p>
+</div>
+<p>After login you will notice your username and your “shopping”/ item basked in the header menu bar:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_009.png"><img src="./img/USGS_009.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Successful login</span></p>
+</div>
+<p><br>
+</p>
+</section>
+<section id="perform-a-search" class="level2">
+<h2 class="anchored" data-anchor-id="perform-a-search">3 Perform a Search</h2>
+<p>We want to use an example to explore the search function of the EarthExplorer: We are looking for all Landsat 8 scenes that depict Berlin in summer 2017 and have a cloud cover of less than 10 %!</p>
+<p>EarthExplorer provides four tabs in the search procedure to guide you through your search request:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_019.png"><img src="./img/USGS_019.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">EarthExplorer search tabs</span></p>
+</div>
+<p><strong>1. Enter Search Criteria</strong>: This one helps defining an area of interest (AOI) and a time span in which data will be found. The most straightforward way to define the AOI is to use the integrated Google Maps by typing in an address or place name, e.g., “Berlin, Alexanderplatz”, click <img src="./img/USGS_showbutton.png" class="alignnone size-full wp-image-1245" loading="lazy" width="46" height="25"> and choose one of the prompted suggestions. Designations for geographical longitude and latitude of the desired position are also possible, e.g., “52.5194, 13.4067”.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_015.png"><img src="./img/USGS_015.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Defining area of interest (AOI)</span></p>
+</div>
+<p>Furthermore there is a global notation used for cataloging Landsat data, called Worldwide Reference System (WRS), whereby Landsat 8 follows the WRS-2. This system divides the Earth’s surface into the recording geometries of the Landsat acquisitions. There are a <a href="https://landsat.usgs.gov/sites/default/files/images/tools_wrs2_pr_UTM.gif" target="_blank">WRS-2 overview map</a> and a <a href="https://landsat.usgs.gov/landsat_acq#convertPathRow" target="_blank">WRS-2 Path/Row to Latitude/Longitude converter</a> provided by the USGS. Especially the converter helps to find all possible Path-Row combinations for your AOI, which is 192/024 and 193/23 in our case for Berlin. Entering one of those Path/Row pairs and click <img src="./img/USGS_showbutton.png" class="alignnone size-full wp-image-1245" loading="lazy" width="46" height="25"> to add the adequate center of the Landsat acquisition as a coordinate to your Google Map interface:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_016.png"><img src="./img/USGS_016.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Use Path and Row specifications for queries</span></p>
+</div>
+<p>In order to delete any given coordinate, press the red cross <img src="./img/USGS_017.png" class="alignnone size-full wp-image-1250" loading="lazy" width="19" height="19"> next to it.<br>
+Another easy way to define your AOI is to just left click within the map, which automatically adds a coordinate for a single coordinate search. By defining two points on the map, you will do a line search, which results in all data products which intersects the line. By defining three or more coordinates, a polygon is automatically displayed, forming your AOI:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_018.png"><img src="./img/USGS_018.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Polygon defined by four coordinates via left clicking in the Google Map interface</span></p>
+</div>
+<p>There are several other ways to define the subject area more precisely, e.g., by shapefiles, features, predefined areas, or kmls, but the methods described are effective and usually sufficient. For more detailed descriptions please have a look at the <a href="https://earthexplorer.usgs.gov/documents/helptutorial.pdf" target="_blank">online help</a>.</p>
+<p>To make your query more concrete, you can define the time span within which you want to get data at the bottom of the Search Criteria tab. Simply set the start date and end date as well as all desired months, in our case june, july and august:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_020.png"><img src="./img/USGS_020.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Defining the time span and months of interest</span></p>
+</div>
+<p><strong>2. Select Your Data Set(s)</strong>: The Data Set tab categorizes datasets into similar data collections. There is a dynamic tree structure, which allows you to expand/ collapse products by pressing on the plus and minus signs next to it. As you can see, there is a huge amount of data to choose from. Landsat 8 Level-1 data can be found at <em>Landsat</em> &gt; <em>Landsat Collection 1 Level-1</em> &gt; <em>Landsat 8 OLI/TIRS C1 Level-1</em>:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_021.png"><img src="./img/USGS_021.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Landsat Collection 1 Data Level-1 products</span></p>
+</div>
+<p>Landsat 8 Level-2 data is also available on demand under <em>Landsat</em> &gt; <em>Landsat Collection 1 Level-2 (On-Demand)</em> &gt; <em>Landsat 8 OLI/TIRS C1 Level-2</em> (see chapter <a href="https://blogs.fu-berlin.de/reseda/landsat-8/" target="_blank">Landsat 8</a> for more information).</p>
+<p><strong>3. Additional Criteria (Optional)</strong>: This tab helps to further narrow the results of your search query by defining additional search criteria, e.g., the allowed proportion of cloud cover over land, absolute cloud cover, day or night as well as Path/Row restrictions. In addition, you can use the unique product ID (e.g., LC08_L1TP_192023_20170830_20170914_01_T1) to find specific individual scenes. Restrict the Land Cloud Cover to “Less than 10%” for our query:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_022.png"><img src="./img/USGS_022.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Additional Criteria tab: cloud cover restrictions</span></p>
+</div>
+<p><strong>4. Search Results</strong>: When set, click on <img src="./img/USGS_023.png" class="alignnone size-full wp-image-1265" loading="lazy" width="77" height="31"> on the bottom of the Data Search Side Bar or the Results tab on the top to execute your research. You will most likely get four data products as a result (depending on the shape of your AOI):</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_024.png"><img src="./img/USGS_024.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Search results</span></p>
+</div>
+<p>Four scenes are not much, are they? A cloud cover under 10% is already pretty strict, when you allow more cloud coverage, the number of scenes will increases. Each product is given a unique ID, as well as a acquisition time and the WGS-2 Path and Row. Furthermore there is a number of overlay and download controls you can choose from for each scene:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_025.png"><img src="./img/USGS_025.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Overlay and download controls</span></p>
+</div>
+<ul>
+<li><strong>1 Show Footprint</strong>: display the contour of a scene on Google Map in true color</li>
+<li><strong>2 Show Browse Overlay</strong>: display a preview image of the scene</li>
+<li><strong>3 Compare Browse</strong>: activate this button on multiple scenes, then overlay those <a href="https://earthexplorer.usgs.gov/browsecompare/map" target="_blank">here</a></li>
+<li><strong>4 Show Metadata and Browse</strong>: display the browse image and full metadata for the selected scene</li>
+<li><strong>5 Download Options</strong>: allows registered users to download the selected data</li>
+<li><strong>6 Add to Bulk Download</strong>: allows registered users to bulk download the selected data</li>
+<li><strong>7 Order Scene</strong>: allows registered users to order or request specialized processing of products</li>
+<li><strong>8 Exclude Scene from Results</strong>: delete the particular scene from current result window</li>
+</ul>
+<p><br>
+</p>
+</section>
+<section id="download-a-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="download-a-dataset">4 Download a Dataset</h2>
+<p>In order to download a single Level-1 scene (see <a href="https://blogs.fu-berlin.de/reseda/landsat-8/" target="_blank">chapter Landsat 8</a>), click on <strong>Download Options</strong> <img src="./img/USGS_027.png" class="img-fluid"> and choose the last item, which should be the largest file (approximately 700-900 MB for Landsat 8):</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_026.png"><img src="./img/USGS_026.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Download options for a Landsat 8 Level-1 scene</span></p>
+</div>
+<p>You will recieve a zipped file, which contains all spectral bands as georeferenced geotiff-files.</p>
+<p>Anyway, Level-2 products need a preprocessing and are NOT available for immediate download. In order to acquire Level-2 data, pick Landsat Collection 1 Level-2 in the Data Sets tab (as shown in <strong>2. Select Your Data Set(s)</strong>). In the Result tab you have to use <strong>Order Scene</strong> <img src="./img/USGS_028.png" class="alignnone size-full wp-image-1279" loading="lazy" width="20" height="19"> to put all the wanted scenes in your Item Basket. A number next to your Item Basket shows how many scenes you have chosen:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_029.png"><img src="./img/USGS_029.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Add scenes to Item Basket</span></p>
+</div>
+<p>When you are done, click on Item Basket in the Header Menu Bar to submit your order. You will see a list of all selected scenes. Confirm your selection by pressing Proceed To Checkout:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_030.png"><img src="./img/USGS_030.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Order overview when clicked on Item Basked</span></p>
+</div>
+<p>On the next screen, press Submit Order:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_031.png"><img src="./img/USGS_031.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Submit your order</span></p>
+</div>
+<p>DONE! You will be given a unqiue order ID and a confirmation email will be sent to your email address – check in your email inbox!</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_032.png"><img src="./img/USGS_032.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Order confirmation</span></p>
+</div>
+<p>All Level-2 orders submitted through ESPA are processed within 2-5 days, depending on the size of the order and the backlog already in the system.<br>
+Be patient.<br>
+A second email confirmation will be send when the products are ready for download. From this moment on, all scenes will remain available for 10 days.<br>
+Click on the Order status url in your second confirmation email, which redirects you to the following website:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_033.png"><img src="./img/USGS_033.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Order overview given by the link of the second email</span></p>
+</div>
+<p>Click on your Order ID, which brings you to the download site. Simply click on the download link in order to get your data:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_034.png"><img src="./img/USGS_034.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Finally get your Level-2 data!</span></p>
+</div>
+<p>Follow the search queries in the upcoming exercise to familiarize yourself with how to use the EarthExplorer!</p>
+</section>
+</section>
+<section id="landsat-big-data" class="level1">
+<h1>Landsat BIG DATA</h1>
+<p>The procedures shown in the <a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/">previous section</a> are sufficient if you want to acquire a few scenes. However, if you need many more scenes, e.g.&nbsp;if you want to do a time series analysis, the manual download becomes a real test of patience.<br>
+There are several ways to perform a mass, or bulk, download for Landsat 8 data. Let us take a look at an application for Level-1 and a method for Level-2 Landsat 8 scenes.</p>
+<section id="section-in-a-box-1" class="level2" style="background-color: #f1f1f1;padding: 18px 30px 1px">
+<h2 class="anchored" data-anchor-id="section-in-a-box-1">Section in a Box</h2>
+<p>In this section, the following content awaits you:</p>
+<p><a href="https://blogs.fu-berlin.de/reseda/landsat-big-data-download/#1"><strong>Bulk Download L8 Level-1 data</strong></a><br>
+– use this when you need about 5-20 Level-1 scenes<br>
+<a href="https://blogs.fu-berlin.de/reseda/landsat-big-data-download/#2"><strong>Bulk Download L8 Level-2 data</strong></a><br>
+– use this when you need about 5-20 Level-2 scenes<br>
+<a href="https://blogs.fu-berlin.de/reseda/landsat-big-data-download/#3"><strong>BIG DATA Download</strong></a><br>
+– use this when you need a lot more scenes…</p>
+</section>
+<section id="bulk-download-l8-level-1-data" class="level2">
+<h2 class="anchored" data-anchor-id="bulk-download-l8-level-1-data">Bulk Download L8 Level-1 data</h2>
+<p>USGS provides an application for bulk-downloading Level-1 Landsat data with a very appropriate name: the Bulk Download Application. The Bulk Download Application is an easy-to-use tool for downloading large quantities of satellite imagery and geospatial data. In order to use it, you have to order your Landsat 8 scenes via the <strong>Add to Bulk Download</strong> option <img src="./img/usgs_039.png" class="alignnone size-full wp-image-1314" width="18" height="18"> as mentioned in the <a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#4">Download section</a>:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/usgs_040.png"><img src="./img/usgs_040.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Order imagery by choosing bulk download option</span></p>
+</div>
+<p>Proceed to checkout and confirm your order as shown in the <a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#4">Download section</a>. After that, a specific order number is given to you by email and on the USGS website:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/usgs_041.png"><img src="./img/usgs_041.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Order number provided after submission</span></p>
+</div>
+<p>Now open the application by navigating to <em>Other</em> &gt; <em>Bulk Download Application</em> in the start menu of our VM:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/usgs_042.png"><img src="./img/usgs_042.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Location of Bulk Download Application in our VM</span></p>
+</div>
+<p>The user interface opens, in which you have to fill in your username and password used for the USGS Earth Explorer orders:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/usgs_043.png"><img src="./img/usgs_043.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Log in for bulk downloading</span></p>
+</div>
+<p>Choose your order by its ID and click Select Order:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/usgs_044.png"><img src="./img/usgs_044.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Choose the order ID for your download</span></p>
+</div>
+<p>Change the target directory to your liking by clicking on the right top icon to your. We recommend to set this path to “/media/sf_exchange” to not unnecessarily enlarge the VirtualBox storage. Begin your download by pressing Begin Download:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/usgs_045.png"><img src="./img/usgs_045.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Begin your bulk download</span></p>
+</div>
+</section>
+<section id="bulk-download-l8-level-2-data" class="level2">
+<h2 class="anchored" data-anchor-id="bulk-download-l8-level-2-data">Bulk Download L8 Level-2 data</h2>
+<p>Unfortunately, Level-2 data is not supported by the USGS bulk download application as shown in the previous section. Anyway, there is a nice python based script provided by USGS-EROS, which downloads automatically all scenes for you! The source code is open source and can be reviewed on GitHub <a href="https://github.com/USGS-EROS/espa-bulk-downloader" target="_blank" rel="noopener">via this link</a> and can also be downloaded <a href="https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FPython&amp;files=download_espa_order.py" target="_blank" rel="noopener">here</a>. If you are using our VM, the script is locally stored in your document folder under <em>/home/student/Documents/download_espa_order.py</em>.</p>
+<p>First of all, you should follow the guide for ordering Level-2 scenes (<a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#4">Download section</a>) and receive the second email with the download confirmation.<br>
+Then open the linux terminal – it is linked in the taskbar of our VM:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_036.png"><img src="./img/USGS_036.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Linux terminal shortcut in taskbar</span></p>
+</div>
+<p>To initiate the bulk download, you just need one command. Here is the blueprint of this command, in which you need to replace your email address, your username and password before executing:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">/</span>usr<span class="sc">/</span>bin<span class="sc">/</span>python <span class="sc">/</span>home<span class="sc">/</span>student<span class="sc">/</span>Documents<span class="sc">/</span>download_espa_order.py <span class="sc">-</span>r <span class="dv">10</span> <span class="sc">-</span>c <span class="sc">-</span>o ALL <span class="sc">-</span>d <span class="sc">/</span>media<span class="sc">/</span>sf_exchange<span class="sc">/</span> <span class="sc">-</span>e john.doe<span class="sc">@</span>gmail.com <span class="sc">-</span>u user123 <span class="sc">-</span>p password123</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Explanation: The command needs a python installation to work, so we define the location of python via <span class="crayon-inline theme:amityresedaterminal"><br>
+/usr/bin/python</span>. The download script itself is named “download_espa_order.py” and is stored in the documents folder of our VM, so we define its location with <span class="crayon-inline theme:amityresedaterminal"><br>
+/home/student/Documents/download_espa_order.py</span>. All individual letters preceded by a minus sign are arguments, which are assigned with the subsequent input. You have to change the email-address <span class="crayon-inline theme:amityresedaterminal"><br>
+-e <a href="mailto:john.doe@gmail.com" class="email">john.doe@gmail.com</a></span>, the username <span class="crayon-inline theme:amityresedaterminal">-u user123</span>, and the adequate password <span class="crayon-inline theme:amityresedaterminal">-p password123</span> to your own settings (USGS login data). For more information on this, have a look at the <a href="https://github.com/USGS-EROS/espa-bulk-downloader" target="_blank" rel="noopener">readme on GitHub</a>.<br>
+Type in the whole command without any linebreaks into the terminal:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_035.png"><img src="./img/USGS_035.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Terminal command for bulk downloading Landsat Level-2 data</span></p>
+</div>
+<p>Press the enter-key and watch the script downloading and saving all ordered scenes to your exchange folder <span class="crayon-inline theme:amityresedaterminal">-d /media/sf_exchange/</span> (you can change this destination folder to your liking):</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/USGS_037.png"><img src="./img/USGS_037.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Terminal command for bulk downloading Landsat Level-2 data</span></p>
+</div>
+</section>
+<section id="big-data-download" class="level2">
+<h2 class="anchored" data-anchor-id="big-data-download">BIG DATA Download</h2>
+<p>You can not get enough of data and you have some Terrabyte of disk space available? So, if you just want to download ALL the scenes of a search query (up to 20,000 scenes at once), there is an easy way to do it! When you have completed a search query, as shown in the <a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#3">Perform a Search section</a>, there is an button on top of the scene list which can be used to export your results. This button is only clickable when you are logged in:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/usgs_047.png"><img src="./img/usgs_047.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Metadata Export button</span></p>
+</div>
+<p>A small window opens asking what format the metadata should be exported to. Choose “Non-Limited Results” and “CSV” in order to export the metadata of every single file found to a csv-file (which is a text file):</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/usgs_048.png"><img src="./img/usgs_048.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Metadata Export options</span></p>
+</div>
+<p>Click <strong>Export</strong> and you will receive an email with a link to the metadata export file. The processing time and thus the waiting time for the email will vary depending on number of search results requested.<br>
+Click the link in the mail and you will be redirected to a USGS page. Download the zipped csv-file to your harddrive (the exchange folder in our VM is recommended). Unzip the file by right-clicking on it and chose “Extract Here”. Next, open the following USGS website:</p>
+<p><a href="https://earthexplorer.usgs.gov/filelist" target="_blank" rel="noopener">https://earthexplorer.usgs.gov/filelist</a></p>
+<p>Select <strong>Single Data Set</strong> and choose the type of dataset you want to download via the drop-down menu <strong>Data Set</strong>:</p>
+<ul>
+<li><strong>Data Set for Level-1</strong>: Landsat Collection 1 Level-1: Landsat 8 OLI/TIRS C1 Level-1</li>
+<li><strong>Data Set for Level-2</strong>: Landsat Collection 1 Level-2 (On-Demand): Landsat 8 OLI/TIRS C1 Level-2</li>
+</ul>
+<p>Click the button next to <strong>File</strong> and upload the unzipped .csv-file containing the metadata information. Confirm by pressing <strong>Submit File List</strong>:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/usgs_049.png"><img src="./img/usgs_049.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Metadata Export options</span></p>
+</div>
+<p>If you have selected the Level-1 product, select <strong>Bulk Download</strong> on the next page and click on <strong>Submit Order</strong>. Please follow the instructions given in <a href="https://blogs.fu-berlin.de/reseda/landsat-big-data-download/#1">the bulk download section above</a> to complete your download with the bulk download application.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/usgs_050.png"><img src="./img/usgs_050.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Level-1 product Bulk Download order</span></p>
+</div>
+<p>If you have selected the Level-2 product, select <strong>Order</strong> on the next page and click on <strong>Submit Order</strong>, wait for the ESPA confirmation email (<a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#4">Download section</a>) and follow the instructions given in the <a href="https://blogs.fu-berlin.de/reseda/landsat-big-data-download/#2">Bulk Download section above</a>:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/usgs_051.png"><img src="./img/usgs_051.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Level-2 product Bulk Download order</span></p>
 </div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -507,14 +959,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../RESEDA/contents/Acquireyourdata.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Chapter in a box</span>
+      <a href="../../RESEDA/contents/SensorBasics.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Sensor basics</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../RESEDA/contents/SensorBasics.html" class="pagination-link">
-        <span class="nav-page-text">Sensor basics</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

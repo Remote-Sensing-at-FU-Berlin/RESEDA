@@ -1,13 +1,9 @@
-::: {#main .site-main role="main"}
-::: entry-header
+
 # Part IV {#r-crash-course-part-iv .entry-title}
-:::
 
-::: entry-content
+# Lists
 
-# 7. Lists
-
-A list is a special form of a vector that allows multiple elements of different classes at once. It thus serves as a kind of container for other objects, such as numbers, strings, vectors or matrices. A list can be created using the function [list()]{.crayon-inline}. Element names can be given to existing lists via the [names()]{.crayon-inline} function so that they can later be indexed using these names:
+A list is a special form of a vector that allows multiple elements of different classes at once. It thus serves as a kind of container for other objects, such as numbers, strings, vectors or matrices. A list can be created using the function `list()`. Element names can be given to existing lists via the `names()` function so that they can later be indexed using these names:
 
 ``` r
 l <- list(13L, "Hello", matrix(1:6, 2, 3))
@@ -52,9 +48,9 @@ l <- list("my.integer"=13L,
           )
 ```
 
-**Indexing in lists**
+## Indexing in lists
 
-Using the respective index number or the assigned element name (if available), we can use a double square bracket [$$\[$$]]{.crayon-inline} to access the contents of the list. Using a simple square bracket, we would only get a part of the list here, which would still belong to class list:
+Using the respective index number or the assigned element name (if available), we can use a double square bracket `[[]]` to access the contents of the list. Using a simple square bracket, we would only get a part of the list here, which would still belong to class list:
 
 ``` r
 l[1]                        # first part of the list
@@ -77,9 +73,9 @@ l[[3]]                      # extract third element (matrix)
 ## [2,]    2    4    6
 ```
 
-**Modify lists**
+## Modify lists
 
-Lists can be expanded (assign a new index number or new element name to a value), and elements can be deleted (assign [NULL]{.crayon-inline}) or overwrite individual list elements (reassign existing index or name):
+Lists can be expanded (assign a new index number or new element name to a value), and elements can be deleted (assign `NULL`) or overwrite individual list elements (reassign existing index or name):
 
 ``` r
 l["my.numeric"] <- 45.7325          # add new element to list
@@ -91,7 +87,7 @@ l["meinString"] <- "World"           # overwrite existing element
 
 \
 
-# 8. Dataframe
+# Dataframe
 
 The data frame is the most commonly used data type when manipulating databases and allows you to manage two-dimensional tabular data. Where is the difference to a matrix? Well, while a matrix can only contain elements of a class, several classes can exist in one data frame. Each column in a data frame is basically a list.\
 Whenever external data is read into R, a data frame is created.
@@ -138,11 +134,11 @@ summary(df)                 # statistical summary
 ##             Max.   :190.0   Max.   :110.00
 ```
 
-Interesting is the output of the function [str()]{.crayon-inline}. He first shows us that we have 4 observations (obs., Ie "Ben", "Hanna", "Paul", "Arthur") with 3 variables each (variables, ie "name," "size", "weight") Furthermore, for each variable it is determined whether it is numeric (num) or categorial (factor), for the latter the number of different values (w / 4 levels) is displayed, and even more useful is the statistical summary for each column of the Data frames via the function [summary()]{.crayon-inline}!
+Interesting is the output of the function `str()`. He first shows us that we have 4 observations (obs., Ie "Ben", "Hanna", "Paul", "Arthur") with 3 variables each (variables, ie "name," "size", "weight") Furthermore, for each variable it is determined whether it is numeric (num) or categorial (factor), for the latter the number of different values (w / 4 levels) is displayed, and even more useful is the statistical summary for each column of the Data frames via the function `summary()`!
 
-**Indexing in data frames**
+## Indexing in data frames
 
-In a data frame columns can be addressed either by the double square brackets [$$\[$$]]{.crayon-inline} by means of index numbers or directly by the name of the column (if available) by means of the dollar sign [\$]{.crayon-inline}. In addition, the rows or columns can be addressed adequately to a matrix by means of simple square brackets[[]]{.crayon-inline}:
+In a data frame columns can be addressed either by the double square brackets `[[]]` by means of index numbers or directly by the name of the column (if available) by means of the dollar sign `\$`. In addition, the rows or columns can be addressed adequately to a matrix by means of simple square brackets`[]`:
 
 ``` r
 df
@@ -210,9 +206,9 @@ df[df$name == "Ben" | df$name == "Hanna", ]  # OR condition
 ## 2 Hanna  166     60
 ```
 
-Explanation: For queries we use boolean operators. By the query in line 8 we get a boolean Vector, which contains a [TRUE]{.crayon-inline} if the respective value of the Observation is greater than 170. We use this vector in line 11 to index the corresponding entries in the data frame (outputs all observations with a [TRUE]{.crayon-inline}). When chaining conditions, either both conditions must be fulfilled at the same time by using AND [&]{.crayon-inline}, or only one of both by using OR [\|]{.crayon-inline}.
+Explanation: For queries we use boolean operators. By the query in line 8 we get a boolean Vector, which contains a `TRUE` if the respective value of the Observation is greater than 170. We use this vector in line 11 to index the corresponding entries in the data frame (outputs all observations with a `TRUE`). When chaining conditions, either both conditions must be fulfilled at the same time by using AND `&`, or only one of both by using OR `|`.
 
-**Modify data frames**
+## Modify data frames
 
 Often it is necessary to delete data from a data frame or to implement additional entries later. For both tasks there are several possibilities in R. In the following two simple solutions:
 
@@ -247,7 +243,7 @@ df5
 ## 4 Arthur  190     89
 ```
 
-Excluding columns via the column name is possible via the [subset()]{.crayon-inline} function. Here we can use the argument [-select=]{.crayon-inline} with a leading minus to specify the name of the column to be deleted (or a vector with [c()]{.crayon-inline} for several columns at the same time). The [!]{.crayon-inline} symbol is a logical operator and negates a condition (see [? "!"]{.crayon-inline}).\
+Excluding columns via the column name is possible via the `subset()` function. Here we can use the argument `-select=` with a leading minus to specify the name of the column to be deleted (or a vector with `c()` for several columns at the same time). The `!` symbol is a logical operator and negates a condition (see `? "!"`).\
 The addition of observations and variables is of course also possible:
 
 ``` r
@@ -278,5 +274,4 @@ df
 If a new line has to be added, the new data must have the same structure as the existing data frame.
 
 Time for training session number IV:
-:::
-:::
+

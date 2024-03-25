@@ -1,21 +1,401 @@
-::: {#main .site-main role="main"}
-::: entry-header
-# Download {#download .entry-title}
-:::
 
-::: entry-content
+# Download {#download .entry-title}
+
 We show you two platforms which allow users to view and download remote sensing data such as satellite images, aerial photographs, and cartographic products. You will learn how to use them in order to query and download Landsat 8, Sentinel 2 and Sentinel 1 data from the archives.
 
 \
 
-# Landsat Data via USGS EarthExplorer
+**Landsat Data via USGS EarthExplorer**
 
-[![](./Download_files/USGS_thumb.png)](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/)
+[![](./img/USGS_thumb.png)](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/)
 
 \
 
-# Sentinel Data via ESA SciHUB
+**Sentinel Data via ESA SciHUB**
 
-[![](./Download_files/ESAsciHUB.png)](https://blogs.fu-berlin.de/reseda/esa-scihub/)
+[![](./img/ESAsciHUB.png)](https://blogs.fu-berlin.de/reseda/esa-scihub/)
+
+
+
+# Landsat Landsat / EarthExplorer {#landsat-earthexplorer}
+
+You will get to know an online platform that lets you search and download Landsat 8 data -- the USGS EarthExplorer. You need dozens of images? -- No problem! Have a look at the [section for bulk and BIG DATA downloading](https://blogs.fu-berlin.de/reseda/landsat-big-data-download/) and do not forget to test your knowledge at the end of this section!
+
+::: {style="background-color:#f1f1f1;padding:18px 30px 1px"}
+## Section in a Box
+
+In this section, the following content awaits you:
+
+[**1 USGS EarthExplorer User Interface**](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#1)\
+-- visiting USGS EarthExplorer for the first time\
+[**2 Registration**](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#2)\
+-- do a registration in order to be allowed to download products\
+[**3 Perform a Search**](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#3)\
+-- create a search query to get products from the database\
+[**4 Download a Dataset**](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#4)\
+-- download Landsat Level 1 and Level 2 products\
+[**EXERCISE**](https://blogs.fu-berlin.de/reseda/earthexplorer-exercise/)
 :::
+
+\
+
+## 1 USGS EarthExplorer User Interface
+
+The EarthExplorer supports online search in comprehensive databases, quicklook visualizations, metadata export, and data download for earth science data from the archives of the U.S.Geological Survey (USGS). You get to the USGS EarthExplorer via the following URL using any web browser (Firefox in our RESEDA VM):
+
+[https://earthexplorer.usgs.gov/](https://earthexplorer.usgs.gov/){target="_blank"}
+
+Once clicked, the main EarthExplorer graphical user interface (GUI) should be loaded, which is composed of three key elements:
+
+[![](./img/USGS_001.png){.aligncenter}](./img/USGS_001.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[USGS EarthExplorer user interface]{style="color: #686868;font-size: small"}
+:::
+
+-   **1 Header Menu Bar**: Buttons for login and registration services, as well as help, RSS and feedback functionalities. After login you can save and load queries here
+-   **2 Data Search Side Bar**: Search components are divided among four tabs and allow you to enter search criteria, select datasets to query, enter additional criteria, and review results in a tabular window
+-   **3 Image View with Navigation Elements**: embedded Google Maps components to visualize search results, with standard Google Maps navigation tools, i.e., zoom in/ zoom out, street view (lower right corner), and coordinate information of current cursor position (upper right corner). You can toggle between satellite imagery view and GIS data view by selecting the adequate button in the top left corner
+
+\
+
+## 2 Registration
+
+First of all, to fully use the services of the EarthExplorer, you need to register by clicking on the register button in the header menu bar and proceed through the user registration. Only registered users can download data. You definitely need a working email address for this. The information gathered from the registration process is not distributed to other organizations and is only used to determine trends in data usage. You have to work through a user affiliation/data usage and address page:
+
+::: {.h5p-iframe-wrapper style=""}
+:::
+
+Once you have completed the registration, you should get an email on your given email address to confirm your account. After confirmation you will be redirected to the login page where you have to fill in your username and password (or click on "login" in the header menu bar).
+
+[![](./img/USGS_008.png)](./img/USGS_008.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[USGS EarthExplorer login formular]{style="color: #686868;font-size: small"}
+:::
+
+After login you will notice your username and your "shopping"/ item basked in the header menu bar:
+
+[![](./img/USGS_009.png){.aligncenter}](./img/USGS_009.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Successful login]{style="color: #686868;font-size: small"}
+:::
+
+\
+
+## 3 Perform a Search
+
+We want to use an example to explore the search function of the EarthExplorer: We are looking for all Landsat 8 scenes that depict Berlin in summer 2017 and have a cloud cover of less than 10 %!
+
+EarthExplorer provides four tabs in the search procedure to guide you through your search request:
+
+[![](./img/USGS_019.png)](./img/USGS_019.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[EarthExplorer search tabs]{style="color: #686868;font-size: small"}
+:::
+
+**1. Enter Search Criteria**: This one helps defining an area of interest (AOI) and a time span in which data will be found. The most straightforward way to define the AOI is to use the integrated Google Maps by typing in an address or place name, e.g., "Berlin, Alexanderplatz", click ![](./img/USGS_showbutton.png){.alignnone .size-full .wp-image-1245 loading="lazy" width="46" height="25"} and choose one of the prompted suggestions. Designations for geographical longitude and latitude of the desired position are also possible, e.g., "52.5194, 13.4067".
+
+[![](./img/USGS_015.png)](./img/USGS_015.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Defining area of interest (AOI)]{style="color: #686868;font-size: small"}
+:::
+
+Furthermore there is a global notation used for cataloging Landsat data, called Worldwide Reference System (WRS), whereby Landsat 8 follows the WRS-2. This system divides the Earth's surface into the recording geometries of the Landsat acquisitions. There are a [WRS-2 overview map](https://landsat.usgs.gov/sites/default/files/images/tools_wrs2_pr_UTM.gif){target="_blank"} and a [WRS-2 Path/Row to Latitude/Longitude converter](https://landsat.usgs.gov/landsat_acq#convertPathRow){target="_blank"} provided by the USGS. Especially the converter helps to find all possible Path-Row combinations for your AOI, which is 192/024 and 193/23 in our case for Berlin. Entering one of those Path/Row pairs and click ![](./img/USGS_showbutton.png){.alignnone .size-full .wp-image-1245 loading="lazy" width="46" height="25"} to add the adequate center of the Landsat acquisition as a coordinate to your Google Map interface:
+
+[![](./img/USGS_016.png)](./img/USGS_016.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Use Path and Row specifications for queries]{style="color: #686868;font-size: small"}
+:::
+
+In order to delete any given coordinate, press the red cross ![](./img/USGS_017.png){.alignnone .size-full .wp-image-1250 loading="lazy" width="19" height="19"} next to it.\
+Another easy way to define your AOI is to just left click within the map, which automatically adds a coordinate for a single coordinate search. By defining two points on the map, you will do a line search, which results in all data products which intersects the line. By defining three or more coordinates, a polygon is automatically displayed, forming your AOI:
+
+[![](./img/USGS_018.png)](./img/USGS_018.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Polygon defined by four coordinates via left clicking in the Google Map interface]{style="color: #686868;font-size: small"}
+:::
+
+There are several other ways to define the subject area more precisely, e.g., by shapefiles, features, predefined areas, or kmls, but the methods described are effective and usually sufficient. For more detailed descriptions please have a look at the [online help](https://earthexplorer.usgs.gov/documents/helptutorial.pdf){target="_blank"}.
+
+To make your query more concrete, you can define the time span within which you want to get data at the bottom of the Search Criteria tab. Simply set the start date and end date as well as all desired months, in our case june, july and august:
+
+[![](./img/USGS_020.png)](./img/USGS_020.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Defining the time span and months of interest]{style="color: #686868;font-size: small"}
+:::
+
+**2. Select Your Data Set(s)**: The Data Set tab categorizes datasets into similar data collections. There is a dynamic tree structure, which allows you to expand/ collapse products by pressing on the plus and minus signs next to it. As you can see, there is a huge amount of data to choose from. Landsat 8 Level-1 data can be found at *Landsat* \> *Landsat Collection 1 Level-1* \> *Landsat 8 OLI/TIRS C1 Level-1*:
+
+[![](./img/USGS_021.png)](./img/USGS_021.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Landsat Collection 1 Data Level-1 products]{style="color: #686868;font-size: small"}
+:::
+
+Landsat 8 Level-2 data is also available on demand under *Landsat* \> *Landsat Collection 1 Level-2 (On-Demand)* \> *Landsat 8 OLI/TIRS C1 Level-2* (see chapter [Landsat 8](https://blogs.fu-berlin.de/reseda/landsat-8/){target="_blank"} for more information).
+
+**3. Additional Criteria (Optional)**: This tab helps to further narrow the results of your search query by defining additional search criteria, e.g., the allowed proportion of cloud cover over land, absolute cloud cover, day or night as well as Path/Row restrictions. In addition, you can use the unique product ID (e.g., LC08_L1TP_192023_20170830_20170914_01_T1) to find specific individual scenes. Restrict the Land Cloud Cover to "Less than 10%" for our query:
+
+[![](./img/USGS_022.png)](./img/USGS_022.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Additional Criteria tab: cloud cover restrictions]{style="color: #686868;font-size: small"}
+:::
+
+**4. Search Results**: When set, click on ![](./img/USGS_023.png){.alignnone .size-full .wp-image-1265 loading="lazy" width="77" height="31"} on the bottom of the Data Search Side Bar or the Results tab on the top to execute your research. You will most likely get four data products as a result (depending on the shape of your AOI):
+
+[![](./img/USGS_024.png)](./img/USGS_024.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Search results]{style="color: #686868;font-size: small"}
+:::
+
+Four scenes are not much, are they? A cloud cover under 10% is already pretty strict, when you allow more cloud coverage, the number of scenes will increases. Each product is given a unique ID, as well as a acquisition time and the WGS-2 Path and Row. Furthermore there is a number of overlay and download controls you can choose from for each scene:
+
+[![](./img/USGS_025.png)](./img/USGS_025.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Overlay and download controls]{style="color: #686868;font-size: small"}
+:::
+
+-   **1 Show Footprint**: display the contour of a scene on Google Map in true color
+-   **2 Show Browse Overlay**: display a preview image of the scene
+-   **3 Compare Browse**: activate this button on multiple scenes, then overlay those [here](https://earthexplorer.usgs.gov/browsecompare/map){target="_blank"}
+-   **4 Show Metadata and Browse**: display the browse image and full metadata for the selected scene
+-   **5 Download Options**: allows registered users to download the selected data
+-   **6 Add to Bulk Download**: allows registered users to bulk download the selected data
+-   **7 Order Scene**: allows registered users to order or request specialized processing of products
+-   **8 Exclude Scene from Results**: delete the particular scene from current result window
+
+\
+
+## 4 Download a Dataset
+
+In order to download a single Level-1 scene (see [chapter Landsat 8](https://blogs.fu-berlin.de/reseda/landsat-8/){target="_blank"}), click on **Download Options** ![](./img/USGS_027.png) and choose the last item, which should be the largest file (approximately 700-900 MB for Landsat 8):
+
+[![](./img/USGS_026.png)](./img/USGS_026.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Download options for a Landsat 8 Level-1 scene]{style="color: #686868;font-size: small"}
+:::
+
+You will recieve a zipped file, which contains all spectral bands as georeferenced geotiff-files.
+
+Anyway, Level-2 products need a preprocessing and are NOT available for immediate download. In order to acquire Level-2 data, pick Landsat Collection 1 Level-2 in the Data Sets tab (as shown in **2. Select Your Data Set(s)**). In the Result tab you have to use **Order Scene** ![](./img/USGS_028.png){.alignnone .size-full .wp-image-1279 loading="lazy" width="20" height="19"} to put all the wanted scenes in your Item Basket. A number next to your Item Basket shows how many scenes you have chosen:
+
+[![](./img/USGS_029.png)](./img/USGS_029.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Add scenes to Item Basket]{style="color: #686868;font-size: small"}
+:::
+
+When you are done, click on Item Basket in the Header Menu Bar to submit your order. You will see a list of all selected scenes. Confirm your selection by pressing Proceed To Checkout:
+
+[![](./img/USGS_030.png)](./img/USGS_030.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Order overview when clicked on Item Basked]{style="color: #686868;font-size: small"}
+:::
+
+On the next screen, press Submit Order:
+
+[![](./img/USGS_031.png)](./img/USGS_031.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Submit your order]{style="color: #686868;font-size: small"}
+:::
+
+DONE! You will be given a unqiue order ID and a confirmation email will be sent to your email address -- check in your email inbox!
+
+[![](./img/USGS_032.png)](./img/USGS_032.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Order confirmation]{style="color: #686868;font-size: small"}
+:::
+
+All Level-2 orders submitted through ESPA are processed within 2-5 days, depending on the size of the order and the backlog already in the system.\
+Be patient.\
+A second email confirmation will be send when the products are ready for download. From this moment on, all scenes will remain available for 10 days.\
+Click on the Order status url in your second confirmation email, which redirects you to the following website:
+
+[![](./img/USGS_033.png)](./img/USGS_033.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Order overview given by the link of the second email]{style="color: #686868;font-size: small"}
+:::
+
+Click on your Order ID, which brings you to the download site. Simply click on the download link in order to get your data:
+
+[![](./img/USGS_034.png)](./img/USGS_034.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Finally get your Level-2 data!]{style="color: #686868;font-size: small"}
+:::
+
+Follow the search queries in the upcoming exercise to familiarize yourself with how to use the EarthExplorer!
+
+# Landsat BIG DATA {}
+
+The procedures shown in the [previous section](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/) are sufficient if you want to acquire a few scenes. However, if you need many more scenes, e.g. if you want to do a time series analysis, the manual download becomes a real test of patience.\
+There are several ways to perform a mass, or bulk, download for Landsat 8 data. Let us take a look at an application for Level-1 and a method for Level-2 Landsat 8 scenes.
+
+::: {style="background-color: #f1f1f1;padding: 18px 30px 1px"}
+## Section in a Box
+
+In this section, the following content awaits you:
+
+[**Bulk Download L8 Level-1 data**](https://blogs.fu-berlin.de/reseda/landsat-big-data-download/#1)\
+-- use this when you need about 5-20 Level-1 scenes\
+[**Bulk Download L8 Level-2 data**](https://blogs.fu-berlin.de/reseda/landsat-big-data-download/#2)\
+-- use this when you need about 5-20 Level-2 scenes\
+[**BIG DATA Download**](https://blogs.fu-berlin.de/reseda/landsat-big-data-download/#3)\
+-- use this when you need a lot more scenes...
+:::
+
+## Bulk Download L8 Level-1 data
+
+USGS provides an application for bulk-downloading Level-1 Landsat data with a very appropriate name: the Bulk Download Application. The Bulk Download Application is an easy-to-use tool for downloading large quantities of satellite imagery and geospatial data. In order to use it, you have to order your Landsat 8 scenes via the **Add to Bulk Download** option ![](./img/usgs_039.png){.alignnone .size-full .wp-image-1314 width="18" height="18"} as mentioned in the [Download section](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#4):
+
+[![](./img/usgs_040.png)](./img/usgs_040.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Order imagery by choosing bulk download option]{style="color: #686868;font-size: small"}
+:::
+
+Proceed to checkout and confirm your order as shown in the [Download section](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#4). After that, a specific order number is given to you by email and on the USGS website:
+
+[![](./img/usgs_041.png)](./img/usgs_041.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Order number provided after submission]{style="color: #686868;font-size: small"}
+:::
+
+Now open the application by navigating to *Other* \> *Bulk Download Application* in the start menu of our VM:
+
+[![](./img/usgs_042.png)](./img/usgs_042.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Location of Bulk Download Application in our VM]{style="color: #686868;font-size: small"}
+:::
+
+The user interface opens, in which you have to fill in your username and password used for the USGS Earth Explorer orders:
+
+[![](./img/usgs_043.png)](./img/usgs_043.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Log in for bulk downloading]{style="color: #686868;font-size: small"}
+:::
+
+Choose your order by its ID and click Select Order:
+
+[![](./img/usgs_044.png)](./img/usgs_044.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Choose the order ID for your download]{style="color: #686868;font-size: small"}
+:::
+
+Change the target directory to your liking by clicking on the right top icon to your. We recommend to set this path to "/media/sf_exchange" to not unnecessarily enlarge the VirtualBox storage. Begin your download by pressing Begin Download:
+
+[![](./img/usgs_045.png)](./img/usgs_045.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Begin your bulk download]{style="color: #686868;font-size: small"}
+:::
+
+## Bulk Download L8 Level-2 data
+
+Unfortunately, Level-2 data is not supported by the USGS bulk download application as shown in the previous section. Anyway, there is a nice python based script provided by USGS-EROS, which downloads automatically all scenes for you! The source code is open source and can be reviewed on GitHub [via this link](https://github.com/USGS-EROS/espa-bulk-downloader){target="_blank" rel="noopener"} and can also be downloaded [here](https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FPython&files=download_espa_order.py){target="_blank" rel="noopener"}. If you are using our VM, the script is locally stored in your document folder under */home/student/Documents/download_espa_order.py*.
+
+First of all, you should follow the guide for ordering Level-2 scenes ([Download section](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#4)) and receive the second email with the download confirmation.\
+Then open the linux terminal -- it is linked in the taskbar of our VM:
+
+[![](./img/USGS_036.png)](./img/USGS_036.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Linux terminal shortcut in taskbar]{style="color: #686868;font-size: small"}
+:::
+
+To initiate the bulk download, you just need one command. Here is the blueprint of this command, in which you need to replace your email address, your username and password before executing:
+
+``` r
+/usr/bin/python /home/student/Documents/download_espa_order.py -r 10 -c -o ALL -d /media/sf_exchange/ -e john.doe@gmail.com -u user123 -p password123
+```
+
+Explanation: The command needs a python installation to work, so we define the location of python via [\
+/usr/bin/python]{.crayon-inline .theme:amityresedaterminal}. The download script itself is named "download_espa_order.py" and is stored in the documents folder of our VM, so we define its location with [\
+/home/student/Documents/download_espa_order.py]{.crayon-inline .theme:amityresedaterminal}. All individual letters preceded by a minus sign are arguments, which are assigned with the subsequent input. You have to change the email-address [\
+-e [john.doe\@gmail.com](mailto:john.doe@gmail.com){.email}]{.crayon-inline .theme:amityresedaterminal}, the username [-u user123]{.crayon-inline .theme:amityresedaterminal}, and the adequate password [-p password123]{.crayon-inline .theme:amityresedaterminal} to your own settings (USGS login data). For more information on this, have a look at the [readme on GitHub](https://github.com/USGS-EROS/espa-bulk-downloader){target="_blank" rel="noopener"}.\
+Type in the whole command without any linebreaks into the terminal:
+
+[![](./img/USGS_035.png)](./img/USGS_035.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Terminal command for bulk downloading Landsat Level-2 data]{style="color: #686868;font-size: small"}
+:::
+
+Press the enter-key and watch the script downloading and saving all ordered scenes to your exchange folder [-d /media/sf_exchange/]{.crayon-inline .theme:amityresedaterminal} (you can change this destination folder to your liking):
+
+[![](./img/USGS_037.png)](./img/USGS_037.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Terminal command for bulk downloading Landsat Level-2 data]{style="color: #686868;font-size: small"}
+:::
+
+## BIG DATA Download
+
+You can not get enough of data and you have some Terrabyte of disk space available? So, if you just want to download ALL the scenes of a search query (up to 20,000 scenes at once), there is an easy way to do it! When you have completed a search query, as shown in the [Perform a Search section](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#3), there is an button on top of the scene list which can be used to export your results. This button is only clickable when you are logged in:
+
+[![](./img/usgs_047.png)](./img/usgs_047.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Metadata Export button]{style="color: #686868;font-size: small"}
+:::
+
+A small window opens asking what format the metadata should be exported to. Choose "Non-Limited Results" and "CSV" in order to export the metadata of every single file found to a csv-file (which is a text file):
+
+[![](./img/usgs_048.png){.aligncenter .size-full}](./img/usgs_048.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Metadata Export options]{style="color: #686868;font-size: small"}
+:::
+
+Click **Export** and you will receive an email with a link to the metadata export file. The processing time and thus the waiting time for the email will vary depending on number of search results requested.\
+Click the link in the mail and you will be redirected to a USGS page. Download the zipped csv-file to your harddrive (the exchange folder in our VM is recommended). Unzip the file by right-clicking on it and chose "Extract Here". Next, open the following USGS website:
+
+[https://earthexplorer.usgs.gov/filelist](https://earthexplorer.usgs.gov/filelist){target="_blank" rel="noopener"}
+
+Select **Single Data Set** and choose the type of dataset you want to download via the drop-down menu **Data Set**:
+
+-   **Data Set for Level-1**: Landsat Collection 1 Level-1: Landsat 8 OLI/TIRS C1 Level-1
+-   **Data Set for Level-2**: Landsat Collection 1 Level-2 (On-Demand): Landsat 8 OLI/TIRS C1 Level-2
+
+Click the button next to **File** and upload the unzipped .csv-file containing the metadata information. Confirm by pressing **Submit File List**:
+
+[![](./img/usgs_049.png)](./img/usgs_049.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Metadata Export options]{style="color: #686868;font-size: small"}
+:::
+
+If you have selected the Level-1 product, select **Bulk Download** on the next page and click on **Submit Order**. Please follow the instructions given in [the bulk download section above](https://blogs.fu-berlin.de/reseda/landsat-big-data-download/#1) to complete your download with the bulk download application.
+
+[![](./img/usgs_050.png)](./img/usgs_050.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Level-1 product Bulk Download order]{style="color: #686868;font-size: small"}
+:::
+
+If you have selected the Level-2 product, select **Order** on the next page and click on **Submit Order**, wait for the ESPA confirmation email ([Download section](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#4)) and follow the instructions given in the [Bulk Download section above](https://blogs.fu-berlin.de/reseda/landsat-big-data-download/#2):
+
+[![](./img/usgs_051.png)](./img/usgs_051.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Level-2 product Bulk Download order]{style="color: #686868;font-size: small"}
 :::

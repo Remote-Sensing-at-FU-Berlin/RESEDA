@@ -100,10 +100,11 @@ website:
           contents: 
             - text: "Chapter in a box"
               file: RESEDA/contents/Acquireyourdata.qmd
-            - text: "Download"
-              file: RESEDA/contents/Download.qmd
             - text: "Sensor basics"
               file: RESEDA/contents/SensorBasics.qmd
+            - text: "Download"
+              file: RESEDA/contents/Download.qmd
+            
 
 # Don't touch unless you know what you are doing :) ------------
   search: 
@@ -139,7 +140,7 @@ format:
     theme: 
       - sadstone
       - html/styles.scss
-    toc: false
+    toc: true
     code-link: true
     anchor-sections: true
     fig-cap-location: margin

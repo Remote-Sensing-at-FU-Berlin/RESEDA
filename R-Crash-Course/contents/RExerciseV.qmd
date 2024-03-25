@@ -4,7 +4,7 @@
 :::
 
 ::: entry-content
-1) Use [ifelse()]{.crayon-inline} and your data frame [df]{.crayon-inline} from exercise IV: If the person is less than or equal to 175 cm, it should have the attribute "small", otherwise "tall". Save the result in your [df]{.crayon-inline} as the new column [size.category]{.crayon-inline}.
+1) Use `ifelse()` and your data frame `df` from exercise IV: If the person is less than or equal to 175 cm, it should have the attribute "small", otherwise "tall". Save the result in your `df` as the new column `size.category`.
 
 ``` r
 x <- ifelse(df$size <= 175, "small", "tall")
@@ -46,7 +46,7 @@ for (i in vektor) {
 ## [1] 15
 ```
 
-3) Advanced: Create a for loop that outputs the arithmetic mean for each variable (column) of your data frame [df]{.crayon-inline} -- provided that the variable is numeric!
+3) Advanced: Create a for loop that outputs the arithmetic mean for each variable (column) of your data frame `df` -- provided that the variable is numeric!
 
 ``` r
 for (i in 1:ncol(df)) {

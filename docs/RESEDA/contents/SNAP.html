@@ -65,7 +65,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed fullcontent">
+<body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -234,39 +234,43 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#snap" id="toc-snap" class="nav-link active" data-scroll-target="#snap">SNAP</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
 
-<div id="main" class="site-main" role="main">
-<section id="snap" class="level1 entry-header">
+<section id="snap" class="level1">
 <h1>SNAP</h1>
-</section>
-<div class="entry-content">
 <p>The <strong>S</strong>e<strong>N</strong>tinel <strong>A</strong>pplication <strong>P</strong>latform (<strong>SNAP</strong>) is an open source architecture for European Space Agency (ESA) toolboxes designed for exploitation of earth observation data under the the Scientific Exploitation of Operational Missions (SEOM) programme. SNAP is the common architecture for the Sentinel 1, 2 and 3 Toolboxes, which support the scientific exploitation for the ERS-ENVISAT missions, the Sentinel 1/2/3 missions and a range of national and third party missions. Those toolboxes contain the functionalities of previous toolboxes such as <a href="http://www.brockmann-consult.de/cms/web/beam/" target="_blank">BEAM</a>, NEST and <a href="https://www.orfeo-toolbox.org/" target="_blank">Orfeo</a> Toolbox. SNAP not only enables simple functionalities, such as opening and exploring data products, but also creating and computing complex, user-defined processing chains.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./SNAP_files/laptop_snap.png"><img src="./SNAP_files/laptop_snap.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/laptop_snap.png"><img src="./img/laptop_snap.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Default layout in SNAP</span></p>
 </div>
 <ul>
-<li><strong>1 Toolbar</strong>: Main menu and standard tools for saving/opening data products <img src="./SNAP_files/SNAP_buttons_02.png" class="alignnone size-full wp-image-895" loading="lazy" width="68" height="31">, navigation over image data <img src="./SNAP_files/SNAP_buttons_03.png" class="alignnone size-full wp-image-896" loading="lazy" width="144" height="30">, as well as point, line and polygon feature drawing tools <img src="./SNAP_files/SNAP_buttons_04.png" class="alignnone size-full wp-image-897" loading="lazy" srcset="https://blogs.fu-berlin.de/reseda/files/2018/05/SNAP_buttons_04.png 322w, https://blogs.fu-berlin.de/reseda/files/2018/05/SNAP_buttons_04-300x28.png 300w" sizes="(max-width: 322px) 85vw, 322px" width="322" height="30">. The main functionality is listed in the main menu under the menu items <strong>Raster</strong>, <strong>Optical</strong> and <strong>Radar</strong>. Those are also accessible via the graph builder <img src="./SNAP_files/SNAP_buttons_05.png" class="alignnone size-full wp-image-899" loading="lazy" width="34" height="32">, which we will use to automate and chain operations later on</li>
+<li><strong>1 Toolbar</strong>: Main menu and standard tools for saving/opening data products <img src="./img/SNAP_buttons_02.png" class="alignnone size-full wp-image-895" loading="lazy" width="68" height="31">, navigation over image data <img src="./img/SNAP_buttons_03.png" class="alignnone size-full wp-image-896" loading="lazy" width="144" height="30">, as well as point, line and polygon feature drawing tools <img src="./img/SNAP_buttons_04.png" class="alignnone size-full wp-image-897" loading="lazy" srcset="https://blogs.fu-berlin.de/reseda/files/2018/05/SNAP_buttons_04.png 322w, https://blogs.fu-berlin.de/reseda/files/2018/05/SNAP_buttons_04-300x28.png 300w" sizes="(max-width: 322px) 85vw, 322px" width="322" height="30">. The main functionality is listed in the main menu under the menu items <strong>Raster</strong>, <strong>Optical</strong> and <strong>Radar</strong>. Those are also accessible via the graph builder <img src="./img/SNAP_buttons_05.png" class="alignnone size-full wp-image-899" loading="lazy" width="34" height="32">, which we will use to automate and chain operations later on</li>
 <li><strong>2 Product Explorer</strong>: lists all loaded data products along with their metadata and band information. The Pixel Info tab allows you to get all the information about the coordinates and raster values of where the mouse pointer is pointing. Double click a band in order to visualize it in the Image View panel, or right click a file and choose “open RGB image window” for a RGB composite</li>
 <li><strong>3 Navigation Tool Window</strong>: The <strong>Navigation</strong> and <strong>World View</strong> tabs allow you to spatially locate the current image view in the overall picture and on a 3d globe. Furthermore the <strong>Color Manipulation</strong> tab allows visual adjustments via histogram stretching</li>
-<li><strong>4 Product Library</strong>: browse and view metadata of your locally stored Sentinel data products or search for new data sets on the ESA SciHUB servers. Have a look at chapter <a href="https://blogs.fu-berlin.de/reseda/esa-scihub/">ESA SciHUB</a> for more</li>
-<li><strong>5 Image View</strong>: data you have loaded in your current session can be visualized here. If multiple data sets are open, you can switch back and forth between them by clicking on the tabs at the top of the Image View or tile them vertically or horizontal by clicking on <img src="./SNAP_files/SNAP_buttons.png" class="alignnone size-full wp-image-894" loading="lazy" width="126" height="30"> in the toolbar (1).</li>
+<li><strong>4 Product Library</strong>: browse and view metadata of your locally stored Sentinel data products or search for new data sets on the ESA SciHUB servers. Have a look at chapter <a href="./Sentinel_SciHUB.qmd">ESA SciHUB</a> for more</li>
+<li><strong>5 Image View</strong>: data you have loaded in your current session can be visualized here. If multiple data sets are open, you can switch back and forth between them by clicking on the tabs at the top of the Image View or tile them vertically or horizontal by clicking on <img src="./img/SNAP_buttons.png" class="alignnone size-full wp-image-894" loading="lazy" width="126" height="30"> in the toolbar (1).</li>
 </ul>
 <p>There is an official science toolbox expoitation platform, <a href="http://step.esa.int/main/toolboxes/snap/" target="_blank">STEP</a> for short. On this website you can access <a href="http://step.esa.int/main/doc/tutorials/" target="_blank">useful video tutorials</a> showing most of the basic functionalities of SNAP. Furthermore there is an <a href="https://forum.step.esa.int/" target="_blank">official STEP-forum</a>, in which you can communicate with the SNAP developers or ask the sience community.</p>
 <p>SNAP not only supports the Sentinel missions, but also a wide range of third party products, including optical data (Sentinel 2 Toolbox), e.g., RapidEye, SPOT, MODIS (Aqua and Terra), Landsat (TM), and SAR data (Sentinel 1 Toolbox), e.g., ERS-1/2, ENVISAT, ALOS PALSAR, TerraSAR-X, COSMO-SkyMed and RADARSAT-2.</p>
-</div>
-</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

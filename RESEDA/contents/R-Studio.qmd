@@ -1,14 +1,11 @@
-::: {#main .site-main role="main"}
-::: entry-header
-# R-Studio {#r-studio}
-:::
 
-::: entry-content
+# R-Studio {#r-studio}
+
 R is a programming language and software environment designed for statistical computing and graphic data output, which is very popular among data scientists. While R is operated purely by command line, there are several graphical user interfaces available, such as Rattle, R Commander, Deducer, RKWard, JGR, and R-Studio.
 
 In this online course we will use R-Studio as an *integrated development environments* (IDE). The default window layout of R-Studio is divided into four panes:
 
-[![](./R-Studio_files/laptop_rstudio.png)](./R-Studio_files/laptop_rstudio.png)
+[![](./img/laptop_rstudio.png)](./img/laptop_rstudio.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Default layout in R-Studio]{style="color: #686868;font-size: small"}
@@ -25,7 +22,7 @@ R-Studio provides a variety of features that make life easier for you, e.g., col
 
  
 
-# Execute your code {#execute}
+## Execute your code {#execute}
 
 There are multiple ways to execute code in R-Studio. The simplest and most straight-forward way is to type your code directly in the **Console pane** and press **enter key** (or return key).
 
@@ -37,7 +34,7 @@ If you want to make use of previously executed commands, you can use the keyboar
 
  
 
-# Get some help
+## Get some help
 
 R provides a comprehensive built-in help system. At the command prompt in the Console pane of R-Studio type any of the following in order to view descriptions of any operators, functions and objects:
 
@@ -51,7 +48,7 @@ example(foo)       # show an example of function foo
 
  
 
-# Some useful shortcuts
+## Some useful shortcuts
 
 There are some time saving shortcuts implemented to manage your R scripts:
 
@@ -62,5 +59,4 @@ There are some time saving shortcuts implemented to manage your R scripts:
 -   **Ctrl+Shift+c** -- comment/ uncomment selected parts of your code (commented code with a **\#** at the beginning of a line will not be executed)
 
 You can find all of those commands in the top toolbar of R-Studio as well.
-:::
-:::
+

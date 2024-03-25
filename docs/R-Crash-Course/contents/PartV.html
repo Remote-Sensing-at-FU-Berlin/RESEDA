@@ -99,7 +99,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed fullcontent">
+<body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -210,7 +210,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/RExerciseI.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../../R-Crash-Course/contents/RExerciseI.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Excersice I</span></a>
   </div>
 </li>
@@ -313,20 +313,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#part-v" id="toc-part-v" class="nav-link active" data-scroll-target="#part-v">Part V</a></li>
+  <li><a href="#missing-values" id="toc-missing-values" class="nav-link" data-scroll-target="#missing-values">Missing values</a></li>
+  <li><a href="#control-structures" id="toc-control-structures" class="nav-link" data-scroll-target="#control-structures">Control Structures</a>
+  <ul class="collapse">
+  <li><a href="#the-if-statement" id="toc-the-if-statement" class="nav-link" data-scroll-target="#the-if-statement">The IF statement</a></li>
+  <li><a href="#the-for-loop" id="toc-the-for-loop" class="nav-link" data-scroll-target="#the-for-loop">The FOR loop</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
 
-<div id="main" class="site-main" role="main">
-<section id="r-crash-course-part-v" class="level1 entry-title entry-header">
-<h1 class="entry-title">Part V</h1>
+<section id="part-v" class="level1">
+<h1>Part V</h1>
 </section>
-<div class="entry-content">
 <section id="missing-values" class="level1">
-<h1>9. Missing values</h1>
-<p>Sometimes observations (rows) in a data frame are incomplete. The correct handling of missing values is especially needed in statistical evaluations. Missing values are indicated by the symbol <span class="crayon-inline">NA</span> (Not Available). Non-possible values (e.g., division by 0) are described by the symbol <span class="crayon-inline">NaN</span> (Not a Number). For test purposes, we artificially define two elements as <span class="crayon-inline">NA</span> in our <span class="crayon-inline">df</span>:</p>
+<h1>Missing values</h1>
+<p>Sometimes observations (rows) in a data frame are incomplete. The correct handling of missing values is especially needed in statistical evaluations. Missing values are indicated by the symbol <code>NA</code> (Not Available). Non-possible values (e.g., division by 0) are described by the symbol <code>NaN</code> (Not a Number). For test purposes, we artificially define two elements as <code>NA</code> in our <code>df</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"name"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Ben"</span>, <span class="st">"Hanna"</span>, <span class="st">"Paul"</span>, <span class="st">"Arthur"</span>), </span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"size"</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">185</span>, <span class="dv">166</span>, <span class="dv">175</span>, <span class="dv">190</span>)</span>
@@ -352,7 +364,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(df<span class="sc">$</span>size, <span class="at">na.rm=</span><span class="cn">TRUE</span>)     <span class="co"># mean with ignoring NAs</span></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 182.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Often it makes more sense to record the observations with missing values and to exclude them from your dataset. For detection we can use the <span class="crayon-inline">is.na()</span> function to create a logical vector. This outputs a TRUE for every NA value, a FALSE for every element present. Using the logical vector we can then index our data frame:</p>
+<p>Often it makes more sense to record the observations with missing values and to exclude them from your dataset. For detection we can use the <code>is.na()</code> function to create a logical vector. This outputs a <code>TRUE</code> for every <code>NA</code> value, a <code>FALSE</code> for every element present. Using the logical vector we can then index our data frame:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(df<span class="sc">$</span>size)               <span class="co"># logical vector (TRUE for all rows with NAs)</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1]  TRUE  TRUE FALSE FALSE</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -369,10 +381,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </p>
 </section>
 <section id="control-structures" class="level1">
-<h1>10. Control Structures</h1>
-<p>Control structures allow better control over the execution of our scripts, e.g., <span class="crayon-inline">if</span>, <span class="crayon-inline">if else</span>, <span class="crayon-inline">else</span>, <span class="crayon-inline">while</span>, <span class="crayon-inline">switch</span>, <span class="crayon-inline">repeat</span>, <span class="crayon-inline">break</span>, <span class="crayon-inline">return</span> …<br>
+<h1>Control Structures</h1>
+<p>Control structures allow better control over the execution of our scripts, e.g., <code>if</code>, <code>if else</code>, <code>else</code>, <code>while</code>, <code>switch</code>, <code>repeat</code>, <code>break</code>, <code>return</code> …<br>
 Use the help function for a more detailed documentation.</p>
-<p><strong>The IF statement</strong></p>
+<section id="the-if-statement" class="level2">
+<h2 class="anchored" data-anchor-id="the-if-statement">The IF statement</h2>
 <p>Use the if / else command to perform simple queries on all data types. The Microsoft Excel equivalent would be the “IF” feature. In R, the syntax is as follows:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">3</span>                                <span class="co"># define x</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -385,17 +398,19 @@ Use the help function for a more detailed documentation.</p>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">"x is larger than 4!"</span>)        </span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "x is smaller than or equal to 4!"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Explanation: An IF-command needs three parts: the keyword <span class="crayon-inline">if()</span>, a condition that results in a single logical output <span class="crayon-inline">x &lt;= 4</span> and a block of code in curly braces <span class="crayon-inline">{}</span>, which is executed if the expression is TRUE. So, if the condition is TRUE, the code will run in curly brackets after the IF-command. If the condition is FALSE, the code block after the <span class="crayon-inline">else</span>is executed.<br>
-The <span class="crayon-inline">print()</span> function outputs the strings in the parentheses to the console window. Here we need the <span class="crayon-inline">print()</span> function so that the output can be written out of the IF-function, similar to <span class="crayon-inline">return</span>(see <a href="https://blogs.fu-berlin.de/reseda/r-crash-course/#ch5">chapter 5</a>). A vectorized (and therefore more efficient) notation is the following:</p>
+<p>Explanation: An IF-command needs three parts: the keyword <code>if()</code>, a condition that results in a single logical output <code>x \&lt;= 4</code> and a block of code in curly braces <code>{}</code>, which is executed if the expression is TRUE. So, if the condition is TRUE, the code will run in curly brackets after the IF-command. If the condition is FALSE, the code block after the <code>else</code>is executed.<br>
+The <code>print()</code> function outputs the strings in the parentheses to the console window. Here we need the <code>print()</code> function so that the output can be written out of the IF-function, similar to <code>return</code>(see <a href="../../R-Crash-Course/contents/PartI.html">part I</a>. A vectorized (and therefore more efficient) notation is the following:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>)                                </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(x <span class="sc">&lt;=</span><span class="dv">4</span>, <span class="st">"x is smaller than or equal to 4!"</span>, <span class="st">"x is larger than 4!"</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "x is smaller than or equal to 4!" "x is smaller than or equal to 4!"</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [3] "x is larger than 4!"              "x is larger than 4!"             </span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [5] "x is larger than 4!"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Using <span class="crayon-inline">ifelse()</span>, the condition for each individual element is determined as a vector. This is helpful, e.g., if we want to categorize data!</p>
-<p><strong>The FOR loop</strong></p>
-<p>Loops are incredibly useful when certain tasks need to be repeated very often in the script. A for loop is based on an iterable variable of defined length. But what does that mean? We define any variable, e.g., <span class="crayon-inline">i</span>, with a start integer value, e.g, 1. We then increment this integer value until a second integer value, e.g.&nbsp;8, is reached. This can be done via the sequence operator <span class="crayon-inline">:</span>:</p>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="do">## `1] "x is smaller than or equal to 4!" "x is smaller than or equal to 4!"</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="do">## `3] "x is larger than 4!"              "x is larger than 4!"             </span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="do">## `5] "x is larger than 4!"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Using <code>ifelse()</code>, the condition for each individual element is determined as a vector. This is helpful, e.g., if we want to categorize data!</p>
+</section>
+<section id="the-for-loop" class="level2">
+<h2 class="anchored" data-anchor-id="the-for-loop">The FOR loop</h2>
+<p>Loops are incredibly useful when certain tasks need to be repeated very often in the script. A for loop is based on an iterable variable of defined length. But what does that mean? We define any variable, e.g., <code>i</code>, with a start integer value, e.g, 1. We then increment this integer value until a second integer value, e.g.&nbsp;8, is reached. This can be done via the sequence operator <code>:</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>) {</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>}</span>
@@ -407,7 +422,7 @@ The <span class="crayon-inline">print()</span> function outputs the strings in t
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 6</span></span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 7</span></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The practical thing: The code in curly brackets is automatically executed once each time (eight times in total)! And we can meanwhile pick up the expression of our variable <span class="crayon-inline">i</span>, in order to print it or index a vector with it and much more:</p>
+<p>The practical thing: The code in curly brackets is automatically executed once each time (eight times in total)! And we can meanwhile pick up the expression of our variable <code>i</code>, in order to print it or index a vector with it and much more:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">23</span>, <span class="dv">54</span>, <span class="dv">12</span>, <span class="dv">59</span>, <span class="dv">67</span>, <span class="dv">45</span>)    <span class="co"># create integer vector</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(v)                         <span class="co"># check length of vector</span></span>
@@ -433,11 +448,10 @@ The <span class="crayon-inline">print()</span> function outputs the strings in t
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "still"</span></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "fun"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Now, have a look at exercise V:</p>
+
+
 </section>
-</div>
-</div>
-
-
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

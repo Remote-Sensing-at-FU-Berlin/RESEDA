@@ -99,7 +99,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed fullcontent">
+<body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -210,7 +210,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/RExerciseI.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../../R-Crash-Course/contents/RExerciseI.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Excersice I</span></a>
   </div>
 </li>
@@ -313,7 +313,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -325,7 +327,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <div class="entry-content">
 <ol type="1">
-<li>Create a matrix named <span class="crayon-inline">m1</span> with three rows and five columns and all the numeric (integer) values from 6 to 20!</li>
+<li>Create a matrix named <code>m1</code> with three rows and five columns and all the numeric (integer) values from 6 to 20!</li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">6</span><span class="sc">:</span><span class="dv">20</span>, <span class="at">nrow =</span> <span class="dv">3</span>, <span class="at">ncol =</span> <span class="dv">5</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -335,11 +337,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]    7   10   13   16   19</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [3,]    8   11   14   17   20</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="2" type="1">
-<li>Multiply all elements in <span class="crayon-inline">m1</span> by 0.5! Overwrite the matrix <span class="crayon-inline">m1</span> with the result!</li>
+<li>Multiply all elements in <code>m1</code> by 0.5! Overwrite the matrix <code>m1</code> with the result!</li>
 </ol>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>m1 <span class="ot">&lt;-</span> m1 <span class="sc">*</span> <span class="fl">0.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="3" type="1">
-<li>Create another matrix <span class="crayon-inline">m2</span> with one row and five columns and all the numeric (integer) values from 1 to 5!</li>
+<li>Create another matrix <code>m2</code> with one row and five columns and all the numeric (integer) values from 1 to 5!</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">nrow =</span> <span class="dv">1</span>, <span class="at">ncol =</span> <span class="dv">5</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -347,12 +349,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="do">##      [,1] [,2] [,3] [,4] [,5]</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]    1    2    3    4    5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="4" type="1">
-<li>Calculate the sum of all elements in <span class="crayon-inline">m2</span>!</li>
+<li>Calculate the sum of all elements in <code>m2</code>!</li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(m2)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="5" type="1">
-<li>Combine <span class="crayon-inline">m1</span> and <span class="crayon-inline">m2</span> with <span class="crayon-inline">rbing()</span>. Save the result as <span class="crayon-inline">m3</span> and check the dimension of the new matrix!</li>
+<li>Combine <code>m1</code> and <code>m2</code> with <code>rbing()</code>. Save the result as <code>m3</code> and check the dimension of the new matrix!</li>
 </ol>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(m1, m2)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -366,29 +368,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(m3)</span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 4 5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="6" type="1">
-<li>Index the 5th column of <span class="crayon-inline">m3</span>!</li>
+<li>Index the 5th column of <code>m3</code>!</li>
 </ol>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>m3[ , <span class="dv">5</span>]</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1]  9.0  9.5 10.0  5.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="7" type="1">
-<li>Index the 2nd and 4th lines of <span class="crayon-inline">m3</span>!</li>
+<li>Index the 2nd and 4th lines of <code>m3</code>!</li>
 </ol>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>m3[ <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>), ]</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">##      [,1] [,2] [,3] [,4] [,5]</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [1,]  3.5    5  6.5    8  9.5</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [2,]  1.0    2  3.0    4  5.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="8" type="1">
-<li>Calculate the sums for all columns in <span class="crayon-inline">m3</span>!</li>
+<li>Calculate the sums for all columns in <code>m3</code>!</li>
 </ol>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(m3)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 11.5 17.0 22.5 28.0 33.5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="9" type="1">
-<li>Calculate the standard deviation for the 3rd column in <span class="crayon-inline">m3</span>!</li>
+<li>Calculate the standard deviation for the 3rd column in <code>m3</code>!</li>
 </ol>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>( m3[ , <span class="dv">3</span>] )</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 1.796988</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="10" type="1">
-<li>From <span class="crayon-inline">m3</span>, index the element in the 2nd column and 2nd line and all eight adjacent elements! Save the result as <span class="crayon-inline">m4</span> and examine its object class!</li>
+<li>From <code>m3</code>, index the element in the 2nd column and 2nd line and all eight adjacent elements! Save the result as <code>m4</code> and examine its object class!</li>
 </ol>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>m4 <span class="ot">&lt;-</span> m3[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>

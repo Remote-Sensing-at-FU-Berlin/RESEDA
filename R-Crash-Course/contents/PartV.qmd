@@ -1,13 +1,10 @@
-::: {#main .site-main role="main"}
-::: entry-header
-# Part V {#r-crash-course-part-v .entry-title}
-:::
 
-::: entry-content
+# Part V 
 
-# 9. Missing values
 
-Sometimes observations (rows) in a data frame are incomplete. The correct handling of missing values is especially needed in statistical evaluations. Missing values are indicated by the symbol [NA]{.crayon-inline} (Not Available). Non-possible values (e.g., division by 0) are described by the symbol [NaN]{.crayon-inline} (Not a Number). For test purposes, we artificially define two elements as [NA]{.crayon-inline} in our [df]{.crayon-inline}:
+# Missing values
+
+Sometimes observations (rows) in a data frame are incomplete. The correct handling of missing values is especially needed in statistical evaluations. Missing values are indicated by the symbol `NA` (Not Available). Non-possible values (e.g., division by 0) are described by the symbol `NaN` (Not a Number). For test purposes, we artificially define two elements as `NA` in our `df`:
 
 ``` r
 df <- data.frame(
@@ -37,7 +34,7 @@ mean(df$size, na.rm=TRUE)     # mean with ignoring NAs
 ## [1] 182.5
 ```
 
-Often it makes more sense to record the observations with missing values and to exclude them from your dataset. For detection we can use the [is.na()]{.crayon-inline} function to create a logical vector. This outputs a TRUE for every NA value, a FALSE for every element present. Using the logical vector we can then index our data frame:
+Often it makes more sense to record the observations with missing values and to exclude them from your dataset. For detection we can use the `is.na()` function to create a logical vector. This outputs a `TRUE` for every `NA` value, a `FALSE` for every element present. Using the logical vector we can then index our data frame:
 
 ``` r
 is.na(df$size)               # logical vector (TRUE for all rows with NAs)
@@ -56,12 +53,12 @@ df[complete.cases(df), ]     # get all rows without NAs
 
 \
 
-# 10. Control Structures
+# Control Structures
 
-Control structures allow better control over the execution of our scripts, e.g., [if]{.crayon-inline}, [if else]{.crayon-inline}, [else]{.crayon-inline}, [while]{.crayon-inline}, [switch]{.crayon-inline}, [repeat]{.crayon-inline}, [break]{.crayon-inline}, [return]{.crayon-inline} ...\
+Control structures allow better control over the execution of our scripts, e.g., `if`, `if else`, `else`, `while`, `switch`, `repeat`, `break`, `return` ...\
 Use the help function for a more detailed documentation.
 
-**The IF statement**
+## The IF statement
 
 Use the if / else command to perform simple queries on all data types. The Microsoft Excel equivalent would be the "IF" feature. In R, the syntax is as follows:
 
@@ -79,23 +76,23 @@ if (x <= 4) {
 ## [1] "x is smaller than or equal to 4!"
 ```
 
-Explanation: An IF-command needs three parts: the keyword [if()]{.crayon-inline}, a condition that results in a single logical output [x \<= 4]{.crayon-inline} and a block of code in curly braces [{}]{.crayon-inline}, which is executed if the expression is TRUE. So, if the condition is TRUE, the code will run in curly brackets after the IF-command. If the condition is FALSE, the code block after the [else]{.crayon-inline}is executed.\
-The [print()]{.crayon-inline} function outputs the strings in the parentheses to the console window. Here we need the [print()]{.crayon-inline} function so that the output can be written out of the IF-function, similar to [return]{.crayon-inline}(see [chapter 5](https://blogs.fu-berlin.de/reseda/r-crash-course/#ch5)). A vectorized (and therefore more efficient) notation is the following:
+Explanation: An IF-command needs three parts: the keyword `if()`, a condition that results in a single logical output `x \<= 4` and a block of code in curly braces `{}`, which is executed if the expression is TRUE. So, if the condition is TRUE, the code will run in curly brackets after the IF-command. If the condition is FALSE, the code block after the `else`is executed.\
+The `print()` function outputs the strings in the parentheses to the console window. Here we need the `print()` function so that the output can be written out of the IF-function, similar to `return`(see [part I](./PartI.qmd). A vectorized (and therefore more efficient) notation is the following:
 
 ``` r
 x <- c(3, 4, 5, 6, 7)                                
 
 ifelse(x <=4, "x is smaller than or equal to 4!", "x is larger than 4!")
-## [1] "x is smaller than or equal to 4!" "x is smaller than or equal to 4!"
-## [3] "x is larger than 4!"              "x is larger than 4!"             
-## [5] "x is larger than 4!"
+## `1] "x is smaller than or equal to 4!" "x is smaller than or equal to 4!"
+## `3] "x is larger than 4!"              "x is larger than 4!"             
+## `5] "x is larger than 4!"
 ```
 
-Using [ifelse()]{.crayon-inline}, the condition for each individual element is determined as a vector. This is helpful, e.g., if we want to categorize data!
+Using `ifelse()`, the condition for each individual element is determined as a vector. This is helpful, e.g., if we want to categorize data!
 
-**The FOR loop**
+## The FOR loop
 
-Loops are incredibly useful when certain tasks need to be repeated very often in the script. A for loop is based on an iterable variable of defined length. But what does that mean? We define any variable, e.g., [i]{.crayon-inline}, with a start integer value, e.g, 1. We then increment this integer value until a second integer value, e.g. 8, is reached. This can be done via the sequence operator [:]{.crayon-inline}:
+Loops are incredibly useful when certain tasks need to be repeated very often in the script. A for loop is based on an iterable variable of defined length. But what does that mean? We define any variable, e.g., `i`, with a start integer value, e.g, 1. We then increment this integer value until a second integer value, e.g. 8, is reached. This can be done via the sequence operator `:`:
 
 ``` r
 for (i in 1:8) {
@@ -111,7 +108,7 @@ for (i in 1:8) {
 ## [1] 8
 ```
 
-The practical thing: The code in curly brackets is automatically executed once each time (eight times in total)! And we can meanwhile pick up the expression of our variable [i]{.crayon-inline}, in order to print it or index a vector with it and much more:
+The practical thing: The code in curly brackets is automatically executed once each time (eight times in total)! And we can meanwhile pick up the expression of our variable `i`, in order to print it or index a vector with it and much more:
 
 ``` r
 v <- c(23, 54, 12, 59, 67, 45)    # create integer vector
@@ -145,5 +142,3 @@ for (i in v) {
 ```
 
 Now, have a look at exercise V:
-:::
-:::

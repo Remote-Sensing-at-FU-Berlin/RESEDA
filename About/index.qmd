@@ -1,5 +1,6 @@
 ---
 sidebar: false
+toc: false
 ---
 
 ::: {#main .site-main role="main"}

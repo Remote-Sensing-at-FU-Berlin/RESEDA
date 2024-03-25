@@ -186,8 +186,43 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../RESEDA/contents/R-Studio.html#execute" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Execute</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../RESEDA/contents/SNAP.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">SNAP</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Acquire</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../RESEDA/contents/Acquireyourdata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter in a box</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../RESEDA/contents/Download.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Download</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../RESEDA/contents/SensorBasics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sensor basics</span></a>
   </div>
 </li>
       </ul>
@@ -197,13 +232,22 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a></li>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content column-page-right" id="quarto-document-content">
+<main class="content column-body" id="quarto-document-content">
 
 
 
-<div class="quarto-about-trestles column-page-right">
+<div class="quarto-about-trestles column-body">
   <div class="about-entity">
     <img src="reseda-logo.png" class="about-image
   rounded " style="width: 20em;">
@@ -232,35 +276,26 @@ ul.task-list li input[type="checkbox"] {
 <h2 data-anchor-id="learning-objectives">Learning Objectives</h2>
 <p>This online course is divided into separate sections covering particular topics, which together provide a whole workflow commonly used for remote sensing imagery. Although the sections are built on one another and we recommend to handle them in given order, feel free to skip parts you are already comfortable with and focus on the chapters you are interested in. In almost every section you will come across exercises, e.g., multiple choice questionnaires or coding exercises to proof your comprehension of previous sections.</p>
 <p>Let us have a look at the learning objectives and checkpoints of each individual section:</p>
-<section id="prepare-yourself" class="level3">
-<h3 data-anchor-id="prepare-yourself">Prepare Yourself</h3>
+<p><strong>Prepare Yourself</strong></p>
 <p>install our VirtualBox containing all required software get used to the GUIs of R-Studio, QGIS and SNAP refresh basics of the programming language R (if needed)</p>
-</section>
-<section id="acquire-data" class="level3">
-<h3 data-anchor-id="acquire-data">Acquire Data</h3>
+<p><strong>Acquire Data</strong></p>
 <ul>
 <li>repeat basics of optical and radar imagery</li>
 <li>become familiar with online data provider and HUBs</li>
 <li>automatically download many images using bulk downloads</li>
 </ul>
-</section>
-<section id="analyse-your-data" class="level3">
-<h3 data-anchor-id="analyse-your-data">Analyse Your Data</h3>
+<p><strong>Analyse Your Data</strong></p>
 <ul>
 <li>repeat basics of classification and regression tasks</li>
 <li>classify image data in R with Random Forest and SVM</li>
 <li>visualize results in R and QGIS</li>
 </ul>
-</section>
-<section id="validate-results" class="level3">
-<h3 data-anchor-id="validate-results">Validate Results</h3>
+<p><strong>Validate Results</strong></p>
 <ul>
 <li>repeat validation basics</li>
 <li>validate results in R with state of the art methods</li>
 </ul>
-</section>
-<section id="sar-processing" class="level3">
-<h3 data-anchor-id="sar-processing">SAR Processing</h3>
+<p><strong>SAR Processing</strong></p>
 <ul>
 <li>get deeper insights in SAR processing</li>
 <li>process Sentinel imagery in SNAP</li>
@@ -268,7 +303,6 @@ ul.task-list li input[type="checkbox"] {
 </ul>
 <p>We wish you a lot of creative ideas, much findings and great results!</p>
 <p>Best regards, your FU Berlin Remote Sensing and Geoinformatics staff</p>
-</section>
 </section>
 </div>
 
@@ -502,7 +536,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation column-page-right">
+<nav class="page-navigation column-body">
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">

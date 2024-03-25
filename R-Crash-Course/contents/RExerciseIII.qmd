@@ -4,7 +4,7 @@
 :::
 
 ::: entry-content
-1) Create a matrix named [m1]{.crayon-inline} with three rows and five columns and all the numeric (integer) values from 6 to 20!
+1) Create a matrix named `m1` with three rows and five columns and all the numeric (integer) values from 6 to 20!
 
 ``` r
 m1 <- matrix(6:20, nrow = 3, ncol = 5)
@@ -16,13 +16,13 @@ m1
 ## [3,]    8   11   14   17   20
 ```
 
-2) Multiply all elements in [m1]{.crayon-inline} by 0.5! Overwrite the matrix [m1]{.crayon-inline} with the result!
+2) Multiply all elements in `m1` by 0.5! Overwrite the matrix `m1` with the result!
 
 ``` r
 m1 <- m1 * 0.5
 ```
 
-3) Create another matrix [m2]{.crayon-inline} with one row and five columns and all the numeric (integer) values from 1 to 5!
+3) Create another matrix `m2` with one row and five columns and all the numeric (integer) values from 1 to 5!
 
 ``` r
 m2 <- matrix(1:5, nrow = 1, ncol = 5)
@@ -32,14 +32,14 @@ m2
 ## [1,]    1    2    3    4    5
 ```
 
-4) Calculate the sum of all elements in [m2]{.crayon-inline}!
+4) Calculate the sum of all elements in `m2`!
 
 ``` r
 sum(m2)
 ## [1] 15
 ```
 
-5) Combine [m1]{.crayon-inline} and [m2]{.crayon-inline} with [rbing()]{.crayon-inline}. Save the result as [m3]{.crayon-inline} and check the dimension of the new matrix!
+5) Combine `m1` and `m2` with `rbing()`. Save the result as `m3` and check the dimension of the new matrix!
 
 ``` r
 m3 <- rbind(m1, m2)
@@ -55,14 +55,14 @@ dim(m3)
 ## [1] 4 5
 ```
 
-6) Index the 5th column of [m3]{.crayon-inline}!
+6) Index the 5th column of `m3`!
 
 ``` r
 m3[ , 5]
 ## [1]  9.0  9.5 10.0  5.0
 ```
 
-7) Index the 2nd and 4th lines of [m3]{.crayon-inline}!
+7) Index the 2nd and 4th lines of `m3`!
 
 ``` r
 m3[ c(2, 4), ]
@@ -71,21 +71,21 @@ m3[ c(2, 4), ]
 ## [2,]  1.0    2  3.0    4  5.0
 ```
 
-8) Calculate the sums for all columns in [m3]{.crayon-inline}!
+8) Calculate the sums for all columns in `m3`!
 
 ``` r
 colSums(m3)
 ## [1] 11.5 17.0 22.5 28.0 33.5
 ```
 
-9) Calculate the standard deviation for the 3rd column in [m3]{.crayon-inline}!
+9) Calculate the standard deviation for the 3rd column in `m3`!
 
 ``` r
 sd( m3[ , 3] )
 ## [1] 1.796988
 ```
 
-10) From [m3]{.crayon-inline}, index the element in the 2nd column and 2nd line and all eight adjacent elements! Save the result as [m4]{.crayon-inline} and examine its object class!
+10) From `m3`, index the element in the 2nd column and 2nd line and all eight adjacent elements! Save the result as `m4` and examine its object class!
 
 ``` r
 m4 <- m3[2:4, 2:4]

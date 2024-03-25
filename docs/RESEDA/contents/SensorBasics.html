@@ -29,7 +29,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
-<link href="../../RESEDA/contents/Download.html" rel="prev">
+<link href="../../RESEDA/contents/Download.html" rel="next">
+<link href="../../RESEDA/contents/Acquireyourdata.html" rel="prev">
 <link href="../../img/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -61,10 +62,12 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed fullcontent">
+<body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -216,14 +219,14 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/Download.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Download</span></a>
+  <a href="../../RESEDA/contents/SensorBasics.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Sensor basics</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/SensorBasics.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Sensor basics</span></a>
+  <a href="../../RESEDA/contents/Download.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Download</span></a>
   </div>
 </li>
       </ul>
@@ -233,33 +236,65 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#sensor-basics" id="toc-sensor-basics" class="nav-link active" data-scroll-target="#sensor-basics">Sensor Basics</a>
+  <ul class="collapse">
+  <li><a href="#non-imaging-vs-imaging-sensors" id="toc-non-imaging-vs-imaging-sensors" class="nav-link" data-scroll-target="#non-imaging-vs-imaging-sensors">Non-Imaging vs Imaging Sensors</a></li>
+  <li><a href="#passive-vs-active-sensors" id="toc-passive-vs-active-sensors" class="nav-link" data-scroll-target="#passive-vs-active-sensors">Passive vs Active Sensors</a></li>
+  <li><a href="#imaging-sensor-resolutions" id="toc-imaging-sensor-resolutions" class="nav-link" data-scroll-target="#imaging-sensor-resolutions">Imaging Sensor Resolutions</a>
+  <ul class="collapse">
+  <li><a href="#geometric-resolution" id="toc-geometric-resolution" class="nav-link" data-scroll-target="#geometric-resolution">1. Geometric Resolution</a></li>
+  <li><a href="#spectral-resolution" id="toc-spectral-resolution" class="nav-link" data-scroll-target="#spectral-resolution">2. Spectral Resolution</a></li>
+  <li><a href="#radiometric-resolution" id="toc-radiometric-resolution" class="nav-link" data-scroll-target="#radiometric-resolution">3. Radiometric Resolution</a></li>
+  <li><a href="#temporal-resolution" id="toc-temporal-resolution" class="nav-link" data-scroll-target="#temporal-resolution">4. Temporal Resolution</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#landsat-8" id="toc-landsat-8" class="nav-link" data-scroll-target="#landsat-8">Landsat-8</a>
+  <ul class="collapse">
+  <li><a href="#data-products" id="toc-data-products" class="nav-link" data-scroll-target="#data-products">Data Products</a>
+  <ul class="collapse">
+  <li><a href="#level-1-products" id="toc-level-1-products" class="nav-link" data-scroll-target="#level-1-products">Level-1 products</a></li>
+  <li><a href="#level-2-products" id="toc-level-2-products" class="nav-link" data-scroll-target="#level-2-products">Level-2 products</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#sentinel-2" id="toc-sentinel-2" class="nav-link" data-scroll-target="#sentinel-2">Sentinel-2</a>
+  <ul class="collapse">
+  <li><a href="#data-products-1" id="toc-data-products-1" class="nav-link" data-scroll-target="#data-products-1">Data Products</a></li>
+  </ul></li>
+  <li><a href="#sentinel-1" id="toc-sentinel-1" class="nav-link" data-scroll-target="#sentinel-1">Sentinel-1</a>
+  <ul class="collapse">
+  <li><a href="#data-products-2" id="toc-data-products-2" class="nav-link" data-scroll-target="#data-products-2">Data Products</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
 
-<div id="main" class="site-main" role="main">
-<section id="sensor-basics" class="level1 entry-title entry-header">
+<section id="sensor-basics" class="level1 entry-title">
 <h1 class="entry-title">Sensor Basics</h1>
-</section>
-<div class="entry-content">
 <p>In this section you will repeat the meaning of basic remote sensing terminology using the example of three satellites which we will continue to use in RESEDA, i.e., Landsat 8, Sentinel 2 and Sentinel 1. However, the shown methods in this online course are also adaptable to other satellite sensors, airborne imagery or close-ups by considering the respective sensor characteristics.</p>
 <p><br>
 </p>
-<section id="non-imaging-vs-imaging-sensors" class="level1">
-<h1>Non-Imaging vs Imaging Sensors</h1>
+<section id="non-imaging-vs-imaging-sensors" class="level2">
+<h2 class="anchored" data-anchor-id="non-imaging-vs-imaging-sensors">Non-Imaging vs Imaging Sensors</h2>
 <p><strong>Non-imaging sensors</strong>, such as laser profilers or RADAR altimeter, usually provide point data, which do not offer spatially continuous information about how the input varies within the sensor’s field of view.</p>
 <p>By contrast, <strong>imaging sensors</strong> are instruments that build up a spatially continuous digital image within their field of view, whereby they include not only information about the intensity of a given target signal, but also information about its spatial distribution. Examples include aerial photography, visible or near infrared scanner as well as synthetic aperture radars (SAR). All three satellite missions we will work with (Landsat 8, Sentinel 2 and Sentinel 1) are imaging sensors.</p>
 <p><br>
 </p>
 </section>
-<section id="passive-vs-active-sensors" class="level1">
-<h1>Passive vs Active Sensors</h1>
+<section id="passive-vs-active-sensors" class="level2">
+<h2 class="anchored" data-anchor-id="passive-vs-active-sensors">Passive vs Active Sensors</h2>
 <p>Anyway, there is a fundamental differentiation of remote sensing systems that we need to be aware of: passive and active sensors. This classification is based on the underlying recording principles, which are contrasted in the following:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./Sensor Basics_files/passiveSystems.png"><img src="./Sensor Basics_files/passiveSystems.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/passiveSystems.png"><img src="./img/passiveSystems.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 <div style="margin: -30px 0 20px 0;text-align: center">
@@ -271,28 +306,28 @@ Passive remote sensing imagery can be very similar to how our human eyes perceiv
 Unfortunately, there is one big limitation of passive systems: Due to the fact that the reflected electromagnetic radiation has to pass through the Earth’s atmosphere, the signal is strongly influenced by the weather and cloud conditions: Fog, haze and clouds render affected image information partially or completely useless, as electromagnetic energy is scattered by the large particles of dense clouds. This is where active sensors come into play.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./Sensor Basics_files/activeSystems.png"><img src="./Sensor Basics_files/activeSystems.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/activeSystems.png"><img src="./img/activeSystems.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Active sensor operating mode</span></p>
 </div>
 <p><strong>Active sensors</strong> emit their own electromagnetic radiation to illuminate the object they observe.<br>
-Active sensors send a pulse of energy at the speed of light to the Earth’s surface, that is reflected, refracted or scattered by the objects on the surface and the atmosphere. The recieved backscatter then gives information on land surface characteristics. There are many types of active sensors out there: RADAR (Radio Detection and Ranging), Scatterometer, LiDAR (Light Detection and Ranging), and Laser Altimeter. We will take a closer look at Sentintel 1, a SAR system (<strong>S</strong>ynthetic <strong>A</strong>perture <strong>R</strong>ADAR), which is an imaging RADAR type working with microwaves, in the upcoming <a href="https://blogs.fu-berlin.de/reseda/sar/">SAR chapters</a>.<br>
-Images of active sensors are comparatively difficult to interpret: A SAR signal contains amplitude and phase information. Amplitude is the strength of the RADAR response and phase is the fraction of a full sine curve. In order to generate beautiful images out of these information, a more extensive preprocessing is often necessary, which we will <a href="https://blogs.fu-berlin.de/reseda/s1-processing-in-snap/">do in SNAP</a>.<br>
+Active sensors send a pulse of energy at the speed of light to the Earth’s surface, that is reflected, refracted or scattered by the objects on the surface and the atmosphere. The recieved backscatter then gives information on land surface characteristics. There are many types of active sensors out there: RADAR (Radio Detection and Ranging), Scatterometer, LiDAR (Light Detection and Ranging), and Laser Altimeter. We will take a closer look at Sentintel 1, a SAR system (<strong>S</strong>ynthetic <strong>A</strong>perture <strong>R</strong>ADAR), which is an imaging RADAR type working with microwaves, in the upcoming <a href="./SAR-Data.qmd">SAR chapters</a>.<br>
+Images of active sensors are comparatively difficult to interpret: A SAR signal contains amplitude and phase information. Amplitude is the strength of the RADAR response and phase is the fraction of a full sine curve. In order to generate beautiful images out of these information, a more extensive preprocessing is often necessary, which we will do in SNAP.<br>
 Since no natural light source is required, active sensors are capable to emit and capture their signals regardless of daytime. In addition, many systems operate in the electromagnetic domain of microwaves, so their wavelength is large enough to be unaffected by clouds and other atmospheric distortions.</p>
 <p><br>
 </p>
 </section>
-<section id="imaging-sensor-resolutions" class="level1">
-<h1>Imaging Sensor Resolutions</h1>
+<section id="imaging-sensor-resolutions" class="level2">
+<h2 class="anchored" data-anchor-id="imaging-sensor-resolutions">Imaging Sensor Resolutions</h2>
 <p>When working with imaging remote sensing systems, a distinction is made between four different resolution terms: geometric, spectral, radiometric and temporal. It is essential to know those resolutions in order to be able to assess whether the sensor system is suitable for your research question!</p>
-<section id="geometric-resolution" class="level2">
-<h2 class="anchored" data-anchor-id="geometric-resolution">1. Geometric Resolution</h2>
+<section id="geometric-resolution" class="level3">
+<h3 class="anchored" data-anchor-id="geometric-resolution">1. Geometric Resolution</h3>
 <p>A digital image consists of at least one matrix of integers values – the picture elements, or pixels. Each pixel contains information about a signal response from a small area on the land surface, e.g., reflectance or backscatter. The geometric Resolution describes the edge length of this area (usually in meters) and is determined by the sensor’s instantaneous field of view (IFOV). It determines which object sizes can still be identified in the image – the degree of detail, so to speak. The effects of geometric resolutions becomes evident when comparing different images, for example an airborne orthophoto (0.1 m), Sentinel 2 (10 m) and Landsat 8 (30 m) images:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./Sensor Basics_files/resolutions.png"><img src="./Sensor Basics_files/resolutions.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/resolutions.png"><img src="./img/resolutions.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 <div style="margin: -30px 0 20px 0;text-align: center">
@@ -300,8 +335,8 @@ Since no natural light source is required, active sensors are capable to emit an
 </div>
 <p>There are several synonyms commonly used for the term geometric resolution, e.g., spatial resolution, pixel size, pixel edge length, or ground sampling distance.</p>
 </section>
-<section id="spectral-resolution" class="level2">
-<h2 class="anchored" data-anchor-id="spectral-resolution">2. Spectral Resolution</h2>
+<section id="spectral-resolution" class="level3">
+<h3 class="anchored" data-anchor-id="spectral-resolution">2. Spectral Resolution</h3>
 <p>We humans can only perceive the visible light around us, which is just a very small part of the available electromagnetic spectrum. Satellites, on the other hand, sense a much wider range of the electromagnetic spectrum and can provide us with information about processes that would otherwise be neglected.<br>
 Spectral satellite sensors measure the reflection from the earth’s surface in different wavelength areas of the electromagnetic spectrum, via so-called channels or bands. Each band can have a different bandwidth, i.e., the area scanned within the electromagnetic spectrum. The sensors concentrate the signals gathered within a band to one (pixel-) value via a sensor specific filter function.<br>
 However, spectral resolution describes the number of bands that the sensor senses. The purpose of multiple bands is to capture the differences in the reflection characteristics of different surfaces and materials within the electromagnetic spectrum.<br>
@@ -315,13 +350,13 @@ Multispectral systems generally refers to 3 to 15 bands, which are usually locat
 </div>
 <p>Hyperspectral systems (spectrometer) offer hundreds or thousands of bands with narrow bandwidths. A spectral resolution this high gives ability to distinguish minor differences of land cover characteristics, which in turn provides ability to address issues that could not be solved with multispectral data, e.g., mineral or building material classifications. There are some airborne spectrometers (AVIRIS, HySPEX, HyMAP) and to date only one operational satellite: <a href="https://eo1.usgs.gov/sensors/hyperion" target="_blank">Hyperion</a>. Anyway, more spaceborne systems are already in the starting blocks, e.g., <a href="https://www.dlr.de/dlr/desktopdefault.aspx/tabid-10379/567_read-421/#/gallery/2671" target="_blank">EnMAP</a> and <a href="https://hyspiri.jpl.nasa.gov/" target="_blank">HyspIRI</a>.</p>
 </section>
-<section id="radiometric-resolution" class="level2">
-<h2 class="anchored" data-anchor-id="radiometric-resolution">3. Radiometric Resolution</h2>
+<section id="radiometric-resolution" class="level3">
+<h3 class="anchored" data-anchor-id="radiometric-resolution">3. Radiometric Resolution</h3>
 <p>A digital sensor generally recognizes objects as intensity values, whereby it can only distinguish between dark and bright. The radiometric resolution refers to the ability to tell apart objects based on differences in those intensities. Thus, a sensor with a high radiometric resolution records more intensity levels or grey-scale levels. This property is expressed by the number of bits. Most satellite products have a bit depth of 8 to 16 bits, which means that they support 2<sup>8</sup>(=256) or 2<sup>16</sup>(=65536) different gray scale levels, respectively. A 1 bit image would be subject to a huge loss of information in comparison!<br>
 Those effects are easier to understand when looking at the image comparison below: An image with a bit depth of 1 contains only two gray scale levels (2<sup>1</sup>=2), i.e., black and white. Using 2 bits double the number of available colors (2<sup>2</sup>=4), which allows a few more details (as shown in the middle image). When using 8 bits, the image can draw from a whole color ramp ranging from black to white (dark to bright) comprising 256 grey scale values (2<sup>8</sup>=256).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./Sensor Basics_files/bits.png"><img src="./Sensor Basics_files/bits.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/bits.png"><img src="./img/bits.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 <div style="margin: -30px 0 20px 0;text-align: center">
@@ -329,14 +364,14 @@ Those effects are easier to understand when looking at the image comparison belo
 </div>
 <p>Human perception is barely sufficient to detect gray-scale differences beyond 8 bits in digital images. Nevertheless, machine learning algorithms often benefit from a finer differentiation of contrasts.</p>
 </section>
-<section id="temporal-resolution" class="level2">
-<h2 class="anchored" data-anchor-id="temporal-resolution">4. Temporal Resolution</h2>
+<section id="temporal-resolution" class="level3">
+<h3 class="anchored" data-anchor-id="temporal-resolution">4. Temporal Resolution</h3>
 <p>The temporal resolution of a sensor is simply the distance of time (usually in days) between two image acquisitions of the same area. A high temporal resolution thus indicates a smaller time window between two images, which allows a better observation of temporally highly dynamic processes on the Earth’s surface, e.g., weather or active fire monitoring.<br>
 Most satellite sensors have a temporal resolution of about 14 days. Anyway, by using a satellite constellation of multiple sensors identical in construction the time between two acquisitions can be shortened. For example Planet Labs operates five <a href="https://www.planet.com/products/satellite-imagery/rapid-eye-basic-product/" target="_blank">RapidEye</a> satellites, which are synchronized so that they overlap in coverage.<br>
 However, weather satellites are capable of acquiring images of the same area every 15 minutes. This can be explained by the different orbits of the satellites: geostationary and polar orbiting satellite systems.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./Sensor Basics_files/orbit_geostat.png"><img src="./Sensor Basics_files/orbit_geostat.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/orbit_geostat.png"><img src="./img/orbit_geostat.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 <div style="margin: -30px 0 20px 0;text-align: center">
@@ -345,7 +380,7 @@ However, weather satellites are capable of acquiring images of the same area eve
 <p>Geostationary sensors follow a circular geosynchronous orbit directly above the Earth’s equator. A geosynchronous system provides the same orbital period as the Earth’s rotation period (24 h), so it always looks at the same area on Earth, which it can observate at very high frequencies of several minutes. This rotation pattern is only possible at an altitude very close to 35.786 km, which generally results in a comparatively lower geometric resolution. Geostationary orbits are used by weather, communication and television satellites.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./Sensor Basics_files/orbit_polar.png"><img src="./Sensor Basics_files/orbit_polar.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/orbit_polar.png"><img src="./img/orbit_polar.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
 <div style="margin: -30px 0 20px 0;text-align: center">
@@ -354,10 +389,571 @@ However, weather satellites are capable of acquiring images of the same area eve
 <p>Polar orbiting satellites pass above or nearly above the poles on each orbit, so the inclination to the Earth’s equator is very close to 90 degrees. They fly at an altitude of approximately 800-900 km. The lower a satellite flies, the faster it is. That’s why an orbit takes only ~90 minutes. While flying from the north to south pole in 45 minutes, sun-synchronous sensors look at the sunlit side of the Earth (descending images). Moving from south to nord pole results in nighttime imagery (ascending images). On an descending flight, all polar orbiting satellites cross the equator between 10:00 am and 10:15 am (local time) to provide maximum illumination and minimum water vapor to prevent haze and cloud build-up. Due to their inclination, they map the entire surface of the earth within several days (~14 d) as the earth continues to rotate beneath them. The temporal resolution of polar orbiting satellites usually describes the repetition rate at the Equator. The coverage gets better at higher latitudes due to the poleward convergence of the satellite orbits.</p>
 </section>
 </section>
+</section>
+<section id="landsat-8" class="level1">
+<h1>Landsat-8</h1>
+<p>Landsat 8 is the latest installment of the U.S. Landsat satellite series, operated by National Aeronautics and Space Administration (NASA) and United States Geological Survey (USGS). The Landsat program represents the world’s longest continuously acquired collection of spaceborne data in history and since late 2008, all data were made available to all users free of charge.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/landsat8.png"><img src="./img/landsat8.png" class="img-fluid figure-img"></a></p>
+</figure>
 </div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Landsat 8 satellite</span></p>
 </div>
+<p>The Landsat 8 satellite was launched on February 11, 2013 by an Atlas-V rocket in California, as part of the long-term Earth Observation Systems (EOS) program. Like its predecessors, Landsat 8 is a passive satellite with a multispectral, optical sensor.<br>
+For the first time in the Landsat program, the payload consists of two push-broom instruments onboard – the Operational Land Imager (OLI) and the Thermal Infrared Sensor (TIRS). OLI uses a four-mirror telescope and collects data for visible, near infrared, and short wave infrared spectral bands as well as a panchromatic band. TIRS collects two spectral bands in the thermalinfrared (TIR).<br>
+Together, they scan the electromagnetic spectrum in 11 separate bands in a moderate geometric resolutions of 15-30 m:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/landsat8_channels.png"><img src="./img/landsat8_channels.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Landsat 8 bands</span></p>
+</div>
+<p>Each of these channels has been designed to perform certain tasks, e.g., retrieving atmospheric aerosol properties and detect cirrus clouds for corrections of atmospheric distortions (bands 1 &amp; 9), or measuring thermal energy emitted by objects for mapping land surface temperatures (bands 10 &amp; 11):</p>
+<table class="table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 15%">
+<col style="width: 22%">
+<col style="width: 18%">
+<col style="width: 13%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><strong>BAND</strong></td>
+<td style="text-align: center;"><strong>SPECTRAL</strong></td>
+<td style="text-align: center;"><strong>WAVELEN.</strong> <span class="math display">\[µm\]</span></td>
+<td style="text-align: center;"><strong>GEOM.</strong> <span class="math display">\[m\]</span></td>
+<td style="text-align: center;"><strong>SENSOR</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span style="color: white">1</span></td>
+<td style="text-align: center;">aerosols</td>
+<td style="text-align: center;">0.435 – 0.451</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">OLI</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span style="color: white">2</span></td>
+<td style="text-align: center;">blue</td>
+<td style="text-align: center;">0.452 – 0.512</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">OLI</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span style="color: white">3</span></td>
+<td style="text-align: center;">green</td>
+<td style="text-align: center;">0.533 – 0.590</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">OLI</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span style="color: white">4</span></td>
+<td style="text-align: center;">red</td>
+<td style="text-align: center;">0.636 – 0.673</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">OLI</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span style="color: white">5</span></td>
+<td style="text-align: center;">NIR</td>
+<td style="text-align: center;">0.851 – 0.879</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">OLI</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span style="color: white">6</span></td>
+<td style="text-align: center;">SWIR-1</td>
+<td style="text-align: center;">1.566 – 1.651</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">OLI</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span style="color: white">7</span></td>
+<td style="text-align: center;">SWIR-2</td>
+<td style="text-align: center;">2.107 – 2.294</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">OLI</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span style="color: white">8</span></td>
+<td style="text-align: center;">pan</td>
+<td style="text-align: center;">0.503 – 0.676</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">OLI</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span style="color: white">9</span></td>
+<td style="text-align: center;">cirrus</td>
+<td style="text-align: center;">1.363 – 1.384</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">OLI</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span style="color: white">10</span></td>
+<td style="text-align: center;">TIR-1</td>
+<td style="text-align: center;">10.600 – 11.190</td>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">TIRS</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span style="color: white">11</span></td>
+<td style="text-align: center;">TIR-2</td>
+<td style="text-align: center;">11.500 – 12.510</td>
+<td style="text-align: center;">100</td>
+<td style="text-align: center;">TIRS</td>
+</tr>
+</tbody>
+</table>
+<p>In the following a profile with the most important characteristics of the sensor is given. For much more detailed information, please refer to the <a href="https://landsat.usgs.gov/sites/default/files/documents/Landsat8DataUsersHandbook.pdf" target="_blank" rel="noopener">Landsat 8 User Guide</a>!</p>
+<table class="table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 85%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>geometric</strong></td>
+<td style="text-align: left;"><ul>
+<li>OLI multispectral bands 1-7,9: 30 meters</li>
+<li>OLI panchromatic band 8: 15 meters</li>
+<li>TIRS bands 10-11: collected at 100 meters but resampled to 30 meters to match OLI bands</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>spectral</strong></td>
+<td style="text-align: left;"><ul>
+<li>11 bands</li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>radiometric</strong></td>
+<td style="text-align: left;"><ul>
+<li>supports 12-bit dynamic range (4096 potential grey levels)</li>
+<li>delivered as 16-bit image products (65,536 grey levels)</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>temporal</strong></td>
+<td style="text-align: left;"><ul>
+<li>16 day repeat cycle at the Equator, more frequent at higher latitudes due to poleward convergence</li>
+<li>near-polar, sun-synchronous circular orbit at an altitude of 705 km</li>
+<li>acquisition in 185 km wide swaths (scene extent: 185 km × 180 km)</li>
+<li>99 minutes orbit, 14 orbits per day</li>
+</ul></td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<section id="data-products" class="level2">
+<h2 class="anchored" data-anchor-id="data-products">Data Products</h2>
+<p>Landsat 8 acquires over 500 scenes each day. Most acquired scenes are downlinked to the Landsat Ground Network and made available for download within 24 hours after acquisition. Those scenes are usually uploaded to and stored in the USGS global archive. All Landsat standard data products are processed using the Landsat Product Generation System (LPGS) and come as compressed “.tgz”-files, which can be uncommpressed by using file archiver, such as 7-Zip or WinRAR. Once uncompressed, the image data is in GeoTIFF output format and projected to the Universal Transverse Mercator (UTM) map projection with the World Geodetic System 84 (WGS84) datum.</p>
+<p>There are two main data products, which differ in the previous level of preprocessing: one without an atmospheric correction (Level-1) and one with (Level-2). Information on the processing level designations can be found in the metadata file (“.MTL.txt”) that is delivered with the Landsat 8 product.</p>
+<p>&nbsp;</p>
+<section id="level-1-products" class="level3">
+<h3 class="anchored" data-anchor-id="level-1-products">Level-1 products</h3>
+<p>Standard Landsat 8 data products consist of quantized and calibrated scaled Digital Numbers (DN) representing the multispectral image acquired by OLI and TIRS. They can be converted to Top Of Atmosphere (TOA) reflectance and radiance values by using radiometric rescaling coefficients as described in <a href="https://landsat.usgs.gov/using-usgs-landsat-8-product" target="_blank" rel="noopener">this USGS guide</a>.<br>
+Level-1 Landsat scenes with the highest available data quality are declared as Tier 1 (L1TP) and are considered suitable for time-series analysis. Tier 1 includes data that have well-characterized radiometry and consistent georegistration and that is inter-calibrated across the different Landsat instruments.</p>
+<ul>
+<li><strong>L1TP (Tier 1)</strong>: This product offers radiometrically calibrated and orthorectified pixels by using auxiliary digital elevation models (DEM) and ground control points (GCP) to correct for relief displacement</li>
+<li><strong>L1GT (Tier 2)</strong>: worse, since GCP were not available</li>
+<li><strong>L1GS (Tier 2)</strong>: worst, since neither GCPs nor DEMs were available</li>
+</ul>
+<p>Level-1 products contain the following 14 files once uncompressed:</p>
+<ul>
+<li>Level-1 bands (1, 2, 3, 4, 5, 6, 7, 8, 9, 10 , and 11)</li>
+<li>Quality Assessment (QA) Band</li>
+<li>Angle Band Coefficients file</li>
+<li>Metadata text file (MTL.txt)</li>
+</ul>
+<p>&nbsp;</p>
+</section>
+<section id="level-2-products" class="level3">
+<h3 class="anchored" data-anchor-id="level-2-products">Level-2 products</h3>
+<p>USGS offers on-demand Surface Reflectance data products (Level-2). Surface Reflectance products provide an estimate of the surface spectral reflectance as it would be measured at ground level in the absence of atmospheric scattering or absorption. Surface reflectance values are scaled between 0 % and 100 %. This atmospheric correction is done via the Landsat Surface Reflectance Code (LaSRC), which utilizes the Landsat band 1, auxiliary MODIS data and radiative transfer models.<br>
+Keep in mind: This product contain neither Level-1 TOA layers nor thermal bands!<br>
+Although these data are also free, it may take several days for the processing to be completed by the servers of the Earth Resources Observation and Science (EROS) Center, before you are able to download them (read on: <a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/" target="_blank" rel="noopener">USGS Earth Explorer</a>).</p>
+<p>Level-2 products contain the following 13 files once uncompressed:</p>
+<ul>
+<li><p>Level-2 bands (1, 2, 3, 4, 5, 6, and 7)</p></li>
+<li><p>Radiometric Saturation QA band (radsat_qa.tif)</p></li>
+<li><p>Surface Reflectance Aerosol QA band (sr_aerosol.tif)</p></li>
+<li><p>Level-2 Pixel Quality Assessment band (pixel_qa.tif)</p></li>
+<li><p>Surface Reflectance metadata file (.xml)</p></li>
+<li><p>Level-1 metadata file (MTL.txt)</p></li>
+<li><p>Level-1 Angle Coefficient file (ANG.txt)</p></li>
+</ul>
+<p>In general, we recommend you to use the Level 2 products, especially if you work multitemporally, since the radiometry of surface reflectances is more comparable between scenes.</p>
+<p>The official <a href="https://www.usgs.gov/land-resources/nli/landsat/landsat-science-products" target="_blank" rel="noopener">product guide</a> offers more information on the Level-1 and Level-2 Landsat products.&nbsp;</p>
+</section>
+</section>
+</section>
+<section id="sentinel-2" class="level1">
+<h1>Sentinel-2</h1>
+<p>Sentinel 2 is a multi-spectral mission consisting of a pair of optical Earth observation satellites: Sentinel-2A and Sentinel-2B, operated by the European Space Agency (ESA) within the framework of the Copernicus program. Sentinel 2 is the European counterpart on Landsat and provides freely available data to study climate change processes.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/sentinel2.png"><img src="./img/sentinel2.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Sentinel 2 satellite</span></p>
+</div>
+<p>Both Sentinel 2 satellites were built by Airbus DS and launched on a Vega launch vehicle in French Guiana (Kourou) on June 23, 2015 and on March 7, 2017, respectively. Two more identical satellites are scheduled to launch in 2021 to improve the temporal resolution. Each Sentinel 2 satellite carries a single multi-spectral instrument (MSI), which uses a push-broom concept and provides 13 spectral channels ranging from the visible (VIS) to the short-wavelength infrared (SWIR) in different spatial resolutions. Incoming light is collected by a three-mirror telescope and focused by a beam-splitter onto two focalplane assemblies (FPAs) – one for the ten VNIR bands and one for the three SWIR wavelengths:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/sentinel_2_channels.png"><img src="./img/sentinel_2_channels.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Sentinel 2 bands</span></p>
+</div>
+<p>The Sentinel 2 mission is designed to mainly provide information for agricultural and forestry practices and applications. In this context, the three red edge bands (5-7) help to differentiate various plant species by leaf area chlorophyll characteristics. Note: Compared to Landsat, however, the thermal and pan bands are missing.</p>
+<table class="table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 18%">
+<col style="width: 28%">
+<col style="width: 22%">
+<col style="width: 16%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><strong>BAND</strong></td>
+<td style="text-align: center;"><strong>SPECTRAL</strong></td>
+<td style="text-align: center;"><strong>WAVELEN.</strong> <span class="math display">\[µm\]</span></td>
+<td style="text-align: center;"><strong>GEOM.</strong> <span class="math display">\[m\]</span></td>
+<td style="text-align: center;"><strong>SENSOR</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">aerosols</td>
+<td style="text-align: center;">0.429 – 0.457</td>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">MSI</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">blue</td>
+<td style="text-align: center;">0.451 – 0.539</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">MSI</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">green</td>
+<td style="text-align: center;">0.538 – 0.585</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">MSI</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">red</td>
+<td style="text-align: center;">0.641 – 0.689</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">MSI</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">red edge</td>
+<td style="text-align: center;">0.695 – 0.715</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">MSI</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">red edge</td>
+<td style="text-align: center;">0.731 – 0.749</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">MSI</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">red edge</td>
+<td style="text-align: center;">0.769 – 0.797</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">MSI</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">NIR</td>
+<td style="text-align: center;">0.784 – 0.900</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">MSI</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8a</td>
+<td style="text-align: center;">narrow NIR</td>
+<td style="text-align: center;">0.855 – 0.875</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">MSI</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">water vapour</td>
+<td style="text-align: center;">0.935 – 0.955</td>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">MSI</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">SWIR cirrus</td>
+<td style="text-align: center;">1.365 – 1.385</td>
+<td style="text-align: center;">60</td>
+<td style="text-align: center;">MSI</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">SWIR</td>
+<td style="text-align: center;">1.565 – 1.655</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">MSI</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">SWIR</td>
+<td style="text-align: center;">2.100 – 2.280</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">MSI</td>
+</tr>
+</tbody>
+</table>
+<p>A special feature of the sensor is the continuous acquisition manner of Sentinel-2, called a “datatake”, which allows a (max.) 15.000 km long continuous imaging strip, e.g.&nbsp;from Russia to southern Africa.<br>
+In the following a profile with the most important characteristics of the sensor is given. For much more detailed information, please refer to the <a href="https://sentinel.esa.int/documents/247904/685211/Sentinel-2_User_Handbook" target="_blank">Sentinel 2 User Guide</a>!</p>
+<table class="table">
+<colgroup>
+<col style="width: 48%">
+<col style="width: 48%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>geometric</strong></td>
+<td style="text-align: left;"><ul>
+<li>10 m spatial resolution bands: B2, B3, B4 and B8</li>
+<li>20 m spatial resolution bands: B5, B6, B7, B8a, B11 and B12</li>
+<li>60 m spatial resolution bands: B1, B9 and B10</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>spectral</strong></td>
+<td style="text-align: left;"><ul>
+<li>13 bands</li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>radiometric</strong></td>
+<td style="text-align: left;"><ul>
+<li>supports 12-bit dynamic range (4096 potential grey levels)</li>
+<li>delivered as 16-bit image products (65,536 grey levels)</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>temporal</strong></td>
+<td style="text-align: left;"><ul>
+<li>5 days due to the constellation of two satellites with 5 days offset, more frequent at higher latitudes due to poleward convergence</li>
+<li>near-polar, sun-synchronous circular orbit at an altitude of 786 km</li>
+<li>continuous acquisition in 290 km wide swaths (max. 15.000 km length)</li>
+<li>100.6 minutes orbit, 14 orbits per day</li>
+</ul></td>
+</tr>
+</tbody>
+</table>
+<p><br>
+</p>
+<section id="data-products-1" class="level2">
+<h2 class="anchored" data-anchor-id="data-products-1">Data Products</h2>
+<p>A single Sentinel 2 scene is huge. The swath width of Sentinel 2 is 290 km. So that the data can be handled at all, imagery is geometrically subdivided into rectangular tiles, or so-called granules. The Payload Data Ground Segment (PDGS) is responsible for the processing and archiving those granules. All products are innately projected to the Universal Transverse Mercator (UTM) coordinate system with the World Geodetic System 84 (WGS84) datum.</p>
+<p>And again, Sentinel 2 data goes through multiples processing levels:</p>
+<ul>
+<li>Level-0: unprocessed instrument data at full resolution; telemetry analysis, preliminary cloud mask generation, and coarse coregistration</li>
+<li>Level-1A: radiometric corrections and geometric viewing model refinement</li>
+<li>Level-1B: resampling, conversion to reflectances and cloud/water/land mask generation</li>
+</ul>
+<p>More information on pre-processing is given in the <a href="https://sentinel.esa.int/documents/247904/685211/Sentinel-2_User_Handbook" target="_blank">Sentinel 2 User Handbook</a>.<br>
+Anyway, Level-0, Level-1A and Level-1B products are PDGS-internal products not made available to users! When browsing the <a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/" target="_blank">ESA SciHUB archive</a>, you will be able to choose from Level-1C and Level-2A products:</p>
+<p><strong>Level-1C</strong> products are radiometric and geometric corrected top of atmosphere (TOA) data. This corrections include orthorectification and spatial registration on the UTM/WGS84 system with sub-pixel accuracy. Level-1C imagary is delivered in granules of 100×100 km of approximately 600-800 MB each. The individual spectral bands are present in their respective resolution (10, 20 and 60m), which is why resampling to a uniform geometric resolution is often necessary for further processing. A product consists of image data, available as JPEG2000 files, and the associated metadata, all capsuled within a “SAFE” file container. You will need the <a href="https://blogs.fu-berlin.de/reseda/snap/" target="_blank">SNAP</a>-software in order to read those SAFE-container (see chapter Visualize for a guide). The Sentinel-SAFE format wraps image data and product metadata in a specific folder structure. Do not alter this folder structure or any file names to ensure that image data and auxiliary information can be imported correctly.</p>
+<p><strong>Level-2A</strong> is the surface reflectance, or Bottom-Of-Atmosphere (BOA), product derived from a associated Level-1C product. This product is corrected by any distortion of atmosphere, terrain and cirrus clouds. Level-2A datasets come with some additional data layers: aerosol optical thickness-, water vapour, and scene classification maps and quality indicators, including cloud and snow probabilities. You can choose a resolution (10 m, 20 m, or 60 m) in which all channels are resampled uniformly.<br>
+Anyway, if you already own a Level-1C scene, the conversion to Level-2A can also be done by yourself via the processor Sen2Cor. A guide on how to do this is given in chapter <a href="https://blogs.fu-berlin.de/reseda/classification-in-r/" target="_blank">Classification in R</a>.</p>
+<p>In general, we recommend you to use the Level-2A products, especially if you work multitemporally, since the radiometry of surface reflectances is more comparable between scenes.</p>
+</section>
+</section>
+<section id="sentinel-1" class="level1">
+<h1>Sentinel-1</h1>
+<p>Sentinel 1 is a imaging RADAR mission consisting of a pair of active satellites: Sentinel-1A and Sentinel-1B, operated by the European Space Agency (ESA). Sentinel 1 has initiated the operational phase of Copernicus – the largest European Earth observation program.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/sentinel1.png"><img src="./img/sentinel1.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Sentinel 1 satellite</span></p>
+</div>
+<p>After a seven-year development period led by ESA and Airbus DS, the Sentinel-1A radar satellite was launched on April 3, 2014 with a Russian Soyuz launcher from the European Spaceport Kourou in French Guiana. The identical Sentinel-1B satellite arrived in space two years later, on April 25, 2016. Additionally, Sentinel-1C and 1D are in development with launch dates to be determined.</p>
+<p>The main instrument is an imaging C-band SAR (Synthetic Aperture RADAR), consisting of a 12.30 x 0.90 m main antenna composed of 560 single antennas coupled together. Thus, unlike Sentinel 2 ​​or Landsat 8, Sentinel 1 works in the electromagnetic domain of microwaves. It actively emits electromagnetic energy, which has a wavelength of 5.5 cm. The emitted radar rays penetrate through vegetation to the ground. As a result, changes in the surface in the centimeter and even in the millimeter range can be perceived. For a more detailed description of how SAR works generally, read <a href="./SAR-Data.qmd">SAR Basics</a></p>
+<p>Sentinel 1 serves a wide range of environmental, transport, economic and security applications. The focus is on ice observation in polar regions, volcanic activity, earthquakes, landslides, floods, detection of subsidence and elevations as well as the observation of sea surfaces to detect issues caused by sea ice and oil spills at an early stage. Furthermore, the satellites are designed to support disaster management in cases of emergency: Wherever up-to-the-minute information is needed, image data can be made available within 60 minutes.<br>
+Sentinel 1 has four different observation modes, allowing them to respond to those needs:</p>
+<ul>
+<li>Stripmap (<strong>SM</strong>): monitor small-scale events upon requests</li>
+<li>Interferometric Wide Swath (<strong>IW</strong>): primary operation mode for most applications over land</li>
+<li>Extra-Wide Swath (<strong>EW</strong>): large-scale observation of marine areas</li>
+<li>Wave (<strong>WV</strong>): primary operational mode over open ocean</li>
+</ul>
+<p>According to the ESA Operation Plan the following applications can be mapped to these modes:</p>
+<table class="table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 21%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>APPLICATION</strong></td>
+<td style="text-align: center;"><strong>SM</strong></td>
+<td style="text-align: center;"><strong>IW</strong></td>
+<td style="text-align: center;"><strong>EW</strong></td>
+<td style="text-align: center;"><strong>WV</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Arctic and sea-ice</td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_check.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_check.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Open ocean ship surveillance</td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_check.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_check.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Oil pollution monitoring</td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_check.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_check.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Marine winds</td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_check.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_check.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_check.png" class="img-fluid" width="20"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Forestry</td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_check.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Agriculture</td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_check.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Urban deformation mapping</td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_check.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Flood monitoring</td>
+<td style="text-align: center;"><img src="./img/icon_check.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_check.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Earthquake analysis</td>
+<td style="text-align: center;"><img src="./img/icon_check.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_check.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Landslide and volcano monitoring</td>
+<td style="text-align: center;"><img src="./img/icon_check.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_check.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+<td style="text-align: center;"><img src="./img/icon_nocheck.png" class="img-fluid" width="20"></td>
+</tr>
+</tbody>
+</table>
+<p>Each acquisition mode has different geometrical and therefore different temporal resolution characteristics:</p>
+<table class="table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 67%">
+</colgroup>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>geometric</strong></td>
+<td style="text-align: left;"><ul>
+<li>SM: ~ 5 x 5 m</li>
+<li>IW: ~ 5 x 20 m</li>
+<li>EW: ~ 25 x 100 m</li>
+<li>WV: ~ 5 x 20 m</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>spectral</strong></td>
+<td style="text-align: left;"><ul>
+<li>SM, IW, EW: single (VV or HH) or dual polarization (VV+VH or HH+HV)</li>
+<li>WV: single (VV or HH)</li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>radiometric</strong></td>
+<td style="text-align: left;"><ul>
+<li>16 bits per pixel (65,536 grey levels)</li>
+<li>accuracy: 1.0 dB</li>
+<li>Stability 1.0 dB</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>temporal</strong></td>
+<td style="text-align: left;"><ul>
+<li>SM: 80 km swath width</li>
+<li>IW: 250 km swath width</li>
+<li>EW: 400 km swath width</li>
+<li>WV: 20 km x 20 km scenes</li>
+<li>orbit height: 693 km</li>
+</ul></td>
+</tr>
+</tbody>
+</table>
+<p><br>
+</p>
+<section id="data-products-2" class="level2">
+<h2 class="anchored" data-anchor-id="data-products-2">Data Products</h2>
+<p>Just like Sentinel 2 data, Sentinel 1 ships its data in a zipped “SAFE” container format wrapping image data and product metadata in a specific folder structure. Do not alter this folder structure or any file names to ensure that image data and auxiliary information can be imported correctly. You do not need to unzip the file! The SNAP-software is able to read the file zipped.</p>
+<p>Sentinel-1 data products which are generated by the Payload Data Ground Segment (PDGS) operationally are distributed at three levels of processing:</p>
+<ul>
+<li>Level-0: compressed and unfocused SAR raw data, basis for all other high level products</li>
+<li><strong>Level-1</strong>: baseline product intended for most data users</li>
+<li>Level-2: geolocated wind, wave and currents products derived from Level-1</li>
+</ul>
+<p>For most applications, you should focus on Level-1 data. Additionally, Level-1 products can be one of two product types:</p>
+<ul>
+<li><strong>Single Look Complex (SLC)</strong> products are represented by a complex (I and Q) magnitude value and therefore contains both amplitude and phase information</li>
+<li><strong>Ground Range Detected (GRD)</strong> products consist of focused SAR data that has been detected, multi-looked and projected to ground range using an Earth ellipsoid model</li>
+</ul>
+<p>A more comprehensive explanation of data product is given in the <a href="https://sentinel.esa.int/web/sentinel/user-guides/sentinel-1-sar/product-types-processing-levels" target="_blank">Sentinel 1 user guide</a>.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -595,11 +1191,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../RESEDA/contents/Download.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Download</span>
+      <a href="../../RESEDA/contents/Acquireyourdata.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Chapter in a box</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../../RESEDA/contents/Download.html" class="pagination-link">
+        <span class="nav-page-text">Download</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

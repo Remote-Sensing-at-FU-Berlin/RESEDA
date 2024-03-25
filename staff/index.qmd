@@ -10,6 +10,7 @@ listing:
   image-height: "15"
 page-layout: full
 sidebar: false
+toc: false
 ---
 
 

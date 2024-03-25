@@ -98,7 +98,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed fullcontent">
+<body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -209,7 +209,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../contents/RExerciseI.qmd" class="sidebar-item-text sidebar-link">
+  <a href="../../R-Crash-Course/contents/RExerciseI.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Excersice I</span></a>
   </div>
 </li>
@@ -312,7 +312,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -324,7 +326,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <div class="entry-content">
 <ol type="1">
-<li>Use <span class="crayon-inline">ifelse()</span> and your data frame <span class="crayon-inline">df</span> from exercise IV: If the person is less than or equal to 175 cm, it should have the attribute “small”, otherwise “tall”. Save the result in your <span class="crayon-inline">df</span> as the new column <span class="crayon-inline">size.category</span>.</li>
+<li>Use <code>ifelse()</code> and your data frame <code>df</code> from exercise IV: If the person is less than or equal to 175 cm, it should have the attribute “small”, otherwise “tall”. Save the result in your <code>df</code> as the new column <code>size.category</code>.</li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(df<span class="sc">$</span>size <span class="sc">&lt;=</span> <span class="dv">175</span>, <span class="st">"small"</span>, <span class="st">"tall"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -362,7 +364,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 14</span></span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <ol start="3" type="1">
-<li>Advanced: Create a for loop that outputs the arithmetic mean for each variable (column) of your data frame <span class="crayon-inline">df</span> – provided that the variable is numeric!</li>
+<li>Advanced: Create a for loop that outputs the arithmetic mean for each variable (column) of your data frame <code>df</code> – provided that the variable is numeric!</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(df)) {</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  </span>

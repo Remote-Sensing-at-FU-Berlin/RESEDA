@@ -30,30 +30,30 @@ This online course is divided into separate sections covering particular topics,
 
 Let us have a look at the learning objectives and checkpoints of each individual section:
 
-### Prepare Yourself
+**Prepare Yourself**
 
 install our VirtualBox containing all required software
 get used to the GUIs of R-Studio, QGIS and SNAP
 refresh basics of the programming language R (if needed)
 
-### Acquire Data
+**Acquire Data**
 
 * repeat basics of optical and radar imagery
 * become familiar with online data provider and HUBs
 * automatically download many images using bulk downloads
 
-### Analyse Your Data
+**Analyse Your Data**
 
 * repeat basics of classification and regression tasks
 * classify image data in R with Random Forest and SVM
 * visualize results in R and QGIS
 
-### Validate Results
+**Validate Results**
 
 * repeat validation basics
 * validate results in R with state of the art methods
 
-### SAR Processing
+**SAR Processing**
 
 * get deeper insights in SAR processing
 * process Sentinel imagery in SNAP
