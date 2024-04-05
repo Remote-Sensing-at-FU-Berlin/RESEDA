@@ -1,0 +1,32 @@
+::: {#main .site-main role="main"}
+::: entry-header
+# Preprocess {#preprocess .entry-title}
+:::
+
+::: entry-content
+A preprocessing of remote sensing data is a crucial step in every analytical workflow, and can possibly be the most time consuming one.\
+Anyway, we want to focus on converting the just-downloaded Landsat 8 and Sentinel 2 products into GeoTIFF files and the visualization in R and QGIS. The pre-processing of Sentinel 1 is a bit more complex. For this purpose, we derive the intensity images on the basis of GRD scenes.
+
+::: {style="background-color: #f1f1f1;padding: 18px 30px 1px"}
+# Chapter in a Box
+
+In this chapter, the following content awaits you:\
+[**Preprocess Landsat 8**](https://blogs.fu-berlin.de/reseda/landsat-8-preprocessing/)\
+-- unzip downloaded image data products\
+-- stack all bands of interest into a rasterstack and save it\
+-- create pyramid layers for rasterstacks\
+-- automate everything for BIG DATA analysis using R\
+[**Preprocess Sentinel 2**](https://blogs.fu-berlin.de/reseda/sentinel-2-preprocessing/)\
+-- convert image data from SAFE to tif format\
+-- resample image data to uniform geometrical resolution\
+-- automate everything for BIG DATA analysis using SNAP and GPT/ R\
+[**Preprocess Sentinel 1**](https://blogs.fu-berlin.de/reseda/sar-data/)\
+-- generate intensity images in different polarizations\
+-- expand feature space of S1 intensity images via texture metrics (GLCM)\
+[**Visualization**](https://blogs.fu-berlin.de/reseda/visualization/)\
+-- use R and QGIS for visualization of Landsat 8 data
+:::
+
+The basic understanding of the various operators and data types in R is required. If you want to refresh this knowledge, you can now go to the [R Crash Course](https://blogs.fu-berlin.de/reseda/r-crash-course/)!
+:::
+:::

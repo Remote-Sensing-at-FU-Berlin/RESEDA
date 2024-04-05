@@ -92,8 +92,6 @@ website:
               file: RESEDA/contents/QGIS.qmd
             - text: "RStudio"
               file: RESEDA/contents/R-Studio.qmd
-            - text: "Execute"
-              file: RESEDA/contents/R-Studio.qmd#execute
             - text: "SNAP"
               file: RESEDA/contents/SNAP.qmd
         - section: "Acquire"
@@ -104,6 +102,16 @@ website:
               file: RESEDA/contents/SensorBasics.qmd
             - text: "Download"
               file: RESEDA/contents/Download.qmd
+        - section: "Preprocess"
+          contents: 
+            - text: "Chapter in a box"
+              file: RESEDA/contents/Preprocess.qmd
+            - text: "Preprocess Optical Data"
+              file: RESEDA/contents/Preprocess-Optical-Data.qmd
+            - text: "SAR Data"
+              file: RESEDA/contents/SAR-Data.qmd
+            - text: "Visualization"
+              file: RESEDA/contents/Visualization.qmd
             
 
 # Don't touch unless you know what you are doing :) ------------

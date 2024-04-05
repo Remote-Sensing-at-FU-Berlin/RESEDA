@@ -1,0 +1,763 @@
+
+# Preprocess Optical Data {#preprocess-optical-data}
+
+Preprocessing optical data in remote sensing (RS) research usually describes the correction of sensor- and platform-specific radiometric and geometric distortions of RS data. Depending on the available data, this can include the following processing steps (not ordered):
+
+-   **radiometric correction** due to variations in scene illumination and viewing geometry
+-   **geometric correcting /orthorectification** to improve the positional accuracy of image data
+-   **atmospheric correction** to improve the spectral comparability between two scenes
+-   **convertion** of data into various units (e.g., TOA radiation to reflectance) or between different data types (e.g., .img to .tiff)
+-   **compression or subsetting** data to save disc space
+
+Fortunately, both **Landsat 8** and **Sentinel 2** Level-1 products are already radiometrically and geometrically corrected. If you use Level-2 scenes, the atmosphere correction is already done on both products by the data provider, which is a prerequisite especially for a time series analysis. So there is no need for you to do either of this corrections any more!\
+We want to focus on converting the just-downloaded products into GeoTIFF files. A GeoTIFF file is a standard used in many GIS and RS software solutions and allows georeferencing information to be embedded within the TIFF-file itself. Such information includes the map projection, the coordinate system, the ellipsoid, the geodetic datum, the geospatial extent, and many more.
+
+
+## Landsat 8 Preprocessing {#landsat-8-preprocessing .entry-title}
+
+Landsat 8 ships as a [tar-archived file](https://en.wikipedia.org/wiki/Tar_(computing)){target="_blank"} with the spectral bands as individual georeferenced tif images. We want to stack these images into a single geotiff-file, i.e., into a so-called raster stack. Afterwards, it is much easier to work with such a raster stack. While this could also be done in QGIS, we will use R for this preprocessing, because it is easier to automate things this way. This results in the following intermediate steps we have to check off:
+
+1.  unzip your downloaded L8 files
+2.  put together the spectral band files of your choice into a rasterstack
+3.  save this rasterstack to your hard drive
+4.  (optional) delete all redundant data
+5.  (optional) create pyramid layers for a better visualization in QGIS
+
+We will practice everything exemplary on the basis of a single L8 Level-2 data set. There will be an exhaustive explanation for each line of code. Based on that we will develop a script that will automatically do everything for you in the future.
+
+\
+
+**Prerequisite**
+
+The following content requires that you have either successfully downloaded some Landsat 8 scenes as part of the [Download Section Exercise](https://blogs.fu-berlin.de/reseda/earthexplorer-exercise/), or that you have acquired some datasets from the USGS EarthExplorer by your own. If this is not the case, look into the [chapter Landsat / Earthexplorer](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/)!
+
+Done? -- Then start [R-Studio](https://blogs.fu-berlin.de/reseda/r-studio/) now!
+
+\
+
+**Preprocess a single dataset**
+
+We recommend writing the following code in the script window of R-Studio and executing it from there (see [chapter R-Studio](https://blogs.fu-berlin.de/reseda/r-studio/)).\
+The example below assumes that you have one or more Landsat 8 scenes in a "landsatdata"-folder located in the exchange folder of your VM. Otherwise, adjust the folder according to your data!
+
+We will use the [raster library](https://cran.r-project.org/web/packages/raster/raster.pdf){target="_blank"} to write a raster file later. Additional libraries should always be loaded first, using the function [library()]{.crayon-inline .theme:amityreseda}:
+
+``` theme:amityreseda
+library(raster)
+## Loading required package: sp
+```
+
+A few libraries make use of other libraries. So does the raster library with the [sp-package](https://cran.r-project.org/web/packages/sp/sp.pdf){target="_blank"}, which will be loaded automatically.
+
+Then define the Landsat 8 product of your choice with its entire file path and save it as the string variable [product]{.crayon-inline .theme:amityreseda}:
+
+``` r
+product <- "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tar.gz"
+
+file.exists(product)
+## [1] TRUE
+```
+
+**NOTE:** this is just an example -- you have to change the file and its path according to your own settings!\
+You can use the function [file.exists()]{.crayon-inline .theme:amityreseda} to check whether the file can be found on your system or not. If it returns [FALSE]{.crayon-inline .theme:amityreseda}, make sure you did not mess up the file name.
+
+We want to unpack the file into a folder with the same name as the file. The character variable [product]{.crayon-inline .theme:amityreseda} already contains the full name of the Landsat scene. We just have to get rid of the suffix ".tar.gz". Therefore we can use the function [substr()]{.crayon-inline .theme:amityreseda} to delete the last seven characters (=".tar.gz") of the string:
+
+``` r
+productname <- substr(product, 1, nchar(product) - 7) 
+
+productname
+## [1] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412"
+```
+
+The substring function [substr()]{.crayon-inline .theme:amityreseda} accepts three arguments here: a string (the entire file path with the suffix), and two integer values -- one for a start ("1" = start with the first character) and one for a stop position within the given string. In order to define the stop position, we need to count the number of all characters of the file path via [nchar(product)]{.crayon-inline .theme:amityreseda} (which is 77 in our case) and substract 7.
+
+Unzip the Landsat product using the [untar()]{.crayon-inline .theme:amityreseda} method and define the directory to which all data will be extracted by setting the argument [exdir = productname]{.crayon-inline .theme:amityreseda}:
+
+``` r
+untar(product, exdir = productname)
+```
+
+You should notice a new folder being created next to your initial data product. This could take a short moment. During processing, a red exclamation point can be seen in the upper right corner of the console window. **NOTE:** If this step fails, your data is corrupt. In this case, you will need to download the file again because something went wrong during data transfer.\
+After unpacking is complete, we want to have a look in the newly extracted folder and save the file names of all files in this folder into a vector [productfiles]{.crayon-inline .theme:amityreseda} using the function [list.files]{.crayon-inline .theme:amityreseda}. By providing the argument [full.names = TRUE]{.crayon-inline .theme:amityreseda}, the full paths are returned for each file:
+
+``` r
+productfiles <- list.files(productname, full.names = TRUE)
+
+productfiles
+##  [1] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_ANG.txt"       
+##  [2] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_MTL.txt"       
+##  [3] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_pixel_qa.tif"  
+##  [4] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_radsat_qa.tif" 
+##  [5] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_aerosol.tif"
+##  [6] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band1.tif"  
+##  [7] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band2.tif"  
+##  [8] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band3.tif"  
+##  [9] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band4.tif"  
+## [10] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band5.tif"  
+## [11] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band6.tif"  
+## [12] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band7.tif"  
+## [13] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1.xml"
+```
+
+These are all 13 files that come with a Level-2 product (see [Landsat 8](https://blogs.fu-berlin.de/reseda/landsat-8/) for more information). As a double check, you can have a look at the identical files in your file explorer:
+
+[![](./img/preproc_01.png)](./img/preproc_01.png)
+
+Now we want to select all the spectral bands that we want to put into our new data stack. Have a deeper look at the files in [productfiles]{.crayon-inline .theme:amityreseda}. The files are named after the corresponding spectral channels at the end of the file name, e.g., "band1", "band2", and so on. We use these terms to extract the bands by utilizing the [grep()]{.crayon-inline .theme:amityreseda} function. The following code looks a little bloated. Maybe it is. But he gives you the freedom to exclude individual bands that you may not need. **NOTE:** This is an example of level 2 data. Landsat Level-1 scenes potentially have 11 channels. In the case of Level 1 data, you could easily enter the remaining lines here.
+
+``` r
+bands <- c(grep('band1', productfiles, value=TRUE),
+           grep('band2', productfiles, value=TRUE),
+           grep('band3', productfiles, value=TRUE),
+           grep('band4', productfiles, value=TRUE),
+           grep('band5', productfiles, value=TRUE),
+           grep('band6', productfiles, value=TRUE),
+           grep('band7', productfiles, value=TRUE)
+           ) 
+
+bands
+## [1] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band1.tif"
+## [2] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band2.tif"
+## [3] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band3.tif"
+## [4] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band4.tif"
+## [5] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band5.tif"
+## [6] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band6.tif"
+## [7] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band7.tif"
+```
+
+The [grep()]{.crayon-inline .theme:amityreseda} function searches for the string, which is given as the first argument, e.g., 'band1', in the vector of strings (2nd argument). Normally, when the function finds a match, it only returns the position of this find in the vector [productfiles]{.crayon-inline .theme:amityreseda}. By setting the argument [value=TRUE]{.crayon-inline .theme:amityreseda} we can write out the content of the vector at the respective position instead. By doing so, we create an vector [bands]{.crayon-inline .theme:amityreseda} containing all file paths via the standard combine-function [c()]{.crayon-inline .theme:amityreseda}.
+
+Now we can create a rasterstack based on the vector of bands in the variable [bands]{.crayon-inline .theme:amityreseda}. In order to do so, we use the function [stack()]{.crayon-inline .theme:amityreseda}, which is part of the raster-library we loaded in the beginning! This [rasterstack function](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/stack){target="_blank"} creates a rasterstack object based on a list of filenames. You will learn more about the beauty of rasterstacks in the [chapter Visualization](https://blogs.fu-berlin.de/reseda/visualization/).
+
+``` r
+rasterstack <- stack( bands )
+```
+
+We can save this rasterstack and store it on your hard drive via [writeRaster]{.crayon-inline .theme:amityreseda}:
+
+``` theme:amityreseda
+writeRaster(rasterstack, 
+            paste0(productname, ".tif"), 
+            format = "GTiff",
+            overwrite = TRUE
+            )
+```
+
+The [writerRaster fuction](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/writeRaster){target="_blank"} is a powerful tool, which is also provided by the [raster package](https://cran.r-project.org/web/packages/raster/raster.pdf){target="_blank"}. In line 1 we set our rasterstack object as the first argument. In line 2 we define the output name of the new file we will create. To do this, just add the suffix ".tif" to our filename using the handy function [paste0]{.crayon-inline .theme:amityreseda}, which just put all the strings together to one string. Line 3 explicitly defines the output format "GTiff". How should I know this string "GTiff", you ask? These strings are fixed by the function and are also listed for other data formats in the [raster documentation](https://cran.r-project.org/web/packages/raster/raster.pdf){target="_blank"} on page 220. The fourth argument in line 4 only gives the authority to overwrite existing files.
+
+**DONE!** A new file containing all spectral bands is now written directly next to the initial packed file you downloaded!
+
+There are still two useful additional things left to do:\
+First, we can now delete the folder we created by uncompressing your Landsat data because it is no longer needed. So, if you want to save disk space, use the command [unlink()]{.crayon-inline .theme:amityreseda} to simply delete the folder. By setting the argument [recursive=TRUE]{.crayon-inline .theme:amityreseda}, all files within the folder will be deleted:
+
+``` r
+unlink(productname, recursive=TRUE)
+```
+
+Second, it is advisable to create so-called [pyramid layers](http://desktop.arcgis.com/en/arcmap/latest/manage-data/raster-and-images/raster-pyramids.htm){target="_blank"} for each Landsat dataset. Pyramid layers are used to improve performance. They are a downsampled version of the original raster and speed up the display of raster data by retrieving only the data at a specified resolution that is required for the display. We can automatically create them by using the [Geospatial Data Abstraction Library](http://www.gdal.org/){target="_blank"} (GDAL). Initially, GDAL has nothing to do with R, but it can be operated via R using [rgdal](https://www.rdocumentation.org/packages/rgdal/versions/1.3-2){target="_blank"}. However, we use the standalone installation of GDAL at this point, or more precisely, the function [gdaladdo](http://www.gdal.org/gdaladdo.html){target="_blank"}. If you do not use our VM, you have to install GDAL on your machine first. We build the appropriate command to run [gdaladdo]{.crayon-inline .theme:amityreseda} using [paste0()]{.crayon-inline .theme:amityreseda} and pass that command to the [system()]{.crayon-inline .theme:amityreseda} function. The [system()]{.crayon-inline .theme:amityreseda} function executes a command exactly as if you entered it yourself in the command window of Linux. Try it!
+
+``` r
+makeOVR <- paste0("gdaladdo -ro ", productname, ".tif 2 4 8 16")
+
+makeOVR
+## [1] "gdaladdo -ro /media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tif 2 4 8 16"
+
+system( makeOVR )
+```
+
+Run the code and you will create a .ovr-file next to your .tif-file. This ovr-file holds the pyramid information, which will prove useful later in QGIS.
+
+Phew! This was A LOT of (explanatory) text by now. Fortunately, the code is actually much shorter! Here is the complete code for preprocessing one exemplary L8 Level-2 file:
+
+``` r
+library(raster)
+
+product <- "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tar.gz"
+
+productname <- substr(product, 1, nchar(product) - 7) 
+
+untar(product, exdir = productname)
+
+productfiles <- list.files(productname, full.names = TRUE)
+
+bands <- c(grep('band1', productfiles, value=TRUE),
+           grep('band2', productfiles, value=TRUE),
+           grep('band3', productfiles, value=TRUE),
+           grep('band4', productfiles, value=TRUE),
+           grep('band5', productfiles, value=TRUE),
+           grep('band6', productfiles, value=TRUE),
+           grep('band7', productfiles, value=TRUE)
+           ) 
+
+rasterstack <- stack( bands )
+
+writeRaster(rasterstack, 
+            paste0(productname, ".tif"), 
+            format = "GTiff",
+            overwrite = TRUE
+            )
+
+unlink(productname, recursive=TRUE)
+
+makeOVR <- paste0("gdaladdo -ro ", productname, ".tif 2 4 8 16")
+system( makeOVR )
+```
+
+Learn how to automate things for many datasets in the next section!
+
+### Landsat 8 Bulk Preprocessing {#landsat-8-bulk-preprocessing .entry-title}
+
+Imagine you have 50 Landsat 8 records. Of course, it would be very tedious to modify and start the script 50 times. That's why there is now an automated solution for any number of data products!
+
+Again, the prerequisite is that you have the L8 Level-2 datasets downloaded to a folder ("/media/sf_exchange/landsatdata" in ourexample), in which only all of your Landsat 8 scenes are stored -- no other files! Of course you should replace the file path according to your storage location and create a character variable:
+
+``` r
+pathToFiles <- "/media/sf_exchange/landsatdata"
+
+dir(pathToFiles)
+## [1] "LC081920232017083001T1-SC20180613163601.tar.gz"
+## [2] "LC081930232017060201T1-SC20180613160412.tar.gz"
+```
+
+You can check the files inside [pathToFiles]{.crayon-inline .theme:amityreseda} with the [dir()]{.crayon-inline .theme:amityreseda} function. It should list all your Landsat 8 files. If that is not the case, make sure you did not mess up the file path name.\
+We can write all the products that exist in the folder in a vector [products]{.crayon-inline .theme:amityreseda} using the [list.files()]{.crayon-inline .theme:amityreseda} function:
+
+``` r
+products <- list.files(pathToFiles, full.names = TRUE)
+
+products
+## [1] "/media/sf_exchange/landsatdata/LC081920232017083001T1-SC20180613163601.tar.gz"
+## [2] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tar.gz"
+```
+
+To go through all the steps we saw in the previous section above for each of the scenes in [products]{.crayon-inline .theme:amityreseda}, we use a for-loop. Conceptually, the for-loop does the following:
+
+``` r
+for (i in products) {
+  print(i)
+  print("do all the preprocessing stuff")
+}
+## [1] "/media/sf_exchange/landsatdata/LC081920232017083001T1-SC20180613163601.tar.gz"
+## [1] "do all the preprocessing stuff"
+## [1] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tar.gz"
+## [1] "do all the preprocessing stuff"
+```
+
+For all landsat scenes [i]{.crayon-inline .theme:amityreseda} in [products]{.crayon-inline .theme:amityreseda}, it will do all the preprocessing stuff. The variable, or iterator, [i]{.crayon-inline .theme:amityreseda} is just a placeholder, which is sequentially occupied with the file names of the Landsat products.\
+Thus, you can just imagine any filename (as a string) every time you see the iterator i.\
+The remaining steps are then identical to those described above. 
+Here is the complete code. Just adjust your [pathToFiles]{.crayon-inline .theme:amityreseda} and run it in R-Studio to preprocess all of your Landsat 8 Level-2 files!
+
+``` r
+library(raster)
+
+pathToFiles <- "/media/sf_exchange/landsatdata"
+
+products <- list.files(pathToFiles, full.names = TRUE)
+
+for (i in products) {
+  print( paste0("processing: ", i) )
+  
+  productname <- substr(i, 1, nchar(i) - 7) 
+
+  untar(i, exdir = productname)
+  
+  productfiles <- list.files(productname, full.names = TRUE)
+  
+  bands <- c(grep('band1', productfiles, value=TRUE),
+             grep('band2', productfiles, value=TRUE),
+             grep('band3', productfiles, value=TRUE),
+             grep('band4', productfiles, value=TRUE),
+             grep('band5', productfiles, value=TRUE),
+             grep('band6', productfiles, value=TRUE),
+             grep('band7', productfiles, value=TRUE)
+            ) 
+  
+  writeRaster(stack(bands), 
+              paste0(productname, ".tif"), 
+              format = "GTiff"
+              )
+  
+  unlink(productname, recursive=TRUE)
+
+  makeOVR <- paste0("gdaladdo -ro ", productname, ".tif 2 4 8 16")
+  system( makeOVR )
+  }
+```
+
+What does the script for Level-1 data look like? Get an answer and check your knowledge during the following tasks!
+
+
+## Sentinel 2 Preprocessing {#sentinel-2-preprocessing .entry-title}
+
+Sentinel 2 data is delivered as zip-compressed files in Sentinel's own
+SAFE format. The spectral bands are stored as jpg-files in this SAFE
+container in three different geometric resolutions (10 m, 20 m & 60 m as
+shown in [Section Sentinel
+2](https://blogs.fu-berlin.de/reseda/sentinel-2/)). We want to stack
+these jpg-files into a single geotiff-file of an uniform pixelsize of 10
+m, i.e., into a so-called raster stack (because it is much easier to
+work with such a raster stack).\
+Due to the size of the data, we need to subset the important data from
+the SAFE container during preprocessing in order to minimize the
+computational time and the data volume. Otherwise, a single Sentinel 2
+image can quickly grow to 8 GB in size! For this, we will use only
+[desktop app SNAP](https://blogs.fu-berlin.de/reseda/snap/) and its
+commando-line based counterpart, the [Graph Processing Tool
+(GPT)](https://senbox.atlassian.net/wiki/spaces/SNAP/pages/70503475/Bulk+Processing+with+GPT){target="_blank"
+rel="noopener"}. This results in the following intermediate steps:
+
+1.  resample all bands to 10 m
+2.  spatial and bands subset
+3.  save image as geotiff/ bigtiff to hard drive
+
+We want to perform the preprocessing step by step on the basis of an
+Sentinel 2 Level-1 scene in SNAP. Based on that we will develop a graph
+file that will process an arbitrary number of scenes for you!
+
+ 
+
+**Prerequisite**
+
+The following content requires that you have either successfully
+downloaded some Sentinel 2 scenes as part of the [Download Section
+Exercise](https://blogs.fu-berlin.de/reseda/esa-scihub/), or that you
+have acquired some datasets from the ESA SciHUB by your own. If this is
+not the case, look into the [chapter Sentinel /
+SciHUB](https://blogs.fu-berlin.de/reseda/esa-scihub/)!
+
+[Here](https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FSentinel_Data&files=S2A_MSIL2A_20180731T102021_N0208_R065_T32UQD_20180731T132903.zip)
+you can download Sentinel-2 [level
+2](https://earth.esa.int/web/sentinel/user-guides/sentinel-2-msi/product-types/level-2a){target="_blank"
+rel="noopener"} data (from 31th of July 2018) for execute this exercise.
+
+Done? -- Then start [SNAP](https://blogs.fu-berlin.de/reseda/snap/) now!
+
+**Preprocess a single dataset**
+
+If SNAP is started, you can open the zip file of an image directly by
+*File* \> *Open Product*.
+
+[![](./img/Product_RGB_KF_2-1.png)](./img/Product_RGB_KF_2-1.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Open File SNAP]{style="color: #686868;font-size: small"}
+:::
+
+ 
+
+Use SNAP's toolbar to navigate to *Raster* \> *Geometric Operations* and
+open the *Resample* operation:
+
+[![](./img/preproc_02.png)](./img/preproc_02.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Navigation to Resample]{style="color: #686868;font-size: small"}
+:::
+
+A window will pop up with two tabs. In the first tab, define a
+downloaded, zipped Sentinel 2 file as the source product. You do NOT
+need to unzip it in advance! In the example shown below, the file is
+located in the exchange folder of our VM.
+
+[![](./img/Resamplin_KF.png)](./img/Resamplin_KF.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Resampling settings tab 1]{style="color: #686868;font-size: small"}
+:::
+
+Click on the second tab "Resampling Parameters". Select spectral band 2
+here to define the geometric resolution of the final product (band 2 has
+a resolution of 10 m) and press
+![](./img/preproc_06.png){.alignnone
+.size-full .wp-image-1716 loading="lazy" width="55" height="24"}:
+
+[![](./img/preproc_04.png)](./img/preproc_04.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Resampling settings tab 2]{style="color: #686868;font-size: small"}
+:::
+
+This should create a "virtual file" with the suffix "\_resampled", which
+is not stored physically on your hard drive. The advantage is that no
+computationally intensive processes have taken place here and we can
+continue to calculate with the intermediate product, which should be
+listed in the Product Explorer in SNAP. You will also get a notification
+about this. Confirm this with OK:
+
+[![](./img/preproc_07.png)](./img/preproc_07.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Virtual product notification]{style="color: #686868;font-size: small"}
+:::
+
+Close the Resampling tool.
+
+With a right click on the processed image (product) \> *Open RGB Image*
+Window you can open differnet band combinations:
+
+[![](./img/Opern_RGB_SNAP_KF.png)](./img/Opern_RGB_SNAP_KF.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Open as RGB Image]{style="color: #686868;font-size: small"}
+:::
+
+ 
+
+Navigate to the Subset function:
+
+[![](./img/preproc_08.png)](./img/preproc_08.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Subset function in Toolbar]{style="color: #bfbfbf;font-size: small"}
+:::
+
+The subset function allows you to perform both spatial and spectral
+resampling. By excluding irrelevant data, you can reduce the volume of
+data by several orders of magnitude. In the example shown below, we do a
+spatial subset based on geographic coordinates and only select specific
+bands:
+
+[![](./img/preproc_09.png)](./img/preproc_09.png)
+
+[![](./img/Band_selection_KF.png)](./img/Band_selection_KF.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Subset function settings]{style="color: #686868;font-size: small"}
+:::
+
+By pressing OK, another data product with the prefix "subset" is
+generated within a second and should be visible in the Product Explorer
+in SNAP. Select the newly created data product in the Product Explorer
+by a simple left-click on it and navigate through the toolbar to *File*
+\> *Export* \> GeoTIFF, as shown in the next screenshot. If you notice
+that your file is larger than 4 GB, you can also choose BIGTIFF as the
+target file format. BigTIFF describes a GeoTIFF file that is over 4 GB
+in size. However, saving a BiTIFF file in SNAP is very slow, especially
+for machines with only 8 GB of RAM. Therefore try to use the GeoTIFF
+file format first:
+
+[![](./img/export_2.png)](./img/export_2.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Export function]{style="color: #686868;font-size: small"}
+:::
+
+In the window of the export function you can then define the file path
+and the name of the exported file. Then press **Export Product** to
+start the processing:
+
+[![](./img/export_3.png)](https://blogs.fu-berlin.de/reseda/files/2019/07/export_3.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Export function settings]{style="color: #686868;font-size: small"}
+:::
+
+The processing will take some time from now on, based on the spatial
+subset and the number of bands you selected.
+
+**Here you can watch all presented pre-processing steps of Sentinel-2
+data:**
+
+::: {.lyte-wrapper .fourthree style="width:420px;max-width:100%;margin:5px;"}
+::: {#WYL_cXbXHgELbjQ .lyte .lP}
+[![](https://i.ytimg.com/vi/cXbXHgELbjQ/0.jpg){width="420"
+height="295"}\
+Watch this video on YouTube](https://youtu.be/cXbXHgELbjQ)
+:::
+:::
+
+
+### Sentinel 2 Bulk Preprocessing {#sentinel-2-bulk-preprocessing .entry-title}
+
+This section contains advanced techniques. Understanding these
+techniques is particularly relevant if you want to pre-process dozens of
+Sentinel 2 data in an identical way.\
+We will create a graph in SNAP and then modify it to process all data
+automatically via the Graph Processing Tool (GPT)!
+
+Open SNAP and click on the graph builder icon
+![](./img/SNAP_buttons_05.png){.alignnone
+.size-full .wp-image-899 width="28" height="32"} in the Toolbar. You
+will see a new window pop up, which shows a standard graph (containing
+one **Read** and one **Write** node) in the upper area and some options
+in the lower area. Right click somewhere in the white area at upper
+window to add new nodes, i.e., processing steps, to the graph. Navigate
+to *Add* \> *Raster* \> *Geometric* \> *Resample* to add an **Resample**
+and a **Subset** node (those are the steps we used in the above
+section):
+
+[![](./img/preproc_13.png)](./img/preproc_13.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Add new nodes to the graph via a right
+click]{style="color: #686868;font-size: small"}
+:::
+
+Each processing step is visualized by a rectangle in the graph. You can
+drag those rectangles, or nodes, to whichever position you want with
+pressed left mouse button. Your graph should now look something like
+this:
+
+[![](./img/preproc_14.png)](./img/preproc_14.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Unconnected graph]{style="color: #686868;font-size: small"}
+:::
+
+The individual nodes are not yet linked. If you rest the mouse pointer
+over the right edge of a rectangle, you will see a red arrow. Drag this
+arrow with pressed left mouse button to the next node in the following
+order:
+
+[![](./img/preproc_15.png)](./img/preproc_15.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Connected graph]{style="color: #686868;font-size: small"}
+:::
+
+Next, click on the **Read** Node and load one of your ZIP-compressed
+Sentinel 2 scenes into the Source Product setting. This could take a
+short moment. **Attention:** From now on, it will always take a little
+while to switch back and forth between the processing nodes, as SNAP
+will process and read your data as virtual products in the background!
+
+Now either click through the tabs at the bottom of the Graph Builder
+window or through the rectangles at the top to set the following options
+for the **Resampling**, the **Subset** and the **Write** node (according
+to the settings made in the previous section):
+
+::: {.h5p-iframe-wrapper style=""}
+:::
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Graph settings]{style="color: #686868;font-size: small"}
+:::
+
+The spatial section in the Subset node should be made using the
+geographic coordinates. However, the linked map is quite blurred and
+therefore not much help. However, under the map you can define any
+spatial subset using the Well-Known Text (WKT) format. There are a
+number of [simple online
+tools](http://arthur-e.github.io/Wicket/sandbox-gmaps3.html){target="_blank"
+rel="noopener"} for creating such WKTs. Copy the entire "Polygon(())"
+expression into the line below the map within the subset Node:
+
+POLYGON((13.11 52.65, 13.70 52.65, 13.70 52.35, 13.11 52.35, 13.11
+52.65))
+
+Of course, you can add more processing steps later for your own
+analysis. When you are done click Save on the bottom of the Graph
+Builder window and save your graph as "myGraph.xml" to your hard drive
+(exchange folder recommended):
+
+[![](./img/preproc_20.png)](./img/preproc_20.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Save graph as .xml-file]{style="color: #686868;font-size: small"}
+:::
+
+**Automate Things Using GPT**
+
+Close SNAP, as we do not need it anymore. Now, open a terminal, which is
+linked in the taskbar of our VM:
+
+[![](./img/USGS_036.png)](./img/USGS_036.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Linux terminal shortcut in
+taskbar]{style="color: #686868;font-size: small"}
+:::
+
+It is possible to run the graph using the GPT now. The GPT can be found
+in our VM in the file path "/home/student/snap/bin/gpt". Consequently,
+we can execute the graph with the following command (change the file
+path corresponding to the location of your graph file!):
+
+``` {.theme:amityresedaterminal .nums:false}
+/home/student/snap/bin/gpt /media/sf_exchange/sentineldata/myGraph.xml
+```
+
+Replace the path with the path of your file, copy it to the terminal and
+press Enter!
+
+[![](./img/preproc_21.png)](./img/preproc_21.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Execute graph via GPT in command
+line]{style="color: #686868;font-size: small"}
+:::
+
+A pre-processed file should be created directly in the same folder as
+your zip-compressed source file.\
+However, you can only process one file with the graph so far... That is
+not exactly what we wanted. That is why we will make some changes to the
+xml-file now. Right click the xml-file and choose *Open With* \> *Open
+With "Text Editor"*. Take a moment to understand how the file is
+structured. The individual inputs and outputs of all processes, or
+nodes, are saved here as a text. Each of the successive processes is
+opened by a [\<node = id ""\>]{.crayon-inline
+.theme:amityresedaterminal} tag and closed by [/node\>]{.crayon-inline
+.theme:amityresedaterminal}.\
+Search for the **Read** node. Within that node, a line should list the
+Sentinel 2 file you used when creating the graph (the line number may
+differ in your xml):
+
+[![](./img/preproc_22.png)](./img/preproc_22.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Read node in xml]{style="color: #686868;font-size: small"}
+:::
+
+Replace the filename (marked green in the figure above) with the
+placeholder [\$input]{.crayon-inline .theme:amityresedaterminal}:
+
+[![](./img/preproc_24.png)](./img/preproc_24.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Modified Read node in xml]{style="color: #686868;font-size: small"}
+:::
+
+Now search for the **Write** node:
+
+[![](./img/preproc_23.png)](./img/preproc_23.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Write node in xml]{style="color: #686868;font-size: small"}
+:::
+
+And replace the file path with the placeholder [\$output]{.crayon-inline
+.theme:amityresedaterminal}:
+
+[![](./img/preproc_25.png)](./img/preproc_25.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Modified Write node in xml]{style="color: #686868;font-size: small"}
+:::
+
+The input and output paths have now been replaced by placeholders, which
+could dynamically accept any file. When calling the graph via GPT, the
+two variables [\$input]{.crayon-inline .theme:amityresedaterminal} and
+[\$output]{.crayon-inline .theme:amityresedaterminal} must always be
+defined with from now on. A possible call for a file might look like
+this:
+
+``` r
+/home/student/snap/bin/gpt /media/sf_exchange/sentineldata/myGraph.xml -Pinput=/media/sf_exchange/sentineldata/S2B_MSIL1C_20170830T102019_N0205_R065_T33UUU_20170830T102531.zip -Poutput=/media/sf_exchange/sentineldata/S2B_MSIL1C_20170830T102019_N0205_R065_T33UUU_20170830T102531_sub_res.tif
+```
+
+Of course, we can take advantage of this and use a for-loop to go
+through and process all the Sentinel 2 datasets located in a folder one
+after another using R or a bash script. We have prepared a bash script
+for you, which does just that, located in
+[/home/student/Documents/S2_proc.bash]{.crayon-inline
+.theme:amityresedaterminal}. This script tells the bash shell of Linux
+what it has to do, so you will need our VM or any Linux operating
+system. To run the script, open a terminal, reference the script and
+give it two arguments: first the full path to your graph .xml file and
+second the path where the downloaded Sentinel 2 zip-files are located. A
+possible command might look like this:
+
+``` {.theme:amityresedaterminal .nums:false}
+/home/student/Documents/S2_proc.bash /media/sf_exchange/sentineldata/myGraph.xml /media/sf_exchange/sentineldata/
+```
+
+The script starts as soon as you press enter and writes the output to a
+new folder called "Processed", which will be created next to your S2 zip
+files.
+
+[![](./img/preproc_26.png)](./img/preproc_26.png)
+
+ 
+
+### Cloud Masking for Sentinel-2 images {#cloud-masking-for-sentinel-2-images .entry-title}
+
+[If there are clouds or cloud shadows on your sentinel-2 scene, they can be mask out using the *quality scene classification band* of your scene.\
+]{title=""}\
+[![](./img/Quality_scene_1_KF.png)](./img/Quality_scene_1_KF.png){.fancybox .image}
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Sentinel-2 scene (true color) with clouds and cloud shadows]{style="color: #686868;font-size: small"}
+:::
+
+Image quality band and the classes we want to delete for our mask (Values): 3 (cloud shadows), 7 (unclassified), 8 (cloud medium probability), 9 (cloud high probability), 10 (thin cirrus) and 11 (snow or ice). For other scenes, you have to adjust the classes if necessary.
+
+[![](./img/Quality_scene_KF.png)](./img/Quality_scene_KF.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Sentinel-2 scene with quality scene classification]{style="color: #686868;font-size: small"}
+:::
+
+[Here](https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FSentinel_Data&files=subset_0_of_S2A_MSIL2A_20190626T102031_N0212_R065_T32UQD_20190626T125319_resampled.tif){target="_blank" rel="noopener"} you can download a Sentinel-2 image for executing this pre-processing step. For the scene which we used in the pre-processing before is no cloud correction necessary.
+
+**Processing steps in RStudio:**
+
+Open R-Studio and install, open the required packages and set your working directory:
+
+``` r
+install.packages("raster")
+install.packages("rgdal")
+
+library(raster)
+library(rgdal)
+
+setwd("D:\\elearning\\exchange\\R")
+```
+
+Open and plot the image:
+
+``` r
+sen2 <- stack("subset_0_of_S2A_MSIL2A_20190626T102031_N0212_R065_T32UQD_20190626T125319_resampled.tif")
+plot(sen2)
+plotRGB(sen2, 4,3,2, stretch="lin")
+```
+
+Separate spectral bands and classification (band 1 to 12 is the mulispectral Sentinel- 2 scene, band 13 is the quality classification band):
+
+``` r
+sen2_bands <- sen2[[-13]]
+sen2_mask <- sen2[[13]]
+plot(sen2_mask)
+```
+
+Which pixels do we want to mask?
+
+``` r
+plot(sen2_mask)
+sen2_mask_combi <- sen2_mask
+sen2_mask_combi[sen2_mask == 3 |sen2_mask == 7 |sen2_mask == 8 | sen2_mask == 9 |sen2_mask == 10 |sen2_mask == 11 ] <- NA
+
+plot(sen2_mask_combi)
+writeRaster(sen2_mask_combi, "sen2_mask.tif")
+```
+
+[![](./img/Maske.png)](./img/Maske.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Mask without the classes: 3,7,8,9,10,11\
+]{style="color: #686868;font-size: small"}
+:::
+
+Apply mask:
+
+``` r
+sen2_bands_masked <- raster::mask(sen2_bands,sen2_mask_combi)
+plotRGB(sen2_bands_masked, 4,3,2,stretch="lin")
+writeRaster(sen2_bands_masked, "sen2_masked.tif")
+```
+
+[![](./img/Maske_applied.png)](./img/Maske_applied.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Applied mask\
+]{style="color: #686868;font-size: small"}
+:::
+
+...or the whole part in short:
+
+``` r
+sen2_bands_masked_a <- sen2_bands
+sen2_bands_masked_a [sen2_mask == 3 |sen2_mask == 7 |sen2_mask == 8 | sen2_mask == 9 |sen2_mask == 10 |sen2_mask == 11 ] <- NA
+writeRaster(sen2_bands_masked_a, "sen2_masked_alternativ.tif")
+```

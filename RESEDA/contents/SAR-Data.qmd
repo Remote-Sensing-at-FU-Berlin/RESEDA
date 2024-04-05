@@ -1,0 +1,24 @@
+::: {#main .site-main role="main"}
+::: entry-header
+# SAR Data {#sar-data .entry-title}
+:::
+
+::: entry-content
+As optical data, **S**ynthetic **A**perture **R**adar (SAR) data need pre-processing to account for geometric distortions (layover and foreshortening) and for differences in illumination conditions due to topography (shadowing). Additionally, SAR data is often quite noisy because of backscattered radio signal from small features on the earth's surface. This effect is referred to as salt-and-pepper effect, or speckle noise and needs to be removed by speckle filtering.\
+As you can see, depending on the application, SAR pre-processing can be quite complicated. The interpretation of SAR data becomes easier once the underlying principles are known and understood in detail. Therefore, it is advisable to attend the seminars "Remote Sensing and Digital Image Processing" and "Advanced Geomatics" in order to gain a basic understanding of the processing of radar and SAR data before you proceed.
+
+Anyway, if you need further details about pre-processing SAR signals, have a look at the [ESA tutorials](https://sentinel.esa.int/web/sentinel/toolboxes/sentinel-1/tutorials){rel="noopener" target="_blank"}.
+
+::: {style="background-color:#f1f1f1;padding:18px 30px 1px"}
+# Section in a Box
+
+This section guides you through two complete preprocessing workflows for Sentinel 1 imagery.
+
+[**Produce Intensity Images from SLC data**](https://blogs.fu-berlin.de/reseda/intensity-image/)\
+-- generate intensity images from S1 SLC data\
+-- perform a calibration, terrain flattening and terrain correction\
+[**Gray-Level Co-Occurrence Matrix (GLCM) Texture Metrics**](https://blogs.fu-berlin.de/reseda/texture-metrics-glcm/)\
+-- generate 10 texture metrics (Contrast, Dissimilarity, Homogeneity, Angular Second Moment, Energy, Maximum Probability, Entropy, GLCM Mean, GLCM Variance, GLCM Correlation)
+:::
+:::
+:::

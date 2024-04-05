@@ -1,5 +1,4 @@
 ---
-title: "RESEDA"
 image: "reseda-logo.png"
 about:
   template: trestles
