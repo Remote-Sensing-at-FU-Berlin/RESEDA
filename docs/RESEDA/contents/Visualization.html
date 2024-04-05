@@ -303,7 +303,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#visualization" id="toc-visualization" class="nav-link active" data-scroll-target="#visualization">Visualization</a>
   <ul class="collapse">
-  <li><a href="#visualization-basics" id="toc-visualization-basics" class="nav-link" data-scroll-target="#visualization-basics">Visualization Basics</a>
+  <li><a href="#VisualBasics" id="toc-VisualBasics" class="nav-link" data-scroll-target="#VisualBasics">Visualization Basics</a>
   <ul class="collapse">
   <li><a href="#singleband-vs-multiband" id="toc-singleband-vs-multiband" class="nav-link" data-scroll-target="#singleband-vs-multiband">Singleband vs Multiband</a></li>
   <li><a href="#histograms-and-contrast-stretching" id="toc-histograms-and-contrast-stretching" class="nav-link" data-scroll-target="#histograms-and-contrast-stretching">Histograms and Contrast Stretching</a></li>
@@ -327,30 +327,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="visualization" class="level1 entry-title">
 <h1 class="entry-title">Visualization</h1>
 <p>Alright, you have some image data now. The next step is to get an overview of the radiometric and geometric properties of the imagery you own. The comparison of several data sets is especially comfortable in QGIS with its overlay functionalities. However, we also want to take a closer look at the visualization capacities of R in order to achieve an optimal image presentation.</p>
-<p>We will do some visualization settings on a Landsat 8 Scene data downloaded in the chapter <a href="https://blogs.fu-berlin.de/reseda/acquire/">Acquire</a>. So if you have not done the exercises yet, catch it up <a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/">here</a>.</p>
+<p>We will do some visualization settings on a Landsat 8 Scene data downloaded in the chapter <a href="../../RESEDA/contents/Acquireyourdata.html">Acquire</a>. So if you have not done the exercises yet, catch it up <a href="../../RESEDA/contents/Download.html##EarthExplorer">here</a>.</p>
 <div style="background-color:#f1f1f1;padding:18px 30px 1px">
 <p>In this section you will learn how to best represent image data in QGIS and R using different contrast stretchings and (false-)color composites.</p>
-<p><a href="https://blogs.fu-berlin.de/reseda/visualization/#1"><strong>Visualization Basics</strong></a><br>
+<p><a href="../../RESEDA/contents/Visualization.html#VisualBasics"><strong>Visualization Basics</strong></a><br>
 – singleband vs multiband<br>
 – different color composites and their advantages<br>
 – histograms explained<br>
-<a href="https://blogs.fu-berlin.de/reseda/visualize-in-qgis/"><strong>Visualize data in QGIS</strong></a><br>
+<a href="../../RESEDA/contents/Visualization.html#visualize-in-qgis"><strong>Visualize data in QGIS</strong></a><br>
 – import a L8 scene<br>
 – compare singleband and multiband visualization<br>
 – min/ max contrast stretching<br>
-<a href="https://blogs.fu-berlin.de/reseda/visualize-in-r/"><strong>Visualize data in R/ R-Studio</strong></a><br>
+<a href="../../RESEDA/contents/Visualization.html#visualize-in-r"><strong>Visualize data in R/ R-Studio</strong></a><br>
 – import a L8 scene<br>
 – compare singleband and multiband visualization<br>
 – different contrast stretchings</p>
 </div>
-<section id="visualization-basics" class="level2">
-<h2 class="anchored" data-anchor-id="visualization-basics">Visualization Basics</h2>
+<section id="VisualBasics" class="level2">
+<h2 class="anchored" data-anchor-id="VisualBasics">Visualization Basics</h2>
 <p>In the following basic concepts and terms are discussed and a understanding for the following section will be developed.</p>
 <p><br>
 </p>
 <section id="singleband-vs-multiband" class="level3">
 <h3 class="anchored" data-anchor-id="singleband-vs-multiband">Singleband vs Multiband</h3>
-<p>Most optical imaging satellite systems measure radiance in multiple spectral bands, including Landsat 8 and Sentinel 2 (see section <a href="https://blogs.fu-berlin.de/reseda/sensor-basics/">Sensor Basics</a>). As shown in the section <a href="https://blogs.fu-berlin.de/reseda/preprocess-optical-data/">Preprocess</a>, these spectral bands are delivered as individual jpg- or tif-files within the data products. You can visualize each of those images separately by choosing a gray scale gradient (or any color slice). The following picture shows only the green band of an orthophoto of Berlin. Bright areas indicate high intensity of solar radiation reflected by the targets in the pixel, dark areas indicate low intensity:</p>
+<p>Most optical imaging satellite systems measure radiance in multiple spectral bands, including Landsat 8 and Sentinel 2 (see section <a href="../../RESEDA/contents/SensorBasics.html">Sensor Basics</a>). As shown in the section <a href="../../RESEDA/contents/Preprocess.html">Preprocess</a>, these spectral bands are delivered as individual jpg- or tif-files within the data products. You can visualize each of those images separately by choosing a gray scale gradient (or any color slice). The following picture shows only the green band of an orthophoto of Berlin. Bright areas indicate high intensity of solar radiation reflected by the targets in the pixel, dark areas indicate low intensity:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="./img/vis_002.png"><img src="./img/vis_002.png" class="img-fluid figure-img"></a></p>
@@ -377,7 +377,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Three bands (grey scale singlebands) form a multiband (RGB composite)</span></p>
 </div>
-<p>In this example, color representation is what we would assume: trees are green, footpaths are gray, and roofs are brown. This representation is called <strong>true-color composite</strong> and is achieved when the blue slot is occupied by the blue spectral band of the satellite sensor, the green slot with the green band and the red slot with the red band (have a look at the bands of <a href="https://blogs.fu-berlin.de/reseda/landsat-8/">L8</a> and <a href="https://blogs.fu-berlin.de/reseda/sentinel-2/">S2</a> again!). Since sensors have far more spectral bands, there is a wide range of possible band combinations, so called <strong>false-color</strong>, or <strong>pseudocolor composites</strong>. Over time, some of these combinations have proven useful for specific issues:</p>
+<p>In this example, color representation is what we would assume: trees are green, footpaths are gray, and roofs are brown. This representation is called <strong>true-color composite</strong> and is achieved when the blue slot is occupied by the blue spectral band of the satellite sensor, the green slot with the green band and the red slot with the red band (have a look at the bands of <a href="../../RESEDA/contents/Preprocess-Optical-Data.html#landsat-8-preprocessing">L8</a> and <a href="../../RESEDA/contents/Preprocess-Optical-Data.html#sentinel-2-preprocessing">S2</a> again!). Since sensors have far more spectral bands, there is a wide range of possible band combinations, so called <strong>false-color</strong>, or <strong>pseudocolor composites</strong>. Over time, some of these combinations have proven useful for specific issues:</p>
 <table class="table">
 <colgroup>
 <col style="width: 13%">
@@ -455,20 +455,18 @@ However, the complete range of theoretically possible digital numbers is rarely 
 </figure>
 </div>
 <div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Green band of a orthophoto; schematic contrast stretching – left: original image view, right: enhanced contrast due to contrast stretching</span></p>
+<p>Green band of a orthophoto; schematic contrast stretching – left: original image view, right: enhanced contrast due to contrast stretching]{style=“color: #686868;font-size: small”}</p>
 </div>
 <p>The image now takes on the full dynamic range and subjectively looks better to the human eye. The actual values of the dataset remain unaffected by any contrast stretching – it is only a modification for visual purposes. An underlying color or lookup table translates the original DNs to the stretched DNs. In addition to the Minimum-Maximum method, there are other stretch procedures available, such as <strong>Standard Deviations</strong>, <strong>Percent Clip</strong> or <strong>Sigmoid</strong>.</p>
 </section>
 </section>
 </section>
-<section id="visualize-in-qgis" class="level1 entry-title">
-<h1 class="entry-title">Visualize in QGIS</h1>
-<p>The prerequisite for this chapter is that you have <a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/" target="_blank" rel="noopener">downloaded</a> and <a href="https://blogs.fu-berlin.de/reseda/landsat-8-preprocessing/" target="_blank" rel="noopener">preprocessed</a> at least one Landsat 8 scene. If you completed the <a href="https://blogs.fu-berlin.de/reseda/earthexplorer-exercise/" target="_blank" rel="noopener">EarthExplorer exercise</a> successfully, you should already own the Landsat 8 Level-2 scene of June 2, 2017 (ID: LC08_L1TP_193023_20170602_20170615_01_T1). You can download <a href="https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FLandsat_Data&amp;files=LC081930232017060201T1-SC20180613160412.tif" target="_blank" rel="noopener">the preprocessed scene here</a>. We will use this image to explain the basic visualization tools in QGIS.</p>
+<section id="visualize-in-qgis" class="level1">
+<h1>Visualize in QGIS</h1>
+<p>The prerequisite for this chapter is that you have <a href="../../RESEDA/contents/Download.html#EarthExplorer">downloaded</a> and <a href="../../RESEDA/contents/Preprocess.html">preprocessed</a> at least one Landsat 8 scene. If you completed the <a href="../../RESEDA/contents/Download.html#EarthExplorer">EarthExplorer exercise</a> successfully, you should already own the Landsat 8 Level-2 scene of June 2, 2017 (ID: LC08_L1TP_193023_20170602_20170615_01_T1). You can download <a href="https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FLandsat_Data&amp;files=LC081930232017060201T1-SC20180613160412.tif">the preprocessed scene here</a>. We will use this image to explain the basic visualization tools in QGIS.</p>
 <section id="import-a-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="import-a-dataset">Import a Dataset</h2>
-<p>First of all, open <a href="https://blogs.fu-berlin.de/reseda/qgis/">QGIS</a>.<br>
-QGIS is very similar to ArcGIS/ ArcMap, which you already know from the second semester (GIS course: “Geographische Informationssysteme”).<br>
-As with all operations, there are several ways to open a raster dataset here: Either navigate via the main menu to <em>Layer</em> &gt; <em>Add Layer</em> &gt; <em>Add Raster Layer…</em>, or press the corresponding icon <img src="./img/vis_008.png" class="alignnone size-full wp-image-1909" width="24" height="24"> in the toolbar or press the shortcut <strong>Ctrl + Shift + R</strong> to open a file explorer window.</p>
+<p>First of all, open <a href="../../RESEDA/contents/QGIS.html">QGIS</a>. QGIS is very similar to ArcGIS/ ArcMap, which you already know from the second semester (GIS course: “Geographische Informationssysteme”). As with all operations, there are several ways to open a raster dataset here: Either navigate via the main menu to <em>Layer</em> &gt; <em>Add Layer</em> &gt; <em>Add Raster Layer…</em>, or press the corresponding icon <img src="./img/vis_008.png" class="alignnone size-full wp-image-1909" width="24" height="24"> in the toolbar or press the shortcut <strong>Ctrl + Shift + R</strong> to open a file explorer window.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="./img/vis_007.png"><img src="./img/vis_007.png" class="img-fluid figure-img"></a></p>
@@ -499,8 +497,7 @@ As with all operations, there are several ways to open a raster dataset here: Ei
 </section>
 <section id="singleband-visualization" class="level2">
 <h2 class="anchored" data-anchor-id="singleband-visualization">Singleband Visualization</h2>
-<p>By default, QGIS maps the first three bands of a given rasterstack to the red, green and blue “slots” to create a color image. But we can also look at all the bands in the L8 layer stack individually.<br>
-Open the Layer Properties dialog for the image layer by right-clicking on it in the Layer Panel and selecting Properties option or simply double-click the image layer. Switch to the Style tab and set <strong>Singleband gray</strong> in the drop down menu for the <strong>Render type</strong> option. You can choose the spectral channel you want to visualize by setting <strong>Gray band</strong> directly below. Confirm by clicking OK:</p>
+<p>By default, QGIS maps the first three bands of a given rasterstack to the red, green and blue “slots” to create a color image. But we can also look at all the bands in the L8 layer stack individually. Open the Layer Properties dialog for the image layer by right-clicking on it in the Layer Panel and selecting Properties option or simply double-click the image layer. Switch to the Style tab and set <strong>Singleband gray</strong> in the drop down menu for the <strong>Render type</strong> option. You can choose the spectral channel you want to visualize by setting <strong>Gray band</strong> directly below. Confirm by clicking OK:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="./img/vis_012.png"><img src="./img/vis_012.png" class="img-fluid figure-img"></a></p>
@@ -524,8 +521,7 @@ Open the Layer Properties dialog for the image layer by right-clicking on it in 
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Landsat 8 band 1, West of Berlin, stretched based on global statistics</span></p>
 </div>
-<p>The city looks a bit oversaturated and offers little contrast. So far, we have used the information of the entire scene for contrast stretching. Since possible cloud fields and other edge areas of the scene are included in the calculation of the min/max values, it is advisable to zoom in on a cloud-free area and recalculate the values based on the currently visible canvas.<br>
-So search for a cloud-free spot in your image, open the Layer Properties again and select <strong>Clip extent to canvas</strong> just below the <strong>Load</strong> button. Then click the <strong>Load</strong> button and <strong>OK</strong>:</p>
+<p>The city looks a bit oversaturated and offers little contrast. So far, we have used the information of the entire scene for contrast stretching. Since possible cloud fields and other edge areas of the scene are included in the calculation of the min/max values, it is advisable to zoom in on a cloud-free area and recalculate the values based on the currently visible canvas. So search for a cloud-free spot in your image, open the Layer Properties again and select <strong>Clip extent to canvas</strong> just below the <strong>Load</strong> button. Then click the <strong>Load</strong> button and <strong>OK</strong>:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="./img/vis_015.png"><img src="./img/vis_015.png" class="img-fluid figure-img"></a></p>
@@ -583,20 +579,20 @@ So search for a cloud-free spot in your image, open the Layer Properties again a
 <p>Look at the forest areas in the southwest of the clipping (Berlin, Grunewald). The trees look so much more differentiated in the NIR and MIR bands – what an information gain!</p>
 </section>
 </section>
-<section id="visualize-in-r" class="level1 entry-title">
-<h1 class="entry-title">Visualize in R</h1>
-<p>Also for this chapter it is a requirement that you own at least one Landsat 8 scene. We will visualize the Landsat 8 Level-2 scene (ID: LC08_L1TP_193023_20170602_20170615_01_T1) in R in this section, which you may have already downloaded in our <a href="https://blogs.fu-berlin.de/reseda/earthexplorer-exercise/">EarthExplorer download exercise</a>. You can download <a href="https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FLandsat_Data&amp;files=LC081930232017060201T1-SC20180613160412.tif" target="_blank" rel="noopener">the preprocessed file here</a>.</p>
+<section id="visualize-in-r" class="level1">
+<h1>Visualize in R</h1>
+<p>Also for this chapter it is a requirement that you own at least one Landsat 8 scene. We will visualize the Landsat 8 Level-2 scene (ID: LC08_L1TP_193023_20170602_20170615_01_T1) in R in this section, which you may have already downloaded in our <a href="../../RESEDA/contents/Download.html#EarthExplorer">EarthExplorer download exercise</a>. You can download <a href="https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FLandsat_Data&amp;files=LC081930232017060201T1-SC20180613160412.tif" target="_blank" rel="noopener">the preprocessed file here</a>.</p>
 <p>When you are ready, open R-Studio.</p>
 <p>We need the raster package again, so import it into your current working session first:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Loading required package: sp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The raster package offers various structures for importing data, depending on how the image data precedes:</p>
 <ul>
-<li><span class="crayon-inline theme:amityreseda">layer()</span> – one file, one band</li>
-<li><span class="crayon-inline theme:amityreseda">stack()</span> – multiple files, multiple bands</li>
-<li><span class="crayon-inline theme:amityreseda">brick()</span> – one file, multiple bands</li>
+<li><code>layer()</code> – one file, one band</li>
+<li><code>stack()</code> – multiple files, multiple bands</li>
+<li><code>brick()</code> – one file, multiple bands</li>
 </ul>
-<p>During preprocessing (chapter <a href="https://blogs.fu-berlin.de/reseda/landsat-8-preprocessing/">Preprocess</a>), we saved the individual bands of the Landsat 8 scenes in a single geotiff-container. So we created one file with several bands, so we need the <span class="crayon-inline theme:amityreseda">brick()</span> function for an import into R:</p>
+<p>During preprocessing (chapter <a href="../../RESEDA/contents/Preprocess.html">Preprocess</a>), we saved the individual bands of the Landsat 8 scenes in a single geotiff-container. So we created one file with several bands, so we need the <code>brick()</code> function for an import into R:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">"/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tif"</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">brick</span>(path)</span>
@@ -611,8 +607,8 @@ So search for a cloud-free spot in your image, open the Layer Properties again a
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="do">## names       : LC0819302//13160412.1, LC0819302//13160412.2, LC0819302//13160412.3, LC0819302//13160412.4, LC0819302//13160412.5, LC0819302//13160412.6, LC0819302//13160412.7 </span></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="do">## min values  :            -3.400e+38,            -2.000e+03,            -1.685e+03,            -1.384e+03,            -2.720e+02,            -1.060e+02,            -6.500e+01 </span></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="do">## max values  :                 13333,                 13643,                 14703,                 14674,                 14331,                 15137,                 15638</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>By calling the object <span class="crayon-inline theme:amityreseda">img</span> in line 5, the most important metadata can be viewed, e.g., raster dimensions, geometric resolution, geographical extent, coordinate system, file path, as well as minimum and maximum digital numbers per band. This completes the import of the L8 image as a RasterBrick object into R.</p>
-<p>We can now plot the image data. The <span class="crayon-inline theme:amityreseda">plotRGB()</span> function is a convenient way to visualize different RGB composites. Check out the help for this feature in R-Studio by running <span class="crayon-inline theme:amityreseda">?plotRGB</span>! The function has three arguments called <span class="crayon-inline theme:amityreseda">r =</span>, <span class="crayon-inline theme:amityreseda">g =</span>, and <span class="crayon-inline theme:amityreseda">b =</span>, which define the three layers to be used for the RGB slots in a RasterBrick or Rasterstack.<br>
+<p>By calling the object <code>img</code> in line 5, the most important metadata can be viewed, e.g., raster dimensions, geometric resolution, geographical extent, coordinate system, file path, as well as minimum and maximum digital numbers per band. This completes the import of the L8 image as a RasterBrick object into R.</p>
+<p>We can now plot the image data. The <code>plotRGB()</code> function is a convenient way to visualize different RGB composites. Check out the help for this feature in R-Studio by running <code>?plotRGB</code>! The function has three arguments called <code>r =</code>, <code>g =</code>, and <code>b =</code>, which define the three layers to be used for the RGB slots in a RasterBrick or Rasterstack.<br>
 If we just want to visualize one band (singleband visualization), we will fill all three slots with the same band, e.g.&nbsp;the green band:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(img,</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">3</span>,</span>
@@ -623,8 +619,8 @@ If we just want to visualize one band (singleband visualization), we will fill a
 <p><a href="./img/vis_024.png"><img src="./img/vis_024.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
-<p>The stretch argument in line 3 was set to “lin” in order to perform a minimum-maximum contrast stretching to increase the contrast of the image, as described <a href="https://blogs.fu-berlin.de/reseda/visualization/#3">here</a>.<br>
-We can also do a spatial subsetting here by specifying an “Extent”-object using the <span class="crayon-inline theme:amityreseda">ext =</span> argument:</p>
+<p>The stretch argument in line 3 was set to “lin” in order to perform a minimum-maximum contrast stretching to increase the contrast of the image, as described <a href="../../RESEDA/contents/Visualization.html">here</a>.<br>
+We can also do a spatial subsetting here by specifying an “Extent”-object using the <code>ext =</code> argument:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(img,</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">3</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">stretch =</span> <span class="st">"lin"</span>,</span>
@@ -647,7 +643,7 @@ We can also do a spatial subsetting here by specifying an “Extent”-object us
 <p><a href="./img/vis_022.png"><img src="./img/vis_022.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
-<p>Make your spatial subset permament by writing the trimmed image as a new file to your hard drive with <span class="crayon-inline theme:amityreseda">writeRaster</span>. This is especially useful if you want to test a classification workflow: small data sets will cheer up your work in QGIS, in R, as well as in all other software solutions.</p>
+<p>Make your spatial subset permament by writing the trimmed image as a new file to your hard drive with <code>writeRaster</code>. This is especially useful if you want to test a classification workflow: small data sets will cheer up your work in QGIS, in R, as well as in all other software solutions.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>img.subset <span class="ot">&lt;-</span> <span class="fu">crop</span>(img, <span class="fu">extent</span>(<span class="dv">369800</span>, <span class="dv">400700</span>, <span class="dv">5812400</span>, <span class="dv">5827500</span>) )</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(img.subset,</span>
@@ -655,7 +651,7 @@ We can also do a spatial subsetting here by specifying an “Extent”-object us
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">format =</span> <span class="st">"GTiff"</span>,</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">overwrite =</span> <span class="cn">TRUE</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>            )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Of course, it is also possible to examine the underlying data distribution in more detail. Therefore, we can look at a histogram of a specific band with the function <span class="crayon-inline theme:amityreseda">hist()</span>:</p>
+<p>Of course, it is also possible to examine the underlying data distribution in more detail. Therefore, we can look at a histogram of a specific band with the function <code>hist()</code>:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>green <span class="ot">&lt;-</span> img.subset[[<span class="dv">3</span>]]</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(green,</span>
@@ -671,7 +667,7 @@ We can also do a spatial subsetting here by specifying an “Extent”-object us
 <p><a href="./img/vis_026.png"><img src="./img/vis_026.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
-<p>The <span class="crayon-inline theme:amityreseda">breaks</span>argument in line is assigned with a single number giving the number of cells for the histogram. So with more breaks, the bars in the histogram become narrower. With <span class="crayon-inline theme:amityreseda">xlim =</span>and <span class="crayon-inline theme:amityreseda">ylim =</span>you can narrow the x axis and y axis to a certain range.</p>
+<p>The <code>breaksargument</code> in line is assigned with a single number giving the number of cells for the histogram. So with more breaks, the bars in the histogram become narrower. With <code>xlim =</code> and <code>ylim =</code> you can narrow the x axis and y axis to a certain range.</p>
 
 
 </section>

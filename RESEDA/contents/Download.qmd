@@ -37,7 +37,7 @@ In this section, the following content awaits you:
 
 \
 
-## 1 USGS EarthExplorer User Interface
+## 1 USGS EarthExplorer User Interface {#EarthExplorer}
 
 The EarthExplorer supports online search in comprehensive databases, quicklook visualizations, metadata export, and data download for earth science data from the archives of the U.S.Geological Survey (USGS). You get to the USGS EarthExplorer via the following URL using any web browser (Firefox in our RESEDA VM):
 
