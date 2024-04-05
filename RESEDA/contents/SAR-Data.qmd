@@ -10,10 +10,10 @@ Anyway, if you need further details about pre-processing SAR signals, have a loo
 
 This section guides you through two complete preprocessing workflows for Sentinel 1 imagery.
 
-[**Produce Intensity Images from SLC data**](https://blogs.fu-berlin.de/reseda/intensity-image/)\
+[**Produce Intensity Images from SLC data**](./SAR-Data.qmd#intensity-images)\
 -- generate intensity images from S1 SLC data\
 -- perform a calibration, terrain flattening and terrain correction\
-[**Gray-Level Co-Occurrence Matrix (GLCM) Texture Metrics**](https://blogs.fu-berlin.de/reseda/texture-metrics-glcm/)\
+[**Gray-Level Co-Occurrence Matrix (GLCM) Texture Metrics**](./SAR-Data.qmd#texture-metrics)\
 -- generate 10 texture metrics (Contrast, Dissimilarity, Homogeneity, Angular Second Moment, Energy, Maximum Probability, Entropy, GLCM Mean, GLCM Variance, GLCM Correlation)
 :::
 
@@ -21,7 +21,7 @@ This section guides you through two complete preprocessing workflows for Sentine
 
 We will process a Single Look Complex (SLC) Sentinel 1 scene in order to achieve its VV and VH polarized intensity images. A SLC product is provided in zero-Doppler slant-range geometry. The products include a single look in each dimension and consist of complex samples preserving the phase information.
 
-If you need help with downloading Sentinel data, just have a look at the [previous download chapter](https://blogs.fu-berlin.de/reseda/esa-scihub/){rel="noopener" target="_blank"}. The exemplary S1 scene was acquired over Berlin and shows an urban rural gradient.
+If you need help with downloading Sentinel data, just have a look at the [previous download chapter](./Download.qmd#SentinelScihub). The exemplary S1 scene was acquired over Berlin and shows an urban rural gradient.
 
 Our workflow will contain the following sequential steps. The order of those steps is essential to derive pre-processed intensity images of that region:
 
@@ -44,7 +44,7 @@ Our workflow will contain the following sequential steps. The order of those ste
 First download the scene with the ID *S1A_IW_SLC\_\_1SDV_20170731T165159_20170731T165226_017718_01DAC6_7F9F*.\
 S1 SLC files hold around 7 to 8 GB of data. So this may take some time. **Do not unzip the file** -- this is not necessary and only consumes a lot of hard disk space!
 
-Got the S1 scene (or another one)? -- Then start [SNAP](https://blogs.fu-berlin.de/reseda/snap/) now!
+Got the S1 scene (or another one)? -- Then start [SNAP](./SNAP.qmd) now!
 
 Open SNAP and click on the graph builder icon ![](./img/SNAP_buttons_05.png){.alignnone .size-full .wp-image-899 width="28" height="32"} in the Toolbar. You will see a new window pop up, which shows a standard graph (containing one **Read** and one **Write** node) in the upper area and some options in the lower area.
 
@@ -85,7 +85,7 @@ POLYGON((13.11 52.65, 13.70 52.65, 13.70 52.35, 13.11 52.35, 13.11 52.65))
 
 When everything is set, you might want to save your graph. Simply click on "Save" on the bottom of the graph window and choose a file path. After that, start the graph via "Run". Depending on the size of the study area and the processing nodes, this will take some time. If you run into some Java memory problems here, please refer to the [troubleshooting section](https://blogs.fu-berlin.de/reseda/intensity-images/#2) below.
 
-Have a look at the [Bulk Processing Section](https://blogs.fu-berlin.de/reseda/s2-bulk-preprocessing/#1){rel="noopener" target="_blank"} of this course to learn, how to automate the process for many datasets!
+Have a look at the [Bulk Processing Section](./Preprocess-Optical-Data.qmd#sentinel-2-bulk-preprocessing){rel="noopener" target="_blank"} of this course to learn, how to automate the process for many datasets!
 
 After processing is finished, you should get a GeoTiff-file that includes two channels: one VH and one VV intensity image. Those can be viewed directly in SNAP:
 
@@ -136,7 +136,7 @@ Possible solutions:\
 
 In this section we want to derive the Grey-Level Co-occurrence Matrix (GLCM) texture measurements for a S1 VH intensity raster. However, this workflow is not exclusive for Sentinel 1 data. You can derive GLCM metrics for any given raster, i.e., optical or radat. Due to the low spectral resolution and comparably low signal-to-noise ratio of radar data, the texture metrics are predestined to extend the feature space with meaningful data, e.g., for classification or regression tasks.
 
-Luckily, the derivation of GLCM is done in one command in SNAP. Nevertheless, we want to create a graph file that theoretically allows you to [process a lot of data easily via GPT](https://blogs.fu-berlin.de/reseda/s2-bulk-preprocessing/#1){rel="noopener" target="_blank"}. Have a look at the [Bulk Processing Section](https://blogs.fu-berlin.de/reseda/s2-bulk-preprocessing/#1){rel="noopener" target="_blank"} of this course to learn, how to automate the process for many datasets.\
+Luckily, the derivation of GLCM is done in one command in SNAP. Nevertheless, we want to create a graph file that theoretically allows you to [process a lot of data easily via GPT](./Preprocess-Optical-Data.qmd#sentinel-2-bulk-preprocessing){rel="noopener" target="_blank"}. Have a look at the [Bulk Processing Section](./Preprocess-Optical-Data.qmd#sentinel-2-bulk-preprocessing){rel="noopener" target="_blank"} of this course to learn, how to automate the process for many datasets.\
 Our workflow will contain the following sequential processing nodes:
 
 1.  **Read**: Input -- import a S1 scene (or any other raster file)
@@ -147,7 +147,7 @@ Our workflow will contain the following sequential processing nodes:
 
 ## Step by Step
 
-First, get a pre-processed S1 image or another raster file of your study area. In the following example, we will use the VH-intensity image of a Sentinel 1 scene, which we derived in [the previous section](https://blogs.fu-berlin.de/reseda/intensity-images/){rel="noopener" target="_blank"}. You can download this example dataset [here](https://blogs.fu-berlin.de/reseda/texture-metrics-glcm/##){rel="noopener" target="_blank"}. It is not advantageous to use a speckle filter before deriving textures, as this eliminates most of the scene's characteristics.
+First, get a pre-processed S1 image or another raster file of your study area. In the following example, we will use the VH-intensity image of a Sentinel 1 scene, which we derived in [the previous section](./SAR-Data.qmd#intensity-images){rel="noopener" target="_blank"}. You can download this example dataset [here](./SAR-Data.qmd#texture-metrics){rel="noopener" target="_blank"}. It is not advantageous to use a speckle filter before deriving textures, as this eliminates most of the scene's characteristics.
 
 Open SNAP and click on the graph builder icon ![](./img/SNAP_buttons_05.png){.alignnone}](./img/sar_003.png){.fancybox .image}
 
