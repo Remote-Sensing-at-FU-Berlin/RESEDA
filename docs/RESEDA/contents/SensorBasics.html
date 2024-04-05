@@ -190,12 +190,6 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/R-Studio.html#execute" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Execute</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../RESEDA/contents/SNAP.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">SNAP</span></a>
   </div>
@@ -227,6 +221,41 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="../../RESEDA/contents/Download.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Download</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Preprocess</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Preprocess.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter in a box</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Preprocess-Optical-Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preprocess Optical Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/SAR-Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SAR Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Visualization</span></a>
   </div>
 </li>
       </ul>
@@ -313,7 +342,7 @@ Unfortunately, there is one big limitation of passive systems: Due to the fact t
 <p><span style="color: #686868;font-size: small">Active sensor operating mode</span></p>
 </div>
 <p><strong>Active sensors</strong> emit their own electromagnetic radiation to illuminate the object they observe.<br>
-Active sensors send a pulse of energy at the speed of light to the Earth’s surface, that is reflected, refracted or scattered by the objects on the surface and the atmosphere. The recieved backscatter then gives information on land surface characteristics. There are many types of active sensors out there: RADAR (Radio Detection and Ranging), Scatterometer, LiDAR (Light Detection and Ranging), and Laser Altimeter. We will take a closer look at Sentintel 1, a SAR system (<strong>S</strong>ynthetic <strong>A</strong>perture <strong>R</strong>ADAR), which is an imaging RADAR type working with microwaves, in the upcoming <a href="./SAR-Data.qmd">SAR chapters</a>.<br>
+Active sensors send a pulse of energy at the speed of light to the Earth’s surface, that is reflected, refracted or scattered by the objects on the surface and the atmosphere. The recieved backscatter then gives information on land surface characteristics. There are many types of active sensors out there: RADAR (Radio Detection and Ranging), Scatterometer, LiDAR (Light Detection and Ranging), and Laser Altimeter. We will take a closer look at Sentintel 1, a SAR system (<strong>S</strong>ynthetic <strong>A</strong>perture <strong>R</strong>ADAR), which is an imaging RADAR type working with microwaves, in the upcoming <a href="../../RESEDA/contents/SAR-Data.html">SAR chapters</a>.<br>
 Images of active sensors are comparatively difficult to interpret: A SAR signal contains amplitude and phase information. Amplitude is the strength of the RADAR response and phase is the fraction of a full sine curve. In order to generate beautiful images out of these information, a more extensive preprocessing is often necessary, which we will do in SNAP.<br>
 Since no natural light source is required, active sensors are capable to emit and capture their signals regardless of daytime. In addition, many systems operate in the electromagnetic domain of microwaves, so their wavelength is large enough to be unaffected by clouds and other atmospheric distortions.</p>
 <p><br>
@@ -792,7 +821,7 @@ Anyway, if you already own a Level-1C scene, the conversion to Level-2A can also
 <p><span style="color: #686868;font-size: small">Sentinel 1 satellite</span></p>
 </div>
 <p>After a seven-year development period led by ESA and Airbus DS, the Sentinel-1A radar satellite was launched on April 3, 2014 with a Russian Soyuz launcher from the European Spaceport Kourou in French Guiana. The identical Sentinel-1B satellite arrived in space two years later, on April 25, 2016. Additionally, Sentinel-1C and 1D are in development with launch dates to be determined.</p>
-<p>The main instrument is an imaging C-band SAR (Synthetic Aperture RADAR), consisting of a 12.30 x 0.90 m main antenna composed of 560 single antennas coupled together. Thus, unlike Sentinel 2 ​​or Landsat 8, Sentinel 1 works in the electromagnetic domain of microwaves. It actively emits electromagnetic energy, which has a wavelength of 5.5 cm. The emitted radar rays penetrate through vegetation to the ground. As a result, changes in the surface in the centimeter and even in the millimeter range can be perceived. For a more detailed description of how SAR works generally, read <a href="./SAR-Data.qmd">SAR Basics</a></p>
+<p>The main instrument is an imaging C-band SAR (Synthetic Aperture RADAR), consisting of a 12.30 x 0.90 m main antenna composed of 560 single antennas coupled together. Thus, unlike Sentinel 2 ​​or Landsat 8, Sentinel 1 works in the electromagnetic domain of microwaves. It actively emits electromagnetic energy, which has a wavelength of 5.5 cm. The emitted radar rays penetrate through vegetation to the ground. As a result, changes in the surface in the centimeter and even in the millimeter range can be perceived. For a more detailed description of how SAR works generally, read <a href="../../RESEDA/contents/SAR-Data.html">SAR Basics</a></p>
 <p>Sentinel 1 serves a wide range of environmental, transport, economic and security applications. The focus is on ice observation in polar regions, volcanic activity, earthquakes, landslides, floods, detection of subsidence and elevations as well as the observation of sea surfaces to detect issues caused by sea ice and oil spills at an early stage. Furthermore, the satellites are designed to support disaster management in cases of emergency: Wherever up-to-the-minute information is needed, image data can be made available within 60 minutes.<br>
 Sentinel 1 has four different observation modes, allowing them to respond to those needs:</p>
 <ul>

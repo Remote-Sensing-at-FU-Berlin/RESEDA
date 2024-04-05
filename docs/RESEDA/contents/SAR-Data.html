@@ -264,34 +264,296 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#sar-data" id="toc-sar-data" class="nav-link active" data-scroll-target="#sar-data">SAR Data</a></li>
+  <li><a href="#intensity-images" id="toc-intensity-images" class="nav-link" data-scroll-target="#intensity-images">Intensity Images</a>
+  <ul class="collapse">
+  <li><a href="#step-by-step" id="toc-step-by-step" class="nav-link" data-scroll-target="#step-by-step">Step by Step</a></li>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a></li>
+  </ul></li>
+  <li><a href="#texture-metrics" id="toc-texture-metrics" class="nav-link" data-scroll-target="#texture-metrics">Texture Metrics</a>
+  <ul class="collapse">
+  <li><a href="#step-by-step-1" id="toc-step-by-step-1" class="nav-link" data-scroll-target="#step-by-step-1">Step by Step</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 
 
-<div id="main" class="site-main" role="main">
-<section id="sar-data" class="level1 entry-title entry-header">
+<section id="sar-data" class="level1 entry-title">
 <h1 class="entry-title">SAR Data</h1>
-</section>
-<div class="entry-content">
 <p>As optical data, <strong>S</strong>ynthetic <strong>A</strong>perture <strong>R</strong>adar (SAR) data need pre-processing to account for geometric distortions (layover and foreshortening) and for differences in illumination conditions due to topography (shadowing). Additionally, SAR data is often quite noisy because of backscattered radio signal from small features on the earth’s surface. This effect is referred to as salt-and-pepper effect, or speckle noise and needs to be removed by speckle filtering.<br>
 As you can see, depending on the application, SAR pre-processing can be quite complicated. The interpretation of SAR data becomes easier once the underlying principles are known and understood in detail. Therefore, it is advisable to attend the seminars “Remote Sensing and Digital Image Processing” and “Advanced Geomatics” in order to gain a basic understanding of the processing of radar and SAR data before you proceed.</p>
 <p>Anyway, if you need further details about pre-processing SAR signals, have a look at the <a href="https://sentinel.esa.int/web/sentinel/toolboxes/sentinel-1/tutorials" rel="noopener" target="_blank">ESA tutorials</a>.</p>
-<section id="section-in-a-box" class="level1" style="background-color:#f1f1f1;padding:18px 30px 1px">
-<h1>Section in a Box</h1>
+<div style="background-color:#f1f1f1;padding:18px 30px 1px">
 <p>This section guides you through two complete preprocessing workflows for Sentinel 1 imagery.</p>
 <p><a href="https://blogs.fu-berlin.de/reseda/intensity-image/"><strong>Produce Intensity Images from SLC data</strong></a><br>
 – generate intensity images from S1 SLC data<br>
 – perform a calibration, terrain flattening and terrain correction<br>
 <a href="https://blogs.fu-berlin.de/reseda/texture-metrics-glcm/"><strong>Gray-Level Co-Occurrence Matrix (GLCM) Texture Metrics</strong></a><br>
 – generate 10 texture metrics (Contrast, Dissimilarity, Homogeneity, Angular Second Moment, Energy, Maximum Probability, Entropy, GLCM Mean, GLCM Variance, GLCM Correlation)</p>
+</div>
 </section>
+<section id="intensity-images" class="level1 entry-title">
+<h1 class="entry-title">Intensity Images</h1>
+<p>We will process a Single Look Complex (SLC) Sentinel 1 scene in order to achieve its VV and VH polarized intensity images. A SLC product is provided in zero-Doppler slant-range geometry. The products include a single look in each dimension and consist of complex samples preserving the phase information.</p>
+<p>If you need help with downloading Sentinel data, just have a look at the <a href="https://blogs.fu-berlin.de/reseda/esa-scihub/" rel="noopener" target="_blank">previous download chapter</a>. The exemplary S1 scene was acquired over Berlin and shows an urban rural gradient.</p>
+<p>Our workflow will contain the following sequential steps. The order of those steps is essential to derive pre-processed intensity images of that region:</p>
+<ol type="1">
+<li><strong>Read</strong>: Input – import a S1 scene</li>
+<li><strong>ThermalNoiseRemoval</strong>: removes electrical fluctuations arising from the random thermal motion of electrons, <a href="https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=8126233" rel="noopener" target="_blank">continue reading</a></li>
+<li><strong>Apply-Orbit-File</strong>: step for acquiring the satellite orbit file to get more precise orbit data to improve geocoding and other SAR processing results</li>
+<li><strong>Calibration</strong>: corrects a SAR image so that the pixel values truly represent the radar backscatter of the reflecting surface. A calibration is essential for quantitative use of SAR data, <a href="https://sentinel.esa.int/web/sentinel/radiometric-calibration-of-level-1-products" rel="noopener" target="_blank">continue reading</a></li>
+<li><strong>TOPSAR-Deburst</strong>: S1 scenes are acquired using the Terrain Observation with Progressive Scans SAR (TOPSAR) technique, resulting in multiple adjacent sub-swaths and demarcation zones between those swaths. This module will remove those demarcation zones <a href="https://sentinel.esa.int/web/sentinel/technical-guides/sentinel-1-sar/products-algorithms/level-1-algorithms/topsar-processing" rel="noopener" target="_blank">continue reading</a></li>
+<li><strong>Terrain-Flattening</strong>: Radiometrically “flatten” the image, reducing terrain induced radiometric variations, which is especially important in heavily embossed areas</li>
+<li><strong>Terrain-Correction</strong>: will geocode the image by correcting SAR geometric distortions using a digital elevation model (DEM) and producing a map projected product</li>
+<li><strong>Subset</strong>: spatially or radiometrically subset the image. Spatial subsets dramatically speed up the whole processing!</li>
+<li><strong>Write</strong>: Output – write all bands (mostly VH and/or VV) to a GeoTiff raster file</li>
+</ol>
+<p><strong>NOTE</strong>: Sentinel data, as well as the SNAP toolbox are subjects to constant changes and development. For example the proposed workflow includes the removal of thermal noise (<em>ThermalNoiseRemoval</em>), which momentarily cannot be applied to scenes acquired after March 23, 2018, as metadata formats changed (<a href="https://scihub.copernicus.eu/news/News00301" rel="noopener" target="_blank">source</a>). Remove this processing step to process data products acquired after this date.</p>
+<p><br>
+</p>
+<section id="step-by-step" class="level2">
+<h2 class="anchored" data-anchor-id="step-by-step">Step by Step</h2>
+<p>First download the scene with the ID <em>S1A_IW_SLC__1SDV_20170731T165159_20170731T165226_017718_01DAC6_7F9F</em>.<br>
+S1 SLC files hold around 7 to 8 GB of data. So this may take some time. <strong>Do not unzip the file</strong> – this is not necessary and only consumes a lot of hard disk space!</p>
+<p>Got the S1 scene (or another one)? – Then start <a href="https://blogs.fu-berlin.de/reseda/snap/">SNAP</a> now!</p>
+<p>Open SNAP and click on the graph builder icon <img src="./img/SNAP_buttons_05.png" class="alignnone size-full wp-image-899" width="28" height="32"> in the Toolbar. You will see a new window pop up, which shows a standard graph (containing one <strong>Read</strong> and one <strong>Write</strong> node) in the upper area and some options in the lower area.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/sar_003.png"><img src="./img/sar_003.png" class="img-fluid figure-img"></a></p>
+</figure>
 </div>
+<p>Right click somewhere in the white area at upper window to add new nodes, i.e., processing steps, to the graph. Navigate to the following nodes to add them to your graph:</p>
+<ol type="1">
+<li><strong><em>Read</em></strong></li>
+<li><em>Add</em> &gt; <em>Radar</em> &gt; <em>Radiometric</em> &gt; <strong><em>ThermalNoiseRemoval</em></strong></li>
+<li><em>Add</em> &gt; <em>Radar</em> &gt; <strong><em>Apply-Orbit-File</em></strong></li>
+<li><em>Add</em> &gt; <em>Radar</em> &gt; <em>Radiometric</em> &gt; <strong><em>Calibration</em></strong></li>
+<li><em>Add</em> &gt; <em>Radar</em> &gt; <em>Sentinel-1 TOPS</em> &gt; <strong><em>TOPSAR-Deburst</em></strong></li>
+<li><em>Add</em> &gt; <em>Radar</em> &gt; <em>Radiometric</em> &gt; <strong><em>Terrain-Flattening</em></strong></li>
+<li><em>Add</em> &gt; <em>Radar</em> &gt; <em>Geometric</em> &gt; <em>Terrain Correction</em> &gt; <strong><em>Terrain Correction</em></strong></li>
+<li><em>Add</em> &gt; <em>Raster</em> &gt; <em>Geometric</em> &gt; <strong><em>Subset</em></strong></li>
+<li><strong><em>Write</em></strong></li>
+</ol>
+<p>Each processing step is visualized by a rectangle in the graph. You can drag those rectangles, or nodes, to whichever position you want with pressed left mouse button. Arrange the added nodes to something like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/sar_002.png"><img src="./img/sar_002.png" class="img-fluid figure-img"></a></p>
+</figure>
 </div>
+<p>The individual nodes are not yet linked. If you rest the mouse pointer over the right edge of a rectangle, you will see a red arrow. Drag this arrow with pressed left mouse button to the next node in the following order:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/sar_001.png"><img src="./img/sar_001.png" loading="lazy" width="364" height="290" class="figure-img"></a></p>
+</figure>
+</div>
+<p>Next, click on the Read Node and load your ZIP-compressed Sentinel 1 scene into the Source Product setting. This could take a short moment. <strong>Attention</strong>: From now on, it will always take a little while to switch back and forth between the processing nodes, as SNAP will process and read your data as virtual products in the background!</p>
+<p>Now either click through the tabs at the bottom of the Graph Builder window or through the node rectangles to set the following options for all the nodes. You should try to make the settings in order, because graph building in SNAP is quite “fragile” and it may sometimes lead to strange errors, if the modules are not properly build on each other.</p>
+<div class="h5p-iframe-wrapper" style="">
+
+</div>
+<p><strong>Calibration</strong>: as we will utilize the terrain flattening, we need to process the required beta0 band here.<br>
+<strong>Terrain Flattening</strong>: Uncheck the Re-grid method here, as it might cause some errors when the DEM resolution is lower than your source image data and you want to keep your source resolution.<br>
+<strong>Terrain Correction</strong>: Choose a <em>Pixel Spacing</em> in m for the final output product, as well as the adequate <em>Map Projektion</em> (WGS 84, EPSG:32633 in our example).<br>
+<strong>Subset</strong>: Limit the image data from the outset to your study area, if possible – because all processing steps are only applied to the subset, which saves an enormous amount of computation time. The spatial section in the Subset node should be made using the geographic coordinates. However, the linked map is quite blurred and therefore not much help. However, under the map you can define any spatial subset using the Well-Known Text (WKT) format. There are a number of <a href="http://arthur-e.github.io/Wicket/sandbox-gmaps3.html" target="_blank">simple online tools</a> for creating such WKTs. Copy the entire “Polygon(())” expression into the line below the map within the subset Node and click on the update-button right to the right:<br>
+POLYGON((13.11 52.65, 13.70 52.65, 13.70 52.35, 13.11 52.35, 13.11 52.65))</p>
+<p>When everything is set, you might want to save your graph. Simply click on “Save” on the bottom of the graph window and choose a file path. After that, start the graph via “Run”. Depending on the size of the study area and the processing nodes, this will take some time. If you run into some Java memory problems here, please refer to the <a href="https://blogs.fu-berlin.de/reseda/intensity-images/#2">troubleshooting section</a> below.</p>
+<p>Have a look at the <a href="https://blogs.fu-berlin.de/reseda/s2-bulk-preprocessing/#1" rel="noopener" target="_blank">Bulk Processing Section</a> of this course to learn, how to automate the process for many datasets!</p>
+<p>After processing is finished, you should get a GeoTiff-file that includes two channels: one VH and one VV intensity image. Those can be viewed directly in SNAP:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/sar1_012.png"><img src="./img/sar1_012.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">VV intensity image</span></p>
+</div>
+<p>In SNAP, you can view the image in decibel (dB) scaling by right-clicking on the intensity image band and select Linear to/from dB to convert the data with the expression 10*log10(Intensity_VV):</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/sar1_014.png"><img src="./img/sar1_014.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">transform band to dB scaling</span></p>
+</div>
+<p>Double-click on the new Intensity_VV_db band to open it:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/sar1_013.png"><img src="./img/sar1_013.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">VV intensity image in dB scaling</span></p>
+</div>
+<p>Done!</p>
+<p><strong>EXERCISE</strong>:<br>
+However, it is possible to extend this workflow. As you can see, this intensity image is quite noisy. Try to reduce the salt and pepper effect by applying a <strong>Single-Product Speckle Filter</strong> to your graph by your own! Click on the button below to see a solution:</p>
+<p><a href="https://blogs.fu-berlin.de/reseda/exercise-apply-a-speckle-filter/" target="_blank"><br>
+</a></p>
+<div style="font-family: 'Noto Sans',sans-serif">
+<p><span style="font-size: 30px"><strong>EXERCISE: ADD A SPECKLE FILTER</strong></span></p>
+</div>
+<p><br>
+</p>
+</section>
+<section id="troubleshooting" class="level2">
+<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
+<p>Since S1 data is very large (sometimes up to 8 GB per data set), a sufficiently large amount of RAM is required for preprocessing. Especially the <em>calibration</em> and <em>speckle filtering</em> operations are very memory hungry. Your Virtual Machine (or your computer) should be equipped with at least 8 GB of RAM (16 GB recommended for S1 processing). Red error messages, such as <strong>Cannot construct DataBuffer</strong> or <strong>Java Heap Space</strong>, indicate that too little RAM is available for your computer or Java.<br>
+Possible solutions:<br>
+– In the main toolbar of SNAP, click on Tools &gt; Options. A new window will open, click on the <em>Performance</em> tab and modify the “-Xmx2048m” value in the first line, which says <em>VM Parameter</em> to something like “-Xmx8192m”. This will allocate more memory to the Java virtual machine.<br>
+– split the graph into smaller graphs and save the intermediate results.</p>
+</section>
+</section>
+<section id="texture-metrics" class="level1 entry-title">
+<h1 class="entry-title">Texture Metrics</h1>
+<p>In this section we want to derive the Grey-Level Co-occurrence Matrix (GLCM) texture measurements for a S1 VH intensity raster. However, this workflow is not exclusive for Sentinel 1 data. You can derive GLCM metrics for any given raster, i.e., optical or radat. Due to the low spectral resolution and comparably low signal-to-noise ratio of radar data, the texture metrics are predestined to extend the feature space with meaningful data, e.g., for classification or regression tasks.</p>
+<p>Luckily, the derivation of GLCM is done in one command in SNAP. Nevertheless, we want to create a graph file that theoretically allows you to <a href="https://blogs.fu-berlin.de/reseda/s2-bulk-preprocessing/#1" rel="noopener" target="_blank">process a lot of data easily via GPT</a>. Have a look at the <a href="https://blogs.fu-berlin.de/reseda/s2-bulk-preprocessing/#1" rel="noopener" target="_blank">Bulk Processing Section</a> of this course to learn, how to automate the process for many datasets.<br>
+Our workflow will contain the following sequential processing nodes:</p>
+<ol type="1">
+<li><strong>Read</strong>: Input – import a S1 scene (or any other raster file)</li>
+<li><strong>GLCM</strong>: process all GLCM metrics of your choice</li>
+<li><strong>Write</strong>: Output – write all GLCM bands into one GeoTiff raster file</li>
+</ol>
+<p><br>
+</p>
+<section id="step-by-step-1" class="level2">
+<h2 class="anchored" data-anchor-id="step-by-step-1">Step by Step</h2>
+<p>First, get a pre-processed S1 image or another raster file of your study area. In the following example, we will use the VH-intensity image of a Sentinel 1 scene, which we derived in <a href="https://blogs.fu-berlin.de/reseda/intensity-images/" rel="noopener" target="_blank">the previous section</a>. You can download this example dataset <a href="https://blogs.fu-berlin.de/reseda/texture-metrics-glcm/##" rel="noopener" target="_blank">here</a>. It is not advantageous to use a speckle filter before deriving textures, as this eliminates most of the scene’s characteristics.</p>
+<p>Open SNAP and click on the graph builder icon <img src="./img/SNAP_buttons_05.png" class="alignnone img-fluid">](./img/sar_003.png){.fancybox .image}</p>
+<p>Right click somewhere in the white area in the upper window to add new nodes, i.e., processing steps, to the graph. Navigate to GLCM and add it:</p>
+<ol type="1">
+<li><strong><em>Read</em></strong></li>
+<li><em>Add</em> &gt; <em>Raster</em> &gt; <em>Image Analysis</em> &gt; <em>Texture Analysis</em> &gt; <strong><em>GLCM</em></strong></li>
+<li><strong><em>Write</em></strong></li>
+</ol>
+<p>Each processing step is visualized by a rectangle in the graph. You can drag those rectangles, or nodes, to whichever position you want with pressed left mouse button. Arrange the added nodes to something like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/sar1_022.png"><img src="./img/sar1_022.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<p>The individual nodes are not yet linked. If you rest the mouse pointer over the right edge of a rectangle, you will see a red arrow. Drag this arrow with pressed left mouse button to the next node in the following order:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/sar1_021.png"><img src="./img/sar1_021.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<p>Next, click on the Read Node and load your raster into the Source Product setting. This could take a short moment. <strong>Attention</strong>: From now on, it will always take a little while to switch back and forth between the processing nodes, as SNAP will process and read your data as virtual products in the background!</p>
+<p>Now either click through the tabs at the bottom of the Graph Builder window or through the node rectangles to set the following options for all the nodes. You should try to make the settings in order, because graph building in SNAP is quite “fragile” and it may sometimes lead to strange errors, if the modules are not properly build on each other.</p>
+<div class="h5p-iframe-wrapper" style="">
+
+</div>
+<p><strong>Parameters of GLCM:</strong><br>
+<strong>Source Band</strong>: single input band of your raster, on which GLCM metrics should be derived<br>
+<strong>Window Size</strong>: moving window size for calulcating co-occurences<br>
+<strong>Angle</strong>: angle from which the neighborhood of two pixels is seen. Preferred: ALL<br>
+<strong>Quantizer</strong>: if probabilistic is selected, your GLCM matrix is expressed as probabilities instead of counting the total number of occurrences. Preferred: probabilistic<br>
+<strong>Quantization Levels</strong>: Number of gradations in the co-occurrence matrix (e.g., 32 different grey scale values). More quantized levels, less information loss. Less quantized levels, more information loss, but faster processing. Preferred: 32 or 64 levels<br>
+<strong>Displacement</strong>: Considered distance between two pixels. Distance of “1” means one pixel to the east from your reference pixel accounts for co-occurence statistics. Preferred: 1-4</p>
+<p>When everything is set, you might want to save your graph. Simply click on “Save” on the bottom of the graph window and choose a file path. After that, start the graph via “Run”. Depending on the size of the study area and the processing nodes, this will take some time.</p>
+<p>After processing is finished, you should get one GeoTiff-file that includes all selected metrics. Open the file in SNAP and double click the band you want to visualize:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/sar1_026.png"><img src="./img/sar1_026.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">GLCM bands in output file</span></p>
+</div>
+<p>Those are the texture metrics opened in SNAP:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/glcm_001.png"><img src="./img/glcm_001.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Contrast</span></p>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/glcm_002.png"><img src="./img/glcm_002.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Dissimilarity</span></p>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/glcm_003.png"><img src="./img/glcm_003.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Homogeneity</span></p>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/glcm_004.png"><img src="./img/glcm_004.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">ASM</span></p>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/glcm_005.png"><img src="./img/glcm_005.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Energy</span></p>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/glcm_006.png"><img src="./img/glcm_006.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">MAX</span></p>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/glcm_007.png"><img src="./img/glcm_007.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Entropy</span></p>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/glcm_008.png"><img src="./img/glcm_008.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">GLCMMean</span></p>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/glcm_009.png"><img src="./img/glcm_009.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">GLCMVariance</span></p>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/glcm_010.png"><img src="./img/glcm_010.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">GLCMCorrelation</span></p>
+</div>
+<p><a href="https://pdfs.semanticscholar.org/5140/f1dc83e562de0eb409385480b799e9549d54.pdf" rel="noopener" target="_blank">Haralick et al.&nbsp;1973</a> or <a href="https://www.researchgate.net/publication/315776784_GLCM_Texture_A_Tutorial_v_30_March_2017" rel="noopener" target="_blank">Hall-Beyer 2005</a></p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

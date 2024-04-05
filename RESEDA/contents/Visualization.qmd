@@ -1,15 +1,10 @@
-::: {#main .site-main role="main"}
-::: entry-header
 # Visualization {#visualization .entry-title}
-:::
 
-::: entry-content
 Alright, you have some image data now. The next step is to get an overview of the radiometric and geometric properties of the imagery you own. The comparison of several data sets is especially comfortable in QGIS with its overlay functionalities. However, we also want to take a closer look at the visualization capacities of R in order to achieve an optimal image presentation.
 
 We will do some visualization settings on a Landsat 8 Scene data downloaded in the chapter [Acquire](https://blogs.fu-berlin.de/reseda/acquire/). So if you have not done the exercises yet, catch it up [here](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/).
 
 ::: {style="background-color:#f1f1f1;padding:18px 30px 1px"}
-# Section in a Box
 
 In this section you will learn how to best represent image data in QGIS and R using different contrast stretchings and (false-)color composites.
 
@@ -27,13 +22,13 @@ In this section you will learn how to best represent image data in QGIS and R us
 -- different contrast stretchings
 :::
 
-# Visualization Basics
+## Visualization Basics
 
 In the following basic concepts and terms are discussed and a understanding for the following section will be developed.
 
 \
 
-## Singleband vs Multiband
+### Singleband vs Multiband
 
 Most optical imaging satellite systems measure radiance in multiple spectral bands, including Landsat 8 and Sentinel 2 (see section [Sensor Basics](https://blogs.fu-berlin.de/reseda/sensor-basics/)). As shown in the section [Preprocess](https://blogs.fu-berlin.de/reseda/preprocess-optical-data/), these spectral bands are delivered as individual jpg- or tif-files within the data products. You can visualize each of those images separately by choosing a gray scale gradient (or any color slice). The following picture shows only the green band of an orthophoto of Berlin. Bright areas indicate high intensity of solar radiation reflected by the targets in the pixel, dark areas indicate low intensity:
 
@@ -72,7 +67,7 @@ In this example, color representation is what we would assume: trees are green, 
 
 \
 
-## Histograms and Contrast Stretching
+### Histograms and Contrast Stretching
 
 Each grayscale image consists of a 2-dimensional array, i.e, a matrix, of pixels that describe the intensities of the solar energy radiance measured by the sensor. These pixels are nothing more than integers and can be represented as such:
 
@@ -100,5 +95,293 @@ However, the complete range of theoretically possible digital numbers is rarely 
 :::
 
 The image now takes on the full dynamic range and subjectively looks better to the human eye. The actual values of the dataset remain unaffected by any contrast stretching -- it is only a modification for visual purposes. An underlying color or lookup table translates the original DNs to the stretched DNs. In addition to the Minimum-Maximum method, there are other stretch procedures available, such as **Standard Deviations**, **Percent Clip** or **Sigmoid**.
+
+# Visualize in QGIS {#visualize-in-qgis .entry-title}
+
+The prerequisite for this chapter is that you have
+[downloaded](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/){target="_blank"
+rel="noopener"} and
+[preprocessed](https://blogs.fu-berlin.de/reseda/landsat-8-preprocessing/){target="_blank"
+rel="noopener"} at least one Landsat 8 scene. If you completed the
+[EarthExplorer
+exercise](https://blogs.fu-berlin.de/reseda/earthexplorer-exercise/){target="_blank"
+rel="noopener"} successfully, you should already own the Landsat 8
+Level-2 scene of June 2, 2017 (ID:
+LC08_L1TP_193023_20170602_20170615_01_T1). You can download [the
+preprocessed scene
+here](https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FLandsat_Data&files=LC081930232017060201T1-SC20180613160412.tif){target="_blank"
+rel="noopener"}. We will use this image to explain the basic
+visualization tools in QGIS.
+
+## Import a Dataset
+
+First of all, open [QGIS](https://blogs.fu-berlin.de/reseda/qgis/).\
+QGIS is very similar to ArcGIS/ ArcMap, which you already know from the
+second semester (GIS course: "Geographische Informationssysteme").\
+As with all operations, there are several ways to open a raster dataset
+here: Either navigate via the main menu to *Layer* \> *Add Layer* \>
+*Add Raster Layer...*, or press the corresponding icon
+![](./img/vis_008.png){.alignnone .size-full
+.wp-image-1909 width="24" height="24"} in the toolbar or press the
+shortcut **Ctrl + Shift + R** to open a file explorer window.
+
+[![](./img/vis_007.png){.aligncenter}](./img/vis_007.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Location of Add Raster Layer-function in
+QGIS]{style="color: #686868;font-size: small"}
 :::
+
+In the file explorer window, navigate to the data folder which holds
+your L8 data. In the meantime, due to preprocessing, you may already
+have quite a few files in this folder. Click on a tif-container
+(extension ".tif") and then on **Open**.
+
+[![](./img/vis_009.png){.aligncenter}](./img/vis_009.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Choose a .tif-file for import in the file
+explorer]{style="color: #686868;font-size: small"}
 :::
+
+If you have clicked **Open**, your data shine in full glory for the
+first time in QGIS! The file name will automatically appear in the
+Layers panel and the image data will be visible in the Map View:
+
+[![](./img/vis_010.png){.aligncenter}](./img/vis_010.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Imported L8 dataset]{style="color: #686868;font-size: small"}
+:::
+
+Navigate through your data with the mouse buttons and the mouse wheel,
+or with the navigation tools
+![](./img/vis_011.png){.alignnone} in the
+toolbar.
+
+## Singleband Visualization
+
+By default, QGIS maps the first three bands of a given rasterstack to
+the red, green and blue "slots" to create a color image. But we can also
+look at all the bands in the L8 layer stack individually.\
+Open the Layer Properties dialog for the image layer by right-clicking
+on it in the Layer Panel and selecting Properties option or simply
+double-click the image layer. Switch to the Style tab and set
+**Singleband gray** in the drop down menu for the **Render type**
+option. You can choose the spectral channel you want to visualize by
+setting **Gray band** directly below. Confirm by clicking OK:
+
+[![](./img/vis_012.png){.aligncenter}](./img/vis_012.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Choose Singleband gray for the Render type option and press
+OK]{style="color: #686868;font-size: small"}
+:::
+
+Whoops! You will now see a totally gray rectangle which has no use at
+all. That is because we did not do any contrast stretching yet. We have
+to tell QGIS to scale the digital numbers to the whole bitspace (16
+bit). In a grayscale visualization, this is black, white and all shades
+of gray in between. So open the Layer Properties dialog again, choose
+**Stretch to MinMax** as the contrast enhancement method. Unfold the
+**Load min/max values** section directly below. The **Cumulative count
+cut** setting helps to eliminate very low and very high digital numbers,
+e.g., as a result of clouds. The standard data range is set from 2% to
+98% of the DNs and can be adapted manually. Now click on the **Load**
+button and you will notice that values for minimum and maximum values
+are generated in the fields above:
+
+[![](./img/vis_013.png){.aligncenter}](./img/vis_013.png)
+
+Confirm everything by clicking on **Apply** or **OK** after that. For
+the following picture we zoomed closer to the West of Berlin and its
+surrounding countryside:
+
+[![](./img/vis_014.png){.aligncenter}](./img/vis_014.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Landsat 8 band 1, West of Berlin, stretched based on global
+statistics]{style="color: #686868;font-size: small"}
+:::
+
+The city looks a bit oversaturated and offers little contrast. So far,
+we have used the information of the entire scene for contrast
+stretching. Since possible cloud fields and other edge areas of the
+scene are included in the calculation of the min/max values, it is
+advisable to zoom in on a cloud-free area and recalculate the values
+based on the currently visible canvas.\
+So search for a cloud-free spot in your image, open the Layer Properties
+again and select **Clip extent to canvas** just below the **Load**
+button. Then click the **Load** button and **OK**:
+
+[![](./img/vis_015.png){.aligncenter}](./img/vis_015.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Landsat 8 band 1, West of Berlin, stretched based on local
+statistics]{style="color: #686868;font-size: small"}
+:::
+
+Okay, but now it is time to bring some color into play.
+
+## Multiband Visualization
+
+And again, open Layer Properties dialog for the L8 image layer by
+right-clicking on it in the Layer Panel and selecting Properties option
+or simply double-click the image layer. Now select **Multiband color**
+as the Render Type and select three spectral bands for the three RGB
+slots. First let us ave a look at the true color composite, which is
+band 4,3,2 for the RGB slots. Search for a cloud-free spot in your
+image, and select the remaining settings as described in the previous
+section as follows:
+
+[![](./img/vis_016.png){.aligncenter}](./img/vis_016.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Layer Properties settings for Multiband
+coloring]{style="color: #686868;font-size: small"}
+:::
+
+The resulting image is quite appealing, isn't it? Feel free to play
+around with other band combinations!
+
+[![](./img/vis_017.png){.aligncenter}](./img/vis_017.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Landsat 8 true color composite (RGB:
+4,3,2)]{style="color: #686868;font-size: small"}
+:::
+
+[![](./img/vis_018.png){.aligncenter}](./img/vis_018.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Landsat 8 pseudocolor composite (RGB:
+5,4,3)]{style="color: #686868;font-size: small"}
+:::
+
+[![](./img/vis_019.png){.aligncenter}](./img/vis_019.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Landsat 8 pseudocolor composite (RGB:
+6,5,3)]{style="color: #686868;font-size: small"}
+:::
+
+[![](./img/vis_020.png){.aligncenter}](./img/vis_020.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Landsat 8 pseudocolor composite (RGB:
+5,7,2)]{style="color: #686868;font-size: small"}
+:::
+
+Look at the forest areas in the southwest of the clipping (Berlin,
+Grunewald). The trees look so much more differentiated in the NIR and
+MIR bands -- what an information gain!
+
+# Visualize in R {#visualize-in-r .entry-title}
+
+Also for this chapter it is a requirement that you own at least one Landsat 8 scene. We will visualize the Landsat 8 Level-2 scene (ID: LC08_L1TP_193023_20170602_20170615_01_T1) in R in this section, which you may have already downloaded in our [EarthExplorer download exercise](https://blogs.fu-berlin.de/reseda/earthexplorer-exercise/). You can download [the preprocessed file here](https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FLandsat_Data&files=LC081930232017060201T1-SC20180613160412.tif){target="_blank" rel="noopener"}.
+
+When you are ready, open R-Studio.
+
+We need the raster package again, so import it into your current working session first:
+
+``` r
+library(raster)
+## Loading required package: sp
+```
+
+The raster package offers various structures for importing data, depending on how the image data precedes:
+
+-   [layer()]{.crayon-inline .theme:amityreseda} -- one file, one band
+-   [stack()]{.crayon-inline .theme:amityreseda} -- multiple files, multiple bands
+-   [brick()]{.crayon-inline .theme:amityreseda} -- one file, multiple bands
+
+During preprocessing (chapter [Preprocess](https://blogs.fu-berlin.de/reseda/landsat-8-preprocessing/)), we saved the individual bands of the Landsat 8 scenes in a single geotiff-container. So we created one file with several bands, so we need the [brick()]{.crayon-inline .theme:amityreseda} function for an import into R:
+
+``` r
+path <- "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tif"
+
+img <- brick(path)
+
+img
+## class       : RasterBrick 
+## dimensions  : 8141, 8051, 65543191, 7  (nrow, ncol, ncell, nlayers)
+## resolution  : 30, 30  (x, y)
+## extent      : 278085, 519615, 5762085, 6006315  (xmin, xmax, ymin, ymax)
+## coord. ref. : +proj=utm +zone=33 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+## data source : /media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tif 
+## names       : LC0819302//13160412.1, LC0819302//13160412.2, LC0819302//13160412.3, LC0819302//13160412.4, LC0819302//13160412.5, LC0819302//13160412.6, LC0819302//13160412.7 
+## min values  :            -3.400e+38,            -2.000e+03,            -1.685e+03,            -1.384e+03,            -2.720e+02,            -1.060e+02,            -6.500e+01 
+## max values  :                 13333,                 13643,                 14703,                 14674,                 14331,                 15137,                 15638
+```
+
+By calling the object [img]{.crayon-inline .theme:amityreseda} in line 5, the most important metadata can be viewed, e.g., raster dimensions, geometric resolution, geographical extent, coordinate system, file path, as well as minimum and maximum digital numbers per band. This completes the import of the L8 image as a RasterBrick object into R.
+
+We can now plot the image data. The [plotRGB()]{.crayon-inline .theme:amityreseda} function is a convenient way to visualize different RGB composites. Check out the help for this feature in R-Studio by running [?plotRGB]{.crayon-inline .theme:amityreseda}! The function has three arguments called [r =]{.crayon-inline .theme:amityreseda}, [g =]{.crayon-inline .theme:amityreseda}, and [b =]{.crayon-inline .theme:amityreseda}, which define the three layers to be used for the RGB slots in a RasterBrick or Rasterstack.\
+If we just want to visualize one band (singleband visualization), we will fill all three slots with the same band, e.g. the green band:
+
+``` r
+plotRGB(img,
+        r = 3, g = 3, b = 3,
+        stretch = "lin"
+        )
+```
+
+[![](./img/vis_024.png){.aligncenter}](./img/vis_024.png)
+
+The stretch argument in line 3 was set to "lin" in order to perform a minimum-maximum contrast stretching to increase the contrast of the image, as described [here](https://blogs.fu-berlin.de/reseda/visualization/#3).\
+We can also do a spatial subsetting here by specifying an "Extent"-object using the [ext =]{.crayon-inline .theme:amityreseda} argument:
+
+``` r
+plotRGB(img,
+        r = 3, g = 3, b = 3,
+        stretch = "lin",
+        ext = extent(369800, 400700, 5812400, 5827500)
+        )
+```
+
+[![](./img/vis_023.png){.aligncenter}](./img/vis_023.png)
+
+Objects of class "Extent" are used to define the spatial extent. The four specified arguments are UTM coordinates for (min x, max x, min y, max y). You can set those UTM coordinates arbitrarily and get them, for example, by reading them from QGIS or Google Maps.
+
+By defining different bands for the RGB slots, we can, just as in QGIS, create all imaginable RGB composites:
+
+``` r
+plotRGB(img,
+        r = 4, g = 3, b = 2,
+        stretch = "lin",
+        ext = extent(369800, 400700, 5812400, 5827500)
+        )
+```
+
+[![](./img/vis_022.png){.aligncenter}](./img/vis_022.png)
+
+Make your spatial subset permament by writing the trimmed image as a new file to your hard drive with [writeRaster]{.crayon-inline .theme:amityreseda}. This is especially useful if you want to test a classification workflow: small data sets will cheer up your work in QGIS, in R, as well as in all other software solutions.
+
+``` r
+img.subset <- crop(img, extent(369800, 400700, 5812400, 5827500) )
+
+writeRaster(img.subset,
+            filename = "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412_subset.tif",
+            format = "GTiff",
+            overwrite = TRUE
+            )
+```
+
+Of course, it is also possible to examine the underlying data distribution in more detail. Therefore, we can look at a histogram of a specific band with the function [hist()]{.crayon-inline .theme:amityreseda}:
+
+``` r
+green <- img.subset[[3]]
+
+hist(green,
+     breaks = 200,
+     xlim = c(0, 2000),
+     ylim = c(0, 120000),
+     xlab = "band 3 reflectance value [DN * 0.01]",
+     ylab = "frequency",
+     main = "histogram L8 band 3 (green)"
+     )
+```
+
+[![](./img/vis_026.png){.aligncenter}](./img/vis_026.png)
+
+The [breaks]{.crayon-inline .theme:amityreseda}argument in line is assigned with a single number giving the number of cells for the histogram. So with more breaks, the bars in the histogram become narrower. With [xlim =]{.crayon-inline .theme:amityreseda}and [ylim =]{.crayon-inline .theme:amityreseda}you can narrow the x axis and y axis to a certain range.
