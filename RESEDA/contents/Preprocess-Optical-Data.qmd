@@ -291,41 +291,20 @@ What does the script for Level-1 data look like? Get an answer and check your kn
 
 ## Sentinel 2 Preprocessing {#sentinel-2-preprocessing .entry-title}
 
-Sentinel 2 data is delivered as zip-compressed files in Sentinel's own
-SAFE format. The spectral bands are stored as jpg-files in this SAFE
-container in three different geometric resolutions (10 m, 20 m & 60 m as
-shown in [Section Sentinel
-2](https://blogs.fu-berlin.de/reseda/sentinel-2/)). We want to stack
-these jpg-files into a single geotiff-file of an uniform pixelsize of 10
-m, i.e., into a so-called raster stack (because it is much easier to
-work with such a raster stack).\
-Due to the size of the data, we need to subset the important data from
-the SAFE container during preprocessing in order to minimize the
-computational time and the data volume. Otherwise, a single Sentinel 2
-image can quickly grow to 8 GB in size! For this, we will use only
-[desktop app SNAP](https://blogs.fu-berlin.de/reseda/snap/) and its
-commando-line based counterpart, the [Graph Processing Tool
-(GPT)](https://senbox.atlassian.net/wiki/spaces/SNAP/pages/70503475/Bulk+Processing+with+GPT){target="_blank"
-rel="noopener"}. This results in the following intermediate steps:
+Sentinel 2 data is delivered as zip-compressed files in Sentinel's own SAFE format. The spectral bands are stored as jpg-files in this SAFE container in three different geometric resolutions (10 m, 20 m & 60 m as shown in [Section Sentinel 2](https://blogs.fu-berlin.de/reseda/sentinel-2/)). We want to stack these jpg-files into a single geotiff-file of an uniform pixelsize of 10 m, i.e., into a so-called raster stack (because it is much easier to work with such a raster stack).\
+Due to the size of the data, we need to subset the important data from the SAFE container during preprocessing in order to minimize the computational time and the data volume. Otherwise, a single Sentinel 2 image can quickly grow to 8 GB in size! For this, we will use only [desktop app SNAP](https://blogs.fu-berlin.de/reseda/snap/) and its commando-line based counterpart, the [Graph Processing Tool (GPT)](https://senbox.atlassian.net/wiki/spaces/SNAP/pages/70503475/Bulk+Processing+with+GPT){target="_blank" rel="noopener"}. This results in the following intermediate steps:
 
 1.  resample all bands to 10 m
 2.  spatial and bands subset
 3.  save image as geotiff/ bigtiff to hard drive
 
-We want to perform the preprocessing step by step on the basis of an
-Sentinel 2 Level-1 scene in SNAP. Based on that we will develop a graph
-file that will process an arbitrary number of scenes for you!
+We want to perform the preprocessing step by step on the basis of an Sentinel 2 Level-1 scene in SNAP. Based on that we will develop a graph file that will process an arbitrary number of scenes for you!
 
  
 
 **Prerequisite**
 
-The following content requires that you have either successfully
-downloaded some Sentinel 2 scenes as part of the [Download Section
-Exercise](https://blogs.fu-berlin.de/reseda/esa-scihub/), or that you
-have acquired some datasets from the ESA SciHUB by your own. If this is
-not the case, look into the [chapter Sentinel /
-SciHUB](https://blogs.fu-berlin.de/reseda/esa-scihub/)!
+The following content requires that you have either successfully downloaded some Sentinel 2 scenes as part of the [Download Section Exercise](https://blogs.fu-berlin.de/reseda/esa-scihub/), or that you have acquired some datasets from the ESA SciHUB by your own. If this is not the case, look into the [chapter Sentinel / SciHUB](https://blogs.fu-berlin.de/reseda/esa-scihub/)!
 
 [Here](https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FSentinel_Data&files=S2A_MSIL2A_20180731T102021_N0208_R065_T32UQD_20180731T132903.zip)
 you can download Sentinel-2 [level
@@ -356,10 +335,7 @@ open the *Resample* operation:
 [Navigation to Resample]{style="color: #686868;font-size: small"}
 :::
 
-A window will pop up with two tabs. In the first tab, define a
-downloaded, zipped Sentinel 2 file as the source product. You do NOT
-need to unzip it in advance! In the example shown below, the file is
-located in the exchange folder of our VM.
+A window will pop up with two tabs. In the first tab, define a downloaded, zipped Sentinel 2 file as the source product. You do NOT need to unzip it in advance! In the example shown below, the file is located in the exchange folder of our VM.
 
 [![](./img/Resamplin_KF.png)](./img/Resamplin_KF.png)
 
@@ -367,11 +343,7 @@ located in the exchange folder of our VM.
 [Resampling settings tab 1]{style="color: #686868;font-size: small"}
 :::
 
-Click on the second tab "Resampling Parameters". Select spectral band 2
-here to define the geometric resolution of the final product (band 2 has
-a resolution of 10 m) and press
-![](./img/preproc_06.png){.alignnone
-.size-full .wp-image-1716 loading="lazy" width="55" height="24"}:
+Click on the second tab "Resampling Parameters". Select spectral band 2 here to define the geometric resolution of the final product (band 2 has a resolution of 10 m) and press ![](./img/preproc_06.png){.alignnone .size-full .wp-image-1716 loading="lazy" width="55" height="24"}:
 
 [![](./img/preproc_04.png)](./img/preproc_04.png)
 
@@ -379,12 +351,7 @@ a resolution of 10 m) and press
 [Resampling settings tab 2]{style="color: #686868;font-size: small"}
 :::
 
-This should create a "virtual file" with the suffix "\_resampled", which
-is not stored physically on your hard drive. The advantage is that no
-computationally intensive processes have taken place here and we can
-continue to calculate with the intermediate product, which should be
-listed in the Product Explorer in SNAP. You will also get a notification
-about this. Confirm this with OK:
+This should create a "virtual file" with the suffix "\_resampled", which is not stored physically on your hard drive. The advantage is that no computationally intensive processes have taken place here and we can continue to calculate with the intermediate product, which should be listed in the Product Explorer in SNAP. You will also get a notification about this. Confirm this with OK:
 
 [![](./img/preproc_07.png)](./img/preproc_07.png)
 
@@ -413,11 +380,7 @@ Navigate to the Subset function:
 [Subset function in Toolbar]{style="color: #bfbfbf;font-size: small"}
 :::
 
-The subset function allows you to perform both spatial and spectral
-resampling. By excluding irrelevant data, you can reduce the volume of
-data by several orders of magnitude. In the example shown below, we do a
-spatial subset based on geographic coordinates and only select specific
-bands:
+The subset function allows you to perform both spatial and spectral resampling. By excluding irrelevant data, you can reduce the volume of data by several orders of magnitude. In the example shown below, we do a spatial subset based on geographic coordinates and only select specific bands:
 
 [![](./img/preproc_09.png)](./img/preproc_09.png)
 
@@ -427,16 +390,7 @@ bands:
 [Subset function settings]{style="color: #686868;font-size: small"}
 :::
 
-By pressing OK, another data product with the prefix "subset" is
-generated within a second and should be visible in the Product Explorer
-in SNAP. Select the newly created data product in the Product Explorer
-by a simple left-click on it and navigate through the toolbar to *File*
-\> *Export* \> GeoTIFF, as shown in the next screenshot. If you notice
-that your file is larger than 4 GB, you can also choose BIGTIFF as the
-target file format. BigTIFF describes a GeoTIFF file that is over 4 GB
-in size. However, saving a BiTIFF file in SNAP is very slow, especially
-for machines with only 8 GB of RAM. Therefore try to use the GeoTIFF
-file format first:
+By pressing OK, another data product with the prefix "subset" is generated within a second and should be visible in the Product Explorer in SNAP. Select the newly created data product in the Product Explorer by a simple left-click on it and navigate through the toolbar to *File* \> *Export* \> GeoTIFF, as shown in the next screenshot. If you notice that your file is larger than 4 GB, you can also choose BIGTIFF as the target file format. BigTIFF describes a GeoTIFF file that is over 4 GB in size. However, saving a BiTIFF file in SNAP is very slow, especially for machines with only 8 GB of RAM. Therefore try to use the GeoTIFF file format first:
 
 [![](./img/export_2.png)](./img/export_2.png)
 
@@ -444,9 +398,7 @@ file format first:
 [Export function]{style="color: #686868;font-size: small"}
 :::
 
-In the window of the export function you can then define the file path
-and the name of the exported file. Then press **Export Product** to
-start the processing:
+In the window of the export function you can then define the file path and the name of the exported file. Then press **Export Product** to start the processing:
 
 [![](./img/export_3.png)](https://blogs.fu-berlin.de/reseda/files/2019/07/export_3.png)
 
@@ -454,11 +406,9 @@ start the processing:
 [Export function settings]{style="color: #686868;font-size: small"}
 :::
 
-The processing will take some time from now on, based on the spatial
-subset and the number of bands you selected.
+The processing will take some time from now on, based on the spatial subset and the number of bands you selected.
 
-**Here you can watch all presented pre-processing steps of Sentinel-2
-data:**
+**Here you can watch all presented pre-processing steps of Sentinel-2 data:**
 
 ::: {.lyte-wrapper .fourthree style="width:420px;max-width:100%;margin:5px;"}
 ::: {#WYL_cXbXHgELbjQ .lyte .lP}
@@ -471,22 +421,10 @@ Watch this video on YouTube](https://youtu.be/cXbXHgELbjQ)
 
 ### Sentinel 2 Bulk Preprocessing {#sentinel-2-bulk-preprocessing .entry-title}
 
-This section contains advanced techniques. Understanding these
-techniques is particularly relevant if you want to pre-process dozens of
-Sentinel 2 data in an identical way.\
-We will create a graph in SNAP and then modify it to process all data
-automatically via the Graph Processing Tool (GPT)!
+This section contains advanced techniques. Understanding these techniques is particularly relevant if you want to pre-process dozens of Sentinel 2 data in an identical way.\
+We will create a graph in SNAP and then modify it to process all data automatically via the Graph Processing Tool (GPT)!
 
-Open SNAP and click on the graph builder icon
-![](./img/SNAP_buttons_05.png){.alignnone
-.size-full .wp-image-899 width="28" height="32"} in the Toolbar. You
-will see a new window pop up, which shows a standard graph (containing
-one **Read** and one **Write** node) in the upper area and some options
-in the lower area. Right click somewhere in the white area at upper
-window to add new nodes, i.e., processing steps, to the graph. Navigate
-to *Add* \> *Raster* \> *Geometric* \> *Resample* to add an **Resample**
-and a **Subset** node (those are the steps we used in the above
-section):
+Open SNAP and click on the graph builder icon ![](./img/SNAP_buttons_05.png){.alignnone .size-full .wp-image-899 width="28" height="32"} in the Toolbar. You will see a new window pop up, which shows a standard graph (containing one **Read** and one **Write** node) in the upper area and some options in the lower area. Right click somewhere in the white area at upper window to add new nodes, i.e., processing steps, to the graph. Navigate to *Add* \> *Raster* \> *Geometric* \> *Resample* to add an **Resample** and a **Subset** node (those are the steps we used in the above section):
 
 [![](./img/preproc_13.png)](./img/preproc_13.png)
 
@@ -495,10 +433,7 @@ section):
 click]{style="color: #686868;font-size: small"}
 :::
 
-Each processing step is visualized by a rectangle in the graph. You can
-drag those rectangles, or nodes, to whichever position you want with
-pressed left mouse button. Your graph should now look something like
-this:
+Each processing step is visualized by a rectangle in the graph. You can drag those rectangles, or nodes, to whichever position you want with pressed left mouse button. Your graph should now look something like this:
 
 [![](./img/preproc_14.png)](./img/preproc_14.png)
 
@@ -506,10 +441,7 @@ this:
 [Unconnected graph]{style="color: #686868;font-size: small"}
 :::
 
-The individual nodes are not yet linked. If you rest the mouse pointer
-over the right edge of a rectangle, you will see a red arrow. Drag this
-arrow with pressed left mouse button to the next node in the following
-order:
+The individual nodes are not yet linked. If you rest the mouse pointer over the right edge of a rectangle, you will see a red arrow. Drag this arrow with pressed left mouse button to the next node in the following order:
 
 [![](./img/preproc_15.png)](./img/preproc_15.png)
 
@@ -517,16 +449,9 @@ order:
 [Connected graph]{style="color: #686868;font-size: small"}
 :::
 
-Next, click on the **Read** Node and load one of your ZIP-compressed
-Sentinel 2 scenes into the Source Product setting. This could take a
-short moment. **Attention:** From now on, it will always take a little
-while to switch back and forth between the processing nodes, as SNAP
-will process and read your data as virtual products in the background!
+Next, click on the **Read** Node and load one of your ZIP-compressed Sentinel 2 scenes into the Source Product setting. This could take a short moment. **Attention:** From now on, it will always take a little while to switch back and forth between the processing nodes, as SNAP will process and read your data as virtual products in the background!
 
-Now either click through the tabs at the bottom of the Graph Builder
-window or through the rectangles at the top to set the following options
-for the **Resampling**, the **Subset** and the **Write** node (according
-to the settings made in the previous section):
+Now either click through the tabs at the bottom of the Graph Builder window or through the rectangles at the top to set the following options for the **Resampling**, the **Subset** and the **Write** node (according to the settings made in the previous section):
 
 ::: {.h5p-iframe-wrapper style=""}
 :::
@@ -535,22 +460,11 @@ to the settings made in the previous section):
 [Graph settings]{style="color: #686868;font-size: small"}
 :::
 
-The spatial section in the Subset node should be made using the
-geographic coordinates. However, the linked map is quite blurred and
-therefore not much help. However, under the map you can define any
-spatial subset using the Well-Known Text (WKT) format. There are a
-number of [simple online
-tools](http://arthur-e.github.io/Wicket/sandbox-gmaps3.html){target="_blank"
-rel="noopener"} for creating such WKTs. Copy the entire "Polygon(())"
-expression into the line below the map within the subset Node:
+The spatial section in the Subset node should be made using the geographic coordinates. However, the linked map is quite blurred and therefore not much help. However, under the map you can define any spatial subset using the Well-Known Text (WKT) format. There are a number of [simple online tools](http://arthur-e.github.io/Wicket/sandbox-gmaps3.html){target="_blank" rel="noopener"} for creating such WKTs. Copy the entire "Polygon(())" expression into the line below the map within the subset Node:
 
-POLYGON((13.11 52.65, 13.70 52.65, 13.70 52.35, 13.11 52.35, 13.11
-52.65))
+POLYGON((13.11 52.65, 13.70 52.65, 13.70 52.35, 13.11 52.35, 13.11 52.65))
 
-Of course, you can add more processing steps later for your own
-analysis. When you are done click Save on the bottom of the Graph
-Builder window and save your graph as "myGraph.xml" to your hard drive
-(exchange folder recommended):
+Of course, you can add more processing steps later for your own analysis. When you are done click Save on the bottom of the Graph Builder window and save your graph as "myGraph.xml" to your hard drive (exchange folder recommended):
 
 [![](./img/preproc_20.png)](./img/preproc_20.png)
 
@@ -560,8 +474,7 @@ Builder window and save your graph as "myGraph.xml" to your hard drive
 
 **Automate Things Using GPT**
 
-Close SNAP, as we do not need it anymore. Now, open a terminal, which is
-linked in the taskbar of our VM:
+Close SNAP, as we do not need it anymore. Now, open a terminal, which is linked in the taskbar of our VM:
 
 [![](./img/USGS_036.png)](./img/USGS_036.png)
 
@@ -570,17 +483,13 @@ linked in the taskbar of our VM:
 taskbar]{style="color: #686868;font-size: small"}
 :::
 
-It is possible to run the graph using the GPT now. The GPT can be found
-in our VM in the file path "/home/student/snap/bin/gpt". Consequently,
-we can execute the graph with the following command (change the file
-path corresponding to the location of your graph file!):
+It is possible to run the graph using the GPT now. The GPT can be found in our VM in the file path "/home/student/snap/bin/gpt". Consequently, we can execute the graph with the following command (change the file path corresponding to the location of your graph file!):
 
 ``` {.theme:amityresedaterminal .nums:false}
 /home/student/snap/bin/gpt /media/sf_exchange/sentineldata/myGraph.xml
 ```
 
-Replace the path with the path of your file, copy it to the terminal and
-press Enter!
+Replace the path with the path of your file, copy it to the terminal and press Enter!
 
 [![](./img/preproc_21.png)](./img/preproc_21.png)
 
@@ -589,20 +498,9 @@ press Enter!
 line]{style="color: #686868;font-size: small"}
 :::
 
-A pre-processed file should be created directly in the same folder as
-your zip-compressed source file.\
-However, you can only process one file with the graph so far... That is
-not exactly what we wanted. That is why we will make some changes to the
-xml-file now. Right click the xml-file and choose *Open With* \> *Open
-With "Text Editor"*. Take a moment to understand how the file is
-structured. The individual inputs and outputs of all processes, or
-nodes, are saved here as a text. Each of the successive processes is
-opened by a [\<node = id ""\>]{.crayon-inline
-.theme:amityresedaterminal} tag and closed by [/node\>]{.crayon-inline
-.theme:amityresedaterminal}.\
-Search for the **Read** node. Within that node, a line should list the
-Sentinel 2 file you used when creating the graph (the line number may
-differ in your xml):
+A pre-processed file should be created directly in the same folder as your zip-compressed source file.\
+However, you can only process one file with the graph so far... That is not exactly what we wanted. That is why we will make some changes to the xml-file now. Right click the xml-file and choose *Open With* \> *Open With "Text Editor"*. Take a moment to understand how the file is structured. The individual inputs and outputs of all processes, or nodes, are saved here as a text. Each of the successive processes is opened by a [\<node = id ""\>]{.crayon-inline .theme:amityresedaterminal} tag and closed by [/node\>]{.crayon-inline .theme:amityresedaterminal}.\
+Search for the **Read** node. Within that node, a line should list the Sentinel 2 file you used when creating the graph (the line number may differ in your xml):
 
 [![](./img/preproc_22.png)](./img/preproc_22.png)
 
@@ -610,8 +508,7 @@ differ in your xml):
 [Read node in xml]{style="color: #686868;font-size: small"}
 :::
 
-Replace the filename (marked green in the figure above) with the
-placeholder [\$input]{.crayon-inline .theme:amityresedaterminal}:
+Replace the filename (marked green in the figure above) with the placeholder [\$input]{.crayon-inline .theme:amityresedaterminal}:
 
 [![](./img/preproc_24.png)](./img/preproc_24.png)
 
@@ -627,8 +524,7 @@ Now search for the **Write** node:
 [Write node in xml]{style="color: #686868;font-size: small"}
 :::
 
-And replace the file path with the placeholder [\$output]{.crayon-inline
-.theme:amityresedaterminal}:
+And replace the file path with the placeholder [\$output]{.crayon-inline .theme:amityresedaterminal}:
 
 [![](./img/preproc_25.png)](./img/preproc_25.png)
 
@@ -636,36 +532,19 @@ And replace the file path with the placeholder [\$output]{.crayon-inline
 [Modified Write node in xml]{style="color: #686868;font-size: small"}
 :::
 
-The input and output paths have now been replaced by placeholders, which
-could dynamically accept any file. When calling the graph via GPT, the
-two variables [\$input]{.crayon-inline .theme:amityresedaterminal} and
-[\$output]{.crayon-inline .theme:amityresedaterminal} must always be
-defined with from now on. A possible call for a file might look like
-this:
+The input and output paths have now been replaced by placeholders, which could dynamically accept any file. When calling the graph via GPT, the two variables [\$input]{.crayon-inline .theme:amityresedaterminal} and [\$output]{.crayon-inline .theme:amityresedaterminal} must always be defined with from now on. A possible call for a file might look like this:
 
 ``` r
 /home/student/snap/bin/gpt /media/sf_exchange/sentineldata/myGraph.xml -Pinput=/media/sf_exchange/sentineldata/S2B_MSIL1C_20170830T102019_N0205_R065_T33UUU_20170830T102531.zip -Poutput=/media/sf_exchange/sentineldata/S2B_MSIL1C_20170830T102019_N0205_R065_T33UUU_20170830T102531_sub_res.tif
 ```
 
-Of course, we can take advantage of this and use a for-loop to go
-through and process all the Sentinel 2 datasets located in a folder one
-after another using R or a bash script. We have prepared a bash script
-for you, which does just that, located in
-[/home/student/Documents/S2_proc.bash]{.crayon-inline
-.theme:amityresedaterminal}. This script tells the bash shell of Linux
-what it has to do, so you will need our VM or any Linux operating
-system. To run the script, open a terminal, reference the script and
-give it two arguments: first the full path to your graph .xml file and
-second the path where the downloaded Sentinel 2 zip-files are located. A
-possible command might look like this:
+Of course, we can take advantage of this and use a for-loop to go through and process all the Sentinel 2 datasets located in a folder one after another using R or a bash script. We have prepared a bash script for you, which does just that, located in [/home/student/Documents/S2_proc.bash]{.crayon-inline.theme:amityresedaterminal}. This script tells the bash shell of Linux what it has to do, so you will need our VM or any Linux operating system. To run the script, open a terminal, reference the script and give it two arguments: first the full path to your graph .xml file and second the path where the downloaded Sentinel 2 zip-files are located. A possible command might look like this:
 
 ``` {.theme:amityresedaterminal .nums:false}
 /home/student/Documents/S2_proc.bash /media/sf_exchange/sentineldata/myGraph.xml /media/sf_exchange/sentineldata/
 ```
 
-The script starts as soon as you press enter and writes the output to a
-new folder called "Processed", which will be created next to your S2 zip
-files.
+The script starts as soon as you press enter and writes the output to a new folder called "Processed", which will be created next to your S2 zip files.
 
 [![](./img/preproc_26.png)](./img/preproc_26.png)
 
