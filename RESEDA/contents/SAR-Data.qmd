@@ -83,7 +83,7 @@ Now either click through the tabs at the bottom of the Graph Builder window or t
 **Subset**: Limit the image data from the outset to your study area, if possible -- because all processing steps are only applied to the subset, which saves an enormous amount of computation time. The spatial section in the Subset node should be made using the geographic coordinates. However, the linked map is quite blurred and therefore not much help. However, under the map you can define any spatial subset using the Well-Known Text (WKT) format. There are a number of [simple online tools](http://arthur-e.github.io/Wicket/sandbox-gmaps3.html){target="_blank"} for creating such WKTs. Copy the entire "Polygon(())" expression into the line below the map within the subset Node and click on the update-button right to the right:\
 POLYGON((13.11 52.65, 13.70 52.65, 13.70 52.35, 13.11 52.35, 13.11 52.65))
 
-When everything is set, you might want to save your graph. Simply click on "Save" on the bottom of the graph window and choose a file path. After that, start the graph via "Run". Depending on the size of the study area and the processing nodes, this will take some time. If you run into some Java memory problems here, please refer to the [troubleshooting section](https://blogs.fu-berlin.de/reseda/intensity-images/#2) below.
+When everything is set, you might want to save your graph. Simply click on "Save" on the bottom of the graph window and choose a file path. After that, start the graph via "Run". Depending on the size of the study area and the processing nodes, this will take some time. If you run into some Java memory problems here, please refer to the [troubleshooting section](./SAR-Data.qmd#Troubleshooting) below.
 
 Have a look at the [Bulk Processing Section](./Preprocess-Optical-Data.qmd#sentinel-2-bulk-preprocessing){rel="noopener" target="_blank"} of this course to learn, how to automate the process for many datasets!
 
@@ -125,7 +125,7 @@ However, it is possible to extend this workflow. As you can see, this intensity 
 
 \
 
-## Troubleshooting
+## Troubleshooting {#Troubleshooting}
 
 Since S1 data is very large (sometimes up to 8 GB per data set), a sufficiently large amount of RAM is required for preprocessing. Especially the *calibration* and *speckle filtering* operations are very memory hungry. Your Virtual Machine (or your computer) should be equipped with at least 8 GB of RAM (16 GB recommended for S1 processing). Red error messages, such as **Cannot construct DataBuffer** or **Java Heap Space**, indicate that too little RAM is available for your computer or Java.\
 Possible solutions:\

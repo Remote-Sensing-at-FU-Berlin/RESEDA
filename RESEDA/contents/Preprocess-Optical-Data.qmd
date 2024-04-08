@@ -29,18 +29,18 @@ We will practice everything exemplary on the basis of a single L8 Level-2 data s
 
 **Prerequisite**
 
-The following content requires that you have either successfully downloaded some Landsat 8 scenes as part of the [Download Section Exercise](https://blogs.fu-berlin.de/reseda/earthexplorer-exercise/), or that you have acquired some datasets from the USGS EarthExplorer by your own. If this is not the case, look into the [chapter Landsat / Earthexplorer](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/)!
+The following content requires that you have either successfully downloaded some Landsat 8 scenes as part of the [Download Section Exercise](./Download.qmd), or that you have acquired some datasets from the USGS EarthExplorer by your own. If this is not the case, look into the [chapter Landsat / Earthexplorer](./Download.qmd#EarthExplorer)!
 
-Done? -- Then start [R-Studio](https://blogs.fu-berlin.de/reseda/r-studio/) now!
+Done? -- Then start [R-Studio](./R-Studio.qmd) now!
 
 \
 
 **Preprocess a single dataset**
 
-We recommend writing the following code in the script window of R-Studio and executing it from there (see [chapter R-Studio](https://blogs.fu-berlin.de/reseda/r-studio/)).\
+We recommend writing the following code in the script window of R-Studio and executing it from there (see [chapter R-Studio](./R-Studio.qmd)).\
 The example below assumes that you have one or more Landsat 8 scenes in a "landsatdata"-folder located in the exchange folder of your VM. Otherwise, adjust the folder according to your data!
 
-We will use the [raster library](https://cran.r-project.org/web/packages/raster/raster.pdf){target="_blank"} to write a raster file later. Additional libraries should always be loaded first, using the function [library()]{.crayon-inline .theme:amityreseda}:
+We will use the [raster library](https://cran.r-project.org/web/packages/raster/raster.pdf){target="_blank"} to write a raster file later. Additional libraries should always be loaded first, using the function `library() `:
 
 ``` theme:amityreseda
 library(raster)
@@ -49,7 +49,7 @@ library(raster)
 
 A few libraries make use of other libraries. So does the raster library with the [sp-package](https://cran.r-project.org/web/packages/sp/sp.pdf){target="_blank"}, which will be loaded automatically.
 
-Then define the Landsat 8 product of your choice with its entire file path and save it as the string variable [product]{.crayon-inline .theme:amityreseda}:
+Then define the Landsat 8 product of your choice with its entire file path and save it as the string variable `product`:
 
 ``` r
 product <- "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tar.gz"
@@ -59,9 +59,9 @@ file.exists(product)
 ```
 
 **NOTE:** this is just an example -- you have to change the file and its path according to your own settings!\
-You can use the function [file.exists()]{.crayon-inline .theme:amityreseda} to check whether the file can be found on your system or not. If it returns [FALSE]{.crayon-inline .theme:amityreseda}, make sure you did not mess up the file name.
+You can use the function `file.exists() ` to check whether the file can be found on your system or not. If it returns `FALSE `, make sure you did not mess up the file name.
 
-We want to unpack the file into a folder with the same name as the file. The character variable [product]{.crayon-inline .theme:amityreseda} already contains the full name of the Landsat scene. We just have to get rid of the suffix ".tar.gz". Therefore we can use the function [substr()]{.crayon-inline .theme:amityreseda} to delete the last seven characters (=".tar.gz") of the string:
+We want to unpack the file into a folder with the same name as the file. The character variable `product ` already contains the full name of the Landsat scene. We just have to get rid of the suffix ".tar.gz". Therefore we can use the function `substr() ` to delete the last seven characters (=".tar.gz") of the string:
 
 ``` r
 productname <- substr(product, 1, nchar(product) - 7) 
@@ -70,16 +70,16 @@ productname
 ## [1] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412"
 ```
 
-The substring function [substr()]{.crayon-inline .theme:amityreseda} accepts three arguments here: a string (the entire file path with the suffix), and two integer values -- one for a start ("1" = start with the first character) and one for a stop position within the given string. In order to define the stop position, we need to count the number of all characters of the file path via [nchar(product)]{.crayon-inline .theme:amityreseda} (which is 77 in our case) and substract 7.
+The substring function `substr() ` accepts three arguments here: a string (the entire file path with the suffix), and two integer values -- one for a start ("1" = start with the first character) and one for a stop position within the given string. In order to define the stop position, we need to count the number of all characters of the file path via `nchar(product) ` (which is 77 in our case) and substract 7.
 
-Unzip the Landsat product using the [untar()]{.crayon-inline .theme:amityreseda} method and define the directory to which all data will be extracted by setting the argument [exdir = productname]{.crayon-inline .theme:amityreseda}:
+Unzip the Landsat product using the `untar()` method and define the directory to which all data will be extracted by setting the argument `exdir = productname `:
 
 ``` r
 untar(product, exdir = productname)
 ```
 
 You should notice a new folder being created next to your initial data product. This could take a short moment. During processing, a red exclamation point can be seen in the upper right corner of the console window. **NOTE:** If this step fails, your data is corrupt. In this case, you will need to download the file again because something went wrong during data transfer.\
-After unpacking is complete, we want to have a look in the newly extracted folder and save the file names of all files in this folder into a vector [productfiles]{.crayon-inline .theme:amityreseda} using the function [list.files]{.crayon-inline .theme:amityreseda}. By providing the argument [full.names = TRUE]{.crayon-inline .theme:amityreseda}, the full paths are returned for each file:
+After unpacking is complete, we want to have a look in the newly extracted folder and save the file names of all files in this folder into a vector `productfiles ` using the function `list.files `. By providing the argument `full.names = TRUE `, the full paths are returned for each file:
 
 ``` r
 productfiles <- list.files(productname, full.names = TRUE)
@@ -104,7 +104,7 @@ These are all 13 files that come with a Level-2 product (see [Landsat 8](https:/
 
 [![](./img/preproc_01.png)](./img/preproc_01.png)
 
-Now we want to select all the spectral bands that we want to put into our new data stack. Have a deeper look at the files in [productfiles]{.crayon-inline .theme:amityreseda}. The files are named after the corresponding spectral channels at the end of the file name, e.g., "band1", "band2", and so on. We use these terms to extract the bands by utilizing the [grep()]{.crayon-inline .theme:amityreseda} function. The following code looks a little bloated. Maybe it is. But he gives you the freedom to exclude individual bands that you may not need. **NOTE:** This is an example of level 2 data. Landsat Level-1 scenes potentially have 11 channels. In the case of Level 1 data, you could easily enter the remaining lines here.
+Now we want to select all the spectral bands that we want to put into our new data stack. Have a deeper look at the files in `productfiles `. The files are named after the corresponding spectral channels at the end of the file name, e.g., "band1", "band2", and so on. We use these terms to extract the bands by utilizing the `grep() ` function. The following code looks a little bloated. Maybe it is. But he gives you the freedom to exclude individual bands that you may not need. **NOTE:** This is an example of level 2 data. Landsat Level-1 scenes potentially have 11 channels. In the case of Level 1 data, you could easily enter the remaining lines here.
 
 ``` r
 bands <- c(grep('band1', productfiles, value=TRUE),
@@ -126,15 +126,15 @@ bands
 ## [7] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band7.tif"
 ```
 
-The [grep()]{.crayon-inline .theme:amityreseda} function searches for the string, which is given as the first argument, e.g., 'band1', in the vector of strings (2nd argument). Normally, when the function finds a match, it only returns the position of this find in the vector [productfiles]{.crayon-inline .theme:amityreseda}. By setting the argument [value=TRUE]{.crayon-inline .theme:amityreseda} we can write out the content of the vector at the respective position instead. By doing so, we create an vector [bands]{.crayon-inline .theme:amityreseda} containing all file paths via the standard combine-function [c()]{.crayon-inline .theme:amityreseda}.
+The `grep() ` function searches for the string, which is given as the first argument, e.g., 'band1', in the vector of strings (2nd argument). Normally, when the function finds a match, it only returns the position of this find in the vector `productfiles `. By setting the argument `value=TRUE ` we can write out the content of the vector at the respective position instead. By doing so, we create an vector `bands ` containing all file paths via the standard combine-function `c() `.
 
-Now we can create a rasterstack based on the vector of bands in the variable [bands]{.crayon-inline .theme:amityreseda}. In order to do so, we use the function [stack()]{.crayon-inline .theme:amityreseda}, which is part of the raster-library we loaded in the beginning! This [rasterstack function](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/stack){target="_blank"} creates a rasterstack object based on a list of filenames. You will learn more about the beauty of rasterstacks in the [chapter Visualization](https://blogs.fu-berlin.de/reseda/visualization/).
+Now we can create a rasterstack based on the vector of bands in the variable `bands `. In order to do so, we use the function `stack() `, which is part of the raster-library we loaded in the beginning! This [rasterstack function](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/stack){target="_blank"} creates a rasterstack object based on a list of filenames. You will learn more about the beauty of rasterstacks in the [chapter Visualization](https://blogs.fu-berlin.de/reseda/visualization/).
 
 ``` r
 rasterstack <- stack( bands )
 ```
 
-We can save this rasterstack and store it on your hard drive via [writeRaster]{.crayon-inline .theme:amityreseda}:
+We can save this rasterstack and store it on your hard drive via `writeRaster `:
 
 ``` theme:amityreseda
 writeRaster(rasterstack, 
@@ -144,18 +144,18 @@ writeRaster(rasterstack,
             )
 ```
 
-The [writerRaster fuction](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/writeRaster){target="_blank"} is a powerful tool, which is also provided by the [raster package](https://cran.r-project.org/web/packages/raster/raster.pdf){target="_blank"}. In line 1 we set our rasterstack object as the first argument. In line 2 we define the output name of the new file we will create. To do this, just add the suffix ".tif" to our filename using the handy function [paste0]{.crayon-inline .theme:amityreseda}, which just put all the strings together to one string. Line 3 explicitly defines the output format "GTiff". How should I know this string "GTiff", you ask? These strings are fixed by the function and are also listed for other data formats in the [raster documentation](https://cran.r-project.org/web/packages/raster/raster.pdf){target="_blank"} on page 220. The fourth argument in line 4 only gives the authority to overwrite existing files.
+The [writerRaster fuction](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/writeRaster){target="_blank"} is a powerful tool, which is also provided by the [raster package](https://cran.r-project.org/web/packages/raster/raster.pdf){target="_blank"}. In line 1 we set our rasterstack object as the first argument. In line 2 we define the output name of the new file we will create. To do this, just add the suffix ".tif" to our filename using the handy function `paste0 `, which just put all the strings together to one string. Line 3 explicitly defines the output format "GTiff". How should I know this string "GTiff", you ask? These strings are fixed by the function and are also listed for other data formats in the [raster documentation](https://cran.r-project.org/web/packages/raster/raster.pdf){target="_blank"} on page 220. The fourth argument in line 4 only gives the authority to overwrite existing files.
 
 **DONE!** A new file containing all spectral bands is now written directly next to the initial packed file you downloaded!
 
 There are still two useful additional things left to do:\
-First, we can now delete the folder we created by uncompressing your Landsat data because it is no longer needed. So, if you want to save disk space, use the command [unlink()]{.crayon-inline .theme:amityreseda} to simply delete the folder. By setting the argument [recursive=TRUE]{.crayon-inline .theme:amityreseda}, all files within the folder will be deleted:
+First, we can now delete the folder we created by uncompressing your Landsat data because it is no longer needed. So, if you want to save disk space, use the command `unlink() ` to simply delete the folder. By setting the argument `recursive=TRUE `, all files within the folder will be deleted:
 
 ``` r
 unlink(productname, recursive=TRUE)
 ```
 
-Second, it is advisable to create so-called [pyramid layers](http://desktop.arcgis.com/en/arcmap/latest/manage-data/raster-and-images/raster-pyramids.htm){target="_blank"} for each Landsat dataset. Pyramid layers are used to improve performance. They are a downsampled version of the original raster and speed up the display of raster data by retrieving only the data at a specified resolution that is required for the display. We can automatically create them by using the [Geospatial Data Abstraction Library](http://www.gdal.org/){target="_blank"} (GDAL). Initially, GDAL has nothing to do with R, but it can be operated via R using [rgdal](https://www.rdocumentation.org/packages/rgdal/versions/1.3-2){target="_blank"}. However, we use the standalone installation of GDAL at this point, or more precisely, the function [gdaladdo](http://www.gdal.org/gdaladdo.html){target="_blank"}. If you do not use our VM, you have to install GDAL on your machine first. We build the appropriate command to run [gdaladdo]{.crayon-inline .theme:amityreseda} using [paste0()]{.crayon-inline .theme:amityreseda} and pass that command to the [system()]{.crayon-inline .theme:amityreseda} function. The [system()]{.crayon-inline .theme:amityreseda} function executes a command exactly as if you entered it yourself in the command window of Linux. Try it!
+Second, it is advisable to create so-called [pyramid layers](http://desktop.arcgis.com/en/arcmap/latest/manage-data/raster-and-images/raster-pyramids.htm){target="_blank"} for each Landsat dataset. Pyramid layers are used to improve performance. They are a downsampled version of the original raster and speed up the display of raster data by retrieving only the data at a specified resolution that is required for the display. We can automatically create them by using the [Geospatial Data Abstraction Library](http://www.gdal.org/){target="_blank"} (GDAL). Initially, GDAL has nothing to do with R, but it can be operated via R using [rgdal](https://www.rdocumentation.org/packages/rgdal/versions/1.3-2){target="_blank"}. However, we use the standalone installation of GDAL at this point, or more precisely, the function [gdaladdo](http://www.gdal.org/gdaladdo.html){target="_blank"}. If you do not use our VM, you have to install GDAL on your machine first. We build the appropriate command to run `gdaladdo ` using `paste0() ` and pass that command to the `system() ` function. The `system() ` function executes a command exactly as if you entered it yourself in the command window of Linux. Try it!
 
 ``` r
 makeOVR <- paste0("gdaladdo -ro ", productname, ".tif 2 4 8 16")
@@ -220,8 +220,8 @@ dir(pathToFiles)
 ## [2] "LC081930232017060201T1-SC20180613160412.tar.gz"
 ```
 
-You can check the files inside [pathToFiles]{.crayon-inline .theme:amityreseda} with the [dir()]{.crayon-inline .theme:amityreseda} function. It should list all your Landsat 8 files. If that is not the case, make sure you did not mess up the file path name.\
-We can write all the products that exist in the folder in a vector [products]{.crayon-inline .theme:amityreseda} using the [list.files()]{.crayon-inline .theme:amityreseda} function:
+You can check the files inside `pathToFiles ` with the `dir() ` function. It should list all your Landsat 8 files. If that is not the case, make sure you did not mess up the file path name.\
+We can write all the products that exist in the folder in a vector `products ` using the `list.files() ` function:
 
 ``` r
 products <- list.files(pathToFiles, full.names = TRUE)
@@ -231,7 +231,7 @@ products
 ## [2] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tar.gz"
 ```
 
-To go through all the steps we saw in the previous section above for each of the scenes in [products]{.crayon-inline .theme:amityreseda}, we use a for-loop. Conceptually, the for-loop does the following:
+To go through all the steps we saw in the previous section above for each of the scenes in `products `, we use a for-loop. Conceptually, the for-loop does the following:
 
 ``` r
 for (i in products) {
@@ -244,10 +244,10 @@ for (i in products) {
 ## [1] "do all the preprocessing stuff"
 ```
 
-For all landsat scenes [i]{.crayon-inline .theme:amityreseda} in [products]{.crayon-inline .theme:amityreseda}, it will do all the preprocessing stuff. The variable, or iterator, [i]{.crayon-inline .theme:amityreseda} is just a placeholder, which is sequentially occupied with the file names of the Landsat products.\
+For all landsat scenes `i ` in `products `, it will do all the preprocessing stuff. The variable, or iterator, `i ` is just a placeholder, which is sequentially occupied with the file names of the Landsat products.\
 Thus, you can just imagine any filename (as a string) every time you see the iterator i.\
 The remaining steps are then identical to those described above. 
-Here is the complete code. Just adjust your [pathToFiles]{.crayon-inline .theme:amityreseda} and run it in R-Studio to preprocess all of your Landsat 8 Level-2 files!
+Here is the complete code. Just adjust your `pathToFiles ` and run it in R-Studio to preprocess all of your Landsat 8 Level-2 files!
 
 ``` r
 library(raster)
@@ -307,8 +307,7 @@ We want to perform the preprocessing step by step on the basis of an Sentinel 2 
 The following content requires that you have either successfully downloaded some Sentinel 2 scenes as part of the [Download Section Exercise](https://blogs.fu-berlin.de/reseda/esa-scihub/), or that you have acquired some datasets from the ESA SciHUB by your own. If this is not the case, look into the [chapter Sentinel / SciHUB](https://blogs.fu-berlin.de/reseda/esa-scihub/)!
 
 [Here](https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FSentinel_Data&files=S2A_MSIL2A_20180731T102021_N0208_R065_T32UQD_20180731T132903.zip)
-you can download Sentinel-2 [level
-2](https://earth.esa.int/web/sentinel/user-guides/sentinel-2-msi/product-types/level-2a){target="_blank"
+you can download Sentinel-2 [level 2](https://earth.esa.int/web/sentinel/user-guides/sentinel-2-msi/product-types/level-2a){target="_blank"
 rel="noopener"} data (from 31th of July 2018) for execute this exercise.
 
 Done? -- Then start [SNAP](https://blogs.fu-berlin.de/reseda/snap/) now!
@@ -499,7 +498,7 @@ line]{style="color: #686868;font-size: small"}
 :::
 
 A pre-processed file should be created directly in the same folder as your zip-compressed source file.\
-However, you can only process one file with the graph so far... That is not exactly what we wanted. That is why we will make some changes to the xml-file now. Right click the xml-file and choose *Open With* \> *Open With "Text Editor"*. Take a moment to understand how the file is structured. The individual inputs and outputs of all processes, or nodes, are saved here as a text. Each of the successive processes is opened by a [\<node = id ""\>]{.crayon-inline .theme:amityresedaterminal} tag and closed by [/node\>]{.crayon-inline .theme:amityresedaterminal}.\
+However, you can only process one file with the graph so far... That is not exactly what we wanted. That is why we will make some changes to the xml-file now. Right click the xml-file and choose *Open With* \> *Open With "Text Editor"*. Take a moment to understand how the file is structured. The individual inputs and outputs of all processes, or nodes, are saved here as a text. Each of the successive processes is opened by a `\<node = id ""\>` tag and closed by `/node\>`.\
 Search for the **Read** node. Within that node, a line should list the Sentinel 2 file you used when creating the graph (the line number may differ in your xml):
 
 [![](./img/preproc_22.png)](./img/preproc_22.png)
@@ -508,7 +507,7 @@ Search for the **Read** node. Within that node, a line should list the Sentinel 
 [Read node in xml]{style="color: #686868;font-size: small"}
 :::
 
-Replace the filename (marked green in the figure above) with the placeholder [\$input]{.crayon-inline .theme:amityresedaterminal}:
+Replace the filename (marked green in the figure above) with the placeholder `\$input`:
 
 [![](./img/preproc_24.png)](./img/preproc_24.png)
 
@@ -524,7 +523,7 @@ Now search for the **Write** node:
 [Write node in xml]{style="color: #686868;font-size: small"}
 :::
 
-And replace the file path with the placeholder [\$output]{.crayon-inline .theme:amityresedaterminal}:
+And replace the file path with the placeholder `\$output`:
 
 [![](./img/preproc_25.png)](./img/preproc_25.png)
 
@@ -532,13 +531,13 @@ And replace the file path with the placeholder [\$output]{.crayon-inline .theme:
 [Modified Write node in xml]{style="color: #686868;font-size: small"}
 :::
 
-The input and output paths have now been replaced by placeholders, which could dynamically accept any file. When calling the graph via GPT, the two variables [\$input]{.crayon-inline .theme:amityresedaterminal} and [\$output]{.crayon-inline .theme:amityresedaterminal} must always be defined with from now on. A possible call for a file might look like this:
+The input and output paths have now been replaced by placeholders, which could dynamically accept any file. When calling the graph via GPT, the two variables `\$input` and `\$output` must always be defined with from now on. A possible call for a file might look like this:
 
 ``` r
 /home/student/snap/bin/gpt /media/sf_exchange/sentineldata/myGraph.xml -Pinput=/media/sf_exchange/sentineldata/S2B_MSIL1C_20170830T102019_N0205_R065_T33UUU_20170830T102531.zip -Poutput=/media/sf_exchange/sentineldata/S2B_MSIL1C_20170830T102019_N0205_R065_T33UUU_20170830T102531_sub_res.tif
 ```
 
-Of course, we can take advantage of this and use a for-loop to go through and process all the Sentinel 2 datasets located in a folder one after another using R or a bash script. We have prepared a bash script for you, which does just that, located in [/home/student/Documents/S2_proc.bash]{.crayon-inline.theme:amityresedaterminal}. This script tells the bash shell of Linux what it has to do, so you will need our VM or any Linux operating system. To run the script, open a terminal, reference the script and give it two arguments: first the full path to your graph .xml file and second the path where the downloaded Sentinel 2 zip-files are located. A possible command might look like this:
+Of course, we can take advantage of this and use a for-loop to go through and process all the Sentinel 2 datasets located in a folder one after another using R or a bash script. We have prepared a bash script for you, which does just that, located in `/home/student/Documents/S2_proc.bash`. This script tells the bash shell of Linux what it has to do, so you will need our VM or any Linux operating system. To run the script, open a terminal, reference the script and give it two arguments: first the full path to your graph .xml file and second the path where the downloaded Sentinel 2 zip-files are located. A possible command might look like this:
 
 ``` {.theme:amityresedaterminal .nums:false}
 /home/student/Documents/S2_proc.bash /media/sf_exchange/sentineldata/myGraph.xml /media/sf_exchange/sentineldata/

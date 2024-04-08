@@ -272,7 +272,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#intensity-images" id="toc-intensity-images" class="nav-link" data-scroll-target="#intensity-images">Intensity Images</a>
   <ul class="collapse">
   <li><a href="#step-by-step" id="toc-step-by-step" class="nav-link" data-scroll-target="#step-by-step">Step by Step</a></li>
-  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a></li>
+  <li><a href="#Troubleshooting" id="toc-Troubleshooting" class="nav-link" data-scroll-target="#Troubleshooting">Troubleshooting</a></li>
   </ul></li>
   <li><a href="#texture-metrics" id="toc-texture-metrics" class="nav-link" data-scroll-target="#texture-metrics">Texture Metrics</a>
   <ul class="collapse">
@@ -364,7 +364,7 @@ S1 SLC files hold around 7 to 8 GB of data. So this may take some time. <strong>
 <strong>Terrain Correction</strong>: Choose a <em>Pixel Spacing</em> in m for the final output product, as well as the adequate <em>Map Projektion</em> (WGS 84, EPSG:32633 in our example).<br>
 <strong>Subset</strong>: Limit the image data from the outset to your study area, if possible – because all processing steps are only applied to the subset, which saves an enormous amount of computation time. The spatial section in the Subset node should be made using the geographic coordinates. However, the linked map is quite blurred and therefore not much help. However, under the map you can define any spatial subset using the Well-Known Text (WKT) format. There are a number of <a href="http://arthur-e.github.io/Wicket/sandbox-gmaps3.html" target="_blank">simple online tools</a> for creating such WKTs. Copy the entire “Polygon(())” expression into the line below the map within the subset Node and click on the update-button right to the right:<br>
 POLYGON((13.11 52.65, 13.70 52.65, 13.70 52.35, 13.11 52.35, 13.11 52.65))</p>
-<p>When everything is set, you might want to save your graph. Simply click on “Save” on the bottom of the graph window and choose a file path. After that, start the graph via “Run”. Depending on the size of the study area and the processing nodes, this will take some time. If you run into some Java memory problems here, please refer to the <a href="https://blogs.fu-berlin.de/reseda/intensity-images/#2">troubleshooting section</a> below.</p>
+<p>When everything is set, you might want to save your graph. Simply click on “Save” on the bottom of the graph window and choose a file path. After that, start the graph via “Run”. Depending on the size of the study area and the processing nodes, this will take some time. If you run into some Java memory problems here, please refer to the <a href="../../RESEDA/contents/SAR-Data.html#Troubleshooting">troubleshooting section</a> below.</p>
 <p>Have a look at the <a href="../../RESEDA/contents/Preprocess-Optical-Data.html#sentinel-2-bulk-preprocessing" rel="noopener" target="_blank">Bulk Processing Section</a> of this course to learn, how to automate the process for many datasets!</p>
 <p>After processing is finished, you should get a GeoTiff-file that includes two channels: one VH and one VV intensity image. Those can be viewed directly in SNAP:</p>
 <div class="quarto-figure quarto-figure-center">
@@ -404,8 +404,8 @@ However, it is possible to extend this workflow. As you can see, this intensity 
 <p><br>
 </p>
 </section>
-<section id="troubleshooting" class="level2">
-<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
+<section id="Troubleshooting" class="level2">
+<h2 class="anchored" data-anchor-id="Troubleshooting">Troubleshooting</h2>
 <p>Since S1 data is very large (sometimes up to 8 GB per data set), a sufficiently large amount of RAM is required for preprocessing. Especially the <em>calibration</em> and <em>speckle filtering</em> operations are very memory hungry. Your Virtual Machine (or your computer) should be equipped with at least 8 GB of RAM (16 GB recommended for S1 processing). Red error messages, such as <strong>Cannot construct DataBuffer</strong> or <strong>Java Heap Space</strong>, indicate that too little RAM is available for your computer or Java.<br>
 Possible solutions:<br>
 – In the main toolbar of SNAP, click on Tools &gt; Options. A new window will open, click on the <em>Performance</em> tab and modify the “-Xmx2048m” value in the first line, which says <em>VM Parameter</em> to something like “-Xmx8192m”. This will allocate more memory to the Java virtual machine.<br>

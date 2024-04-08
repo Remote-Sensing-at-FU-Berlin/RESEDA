@@ -11,22 +11,22 @@ Anyway, we want to focus on converting the just-downloaded Landsat 8 and Sentine
 # Chapter in a Box
 
 In this chapter, the following content awaits you:\
-[**Preprocess Landsat 8**](https://blogs.fu-berlin.de/reseda/landsat-8-preprocessing/)\
+[**Preprocess Landsat 8**](./PrepareYourself.qmd#landsat-8-preprocessing)\
 -- unzip downloaded image data products\
 -- stack all bands of interest into a rasterstack and save it\
 -- create pyramid layers for rasterstacks\
 -- automate everything for BIG DATA analysis using R\
-[**Preprocess Sentinel 2**](https://blogs.fu-berlin.de/reseda/sentinel-2-preprocessing/)\
+[**Preprocess Sentinel 2**](./Preprocess-Optical-Data.qmd#sentinel-2-preprocessing)\
 -- convert image data from SAFE to tif format\
 -- resample image data to uniform geometrical resolution\
 -- automate everything for BIG DATA analysis using SNAP and GPT/ R\
-[**Preprocess Sentinel 1**](https://blogs.fu-berlin.de/reseda/sar-data/)\
+[**Preprocess Sentinel 1**](./SAR-Data.qmd)\
 -- generate intensity images in different polarizations\
 -- expand feature space of S1 intensity images via texture metrics (GLCM)\
-[**Visualization**](https://blogs.fu-berlin.de/reseda/visualization/)\
+[**Visualization**](./Visualization.qmd)\
 -- use R and QGIS for visualization of Landsat 8 data
 :::
 
-The basic understanding of the various operators and data types in R is required. If you want to refresh this knowledge, you can now go to the [R Crash Course](https://blogs.fu-berlin.de/reseda/r-crash-course/)!
+The basic understanding of the various operators and data types in R is required. If you want to refresh this knowledge, you can now go to the [R Crash Course](../../docs/R-Crash-Course/index.qmd)!
 :::
 :::

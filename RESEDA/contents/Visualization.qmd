@@ -170,8 +170,7 @@ Okay, but now it is time to bring some color into play.
 
 ## Multiband Visualization
 
-And again, open Layer Properties dialog for the L8 image layer by right-clicking on it in the Layer Panel and selecting Properties option or simply double-click the image layer. Now select **Multiband color** as the Render Type and select three spectral bands for the three RGB slots. First let us ave a look at the true color composite, which is band 4,3,2 for the RGB slots. Search for a cloud-free spot in your image, and select the remaining settings as described in the previous
-section as follows:
+And again, open Layer Properties dialog for the L8 image layer by right-clicking on it in the Layer Panel and selecting Properties option or simply double-click the image layer. Now select **Multiband color** as the Render Type and select three spectral bands for the three RGB slots. First let us ave a look at the true color composite, which is band 4,3,2 for the RGB slots. Search for a cloud-free spot in your image, and select the remaining settings as described in the previous section as follows:
 
 [![](./img/vis_016.png){.aligncenter}](./img/vis_016.png)
 

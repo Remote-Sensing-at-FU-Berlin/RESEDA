@@ -207,7 +207,7 @@ Level-1 products contain the following 14 files once uncompressed:
 
 USGS offers on-demand Surface Reflectance data products (Level-2). Surface Reflectance products provide an estimate of the surface spectral reflectance as it would be measured at ground level in the absence of atmospheric scattering or absorption. Surface reflectance values are scaled between 0 % and 100 %. This atmospheric correction is done via the Landsat Surface Reflectance Code (LaSRC), which utilizes the Landsat band 1, auxiliary MODIS data and radiative transfer models.\
 Keep in mind: This product contain neither Level-1 TOA layers nor thermal bands!\
-Although these data are also free, it may take several days for the processing to be completed by the servers of the Earth Resources Observation and Science (EROS) Center, before you are able to download them (read on: [USGS Earth Explorer](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/){target="_blank" rel="noopener"}).
+Although these data are also free, it may take several days for the processing to be completed by the servers of the Earth Resources Observation and Science (EROS) Center, before you are able to download them (read on: [USGS Earth Explorer](./Download.qmd#EarthExplorer){target="_blank" rel="noopener"}).
 
 Level-2 products contain the following 13 files once uncompressed:
 
@@ -231,11 +231,7 @@ The official [product guide](https://www.usgs.gov/land-resources/nli/landsat/lan
 
 # Sentinel-2 {#sentinel-2}
 
-Sentinel 2 is a multi-spectral mission consisting of a pair of optical
-Earth observation satellites: Sentinel-2A and Sentinel-2B, operated by
-the European Space Agency (ESA) within the framework of the Copernicus
-program. Sentinel 2 is the European counterpart on Landsat and provides
-freely available data to study climate change processes.
+Sentinel 2 is a multi-spectral mission consisting of a pair of optical Earth observation satellites: Sentinel-2A and Sentinel-2B, operated by the European Space Agency (ESA) within the framework of the Copernicus program. Sentinel 2 is the European counterpart on Landsat and provides freely available data to study climate change processes.
 
 [![](./img/sentinel2.png)](./img/sentinel2.png)
 
@@ -243,17 +239,8 @@ freely available data to study climate change processes.
 [Sentinel 2 satellite]{style="color: #686868;font-size: small"}
 :::
 
-Both Sentinel 2 satellites were built by Airbus DS and launched on a
-Vega launch vehicle in French Guiana (Kourou) on June 23, 2015 and on
-March 7, 2017, respectively. Two more identical satellites are scheduled
-to launch in 2021 to improve the temporal resolution. Each Sentinel 2
-satellite carries a single multi-spectral instrument (MSI), which uses a
-push-broom concept and provides 13 spectral channels ranging from the
-visible (VIS) to the short-wavelength infrared (SWIR) in different
-spatial resolutions. Incoming light is collected by a three-mirror
-telescope and focused by a beam-splitter onto two focalplane assemblies
-(FPAs) -- one for the ten VNIR bands and one for the three SWIR
-wavelengths:
+Both Sentinel 2 satellites were built by Airbus DS and launched on a Vega launch vehicle in French Guiana (Kourou) on June 23, 2015 and on March 7, 2017, respectively. Two more identical satellites are scheduled to launch in 2021 to improve the temporal resolution. Each Sentinel 2 satellite carries a single multi-spectral instrument (MSI), which uses a push-broom concept and provides 13 spectral channels ranging from the visible (VIS) to the short-wavelength infrared (SWIR) in different spatial resolutions. Incoming light is collected by a three-mirror telescope and focused by a beam-splitter onto two focalplane assemblies
+(FPAs) -- one for the ten VNIR bands and one for the three SWIR wavelengths:
 
 [![](./img/sentinel_2_channels.png)](./img/sentinel_2_channels.png)
 
@@ -261,11 +248,7 @@ wavelengths:
 [Sentinel 2 bands]{style="color: #686868;font-size: small"}
 :::
 
-The Sentinel 2 mission is designed to mainly provide information for
-agricultural and forestry practices and applications. In this context,
-the three red edge bands (5-7) help to differentiate various plant
-species by leaf area chlorophyll characteristics. Note: Compared to
-Landsat, however, the thermal and pan bands are missing.
+The Sentinel 2 mission is designed to mainly provide information for agricultural and forestry practices and applications. In this context, the three red edge bands (5-7) help to differentiate various plant species by leaf area chlorophyll characteristics. Note: Compared to Landsat, however, the thermal and pan bands are missing.
 
 |          |              |                     |                 |            |
 |:--------:|:------------:|:-------------------:|:---------------:|:----------:|
@@ -284,13 +267,8 @@ Landsat, however, the thermal and pan bands are missing.
 |    11    |     SWIR     |   1.565 -- 1.655    |       20        |    MSI     |
 |    12    |     SWIR     |   2.100 -- 2.280    |       20        |    MSI     |
 
-A special feature of the sensor is the continuous acquisition manner of
-Sentinel-2, called a "datatake", which allows a (max.) 15.000 km long
-continuous imaging strip, e.g. from Russia to southern Africa.\
-In the following a profile with the most important characteristics of
-the sensor is given. For much more detailed information, please refer to
-the [Sentinel 2 User
-Guide](https://sentinel.esa.int/documents/247904/685211/Sentinel-2_User_Handbook){target="_blank"}!
+A special feature of the sensor is the continuous acquisition manner of Sentinel-2, called a "datatake", which allows a (max.) 15.000 km long continuous imaging strip, e.g. from Russia to southern Africa.\
+In the following a profile with the most important characteristics of the sensor is given. For much more detailed information, please refer to the [Sentinel 2 User Guide](https://sentinel.esa.int/documents/247904/685211/Sentinel-2_User_Handbook){target="_blank"}!
 
 +:---------------------------------+:---------------------------------+
 | **geometric**                    | -   10 m spatial resolution      |
@@ -330,64 +308,26 @@ Guide](https://sentinel.esa.int/documents/247904/685211/Sentinel-2_User_Handbook
 
 ## Data Products
 
-A single Sentinel 2 scene is huge. The swath width of Sentinel 2 is 290
-km. So that the data can be handled at all, imagery is geometrically
-subdivided into rectangular tiles, or so-called granules. The Payload
-Data Ground Segment (PDGS) is responsible for the processing and
-archiving those granules. All products are innately projected to the
-Universal Transverse Mercator (UTM) coordinate system with the World
-Geodetic System 84 (WGS84) datum.
+A single Sentinel 2 scene is huge. The swath width of Sentinel 2 is 290 km. So that the data can be handled at all, imagery is geometrically subdivided into rectangular tiles, or so-called granules. The Payload Data Ground Segment (PDGS) is responsible for the processing and archiving those granules. All products are innately projected to the Universal Transverse Mercator (UTM) coordinate system with the World Geodetic System 84 (WGS84) datum.
 
 And again, Sentinel 2 data goes through multiples processing levels:
 
--   Level-0: unprocessed instrument data at full resolution; telemetry
-    analysis, preliminary cloud mask generation, and coarse
+-   Level-0: unprocessed instrument data at full resolution; telemetry analysis, preliminary cloud mask generation, and coarse
     coregistration
--   Level-1A: radiometric corrections and geometric viewing model
-    refinement
--   Level-1B: resampling, conversion to reflectances and
-    cloud/water/land mask generation
+-   Level-1A: radiometric corrections and geometric viewing model refinement
+-   Level-1B: resampling, conversion to reflectances and cloud/water/land mask generation
 
-More information on pre-processing is given in the [Sentinel 2 User
-Handbook](https://sentinel.esa.int/documents/247904/685211/Sentinel-2_User_Handbook){target="_blank"}.\
-Anyway, Level-0, Level-1A and Level-1B products are PDGS-internal
-products not made available to users! When browsing the [ESA SciHUB
-archive](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/){target="_blank"},
-you will be able to choose from Level-1C and Level-2A products:
+More information on pre-processing is given in the [Sentinel 2 User Handbook](https://sentinel.esa.int/documents/247904/685211/Sentinel-2_User_Handbook){target="_blank"}.\
+Anyway, Level-0, Level-1A and Level-1B products are PDGS-internal products not made available to users! When browsing the [ESA SciHUB archive](./Download.qmd#SentinelScihub){target="_blank"}, you will be able to choose from Level-1C and Level-2A products:
 
-**Level-1C** products are radiometric and geometric corrected top of
-atmosphere (TOA) data. This corrections include orthorectification and
-spatial registration on the UTM/WGS84 system with sub-pixel accuracy.
-Level-1C imagary is delivered in granules of 100×100 km of approximately
-600-800 MB each. The individual spectral bands are present in their
-respective resolution (10, 20 and 60m), which is why resampling to a
-uniform geometric resolution is often necessary for further processing.
-A product consists of image data, available as JPEG2000 files, and the
-associated metadata, all capsuled within a "SAFE" file container. You
-will need the
-[SNAP](https://blogs.fu-berlin.de/reseda/snap/){target="_blank"}-software
-in order to read those SAFE-container (see chapter Visualize for a
-guide). The Sentinel-SAFE format wraps image data and product metadata
-in a specific folder structure. Do not alter this folder structure or
-any file names to ensure that image data and auxiliary information can
-be imported correctly.
+**Level-1C** products are radiometric and geometric corrected top of atmosphere (TOA) data. This corrections include orthorectification and spatial registration on the UTM/WGS84 system with sub-pixel accuracy.
+Level-1C imagary is delivered in granules of 100×100 km of approximately 600-800 MB each. The individual spectral bands are present in their respective resolution (10, 20 and 60m), which is why resampling to a uniform geometric resolution is often necessary for further processing.
+A product consists of image data, available as JPEG2000 files, and the associated metadata, all capsuled within a "SAFE" file container. You will need the [SNAP](./SAR-Data.qmd){target="_blank"}-software in order to read those SAFE-container (see chapter Visualize for a guide). The Sentinel-SAFE format wraps image data and product metadata in a specific folder structure. Do not alter this folder structure or any file names to ensure that image data and auxiliary information can be imported correctly.
 
-**Level-2A** is the surface reflectance, or Bottom-Of-Atmosphere (BOA),
-product derived from a associated Level-1C product. This product is
-corrected by any distortion of atmosphere, terrain and cirrus clouds.
-Level-2A datasets come with some additional data layers: aerosol optical
-thickness-, water vapour, and scene classification maps and quality
-indicators, including cloud and snow probabilities. You can choose a
-resolution (10 m, 20 m, or 60 m) in which all channels are resampled
-uniformly.\
-Anyway, if you already own a Level-1C scene, the conversion to Level-2A
-can also be done by yourself via the processor Sen2Cor. A guide on how
-to do this is given in chapter [Classification in
-R](https://blogs.fu-berlin.de/reseda/classification-in-r/){target="_blank"}.
+**Level-2A** is the surface reflectance, or Bottom-Of-Atmosphere (BOA), product derived from a associated Level-1C product. This product is corrected by any distortion of atmosphere, terrain and cirrus clouds. Level-2A datasets come with some additional data layers: aerosol optical thickness-, water vapour, and scene classification maps and quality indicators, including cloud and snow probabilities. You can choose a resolution (10 m, 20 m, or 60 m) in which all channels are resampled uniformly.\
+Anyway, if you already own a Level-1C scene, the conversion to Level-2A can also be done by yourself via the processor Sen2Cor. A guide on how to do this is given in chapter [Classification in R](./Classification-in-R.qmd){target="_blank"}.
 
-In general, we recommend you to use the Level-2A products, especially if
-you work multitemporally, since the radiometry of surface reflectances
-is more comparable between scenes.
+In general, we recommend you to use the Level-2A products, especially if you work multitemporally, since the radiometry of surface reflectances is more comparable between scenes.
 
 # Sentinel-1 {#sentinel-1}
 
