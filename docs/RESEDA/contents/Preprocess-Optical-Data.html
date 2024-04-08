@@ -292,6 +292,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Analyse</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Analyse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter in a box</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Machine-Learning-Basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Machine Learning Basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Classification-in-R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classification in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Regression-in-R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regression in R</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -348,34 +383,34 @@ We want to focus on converting the just-downloaded products into GeoTIFF files. 
 <p><br>
 </p>
 <p><strong>Prerequisite</strong></p>
-<p>The following content requires that you have either successfully downloaded some Landsat 8 scenes as part of the <a href="https://blogs.fu-berlin.de/reseda/earthexplorer-exercise/">Download Section Exercise</a>, or that you have acquired some datasets from the USGS EarthExplorer by your own. If this is not the case, look into the <a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/">chapter Landsat / Earthexplorer</a>!</p>
-<p>Done? – Then start <a href="https://blogs.fu-berlin.de/reseda/r-studio/">R-Studio</a> now!</p>
+<p>The following content requires that you have either successfully downloaded some Landsat 8 scenes as part of the <a href="../../RESEDA/contents/Download.html">Download Section Exercise</a>, or that you have acquired some datasets from the USGS EarthExplorer by your own. If this is not the case, look into the <a href="../../RESEDA/contents/Download.html#EarthExplorer">chapter Landsat / Earthexplorer</a>!</p>
+<p>Done? – Then start <a href="../../RESEDA/contents/R-Studio.html">R-Studio</a> now!</p>
 <p><br>
 </p>
 <p><strong>Preprocess a single dataset</strong></p>
-<p>We recommend writing the following code in the script window of R-Studio and executing it from there (see <a href="https://blogs.fu-berlin.de/reseda/r-studio/">chapter R-Studio</a>).<br>
+<p>We recommend writing the following code in the script window of R-Studio and executing it from there (see <a href="../../RESEDA/contents/R-Studio.html">chapter R-Studio</a>).<br>
 The example below assumes that you have one or more Landsat 8 scenes in a “landsatdata”-folder located in the exchange folder of your VM. Otherwise, adjust the folder according to your data!</p>
-<p>We will use the <a href="https://cran.r-project.org/web/packages/raster/raster.pdf" target="_blank">raster library</a> to write a raster file later. Additional libraries should always be loaded first, using the function <span class="crayon-inline theme:amityreseda">library()</span>:</p>
+<p>We will use the <a href="https://cran.r-project.org/web/packages/raster/raster.pdf" target="_blank">raster library</a> to write a raster file later. Additional libraries should always be loaded first, using the function <code>library()</code>:</p>
 <pre class="theme:amityreseda"><code>library(raster)
 ## Loading required package: sp</code></pre>
 <p>A few libraries make use of other libraries. So does the raster library with the <a href="https://cran.r-project.org/web/packages/sp/sp.pdf" target="_blank">sp-package</a>, which will be loaded automatically.</p>
-<p>Then define the Landsat 8 product of your choice with its entire file path and save it as the string variable <span class="crayon-inline theme:amityreseda">product</span>:</p>
+<p>Then define the Landsat 8 product of your choice with its entire file path and save it as the string variable <code>product</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>product <span class="ot">&lt;-</span> <span class="st">"/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tar.gz"</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">file.exists</span>(product)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] TRUE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><strong>NOTE:</strong> this is just an example – you have to change the file and its path according to your own settings!<br>
-You can use the function <span class="crayon-inline theme:amityreseda">file.exists()</span> to check whether the file can be found on your system or not. If it returns <span class="crayon-inline theme:amityreseda">FALSE</span>, make sure you did not mess up the file name.</p>
-<p>We want to unpack the file into a folder with the same name as the file. The character variable <span class="crayon-inline theme:amityreseda">product</span> already contains the full name of the Landsat scene. We just have to get rid of the suffix “.tar.gz”. Therefore we can use the function <span class="crayon-inline theme:amityreseda">substr()</span> to delete the last seven characters (=“.tar.gz”) of the string:</p>
+You can use the function <code>file.exists()</code> to check whether the file can be found on your system or not. If it returns <code>FALSE</code>, make sure you did not mess up the file name.</p>
+<p>We want to unpack the file into a folder with the same name as the file. The character variable <code>product</code> already contains the full name of the Landsat scene. We just have to get rid of the suffix “.tar.gz”. Therefore we can use the function <code>substr()</code> to delete the last seven characters (=“.tar.gz”) of the string:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>productname <span class="ot">&lt;-</span> <span class="fu">substr</span>(product, <span class="dv">1</span>, <span class="fu">nchar</span>(product) <span class="sc">-</span> <span class="dv">7</span>) </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>productname</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The substring function <span class="crayon-inline theme:amityreseda">substr()</span> accepts three arguments here: a string (the entire file path with the suffix), and two integer values – one for a start (“1” = start with the first character) and one for a stop position within the given string. In order to define the stop position, we need to count the number of all characters of the file path via <span class="crayon-inline theme:amityreseda">nchar(product)</span> (which is 77 in our case) and substract 7.</p>
-<p>Unzip the Landsat product using the <span class="crayon-inline theme:amityreseda">untar()</span> method and define the directory to which all data will be extracted by setting the argument <span class="crayon-inline theme:amityreseda">exdir = productname</span>:</p>
+<p>The substring function <code>substr()</code> accepts three arguments here: a string (the entire file path with the suffix), and two integer values – one for a start (“1” = start with the first character) and one for a stop position within the given string. In order to define the stop position, we need to count the number of all characters of the file path via <code>nchar(product)</code> (which is 77 in our case) and substract 7.</p>
+<p>Unzip the Landsat product using the <code>untar()</code> method and define the directory to which all data will be extracted by setting the argument <code>exdir = productname</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">untar</span>(product, <span class="at">exdir =</span> productname)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You should notice a new folder being created next to your initial data product. This could take a short moment. During processing, a red exclamation point can be seen in the upper right corner of the console window. <strong>NOTE:</strong> If this step fails, your data is corrupt. In this case, you will need to download the file again because something went wrong during data transfer.<br>
-After unpacking is complete, we want to have a look in the newly extracted folder and save the file names of all files in this folder into a vector <span class="crayon-inline theme:amityreseda">productfiles</span> using the function <span class="crayon-inline theme:amityreseda">list.files</span>. By providing the argument <span class="crayon-inline theme:amityreseda">full.names = TRUE</span>, the full paths are returned for each file:</p>
+After unpacking is complete, we want to have a look in the newly extracted folder and save the file names of all files in this folder into a vector <code>productfiles</code> using the function <code>list.files</code>. By providing the argument <code>full.names = TRUE</code>, the full paths are returned for each file:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>productfiles <span class="ot">&lt;-</span> <span class="fu">list.files</span>(productname, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>productfiles</span>
@@ -398,7 +433,7 @@ After unpacking is complete, we want to have a look in the newly extracted folde
 <p><a href="./img/preproc_01.png"><img src="./img/preproc_01.png" class="img-fluid figure-img"></a></p>
 </figure>
 </div>
-<p>Now we want to select all the spectral bands that we want to put into our new data stack. Have a deeper look at the files in <span class="crayon-inline theme:amityreseda">productfiles</span>. The files are named after the corresponding spectral channels at the end of the file name, e.g., “band1”, “band2”, and so on. We use these terms to extract the bands by utilizing the <span class="crayon-inline theme:amityreseda">grep()</span> function. The following code looks a little bloated. Maybe it is. But he gives you the freedom to exclude individual bands that you may not need. <strong>NOTE:</strong> This is an example of level 2 data. Landsat Level-1 scenes potentially have 11 channels. In the case of Level 1 data, you could easily enter the remaining lines here.</p>
+<p>Now we want to select all the spectral bands that we want to put into our new data stack. Have a deeper look at the files in <code>productfiles</code>. The files are named after the corresponding spectral channels at the end of the file name, e.g., “band1”, “band2”, and so on. We use these terms to extract the bands by utilizing the <code>grep()</code> function. The following code looks a little bloated. Maybe it is. But he gives you the freedom to exclude individual bands that you may not need. <strong>NOTE:</strong> This is an example of level 2 data. Landsat Level-1 scenes potentially have 11 channels. In the case of Level 1 data, you could easily enter the remaining lines here.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>bands <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">grep</span>(<span class="st">'band1'</span>, productfiles, <span class="at">value=</span><span class="cn">TRUE</span>),</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>           <span class="fu">grep</span>(<span class="st">'band2'</span>, productfiles, <span class="at">value=</span><span class="cn">TRUE</span>),</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">grep</span>(<span class="st">'band3'</span>, productfiles, <span class="at">value=</span><span class="cn">TRUE</span>),</span>
@@ -416,21 +451,21 @@ After unpacking is complete, we want to have a look in the newly extracted folde
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="do">## [5] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band5.tif"</span></span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="do">## [6] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band6.tif"</span></span>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="do">## [7] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band7.tif"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The <span class="crayon-inline theme:amityreseda">grep()</span> function searches for the string, which is given as the first argument, e.g., ‘band1’, in the vector of strings (2nd argument). Normally, when the function finds a match, it only returns the position of this find in the vector <span class="crayon-inline theme:amityreseda">productfiles</span>. By setting the argument <span class="crayon-inline theme:amityreseda">value=TRUE</span> we can write out the content of the vector at the respective position instead. By doing so, we create an vector <span class="crayon-inline theme:amityreseda">bands</span> containing all file paths via the standard combine-function <span class="crayon-inline theme:amityreseda">c()</span>.</p>
-<p>Now we can create a rasterstack based on the vector of bands in the variable <span class="crayon-inline theme:amityreseda">bands</span>. In order to do so, we use the function <span class="crayon-inline theme:amityreseda">stack()</span>, which is part of the raster-library we loaded in the beginning! This <a href="https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/stack" target="_blank">rasterstack function</a> creates a rasterstack object based on a list of filenames. You will learn more about the beauty of rasterstacks in the <a href="https://blogs.fu-berlin.de/reseda/visualization/">chapter Visualization</a>.</p>
+<p>The <code>grep()</code> function searches for the string, which is given as the first argument, e.g., ‘band1’, in the vector of strings (2nd argument). Normally, when the function finds a match, it only returns the position of this find in the vector <code>productfiles</code>. By setting the argument <code>value=TRUE</code> we can write out the content of the vector at the respective position instead. By doing so, we create an vector <code>bands</code> containing all file paths via the standard combine-function <code>c()</code>.</p>
+<p>Now we can create a rasterstack based on the vector of bands in the variable <code>bands</code>. In order to do so, we use the function <code>stack()</code>, which is part of the raster-library we loaded in the beginning! This <a href="https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/stack" target="_blank">rasterstack function</a> creates a rasterstack object based on a list of filenames. You will learn more about the beauty of rasterstacks in the <a href="https://blogs.fu-berlin.de/reseda/visualization/">chapter Visualization</a>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>rasterstack <span class="ot">&lt;-</span> <span class="fu">stack</span>( bands )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>We can save this rasterstack and store it on your hard drive via <span class="crayon-inline theme:amityreseda">writeRaster</span>:</p>
+<p>We can save this rasterstack and store it on your hard drive via <code>writeRaster</code>:</p>
 <pre class="theme:amityreseda"><code>writeRaster(rasterstack, 
             paste0(productname, ".tif"), 
             format = "GTiff",
             overwrite = TRUE
             )</code></pre>
-<p>The <a href="https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/writeRaster" target="_blank">writerRaster fuction</a> is a powerful tool, which is also provided by the <a href="https://cran.r-project.org/web/packages/raster/raster.pdf" target="_blank">raster package</a>. In line 1 we set our rasterstack object as the first argument. In line 2 we define the output name of the new file we will create. To do this, just add the suffix “.tif” to our filename using the handy function <span class="crayon-inline theme:amityreseda">paste0</span>, which just put all the strings together to one string. Line 3 explicitly defines the output format “GTiff”. How should I know this string “GTiff”, you ask? These strings are fixed by the function and are also listed for other data formats in the <a href="https://cran.r-project.org/web/packages/raster/raster.pdf" target="_blank">raster documentation</a> on page 220. The fourth argument in line 4 only gives the authority to overwrite existing files.</p>
+<p>The <a href="https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/writeRaster" target="_blank">writerRaster fuction</a> is a powerful tool, which is also provided by the <a href="https://cran.r-project.org/web/packages/raster/raster.pdf" target="_blank">raster package</a>. In line 1 we set our rasterstack object as the first argument. In line 2 we define the output name of the new file we will create. To do this, just add the suffix “.tif” to our filename using the handy function <code>paste0</code>, which just put all the strings together to one string. Line 3 explicitly defines the output format “GTiff”. How should I know this string “GTiff”, you ask? These strings are fixed by the function and are also listed for other data formats in the <a href="https://cran.r-project.org/web/packages/raster/raster.pdf" target="_blank">raster documentation</a> on page 220. The fourth argument in line 4 only gives the authority to overwrite existing files.</p>
 <p><strong>DONE!</strong> A new file containing all spectral bands is now written directly next to the initial packed file you downloaded!</p>
 <p>There are still two useful additional things left to do:<br>
-First, we can now delete the folder we created by uncompressing your Landsat data because it is no longer needed. So, if you want to save disk space, use the command <span class="crayon-inline theme:amityreseda">unlink()</span> to simply delete the folder. By setting the argument <span class="crayon-inline theme:amityreseda">recursive=TRUE</span>, all files within the folder will be deleted:</p>
+First, we can now delete the folder we created by uncompressing your Landsat data because it is no longer needed. So, if you want to save disk space, use the command <code>unlink()</code> to simply delete the folder. By setting the argument <code>recursive=TRUE</code>, all files within the folder will be deleted:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(productname, <span class="at">recursive=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Second, it is advisable to create so-called <a href="http://desktop.arcgis.com/en/arcmap/latest/manage-data/raster-and-images/raster-pyramids.htm" target="_blank">pyramid layers</a> for each Landsat dataset. Pyramid layers are used to improve performance. They are a downsampled version of the original raster and speed up the display of raster data by retrieving only the data at a specified resolution that is required for the display. We can automatically create them by using the <a href="http://www.gdal.org/" target="_blank">Geospatial Data Abstraction Library</a> (GDAL). Initially, GDAL has nothing to do with R, but it can be operated via R using <a href="https://www.rdocumentation.org/packages/rgdal/versions/1.3-2" target="_blank">rgdal</a>. However, we use the standalone installation of GDAL at this point, or more precisely, the function <a href="http://www.gdal.org/gdaladdo.html" target="_blank">gdaladdo</a>. If you do not use our VM, you have to install GDAL on your machine first. We build the appropriate command to run <span class="crayon-inline theme:amityreseda">gdaladdo</span> using <span class="crayon-inline theme:amityreseda">paste0()</span> and pass that command to the <span class="crayon-inline theme:amityreseda">system()</span> function. The <span class="crayon-inline theme:amityreseda">system()</span> function executes a command exactly as if you entered it yourself in the command window of Linux. Try it!</p>
+<p>Second, it is advisable to create so-called <a href="http://desktop.arcgis.com/en/arcmap/latest/manage-data/raster-and-images/raster-pyramids.htm" target="_blank">pyramid layers</a> for each Landsat dataset. Pyramid layers are used to improve performance. They are a downsampled version of the original raster and speed up the display of raster data by retrieving only the data at a specified resolution that is required for the display. We can automatically create them by using the <a href="http://www.gdal.org/" target="_blank">Geospatial Data Abstraction Library</a> (GDAL). Initially, GDAL has nothing to do with R, but it can be operated via R using <a href="https://www.rdocumentation.org/packages/rgdal/versions/1.3-2" target="_blank">rgdal</a>. However, we use the standalone installation of GDAL at this point, or more precisely, the function <a href="http://www.gdal.org/gdaladdo.html" target="_blank">gdaladdo</a>. If you do not use our VM, you have to install GDAL on your machine first. We build the appropriate command to run <code>gdaladdo</code> using <code>paste0()</code> and pass that command to the <code>system()</code> function. The <code>system()</code> function executes a command exactly as if you entered it yourself in the command window of Linux. Try it!</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>makeOVR <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"gdaladdo -ro "</span>, productname, <span class="st">".tif 2 4 8 16"</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>makeOVR</span>
@@ -480,14 +515,14 @@ First, we can now delete the folder we created by uncompressing your Landsat dat
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(pathToFiles)</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "LC081920232017083001T1-SC20180613163601.tar.gz"</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [2] "LC081930232017060201T1-SC20180613160412.tar.gz"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>You can check the files inside <span class="crayon-inline theme:amityreseda">pathToFiles</span> with the <span class="crayon-inline theme:amityreseda">dir()</span> function. It should list all your Landsat 8 files. If that is not the case, make sure you did not mess up the file path name.<br>
-We can write all the products that exist in the folder in a vector <span class="crayon-inline theme:amityreseda">products</span> using the <span class="crayon-inline theme:amityreseda">list.files()</span> function:</p>
+<p>You can check the files inside <code>pathToFiles</code> with the <code>dir()</code> function. It should list all your Landsat 8 files. If that is not the case, make sure you did not mess up the file path name.<br>
+We can write all the products that exist in the folder in a vector <code>products</code> using the <code>list.files()</code> function:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>products <span class="ot">&lt;-</span> <span class="fu">list.files</span>(pathToFiles, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>products</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "/media/sf_exchange/landsatdata/LC081920232017083001T1-SC20180613163601.tar.gz"</span></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [2] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tar.gz"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>To go through all the steps we saw in the previous section above for each of the scenes in <span class="crayon-inline theme:amityreseda">products</span>, we use a for-loop. Conceptually, the for-loop does the following:</p>
+<p>To go through all the steps we saw in the previous section above for each of the scenes in <code>products</code>, we use a for-loop. Conceptually, the for-loop does the following:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> products) {</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">"do all the preprocessing stuff"</span>)</span>
@@ -496,9 +531,9 @@ We can write all the products that exist in the folder in a vector <span class="
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "do all the preprocessing stuff"</span></span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tar.gz"</span></span>
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "do all the preprocessing stuff"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>For all landsat scenes <span class="crayon-inline theme:amityreseda">i</span> in <span class="crayon-inline theme:amityreseda">products</span>, it will do all the preprocessing stuff. The variable, or iterator, <span class="crayon-inline theme:amityreseda">i</span> is just a placeholder, which is sequentially occupied with the file names of the Landsat products.<br>
+<p>For all landsat scenes <code>i</code> in <code>products</code>, it will do all the preprocessing stuff. The variable, or iterator, <code>i</code> is just a placeholder, which is sequentially occupied with the file names of the Landsat products.<br>
 Thus, you can just imagine any filename (as a string) every time you see the iterator i.<br>
-The remaining steps are then identical to those described above. Here is the complete code. Just adjust your <span class="crayon-inline theme:amityreseda">pathToFiles</span> and run it in R-Studio to preprocess all of your Landsat 8 Level-2 files!</p>
+The remaining steps are then identical to those described above. Here is the complete code. Just adjust your <code>pathToFiles</code> and run it in R-Studio to preprocess all of your Landsat 8 Level-2 files!</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>pathToFiles <span class="ot">&lt;-</span> <span class="st">"/media/sf_exchange/landsatdata"</span></span>
@@ -730,7 +765,7 @@ We will create a graph in SNAP and then modify it to process all data automatica
 <p><span style="color: #686868;font-size: small">Execute graph via GPT in command line</span></p>
 </div>
 <p>A pre-processed file should be created directly in the same folder as your zip-compressed source file.<br>
-However, you can only process one file with the graph so far… That is not exactly what we wanted. That is why we will make some changes to the xml-file now. Right click the xml-file and choose <em>Open With</em> &gt; <em>Open With “Text Editor”</em>. Take a moment to understand how the file is structured. The individual inputs and outputs of all processes, or nodes, are saved here as a text. Each of the successive processes is opened by a <span class="crayon-inline theme:amityresedaterminal">&lt;node = id ““&gt;</span> tag and closed by <span class="crayon-inline theme:amityresedaterminal">/node&gt;</span>.<br>
+However, you can only process one file with the graph so far… That is not exactly what we wanted. That is why we will make some changes to the xml-file now. Right click the xml-file and choose <em>Open With</em> &gt; <em>Open With “Text Editor”</em>. Take a moment to understand how the file is structured. The individual inputs and outputs of all processes, or nodes, are saved here as a text. Each of the successive processes is opened by a <code>\&lt;node = id ""\&gt;</code> tag and closed by <code>/node\&gt;</code>.<br>
 Search for the <strong>Read</strong> node. Within that node, a line should list the Sentinel 2 file you used when creating the graph (the line number may differ in your xml):</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -740,7 +775,7 @@ Search for the <strong>Read</strong> node. Within that node, a line should list 
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Read node in xml</span></p>
 </div>
-<p>Replace the filename (marked green in the figure above) with the placeholder <span class="crayon-inline theme:amityresedaterminal">$input</span>:</p>
+<p>Replace the filename (marked green in the figure above) with the placeholder <code>\$input</code>:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="./img/preproc_24.png"><img src="./img/preproc_24.png" class="img-fluid figure-img"></a></p>
@@ -758,7 +793,7 @@ Search for the <strong>Read</strong> node. Within that node, a line should list 
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Write node in xml</span></p>
 </div>
-<p>And replace the file path with the placeholder <span class="crayon-inline theme:amityresedaterminal">$output</span>:</p>
+<p>And replace the file path with the placeholder <code>\$output</code>:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="./img/preproc_25.png"><img src="./img/preproc_25.png" class="img-fluid figure-img"></a></p>
@@ -767,9 +802,9 @@ Search for the <strong>Read</strong> node. Within that node, a line should list 
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Modified Write node in xml</span></p>
 </div>
-<p>The input and output paths have now been replaced by placeholders, which could dynamically accept any file. When calling the graph via GPT, the two variables <span class="crayon-inline theme:amityresedaterminal">$input</span> and <span class="crayon-inline theme:amityresedaterminal">$output</span> must always be defined with from now on. A possible call for a file might look like this:</p>
+<p>The input and output paths have now been replaced by placeholders, which could dynamically accept any file. When calling the graph via GPT, the two variables <code>\$input</code> and <code>\$output</code> must always be defined with from now on. A possible call for a file might look like this:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="sc">/</span>home<span class="sc">/</span>student<span class="sc">/</span>snap<span class="sc">/</span>bin<span class="sc">/</span>gpt <span class="sc">/</span>media<span class="sc">/</span>sf_exchange<span class="sc">/</span>sentineldata<span class="sc">/</span>myGraph.xml <span class="sc">-</span>Pinput<span class="ot">=</span><span class="er">/</span>media<span class="sc">/</span>sf_exchange<span class="sc">/</span>sentineldata<span class="sc">/</span>S2B_MSIL1C_20170830T102019_N0205_R065_T33UUU_20170830T102531.zip <span class="sc">-</span>Poutput<span class="ot">=</span><span class="er">/</span>media<span class="sc">/</span>sf_exchange<span class="sc">/</span>sentineldata<span class="sc">/</span>S2B_MSIL1C_20170830T102019_N0205_R065_T33UUU_20170830T102531_sub_res.tif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Of course, we can take advantage of this and use a for-loop to go through and process all the Sentinel 2 datasets located in a folder one after another using R or a bash script. We have prepared a bash script for you, which does just that, located in <span class="crayon-inline.theme:amityresedaterminal">/home/student/Documents/S2_proc.bash</span>. This script tells the bash shell of Linux what it has to do, so you will need our VM or any Linux operating system. To run the script, open a terminal, reference the script and give it two arguments: first the full path to your graph .xml file and second the path where the downloaded Sentinel 2 zip-files are located. A possible command might look like this:</p>
+<p>Of course, we can take advantage of this and use a for-loop to go through and process all the Sentinel 2 datasets located in a folder one after another using R or a bash script. We have prepared a bash script for you, which does just that, located in <code>/home/student/Documents/S2_proc.bash</code>. This script tells the bash shell of Linux what it has to do, so you will need our VM or any Linux operating system. To run the script, open a terminal, reference the script and give it two arguments: first the full path to your graph .xml file and second the path where the downloaded Sentinel 2 zip-files are located. A possible command might look like this:</p>
 <pre class="theme:amityresedaterminal nums:false"><code>/home/student/Documents/S2_proc.bash /media/sf_exchange/sentineldata/myGraph.xml /media/sf_exchange/sentineldata/</code></pre>
 <p>The script starts as soon as you press enter and writes the output to a new folder called “Processed”, which will be created next to your S2 zip files.</p>
 <div class="quarto-figure quarto-figure-center">

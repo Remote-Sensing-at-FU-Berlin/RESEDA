@@ -112,6 +112,16 @@ website:
               file: RESEDA/contents/SAR-Data.qmd
             - text: "Visualization"
               file: RESEDA/contents/Visualization.qmd
+        - section: "Analyse"
+          contents: 
+            - text: "Chapter in a box"
+              file: RESEDA/contents/Analyse.qmd
+            - text: "Machine Learning Basics"
+              file: RESEDA/contents/Machine-Learning-Basics.qmd
+            - text: "Classification in R"
+              file: RESEDA/contents/Classification-in-R.qmd
+            - text: "Regression in R"
+              file: RESEDA/contents/Regression-in-R.qmd
             
 
 # Don't touch unless you know what you are doing :) ------------

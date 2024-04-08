@@ -260,6 +260,41 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Analyse</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Analyse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter in a box</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Machine-Learning-Basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Machine Learning Basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Classification-in-R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classification in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Regression-in-R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regression in R</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -604,7 +639,7 @@ Level-1 Landsat scenes with the highest available data quality are declared as T
 <h3 class="anchored" data-anchor-id="level-2-products">Level-2 products</h3>
 <p>USGS offers on-demand Surface Reflectance data products (Level-2). Surface Reflectance products provide an estimate of the surface spectral reflectance as it would be measured at ground level in the absence of atmospheric scattering or absorption. Surface reflectance values are scaled between 0 % and 100 %. This atmospheric correction is done via the Landsat Surface Reflectance Code (LaSRC), which utilizes the Landsat band 1, auxiliary MODIS data and radiative transfer models.<br>
 Keep in mind: This product contain neither Level-1 TOA layers nor thermal bands!<br>
-Although these data are also free, it may take several days for the processing to be completed by the servers of the Earth Resources Observation and Science (EROS) Center, before you are able to download them (read on: <a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/" target="_blank" rel="noopener">USGS Earth Explorer</a>).</p>
+Although these data are also free, it may take several days for the processing to be completed by the servers of the Earth Resources Observation and Science (EROS) Center, before you are able to download them (read on: <a href="../../RESEDA/contents/Download.html#EarthExplorer" target="_blank" rel="noopener">USGS Earth Explorer</a>).</p>
 <p>Level-2 products contain the following 13 files once uncompressed:</p>
 <ul>
 <li><p>Level-2 bands (1, 2, 3, 4, 5, 6, and 7)</p></li>
@@ -802,10 +837,10 @@ In the following a profile with the most important characteristics of the sensor
 <li>Level-1B: resampling, conversion to reflectances and cloud/water/land mask generation</li>
 </ul>
 <p>More information on pre-processing is given in the <a href="https://sentinel.esa.int/documents/247904/685211/Sentinel-2_User_Handbook" target="_blank">Sentinel 2 User Handbook</a>.<br>
-Anyway, Level-0, Level-1A and Level-1B products are PDGS-internal products not made available to users! When browsing the <a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/" target="_blank">ESA SciHUB archive</a>, you will be able to choose from Level-1C and Level-2A products:</p>
-<p><strong>Level-1C</strong> products are radiometric and geometric corrected top of atmosphere (TOA) data. This corrections include orthorectification and spatial registration on the UTM/WGS84 system with sub-pixel accuracy. Level-1C imagary is delivered in granules of 100×100 km of approximately 600-800 MB each. The individual spectral bands are present in their respective resolution (10, 20 and 60m), which is why resampling to a uniform geometric resolution is often necessary for further processing. A product consists of image data, available as JPEG2000 files, and the associated metadata, all capsuled within a “SAFE” file container. You will need the <a href="https://blogs.fu-berlin.de/reseda/snap/" target="_blank">SNAP</a>-software in order to read those SAFE-container (see chapter Visualize for a guide). The Sentinel-SAFE format wraps image data and product metadata in a specific folder structure. Do not alter this folder structure or any file names to ensure that image data and auxiliary information can be imported correctly.</p>
+Anyway, Level-0, Level-1A and Level-1B products are PDGS-internal products not made available to users! When browsing the <a href="../../RESEDA/contents/Download.html#SentinelScihub" target="_blank">ESA SciHUB archive</a>, you will be able to choose from Level-1C and Level-2A products:</p>
+<p><strong>Level-1C</strong> products are radiometric and geometric corrected top of atmosphere (TOA) data. This corrections include orthorectification and spatial registration on the UTM/WGS84 system with sub-pixel accuracy. Level-1C imagary is delivered in granules of 100×100 km of approximately 600-800 MB each. The individual spectral bands are present in their respective resolution (10, 20 and 60m), which is why resampling to a uniform geometric resolution is often necessary for further processing. A product consists of image data, available as JPEG2000 files, and the associated metadata, all capsuled within a “SAFE” file container. You will need the <a href="../../RESEDA/contents/SAR-Data.html" target="_blank">SNAP</a>-software in order to read those SAFE-container (see chapter Visualize for a guide). The Sentinel-SAFE format wraps image data and product metadata in a specific folder structure. Do not alter this folder structure or any file names to ensure that image data and auxiliary information can be imported correctly.</p>
 <p><strong>Level-2A</strong> is the surface reflectance, or Bottom-Of-Atmosphere (BOA), product derived from a associated Level-1C product. This product is corrected by any distortion of atmosphere, terrain and cirrus clouds. Level-2A datasets come with some additional data layers: aerosol optical thickness-, water vapour, and scene classification maps and quality indicators, including cloud and snow probabilities. You can choose a resolution (10 m, 20 m, or 60 m) in which all channels are resampled uniformly.<br>
-Anyway, if you already own a Level-1C scene, the conversion to Level-2A can also be done by yourself via the processor Sen2Cor. A guide on how to do this is given in chapter <a href="https://blogs.fu-berlin.de/reseda/classification-in-r/" target="_blank">Classification in R</a>.</p>
+Anyway, if you already own a Level-1C scene, the conversion to Level-2A can also be done by yourself via the processor Sen2Cor. A guide on how to do this is given in chapter <a href="../../RESEDA/contents/Classification-in-R.html" target="_blank">Classification in R</a>.</p>
 <p>In general, we recommend you to use the Level-2A products, especially if you work multitemporally, since the radiometry of surface reflectances is more comparable between scenes.</p>
 </section>
 </section>

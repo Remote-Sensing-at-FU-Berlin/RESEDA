@@ -1,0 +1,25 @@
+# Analyse {#analyse .entry-title}
+
+We will use two possible scenarios in order to show you the possibilities of R when it comes to remote sensing issues:
+
+1.  **classification**: a common land cover classification of one multispectral Landsat 8 scene
+2.  **regression**: generation of sub-pixel information based on Landsat 8 data and high resolution reference data
+
+A complete workflow utilizing various R packages is given in the next sections.
+
+::: {style="background-color:#f1f1f1;padding:18px 30px 1px"}
+# Chapter in a Box
+
+In this chapter, the following content awaits you:
+
+[**Machine Learning Basics**](./Analyse#machine-learning-basics)\
+- familiarize yourself with the basic terms of the ML, e.g., unsupervised vs. supervised, linear vs. nonlinear, parametric vs. non-parametric, over-fitting vs. under-fitting\
+[**Classification**](./Analyse.qmd#classification-in-r)\
+- learn how to sample polygons in QGIS\
+- classify a multispectral Landsat 8 scene using a RF and a SVM into several land cover classes\
+- test the performance of your classifier via a learning curve\
+[**Regression**](./Analyse.qmd#regression-in-r)\
+- learn how to prepare reference polygons for regressor training\
+- perform a Support Vector Regression
+:::
+
