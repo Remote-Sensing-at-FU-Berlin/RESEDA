@@ -156,7 +156,7 @@ smp <- smp[-1]
 
 []{#1}
 
-# In-depth Guide
+## In-depth Guide
 
 In order to use functionalities of the raster package, load it into your current session via [library()]{.crayon-inline .theme:amityreseda}. If you do not use our VM, you must first download and install the packages with [install.packages()]{.crayon-inline .theme:amityreseda}:
 
@@ -222,8 +222,8 @@ plotRGB(img, r = 4, g = 3, b = 2, stretch = "lin")
 plot(shp, col="red", add=TRUE)
 ```
 
-[![](./Prepare%20Samples%20in%20R_files/cla_001.png){.aligncenter .size-full .wp-image-1981 width="1344"
-height="657"}](./Prepare%20Samples%20in%20R_files/cla_001.png){.fancybox .image}
+[![](./img/cla_001.png){.aligncenter .size-full .wp-image-1981 width="1344"
+height="657"}](./img/cla_001.png){.fancybox .image}
 
 If you followed this course in the [previous section](https://blogs.fu-berlin.de/reseda/sampling-in-qgis/), your shapefile should provide an attribute called "classes", which includes your target classes as strings, e.g., "water" or "urban". We will later turn this column into the [factor](https://blogs.fu-berlin.de/reseda/r-crash-course-2/#ch55) data type because classifiers can only work with integer values instead of words like "water" or "urban". When converting to factors, strings are sorted alphabetically and numbered consecutively. In order to be able to read the classification image at the end, you should make a note of your classification key:
 
@@ -332,6 +332,6 @@ legend(as.character(sp$cl),
        )
 ```
 
-[]{#plot}[![](./Prepare%20Samples%20in%20R_files/cla_005.png){.aligncenter .size-full .wp-image-1985 loading="lazy" width="1253" height="755"}](./Prepare%20Samples%20in%20R_files/cla_005.png){.fancybox .image}
+[]{#plot}[![](./img/cla_005.png){.aligncenter .size-full .wp-image-1985 loading="lazy" width="1253" height="755"}](./img/cla_005.png){.fancybox .image}
 
 Note that the values represent only the arithmetic mean of the classes and do not allow any statement about the underlying distribution. However, such a z-profile plot helps to visually assess the separability of classes at the beginning.
