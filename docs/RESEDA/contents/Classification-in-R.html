@@ -304,6 +304,14 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#classification-in-r" id="toc-classification-in-r" class="nav-link active" data-scroll-target="#classification-in-r">Classification in R</a></li>
+  <li><a href="#sample-in-qgis" id="toc-sample-in-qgis" class="nav-link" data-scroll-target="#sample-in-qgis">Sample in QGIS</a>
+  <ul class="collapse">
+  <li><a href="#preliminary-thoughts-about-sampling" id="toc-preliminary-thoughts-about-sampling" class="nav-link" data-scroll-target="#preliminary-thoughts-about-sampling">Preliminary thoughts about sampling</a></li>
+  <li><a href="#import-a-raster-dataset" id="toc-import-a-raster-dataset" class="nav-link" data-scroll-target="#import-a-raster-dataset">Import a Raster Dataset</a></li>
+  <li><a href="#create-a-new-polygon-shapefile" id="toc-create-a-new-polygon-shapefile" class="nav-link" data-scroll-target="#create-a-new-polygon-shapefile">Create a New Polygon Shapefile</a></li>
+  </ul></li>
+  <li><a href="#prepare-samples-in-r" id="toc-prepare-samples-in-r" class="nav-link" data-scroll-target="#prepare-samples-in-r">Prepare Samples in R</a></li>
+  <li><a href="#in-depth-guide" id="toc-in-depth-guide" class="nav-link" data-scroll-target="#in-depth-guide">In-depth Guide</a></li>
   </ul>
 </nav>
     </div>
@@ -329,6 +337,257 @@ ul.task-list li input[type="checkbox"] {
 <strong>SVM Classification</strong> – train a SVM (C-Classification method) with “e1071” package<br>
 – classify image data and export a classification image</p>
 </div>
+</section>
+<section id="sample-in-qgis" class="level1 entry-title">
+<h1 class="entry-title">Sample in QGIS</h1>
+<p>This section provide a guide on how to create training areas in the form of polygons, which we save in a shapefile in QGIS. The process is very similar to collecting samples in ArcGIS/ ArcMAP, which you already know from our GIS seminars.</p>
+<p>Collecting training areas is essential when working with supervised classifiers and significantly influences the classification outputs. You should make some preliminary considerations and approach the sampling very carefully! In the following, we will focus on the most important basics to consider.</p>
+<section id="preliminary-thoughts-about-sampling" class="level2">
+<h2 class="anchored" data-anchor-id="preliminary-thoughts-about-sampling">Preliminary thoughts about sampling</h2>
+<p>Probably the most frequently asked questions are how many polygons should be created by class and and how big should they be?<br>
+– Good questions!</p>
+<p>Unfortunately, those just can not be answered directly. The amount of training data you need, i.e., polygon count and size, depends both on the</p>
+<ul>
+<li>complexity of your classification problem (number and similarity of target classes, …) &amp;</li>
+<li>complexity of your classification algorithm (number of parameters or weights, RF, SVM, ANN, ML, …).</li>
+</ul>
+<p>Sampling data in machine learning is a science in itself, which is why there is a wealth of scientific publications about it (<a href="https://www.sciencedirect.com/science/article/pii/003442578690012X" rel="noopener" target="_blank">Curran &amp; Williamson 1986</a>, <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3307431/pdf/1472-6947-12-8.pdf" rel="noopener" target="_blank">Figueroa et al.&nbsp;2012</a>) and even entire books (<a href="https://books.google.de/books?id=uspzLjVWNgMC&amp;printsec=frontcover&amp;hl=de&amp;source=gbs_ge_summary_r&amp;cad=0#v=onepage&amp;q&amp;f=false" rel="noopener" target="_blank">Marchetti et al.&nbsp;2006</a>, <a href="https://books.google.de/books?id=tVIjmNS3Ob8C&amp;printsec=frontcover&amp;dq=The+Elements+of+Statistical+Learning:+Data+Mining,+Inference,+and+Prediction,+Second+Edition&amp;hl=de&amp;sa=X&amp;ved=0ahUKEwiylJDL76XcAhWDZVAKHdG1CLAQ6AEIKDAA#v=onepage&amp;q=The%20Elements%20of%20Statistical%20Learning%3A%20Data%20Mining%2C%20Inference%2C%20and%20Prediction%2C%20Second%20Edition&amp;f=false" rel="noopener" target="_blank">Hastie et al.&nbsp;2017</a>).</p>
+<p>Fine, so far that is not much of a help…</p>
+<p>To keep it very simple: You need a sample of your data that representatively describes the problem you want to solve. Keep in mind, a classifier learns a mathematical function, which maps input data (e.g., spectral bands) to output data (e.g., class labels). In order to achieve this, you should provide enough training data to capture the relationships between input and output. <strong>Training data</strong> will optimally meet the following requirements:</p>
+<ul>
+<li><strong>independent of test data:</strong><br>
+A training dataset must be independent of the test dataset used for a validation, but can follow the same probability distribution. No training sample may be used to test (validate) the performance of the classifier! In the context of remote sensing data, it is also important that train and test data are spatially maximally distant to avoid spatial autocorrelation (<a href="https://en.wikipedia.org/wiki/Moran%27s_I" rel="noopener" target="_blank">Morans I</a>).</li>
+<li><strong>mostly identical distributed:</strong><br>
+Each target class should be equally represented in the training data set. Most datasets do not have an exactly equal number of instances in each class. Small differences often does not matter. However, if there is a strong imbalance, e.g., 90% of all training data represent class 1 and only 10% class 2, most algorithms very quickly overclassify the more-prevalent classes. Some simple options here: Collect more samples of the low-represented classes, use data augmentation to synthetically create new samples for under-represented classes, or use a under sampling method. The simplest under sampling method is to delete samples from the over-represented classes during classifier training. We will use this latter method for the <a href="https://blogs.fu-berlin.de/reseda/rf-classification/">RF</a> and <a href="https://blogs.fu-berlin.de/reseda/svm-classification/">SVM</a> implementations later on.</li>
+<li><strong>representative for target classes:</strong><br>
+Training data should cover as many intra-class variations as possible, e.g., all spectral classes of a thematic target class, such as deciduous trees and conifers for the target class “forest”. Especially with more complex, non-linear classifiers, such as RF and SVM, it is important to include near-border training samples to map the class transitions more accurately. For example, water bodies should also be sampled in the shore area rather than just creating polygons in deep water areas.</li>
+<li><strong>available in sufficient quantity:</strong><br>
+There are statistical heuristic methods available to calculate a suitable sample size. Often a factor of the number of classes, the number of input features or the model parameters are used (e.g., 5 features – 25 training samples per class, <a href="https://www.elsevier.com/books/pattern-recognition/theodoridis/978-1-59749-272-0" rel="noopener" target="_blank">Theodoridis et al.&nbsp;2008</a>) or the minimum number of samples necessary to perform the <a href="https://en.wikipedia.org/wiki/Power_(statistics)" rel="noopener" target="_blank">power calculation</a> is searched (<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3275906/" rel="noopener" target="_blank">Dell et al.&nbsp;2002</a>). However, these rules are not universally applicable! Anyway, if you have many features, e.g., hundreds of spectral channels in hyperspectral images, it is important to collect even more samples to avoid the <a href="https://en.wikipedia.org/wiki/Curse_of_dimensionality" rel="noopener" target="_blank">curse of dimensionality</a>, i.e., Hughes phenomenon (<a href="https://ieeexplore.ieee.org/document/1054102/?tp=&amp;arnumber=1054102" rel="noopener" target="_blank">Hughes 1968</a>). This curse occurs when the samples can not reflect the possible parameter combinations in such a high dimensional feature space. As a result, the classification accuracy decreases as more features are included in the algorithm. The best way to find out if the training samples are sufficiently set is to plot a <a href="https://en.wikipedia.org/wiki/Learning_curve" rel="noopener" target="_blank">learning curve</a>. A learning curve plots the model performance on the y-axis versus the size of the training dataset on the x-axis as a line. On this way, you may be able to evaluate the amount of data that is required for a solid model performance, or perhaps how little data you actually need before before the learning curve stagnates or even drops again. This plot can be generated during training, as shown in the next sections.</li>
+</ul>
+<p>Before you start sampling the training data in QGIS, here are some general tips for digitizing your polygons, if you want to perform a monotemporal classification based on spectral features:</p>
+<ul>
+<li>evenly distribute the polygons for each class over the entire scene to best cover any atmospheric variations that may exist within the image</li>
+<li>for each class, try to digitize an area of approximately the same size (sum of all polygons)</li>
+<li>keep in mind: each raster pixel under your polygons is a training sample!</li>
+<li>avoid huge polygons(!), e.g., creating a huge polygon over a homogeneous lake does not add much value in terms of characterization of the spectral properties of a lake. – create several small polygons covering different lakes instead</li>
+<li>take your time! Sampling is an essential processing step and will largely determine your further analysis</li>
+</ul>
+<p>Enough theory, time to collect training data.</p>
+</section>
+<section id="import-a-raster-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="import-a-raster-dataset">Import a Raster Dataset</h2>
+<p>The training polygons should define relevant areas for the differentiation of the desired target classes (<em>bare soil</em>, <em>water</em>, <em>grassland</em>, <em>forest</em>, <em>urban low density</em>, and <em>urban high density</em> in our example). To know where these surfaces are located, we need corresponding image data as a basis. So let us import an image dataset!</p>
+<p>First of all, open <a href="https://blogs.fu-berlin.de/reseda/qgis/">QGIS</a>.</p>
+<p>There are several ways to open a raster dataset here: Either navigate via the main menu to <em>Layer</em> &gt; <em>Add Layer</em> &gt; <em>Add Raster Layer…</em>, or press the corresponding icon <img src="./img/vis_008.png" class="alignnone size-full wp-image-1909" width="24" height="24"> in the toolbar or press the shortcut <strong>Ctrl + Shift + R</strong> to open a file explorer window.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/vis_007.png"><img src="./img/vis_007.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Location of Add Raster Layer-function in QGIS</span></p>
+</div>
+<p>In the file explorer window, navigate to the data folder which holds your L8 data and import a raster dataset. We will use a L8 scene showing Berlin (ID: LC08_L1TP_193023_20170602_20170615_01_T1) from the <a href="https://blogs.fu-berlin.de/reseda/earthexplorer-exercise/" rel="noopener" target="_blank">L8 Download Exercise</a>. The spatial subset can be downloaded <a href="https://box.fu-berlin.de/s/zEfqNyQREJrGBLy" rel="noopener" target="_blank">here</a> directly:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/cla_009.png"><img src="./img/cla_009.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Landsat 8 spatial subset imported into QGIS</span></p>
+</div>
+<p>If you have started a new QGIS project (or just opened QGIS), the projection of the entire project will be based on the first dataset you load – in this case the raster file. You can see the current projection of the project in the lower right corner of QGIS. If you use our example data set, you should now see <img src="./img/cla_010.png" class="alignnone size-full wp-image-2071" loading="lazy" width="110" height="29"> there. Click on this entry to get more detailed information about coordinate system of our raster dataset (“WGS84 / UTM ZONE 33 N”). Alternatively you can double-click the dataset in the Layer Panel and view the Coordinate Reference System (CRS) in the General-tab. We want to generate a new shapefile, which shares exactly this georeference system. This is the best way to ensure that the polygons are geographically correctly located in the end.</p>
+</section>
+<section id="create-a-new-polygon-shapefile" class="level2">
+<h2 class="anchored" data-anchor-id="create-a-new-polygon-shapefile">Create a New Polygon Shapefile</h2>
+<p>First, navigate to the area of interest (AOI) in your image data. Then click on the New Shapfile Layer <img src="./img/cla_011.png" class="alignnone size-full wp-image-2073" loading="lazy" width="29" height="28"> icon in the toolbar. If you can not find this icon, right-click in the toolbar area and make sure there is a check mark next to “Manage Layer Toolbar”, which should reveal this icon among others. Once clicked, the “New Shapefile Layer” dialog will be displayed. Choose “polygon” as the Type in the top row of the window. Click on the Coordinate System icon. A new window will pup up, allowing you the choose the CRS of your new shapefile. Choose the same CRS as your raster data (you can use the filter function at the top). On the Fields list, select “id”, and click the button <img src="./img/cla_012.png" class="alignnone img-fluid"> at the bottom of the list. Under “New field”, type “classes” in the Name box, click on <img src="./img/cla_013.png" class="alignnone img-fluid">. Finally, this should look like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/cla_014.png"><img src="./img/cla_014.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">New Shapefile dialog settings</span></p>
+</div>
+<p>If everything is set up, click OK. You will be prompted to the “Save layer as…” dialog. Type the file name (“training_data.shp”), choose a file path and click Save. You will be able to see the new shapefile in the Layers Panel of QGIS. Select it and press the Toggle Editing <img src="./img/cla_015.png" class="alignnone size-full wp-image-2078 img-fluid" width="22"> icon in order to activate editing functionalities. Note that a little pencil symbol will show up on top of the layer, indicating that the layer is now editable. Now click on the Add Feature <img src="./img/cla_016.png" class="alignnone size-full wp-image-2079" loading="lazy" width="22" height="30"> icon. The mouse cursor will now look like a crosshairs. Left-click on the map in the Map View to create the first point of your new feature. Keep on left-clicking for each additional point you wish to include in your polygon. When you have finished adding your points, right-click anywhere on the map area to confirm your polygon geometry. An attribute window will appear immediately, asking for your class label. Input the appropriate class label for your polygon and click OK. Click on the Toggle Editing <img src="./img/cla_015.png" class="alignnone img-fluid"> icon again in order to end editing and to save your changes by choosing Save.</p>
+<p>You can edit the shape of a polygon with the Node tool <img src="./img/cla_018.png" class="alignnone size-full wp-image-2084" loading="lazy" width="28" height="28">. Delete any unwanted polygons by clicking on the tool called “Select Features by Area or Single Click” <img src="./img/cla_019.png" class="alignnone size-full wp-image-2085" loading="lazy" width="28" height="27">. Once activated you can left-click on polygons you want to delete, causing them to turn yellow. Then, press the delete key on your keyboard to remove the polygons (only in editing mode). Choose “Categorized” in the uppermost drop-down menu.</p>
+<p>After some time you should have collected some training areas:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/cla_017.png"><img src="./img/cla_017.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Collection of training polygons in one shapefile</span></p>
+</div>
+<p>You can also color the polygons during editing based on the “classes” attribute, which makes it easier for you to estimate the class distribution. Double-click the shapefile in the Layers Panel and navigate to the Style tab. Ensure that your attribute “classes” is selected in the drop-down menu below. Click Classify once to apply an individual color to each class (click on the colored boxes in order to change the colors) and confirm everything by pressing OK:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/cla_020.png"><img src="./img/cla_020.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<div style="margin: -30px 0 20px 0;text-align: center">
+<p><span style="color: #686868;font-size: small">Style settings for coloring classes</span></p>
+</div>
+<p>If you think you have collected enough samples, save everything by clicking on the Toggle Editing <img src="./img/cla_015.png" class="alignnone img-fluid"> icon again and choose to Save.<br>
+We do not need QGIS anymore, so close it.</p>
+</section>
+</section>
+<section id="prepare-samples-in-r" class="level1 entry-title">
+<h1 class="entry-title">Prepare Samples in R</h1>
+<p>We want to put the training samples created in the previous section in the form of a data frame – which most classifiers in R can handle easily (especially our RF and SVM algorithms). You can <a href="https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FShapfiles&amp;files=training_data.zip" target="_blank" rel="noopener">download the training_data shapefile here</a>. For this task, we again take advantage of the powerful <a href="https://cran.r-project.org/web/packages/raster/raster.pdf" target="_blank" rel="noopener">raster</a> package. The complete code is shown below and a more detailed description is given afterwards.</p>
+<pre class="theme:amityreseda"><code># import raster package
+library(raster)
+
+# import image (img) and shapefile (shp)
+setwd("/media/sf_exchange/landsatdata/")
+img &lt;- brick("LC081930232017060201T1-SC20180613160412_subset.tif")
+shp &lt;- shapefile("training_data.shp")
+ 
+# extract samples with class labels and put them all together in a dataframe
+names(img) &lt;- c("b1", "b2", "b3", "b4", "b5", "b6", "b7")
+smp &lt;- extract(img, shp, df = TRUE)
+smp$cl &lt;- as.factor( shp$classes[ match(smp$ID, seq(nrow(shp)) ) ] )
+smp &lt;- smp[-1]</code></pre>
+<p><span id="1"></span></p>
+</section>
+<section id="in-depth-guide" class="level1">
+<h1>In-depth Guide</h1>
+<p>In order to use functionalities of the raster package, load it into your current session via <span class="crayon-inline theme:amityreseda">library()</span>. If you do not use our VM, you must first download and install the packages with <span class="crayon-inline theme:amityreseda">install.packages()</span>:</p>
+<pre class="theme:amityreseda"><code>#install.packages("raster")
+library(raster)</code></pre>
+<p>Next: set your working directory, in which all your image and shapefile data is stored by giving a character (do not forget the quotation marks <span class="crayon-inline theme:amityreseda">” ”</span>) variable to <span class="crayon-inline theme:amityreseda">setwd()</span>. Check your path with <span class="crayon-inline theme:amityreseda">getwd()</span> and the stored files in it via <span class="crayon-inline theme:amityreseda">dir()</span>:</p>
+<pre class="theme:amityreseda"><code>setwd("/media/sf_exchange/landsatdata/")
+
+getwd()
+## [1] "/media/sf_exchange/landsatdata"
+
+dir()        
+## [1] "LC081930232017060201T1-SC20180613160412_subset.tif"                                                               
+## [2] "polygons_training.dbf"                                              
+## [3] "polygons_training.prj"                                              
+## [4] "polygons_training.qpj"                                              
+## [5] "polygons_training.shp"                                              
+## [6] "polygons_training.shx"                                              </code></pre>
+<p>If you do not get your files listed, you have made a mistake in your work path – check again! Everything ready to go? Fine, then import your raster file as <span class="crayon-inline theme:amityreseda">img</span> and your shapefile as <span class="crayon-inline theme:amityreseda">shp</span> and have a look at them:</p>
+<pre class="theme:amityreseda"><code>img &lt;- brick("LC081930232017060201T1-SC20180613160412_subset.tif")
+img
+## class       : RasterBrick 
+## dimensions  : 504, 1030, 519120, 7  (nrow, ncol, ncell, nlayers)
+## resolution  : 30, 30  (x, y)
+## extent      : 369795, 400695, 5812395, 5827515  (xmin, xmax, ymin, ymax)
+## coord. ref. : +proj=utm +zone=33 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+## data source : /media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412_subset.tif 
+## names       : LC0819302//2_subset.1, LC0819302//2_subset.2, LC0819302//2_subset.3, LC0819302//2_subset.4, LC0819302//2_subset.5, LC0819302//2_subset.6, LC0819302//2_subset.7 
+## min values  :                 -2000,                 -2000,                 -1502,                 -1384,                  -107,                   -72,                   -27 
+## max values  :                 13240,                 13539,                 14574,                 14549,                 14243,                 14896,                 15388
+
+shp &lt;- shapefile("training_data.shp")
+shp
+## class       : SpatialPolygonsDataFrame 
+## features    : 72 
+## extent      : 369802.9, 400028.9, 5812457, 5827504  (xmin, xmax, ymin, ymax)
+## coord. ref. : +proj=utm +zone=33 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+## variables   : 1
+## names       :  classes 
+## min values  : baresoil 
+## max values  :    water
+
+compareCRS(shp, img)
+## [1] TRUE</code></pre>
+<p>Both the <span class="crayon-inline theme:amityreseda">brick()</span> and <span class="crayon-inline theme:amityreseda">shapefile()</span> functions are provided by the raster package. As shown above, they create objects of the class RasterBrick and SpatialPolygonsDataFrame respectively. The L8 raster provides 7 bands, and our example shapefile 72 features, i.e., polygons. You can check whether the projections of the two datasets are identical or not by executing <span class="crayon-inline theme:amityreseda">compareCRS(shp, img)</span>. If this is not the case (output equals <em>FALSE</em>), the raster package will automatically re-project your data on the fly later on. However, we recommend to adjust the projections manually in advance to prevent any future inaccuracies.<br>
+Plot your data to make sure everything is imported properly (check <a href="https://blogs.fu-berlin.de/reseda/visualize-in-r/">Visualize in R</a> for an intro to plotting). With the argument <span class="crayon-inline theme:amityreseda">add = TRUE</span> in line 2 several data layers can be displayed one above the other:</p>
+<pre class="theme:amityreseda"><code>plotRGB(img, r = 4, g = 3, b = 2, stretch = "lin")
+plot(shp, col="red", add=TRUE)</code></pre>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./Prepare Samples in R_files/cla_001.png" class="fancybox image"><img src="./Prepare Samples in R_files/cla_001.png" width="1344" height="657" class="figure-img"></a></p>
+</figure>
+</div>
+<p>If you followed this course in the <a href="https://blogs.fu-berlin.de/reseda/sampling-in-qgis/">previous section</a>, your shapefile should provide an attribute called “classes”, which includes your target classes as strings, e.g., “water” or “urban”. We will later turn this column into the <a href="https://blogs.fu-berlin.de/reseda/r-crash-course-2/#ch55">factor</a> data type because classifiers can only work with integer values instead of words like “water” or “urban”. When converting to factors, strings are sorted alphabetically and numbered consecutively. In order to be able to read the classification image at the end, you should make a note of your classification key:</p>
+<pre class="theme:amityreseda"><code>levels(as.factor(shp$classes))
+## [1] "baresoil"  "forest"    "grassland" "urban_hd"  "urban_ld"  "water"
+
+for (i in 1:length(unique(shp$classes))) {cat(paste0(i, " ", levels(as.factor(shp$classes))[i]), sep="\n")}
+## 1 baresoil
+## 2 forest
+## 3 grassland
+## 4 urban_hd
+## 5 urban_ld
+## 6 water</code></pre>
+<p>The <span class="crayon-inline theme:amityreseda">levels()</span> function combines all occurrences in a factor-formatted vector. In the example shown above, value 1 in our classification image will correspond to the <em>baresoil</em> class, value 2 to <em>forest</em>, value 3 to <em>grassland</em>, etc.<br>
+<strong>Optional</strong>: Let us take a look at the naming of the raster bands via the <span class="crayon-inline theme:amityreseda">names()</span> function. Those names can be quite bulky and cause problems in some illustrations when used as axis labels. You can easily rename it to something more concise by overriding the names with any string vector of the same length:</p>
+<pre class="theme:amityreseda"><code>names(img)
+## [1] "LC081930232017060201T1.SC20180613160412_subset.1"
+## [2] "LC081930232017060201T1.SC20180613160412_subset.2"
+## [3] "LC081930232017060201T1.SC20180613160412_subset.3"
+## [4] "LC081930232017060201T1.SC20180613160412_subset.4"
+## [5] "LC081930232017060201T1.SC20180613160412_subset.5"
+## [6] "LC081930232017060201T1.SC20180613160412_subset.6"
+## [7] "LC081930232017060201T1.SC20180613160412_subset.7"
+
+names(img) &lt;- c("b1", "b2", "b3", "b4", "b5", "b6", "b7")
+
+names(img)
+## [1] "b1" "b2" "b3" "b4" "b5" "b6" "b7"</code></pre>
+<p>Appropriate names for the input features are very helpful for orientation and readability. Of course you need to change the vector in line 10 according to your own input features.</p>
+<p>Our goal is to extract the raster values (x), i.e., all input feature values, and the class values (y) of every single pixel within our training polygons and put all together in a data frame. This data frame can then be read by our classifier. We extract the raster values using the command <span class="crayon-inline theme:amityreseda">extract()</span> from the raster package. The argument <span class="crayon-inline theme:amityreseda">df = TRUE</span> guarantees that the output is a data frame:</p>
+<pre class="theme:amityreseda"><code>smp &lt;- extract(img, shp, df = TRUE)</code></pre>
+<p>It may take some (long) time for this function to complete depending on the spatial resolution of your raster data and the spatial area covered by your polygons. If you have your data stored on an SSD, the process is completed much faster. It may be advisable to save the resulting object to the hard drive <span class="crayon-inline theme:amityreseda">save(smp , file = “smp .rda”)</span> and load it from the hard disk if necessary <span class="crayon-inline theme:amityreseda">load(file = “smp.rda”)</span>. On this way, the extract function does not have to be repeated again and again…<br>
+The data frame has as many rows as pixels could be extracted and as many columns as input features are given (in this example the spectral channels). In addition, <span class="crayon-inline theme:amityreseda">smp</span> also provides a column named “ID”, which holds the IDs of the former polygon for each pixel (each polygon is automatically assigned an ID). Furthermore, we also know which polygon, i.e., each ID, belongs to which class. Because of this, we can establish a relationship between the deposited ID of each pixel and the class using the <span class="crayon-inline theme:amityreseda">match()</span> function. We use this to add another column to our data query describing each class. Then we delete the ID column because we do not need it anymore:</p>
+<pre class="theme:amityreseda"><code>smp$cl &lt;- as.factor(shp$classes[match(smp$ID, seq(nrow(shp)))])
+smp &lt;- smp[-1]
+
+summary(smp$cl)
+##  baresoil    forest grassland  urban_hd  urban_ld     water 
+##       719      2074      1226      1284       969       763
+
+str(smp)
+## 'data.frame':    7035 obs. of  8 variables:
+##  $ b1: num  192 179 189 159 171 164 173 184 144 150 ...
+##  $ b2: num  229 203 221 179 194 188 192 208 166 165 ...
+##  $ b3: num  321 233 272 188 203 196 208 254 178 177 ...
+##  $ b4: num  204 130 164 97 116 108 119 150 83 80 ...
+##  $ b5: num  161 156 173 125 146 138 146 166 107 104 ...
+##  $ b6: num  100 93 109 63 82 71 82 104 51 46 ...
+##  $ b7: num  72 68 81 40 56 51 59 74 32 30 ...
+##  $ cl: Factor w/ 6 levels "baresoil","forest",..: 6 6 6 6 6 6 6 6 6 6 ...</code></pre>
+<p>Now you are ready to start training your classifier as described in the <a href="https://blogs.fu-berlin.de/reseda/rf-classification/">next sections</a>!</p>
+<p><strong>Optional</strong>: If you only include spectral information in your classifier, as in our example, it is often helpful to plot the so-called spectral profiles, or z-profiles. Those represent the mean values of each class for the individual spectral bands. You can also represent other features, e.g., terrain height or precipitation, however, you must then pay attention to the value range in the presentation and possibly normalize the data at first. The magic here happens in the <span class="crayon-inline theme:amityreseda">aggregate()</span> command, which combines all the rows of the same class <span class="crayon-inline theme:amityreseda">. ~ cl</span> and calculates the arithmetic mean of those groups <span class="crayon-inline theme:amityreseda">FUN = mean</span>. This happens for all classes, in the <span class="crayon-inline theme:amityreseda">cl</span> column, where NA values are to be ignored via <span class="crayon-inline theme:amityreseda">na.rm = TRUE</span>. The rest of the functions in the following script are for visualization purposes only and include standard functions such as <span class="crayon-inline theme:amityreseda">plot()</span>, <span class="crayon-inline theme:amityreseda">lines()</span>, <span class="crayon-inline theme:amityreseda">grid()</span> and <span class="crayon-inline theme:amityreseda">legend()</span>. Use the help function for a detailed description of the arguments!</p>
+<pre class="theme:amityreseda"><code>sp &lt;- aggregate( . ~ cl, data = smp, FUN = mean, na.rm = TRUE )
+
+# plot empty plot of a defined size
+plot(0,
+     ylim = c(min(sp[2:ncol(sp)]), max(sp[2:ncol(sp)])), 
+     xlim = c(1, ncol(smp)-1), 
+     type = 'n', 
+     xlab = "L8 bands", 
+     ylab = "reflectance [% * 100]"
+     )
+
+# define colors for class representation - one color per class necessary!
+mycolors &lt;- c("#fbf793", "#006601", "#bfe578", "#d00000", "#fa6700", "#6569ff")
+
+# draw one line for each class
+for (i in 1:nrow(sp)){
+  lines(as.numeric(sp[i, -1]), 
+        lwd = 4, 
+        col = mycolors[i]
+        )
+  }
+
+# add a grid
+grid()
+
+# add a legend
+legend(as.character(sp$cl),
+       x = "topleft",
+       col = mycolors,
+       lwd = 5,
+       bty = "n"
+       )</code></pre>
+<p><span id="plot"></span><a href="./Prepare Samples in R_files/cla_005.png" class="fancybox image"><img src="./Prepare Samples in R_files/cla_005.png" class="aligncenter size-full wp-image-1985" loading="lazy" width="1253" height="755"></a></p>
+<p>Note that the values represent only the arithmetic mean of the classes and do not allow any statement about the underlying distribution. However, such a z-profile plot helps to visually assess the separability of classes at the beginning.</p>
 
 
 </section>
