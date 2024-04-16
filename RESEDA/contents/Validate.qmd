@@ -1,4 +1,4 @@
-# Validate {#validate .entry-title}
+# Validate {#Validate .entry-title}
 
 By now, you have generated your classification map, great! But can you rely on the map's information? To underpin the meaningfulness of your results, a validation is needed.\
 The validation of remote sensing data is the last step in our workflow. The purpose of this chapter is to describe standard and advanced methods for validating a classification map.
