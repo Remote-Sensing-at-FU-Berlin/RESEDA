@@ -122,6 +122,18 @@ website:
               file: RESEDA/contents/Classification-in-R.qmd
             - text: "Regression in R"
               file: RESEDA/contents/Regression-in-R.qmd
+        - section: "Validate"
+          contents: 
+            - text: "Chapter in a box"
+              file: RESEDA/contents/Validate.qmd
+            - text: "Create Samples in R"
+              file: RESEDA/contents/Validate.qmd#create-samples-in-r
+            - text: "Label Samples in QGIS"
+              file: RESEDA/contents/Validate.qmd#label-samples-in-qgis
+            - text: "Accuracy Matrix"
+              file: RESEDA/contents/Validate.qmd#Accuracy-Matrix
+            - text: "Area Adjusted Accuracies"
+              file: RESEDA/contents/Validate.qmd#area-adjusted-accuracies
             
 
 # Don't touch unless you know what you are doing :) ------------

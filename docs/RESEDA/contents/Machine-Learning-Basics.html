@@ -468,7 +468,7 @@ If you plot the variable importance, you will get two measures in the <a href="h
 <p>Consider a set of labelled training samples <span class="math inline">\(X\)</span>, e.g., pixels of an RS image. Each sample is a single vector in the feature space, e.g., one grey scale value for each of the 11 spectral bands of a Landsat 8 scene gives a vector with dimensions <span class="math inline">\(1\times8\)</span>. The concept of a SVM is based on an optimal linear separating hyperplane that is fitted to the training samples of two classes within this multidimensional feature space. Thereby, the optimization problem that has to be solved is aiming at a maximization of the margins between this hyperplane and the closest training samples, the so-called and name giving <strong>Support Vectors</strong>. Only those Support Vectors are needed to describe the hyperplane mathematically exact, vectors farther from the hyperplane remain hidden. The following figure shows a hyperplane separating two classes in two-dimensional space, e.g.&nbsp;Band 3 on the x-axis and Band 4 on the y-axis:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/SVM001.png"><img src="./img/SVM001.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/SVM001.png"><img src="./img/SVM001.png" class="img-fluid figure-img" width="800"></a></p>
 </figure>
 </div>
 <div style="margin: -30px 0 20px 0;text-align: center">
@@ -478,7 +478,7 @@ If you plot the variable importance, you will get two measures in the <a href="h
 <p>Ok, the classification problem in the figure above is very easy to solve linearly. However, the condition of linear separability is generally not met in real-life data. In the case of non-linear separable samples, the SVM needs a so-called kernel. A <strong>kernel</strong> is actually a function, which maps the data into a higher dimensional space where the data is separable. There are several of these kernels, such as linear, polynomial, radial basis and sigmoid kernels, with the radial basis function (RBF) kernel most commonly used for non-linear problems. In doing so, even the most nested training samples become linear separable and the hyperplane can be determined. After a transformation back into the initial lower-dimensional space, this linear hyperplane can become a non-linear or even un-connected hypersurface:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/SVM002.png"><img src="./img/SVM002.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/SVM002.png"><img src="./img/SVM002.png" class="img-fluid figure-img" width="800"></a></p>
 </figure>
 </div>
 <div style="margin: -30px 0 20px 0;text-align: center">

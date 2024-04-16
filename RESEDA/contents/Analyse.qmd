@@ -2,8 +2,8 @@
 
 We will use two possible scenarios in order to show you the possibilities of R when it comes to remote sensing issues:
 
-1.  **classification**: a common land cover classification of one multispectral Landsat 8 scene
-2.  **regression**: generation of sub-pixel information based on Landsat 8 data and high resolution reference data
+1.  **Classification**: a common land cover classification of one multispectral Landsat 8 scene
+2.  **Regression**: generation of sub-pixel information based on Landsat 8 data and high resolution reference data
 
 A complete workflow utilizing various R packages is given in the next sections.
 

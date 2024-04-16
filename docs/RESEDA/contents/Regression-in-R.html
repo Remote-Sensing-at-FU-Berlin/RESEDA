@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -61,6 +95,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -303,6 +339,14 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#regression-in-r" id="toc-regression-in-r" class="nav-link active" data-scroll-target="#regression-in-r">Regression in R</a></li>
+  <li><a href="#prepare-samples-for-regression" id="toc-prepare-samples-for-regression" class="nav-link" data-scroll-target="#prepare-samples-for-regression">Prepare Samples for Regression</a>
+  <ul class="collapse">
+  <li><a href="#in-depth-guide" id="toc-in-depth-guide" class="nav-link" data-scroll-target="#in-depth-guide">In-depth Guide</a></li>
+  </ul></li>
+  <li><a href="#svm-regression" id="toc-svm-regression" class="nav-link" data-scroll-target="#svm-regression">SVM Regression</a>
+  <ul class="collapse">
+  <li><a href="#in-depth-guide-1" id="toc-in-depth-guide-1" class="nav-link" data-scroll-target="#in-depth-guide-1">In-depth Guide</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -334,8 +378,351 @@ ul.task-list li input[type="checkbox"] {
 <strong>SVM Regression</strong> – learn how to perform a Support Vector Regression (SVR) in R using the e1071 package<br>
 – predict the whole image data based on your regression model</p>
 </div>
+</section>
+<section id="prepare-samples-for-regression" class="level1 entry-title">
+<h1 class="entry-title">Prepare Samples for Regression</h1>
+<p>We want to create training samples in the form of a data frame – which most regressors in R can handle easily. For this we will have to use a few GIS operations. Fortunately, these can also be done automatically in R, so that the entire workflow do not have to be performed manually again and again for other datasets. Finally, we will utilize the <a href="https://cran.r-project.org/web/packages/raster/raster.pdf" rel="noopener" target="_blank">raster</a> and the <a href="https://cran.rstudio.com/web/packages/rgeos/rgeos.pdf" rel="noopener" target="_blank">rgeos</a> packages for this.</p>
+<p>The complete code is shown below. The shapefile <em>reg_train_data.shp</em> and the imagery <em>LC081930232017060201T1-SC20180613160412_subset.tif</em> can be downloaded <a href="https://blogs.fu-berlin.de/reseda/prepare-samples-for-regression/##" rel="noopener" target="_blank">here</a>.<br>
+However, we strongly advise you to have a look at the detailed description in the following.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgeos)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># import low resolution image and digitized polygon training areas</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/media/sf_exchange/regression/"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">brick</span>(<span class="st">"LC081930232017060201T1-SC20180613160412_subset.tif"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">shapefile</span>(<span class="st">"reg_train_data.shp"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># rename bands if needed</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(img) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b1"</span>, <span class="st">"b2"</span>, <span class="st">"b3"</span>, <span class="st">"b4"</span>, <span class="st">"b5"</span>, <span class="st">"b6"</span>, <span class="st">"b7"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># create buffer with no width to avoid topology problems</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">gBuffer</span>(shp, <span class="at">byid=</span><span class="cn">TRUE</span>, <span class="at">width=</span><span class="dv">0</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># crop image to extent of training polygons</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>img.subset <span class="ot">&lt;-</span> <span class="fu">crop</span>(img, shp)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># extract pixel completely covered by training polygons</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>img.mask <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(shp, img.subset, <span class="at">getCover =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>img.mask[img.mask <span class="sc">&lt;</span> <span class="dv">100</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>img.subset <span class="ot">&lt;-</span> <span class="fu">mask</span>(img.subset, img.mask)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># transform those pixels to polygons</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">rasterToPolygons</span>(img.subset)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new ID attribute for addressing</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">seq.int</span>(<span class="fu">nrow</span>(grid))</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># create new dataframe for final samples</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># do for each cell in grid:</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(grid)) {</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># intersect grid and shapefile for cell i</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  cell <span class="ot">&lt;-</span> <span class="fu">intersect</span>(grid[i, ], shp)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="co"># extract all target class polygons</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  cell <span class="ot">&lt;-</span> cell[cell<span class="sc">$</span>Class_name <span class="sc">==</span> <span class="st">"building"</span> <span class="sc">|</span> cell<span class="sc">$</span>Class_name <span class="sc">==</span> <span class="st">"impervious"</span>, ]</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># if target class is in cell: calculate area, otherwise area is zero</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(cell) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    areaPercent <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">area</span>(cell) <span class="sc">/</span> <span class="fu">area</span>(grid)[<span class="dv">1</span>])</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    areaPercent <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create new sample and append to training samples</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  newsmp <span class="ot">&lt;-</span> <span class="fu">cbind</span>(grid<span class="sc">@</span>data[i, <span class="dv">1</span><span class="sc">:</span><span class="fu">nlayers</span>(img)], areaPercent)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  smp <span class="ot">&lt;-</span> <span class="fu">rbind</span>(smp, newsmp)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br>
+</p>
+<section id="in-depth-guide" class="level2">
+<h2 class="anchored" data-anchor-id="in-depth-guide">In-depth Guide</h2>
+<p>In order to use functionalities of the raster and rgeos packages, load them into your current session via <code>library()</code>. If you do not use our VM, you must first download and install the packages with <code>install.packages()</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("raster")</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("rgeos")</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgeos)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Next: set your working directory, in which all your image and shapefile data is stored by giving a character (do not forget the quotation marks <code>" "</code>) variable to <code>setwd()</code>. Check your path with <code>getwd()</code> and the stored files in it via <code>dir()</code>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/media/sf_exchange/regression/"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "/media/sf_exchange/regression"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>()  </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="do">##  [1] "LC081930232017060201T1-SC20180613160412_subset.tif"                                                </span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="do">##  [2] "reg_train_data.dbf"     </span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  [3] "reg_train_data.prj"</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  [4] "reg_train_data.qpj"</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  [5] "reg_train_data.shp" </span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  [6] "reg_train_data.shx"   </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you do not get your files listed, there is an error in your working path – check again! Everything ready to go? Fine, then import your raster file as <code>img</code> and your shapefile as <code>shp</code> and have a look at them:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">brick</span>(<span class="st">"LC081930232017060201T1-SC20180613160412_subset.tif"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>img</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="do">## class       : RasterBrick </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 504, 1030, 519120, 7  (nrow, ncol, ncell, nlayers)</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="do">## resolution  : 30, 30  (x, y)</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : 369795, 400695, 5812395, 5827515  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="do">## coord. ref. : +proj=utm +zone=33 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 </span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="do">## data source : /media/sf_exchange/regression/LC081930232017060201T1-SC20180613160412_subset.tif </span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="do">## names       : LC0819302//2_subset.1, LC0819302//2_subset.2, LC0819302//2_subset.3, LC0819302//2_subset.4, LC0819302//2_subset.5, LC0819302//2_subset.6, LC0819302//2_subset.7 </span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="do">## min values  :                 -2000,                 -2000,                 -1502,                 -1384,                  -107,                   -72,                   -27 </span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="do">## max values  :                 13240,                 13539,                 14574,                 14549,                 14243,                 14896,                 15388</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">shapefile</span>(<span class="st">"reg_train_data.shp"</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>shp</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="do">## class       : SpatialPolygonsDataFrame </span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="do">## features    : 286 </span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : 390233.4, 390698.4, 5817147, 5817720  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="do">## coord. ref. : +proj=utm +zone=33 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 </span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="do">## variables   : 1</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="do">## names       : Class_name </span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="do">## min values  :  bare_soil </span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="do">## max values  :      water</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="fu">compareCRS</span>(shp, img)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] TRUE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Both the <code>brick()</code> and <code>shapefile()</code> functions are provided by the raster package. As shown above, they create objects of the class RasterBrick and SpatialPolygonsDataFrame respectively. The L8 raster provides 7 bands, and our example shapefile 286 features, i.e., polygons. You can check whether the projections of the two datasets are identical or not by executing <code>compareCRS(shp, img)</code>. If this is not the case (output equals <em>FALSE</em>), the raster package will automatically re-project your data on the fly later on. However, we recommend to adjust the projections manually in advance to prevent any future inaccuracies.<br>
+Plot your data to make sure everything is imported properly (check <a href="https://blogs.fu-berlin.de/reseda/visualize-in-r/">Visualize in R</a> for an intro to plotting):</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/reg_009.png"><img src="./img/reg_009.png" class="img-fluid figure-img" width="560"></a></p>
+</figure>
+</div>
+<p>With the argument <code>add = TRUE</code> in line 2 several data layers can be displayed one above the other:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(img[[<span class="dv">4</span>]], <span class="at">col=</span><span class="fu">gray.colors</span>(<span class="dv">100</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shp, <span class="at">add=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/reg_003.png"><img src="./img/reg_003.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<p>In Line 1, initially only the fourth channel of the image <code>img[[4]</code> was displayed with a gray color representation using 100 shades <code>col=gray.colors(100)</code>. The black spots in the upper plot represent the polygons of the shapefile. It becomes clear that they cover only a very small part of our study area.</p>
+<p><strong>Optional</strong>: Let us take a look at the naming of the raster bands via the <code>names()</code> function. Those names can be quite bulky and cause problems in some illustrations when used as axis labels. You can easily rename it to something more concise by overriding the names with any string vector of the same length:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(img)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "LC081930232017060201T1.SC20180613160412_subset.1"</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [2] "LC081930232017060201T1.SC20180613160412_subset.2"</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [3] "LC081930232017060201T1.SC20180613160412_subset.3"</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [4] "LC081930232017060201T1.SC20180613160412_subset.4"</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [5] "LC081930232017060201T1.SC20180613160412_subset.5"</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [6] "LC081930232017060201T1.SC20180613160412_subset.6"</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [7] "LC081930232017060201T1.SC20180613160412_subset.7"</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(img) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b1"</span>, <span class="st">"b2"</span>, <span class="st">"b3"</span>, <span class="st">"b4"</span>, <span class="st">"b5"</span>, <span class="st">"b6"</span>, <span class="st">"b7"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(img)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "b1" "b2" "b3" "b4" "b5" "b6" "b7"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In order to accelerate all computation processes in the following, we first trim the image to the extent of the shapefile using the <code>crop()</code> function. It is often recommended to use a buffer of zero width wrapped around the polygons to avoid any topological errors in the upcoming process using <code>gbuffer()</code> as shown in line 1:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">gBuffer</span>(shp, <span class="at">byid=</span><span class="cn">TRUE</span>, <span class="at">width=</span><span class="dv">0</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>img.subset <span class="ot">&lt;-</span> <span class="fu">crop</span>(img, shp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now we just want to extract the pixels that are 100% covered by the polygons. Full coverage is important to be able to extract reliable predictions about the ratio of an target class. In order to assess this coverage, we use the <code>rasterize()</code> function with the argument <code>getCover = TRUE</code> to generate a mask. In line 2, we set all pixels which have less than 100% coverage to <code>NA</code>. In the end, we use the mask to subset our image data again using the <code>mask()</code> function:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>img.mask <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(shp, img.subset, <span class="at">getCover =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>img.mask[img.mask <span class="sc">&lt;</span> <span class="dv">100</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>img.subset <span class="ot">&lt;-</span> <span class="fu">mask</span>(img.subset, img.mask)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Plot the image data again with the polygons in order to see our achievements:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shp)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(img.subset[[<span class="dv">4</span>]], <span class="at">add=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/reg_008.png"><img src="./img/reg_008.png" class="img-fluid figure-img" width="560"></a></p>
+</figure>
+</div>
+<p>Only the raster cells within our polygons are left – great!<br>
+In a next step, we transform those pixels to polygons, forming a grid with the information of the Landsat 8 bands maintained by using the <code>rasterToPolygons()</code> function. In addition, we want to assign each of these cells in the grid with an ID in order to address them (line 2):</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">rasterToPolygons</span>(img.subset)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">seq.int</span>(<span class="fu">nrow</span>(grid))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>grid </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="do">## class       : SpatialPolygonsDataFrame </span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="do">## features    : 93 </span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : 390255, 390675, 5817165, 5817705  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="do">## coord. ref. : +proj=utm +zone=33 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 </span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="do">## variables   : 8</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="do">## names       :   b1,   b2,   b3,   b4,   b5,   b6,   b7, ID </span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="do">## min values  :  144,  198,  339,  279,  678,  563,  398,  1 </span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="do">## max values  : 1175, 1245, 1452, 1422, 3686, 2382, 2193, 93</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/reg_006.png"><img src="./img/reg_006.png" class="img-fluid figure-img" width="480"></a></p>
+</figure>
+</div>
+<p>Finally, we have generated 93 cells (polygons) in this <code>grid</code> for which we now want to make a statement of how much of their areas is impervious, i.e., all polygons that have either <em>building</em> or <em>impervious</em> as <code>Class_name</code> attribute.<br>
+For this, we generate a new, empty data frame in which we write the training samples one after the other in line 1. We use a for-loop to iterate over each cell of the <code>grid</code> in line 2:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(grid)) {</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  cell <span class="ot">&lt;-</span> <span class="fu">intersect</span>(grid[i, ], shp)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  cell <span class="ot">&lt;-</span> cell[cell<span class="sc">$</span>Class_name <span class="sc">==</span> <span class="st">"building"</span> <span class="sc">|</span> cell<span class="sc">$</span>Class_name <span class="sc">==</span> <span class="st">"impervious"</span>, ]</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(cell) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    areaPercent <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">area</span>(cell) <span class="sc">/</span> <span class="fu">area</span>(grid)[<span class="dv">1</span>])</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    areaPercent <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  newsmp <span class="ot">&lt;-</span> <span class="fu">cbind</span>(grid<span class="sc">@</span>data[i, <span class="dv">1</span><span class="sc">:</span><span class="fu">nlayers</span>(img)], areaPercent)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  smp <span class="ot">&lt;-</span> <span class="fu">rbind</span>(smp, newsmp)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(smp)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="do">##      b1   b2   b3   b4   b5   b6  b7  areaPercent</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="do">## 2  1175 1245 1452 1422 1742 1321 950 9.765630e-01</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="do">## 3   497  597  736  767 1335 1175 947 7.986431e-01</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="do">## 5   277  330  477  462 1221  960 743 3.669043e-01</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="do">## 4   265  310  444  428 1077  789 545 1.727224e-01</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="do">## 41  230  267  390  343  809  613 404 9.765625e-06</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="do">## 42  168  217  339  312  678  563 398 3.540961e-02</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Explanation</strong>:<br>
+Line 3: we select the ith cell of the grid and intersect this cell with the <code>shp</code>, which gives us the geometries and attributes of both the shapefile and the cell.<br>
+Line 4: only the polygons belonging to the target classes were extracted, we discard all other polygons.<br>
+Line 5: if a polygon of a target class exists in the cell, do everything inside the curly brackets. If there is no polygon in the cell, jump to line 7.<br>
+Line 6: calculate the proportion of the area of each polygon and sum the proportions ([area(grid)<span class="math display">\[1\]</span><code>equals 900 m² in our example due to the geometric resolution).\ Line 7: if there is no polygon of class *building* or *impervious*, set</code>areaPercent<code>to zero.\ Line 10: use the column bind ([cbind()</code>) function to combine the feature values (reflectances of Landsat image) and the <code>areaPercent</code> value to form a new sample <code>newsmp</code>.<br>
+Line 10: use row bind ([rbind()<code>) to add the new sample</code>newsmp<code>to our training dataset</code>smp`.</p>
+<p>We now prepared a training data set <code>smp</code> with all input features (Landsat 8 bands 1 to 7) and the percentage value of our target class (<em>imperviousness</em>).</p>
+<p>Time to train a Support Vector Machine <a href="https://blogs.fu-berlin.de/reseda/svm-regression/">in the next section</a>!</p>
+</section>
+</section>
+<section id="svm-regression" class="level1 entry-title">
+<h1 class="entry-title">SVM Regression</h1>
+<p>There are several R packages that provide SVM regression, or Support Vector Regression (SVR), support, e.g., <a href="https://cran.r-project.org/web/packages/caret/caret.pdf" rel="noopener" target="_blank">caret</a>, <a href="https://cran.r-project.org/web/packages/e1071/e1071.pdf" rel="noopener" target="_blank">e1071</a>, or <a href="https://cran.r-project.org/web/packages/kernlab/kernlab.pdf" rel="noopener" target="_blank">kernLab</a>. We will use the e1071 package, as it offers <a href="https://cran.r-project.org/web/packages/e1071/vignettes/svmdoc.pdf" rel="noopener" target="_blank">an interface to the well-known libsvm</a> implementation.</p>
+<p>Below you can see a complete code implementation. Read the <a href="https://blogs.fu-berlin.de/reseda/prepare-samples-for-regression/" rel="noopener" target="_blank">previous section</a> to learn about pre-processing the training data. While this is already executable with the given input data, you should read the in-depth guide in the following to understand the code in detail.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgeos)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(e1071)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/media/sf_exchange/regression/"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">brick</span>(<span class="st">"LC081930232017060201T1-SC20180613160412_subset.tif"</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">shapefile</span>(<span class="st">"reg_train_data.shp"</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># training sample preprocessing (see last section for details)</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(img) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b1"</span>, <span class="st">"b2"</span>, <span class="st">"b3"</span>, <span class="st">"b4"</span>, <span class="st">"b5"</span>, <span class="st">"b6"</span>, <span class="st">"b7"</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">gBuffer</span>(shp, <span class="at">byid=</span><span class="cn">TRUE</span>, <span class="at">width=</span><span class="dv">0</span>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>img.subset <span class="ot">&lt;-</span> <span class="fu">crop</span>(img, shp)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>img.mask <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(shp, img.subset, <span class="at">getCover =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>img.mask[img.mask <span class="sc">&lt;</span> <span class="dv">100</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>img.subset <span class="ot">&lt;-</span> <span class="fu">mask</span>(img.subset, img.mask)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">rasterToPolygons</span>(img.subset)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">seq.int</span>(<span class="fu">nrow</span>(grid))</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(grid)) {</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  cell <span class="ot">&lt;-</span> <span class="fu">intersect</span>(grid[i, ], shp)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  cell <span class="ot">&lt;-</span> cell[cell<span class="sc">$</span>Class_name <span class="sc">==</span> <span class="st">"building"</span> <span class="sc">|</span> cell<span class="sc">$</span>Class_name <span class="sc">==</span> <span class="st">"impervious"</span>, ]</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(cell) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    areaPercent <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">area</span>(cell) <span class="sc">/</span> <span class="fu">area</span>(grid)[<span class="dv">1</span>])</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    areaPercent <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  newsmp <span class="ot">&lt;-</span> <span class="fu">cbind</span>(grid<span class="sc">@</span>data[i, <span class="dv">1</span><span class="sc">:</span><span class="fu">nlayers</span>(img)], areaPercent)</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>  smp <span class="ot">&lt;-</span> <span class="fu">rbind</span>(smp, newsmp)</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="co"># model training</span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="co"># define search ranges</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>gammas <span class="ot">=</span> <span class="dv">2</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">8</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>costs <span class="ot">=</span> <span class="dv">2</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>)</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>epsilons <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.01</span>, <span class="fl">0.001</span>)</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a><span class="co"># start training via gridsearch</span></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>svmgs <span class="ot">&lt;-</span> <span class="fu">tune</span>(svm,</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>              <span class="at">train.x =</span> smp[<span class="sc">-</span><span class="fu">ncol</span>(smp)],</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>              <span class="at">train.y =</span> smp[<span class="fu">ncol</span>(smp)],</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>              <span class="at">type =</span> <span class="st">"eps-regression"</span>,</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>              <span class="at">kernel =</span> <span class="st">"radial"</span>, </span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>              <span class="at">scale =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>              <span class="at">ranges =</span> <span class="fu">list</span>(<span class="at">gamma =</span> gammas, <span class="at">cost =</span> costs, <span class="at">epsolon =</span> epsilons),</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>              <span class="at">tunecontrol =</span> <span class="fu">tune.control</span>(<span class="at">cross =</span> <span class="dv">5</span>)</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>              )</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a><span class="co"># pick best model</span></span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>svrmodel <span class="ot">&lt;-</span> svmgs<span class="sc">$</span>best.model</span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a><span class="co"># use best model for prediciton</span></span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>result[result <span class="sc">&lt;</span> <span class="dv">0</span>] <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>result[result <span class="sc">&lt;</span> <span class="dv">0</span>] <span class="ot">=</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><br>
+</p>
+<section id="in-depth-guide-1" class="level2">
+<h2 class="anchored" data-anchor-id="in-depth-guide-1">In-depth Guide</h2>
+<p>In order to be able to use the regression functions of the e1071 package, we must additionally load the library into the current session via <code>library()</code>. If you do not use our VM, you must first download and install the packages with <code>install.packages()</code>:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("raster")</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("rgeos")</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("e1071")</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgeos)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(e1071)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>First, it is necessary to process the training samples in the form of a data frame. The necessary steps are shown in line 10-31 and described in detail in the <a href="https://blogs.fu-berlin.de/reseda/prepare-samples-for-regression/" rel="noopener" target="_blank">previous section</a>.</p>
+<p>After the preprocessing, we can train our Support Vector Regression with the training dataset <code>smp</code>. We will utilize an epsilon Support Vector Regressions, which requires three parameters: one gamma <span class="math inline">\(\gamma\)</span> value, one cost <span class="math inline">\(C\)</span> value as well as a epsilon <span class="math inline">\(\varepsilon\)</span> value (for more details refer to the <a href="https://blogs.fu-berlin.de/reseda/support-vector-machine/#2" rel="noopener" target="_blank">SVM section</a>). These hyperparameters significantly determine the performance of the model. Finding the best hyparameters is not trivial and the best combination can not be determined in advance. Thus, we try to find the best combination iteratively by trial and error. Therefore, we create three vectors comprising all values that should be tested:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>gammas <span class="ot">=</span> <span class="dv">2</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">8</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>costs <span class="ot">=</span> <span class="dv">2</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>epsilons <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.01</span>, <span class="fl">0.001</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>So we have 14 different values for <span class="math inline">\(\gamma\)</span>, 14 different values for <span class="math inline">\(C\)</span> and three different values for <span class="math inline">\(\varepsilon\)</span>. Thus, the whole training process is tested for 588 (14 * 14 * 3) models. Conversely, this means that the more parameters we check, the longer the training process takes.<br>
+We start the training with the <code>tune()</code> function. We need to specify the training samples as <code>train.x</code>, i.e., all columns of our <code>smp</code> dataframe except the last one, and the corresponding class labels as <code>train.y</code>, i.e.&nbsp;the last column of our <code>smp</code> dataframe, which holds the <code>areaPercentage</code>of our target class <em>imperviousness</em>:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>svmgs <span class="ot">&lt;-</span> <span class="fu">tune</span>(svm,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">train.x =</span> smp[<span class="sc">-</span><span class="fu">ncol</span>(smp)],</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">train.y =</span> smp[<span class="fu">ncol</span>(smp)],</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">type =</span> <span class="st">"eps-regression"</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">kernel =</span> <span class="st">"radial"</span>, </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">scale =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">ranges =</span> <span class="fu">list</span>(<span class="at">gamma =</span> gammas, <span class="at">cost =</span> costs, <span class="at">epsolon =</span> epsilons),</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">tunecontrol =</span> <span class="fu">tune.control</span>(<span class="at">cross =</span> <span class="dv">5</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>              )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We have to set the <code>type</code> of the SVM to <code>"eps-regression"</code> in line 4 in order to perform a regression task. Furthermore, we set the kernel used in training and predicting to a <a href="https://blogs.fu-berlin.de/reseda/support-vector-machine/" rel="noopener" target="_blank">RBF kernel</a> via <code>"radial"</code> (have a look at the <a href="https://blogs.fu-berlin.de/reseda/support-vector-machine/" rel="noopener" target="_blank">SVM section</a> for more details). We set the argument <code>scale</code> to <code>TRUE</code> in order to initiate the <a href="https://blogs.fu-berlin.de/reseda/support-vector-machine/" rel="noopener" target="_blank">z-transformation of our data</a>. The argument <code>ranges</code> in line 7 takes a named list of parameter vectors spanning the sampling range. We put our vectors <code>gammas</code>, <code>costs</code> and <code>epsilons</code> in this list. By using the <code>tunecontrol</code> argument in line 8, you can set k for <a href="https://blogs.fu-berlin.de/reseda/support-vector-machine/" rel="noopener" target="_blank">the k-fold cross validation on the training data</a>, which is necessary to assess the model performance.</p>
+<p>Depending on the complexity of the data, this step may take some time. Once completed, you can check the output by calling the resultant object name:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>svmgs </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="do">## Parameter tuning of ‘svm’:</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="do">## - sampling method: 5-fold cross validation </span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="do">##</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="do">## - best parameters:</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="do">##       gamma cost epsolon</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="do">##  0.00390625    8     0.1</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="do">## - best performance: 0.03157376 </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In the course of the cross-validation, the overall accuracies were compared and the best parameters were determined: In our example, those are 0.0039, 8 and 0.1 for <span class="math inline">\(\gamma\)</span>, <span class="math inline">\(C\)</span> and <span class="math inline">\(\varepsilon\)</span>, respectively. Furthermore, the Mean Absolute Error (MAE) of the best model is displayed, which is 0.0316, or 3.12%, in our case.</p>
+<p>We can extract the best model out of our <code>svmgs</code> to use for image prediction:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>svrmodel <span class="ot">&lt;-</span> svmgs<span class="sc">$</span>best.model</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>svrmodel </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Call:</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="do">## best.tune(method = svm, train.x = smp[-ncol(smp)], train.y = smp[ncol(smp)], ranges = list(gamma = gammas, cost = costs, </span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="do">##     epsolon = epsilons), tunecontrol = tune.control(cross = 5), type = "eps-regression", kernel = "radial", scale = TRUE)</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="do">## Parameters:</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="do">##    SVM-Type:  eps-regression </span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  SVM-Kernel:  radial </span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="do">##        cost:  8 </span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="do">##       gamma:  0.00390625 </span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="do">##     epsilon:  0.1 </span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="do">## Number of Support Vectors:  78</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Save the best model by using the <code>save()</code> function. This function saves the model object <code>svrmodel</code> to your working directory, so that you have it permanently stored on your hard drive. If needed, you can load it any time with <code>load()</code>.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(svrmodel, <span class="at">file =</span> <span class="st">"svrmodel.RData"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co">#load("svrmodel.RData")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Since your SVR model is now completely trained, you can use it to predict all the pixels in your image. The command method <code>predict()</code> takes a lot of work from you: It is recognized that there is an image which will be processed pixel by pixel. As with the training pixels, each image pixel is now individually regressed and finally reassembled into your final regression image. Save the output as raster object <code>result</code> and have a look at its minimum and maximum values (line 11):</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">predict</span>(img, svrmodel)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>result</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="do">## class       : RasterLayer </span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 504, 1030, 519120  (nrow, ncol, ncell)</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="do">## resolution  : 30, 30  (x, y)</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : 369795, 400695, 5812395, 5827515  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="do">## coord. ref. : +proj=utm +zone=33 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 </span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="do">## data source : in memory</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="do">## names       : layer </span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="do">## values      : -0.7562021, 1.15675  (min, max)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>You may will notice some “super-positive” (values above 1.0 or 100%) and/ or some negative (values below 0.0 or 0%) values. Such values are not uncommon, since the SVR implementation of the e1071 package is not subject to any non-negative constraints. You could simply fix this issue by overriding all adequate entries with meaningful minimum and maximum values (0 for 0% and 1 for 100%) by adding the following two lines:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>result[result <span class="sc">&gt;</span> <span class="dv">1</span>] <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>result[result <span class="sc">&lt;</span> <span class="dv">0</span>] <span class="ot">=</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Finally, save your regression raster output using the <code>writeRaster()</code> function and plot your result in R:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(result, <span class="at">filename=</span><span class="st">"regression.tif"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(result, <span class="at">col=</span><span class="fu">gray.colors</span>(<span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./img/reg_010.png"><img src="./img/reg_010.png" class="img-fluid figure-img"></a></p>
+</figure>
+</div>
+<p>Done! You now got a map, which indicates the percentage of imperviousness, i.e., subpixel-information, for every single pixel in your image data.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

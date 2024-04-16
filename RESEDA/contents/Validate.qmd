@@ -1,0 +1,671 @@
+# Validate {#validate .entry-title}
+
+By now, you have generated your classification map, great! But can you rely on the map's information? To underpin the meaningfulness of your results, a validation is needed.\
+The validation of remote sensing data is the last step in our workflow. The purpose of this chapter is to describe standard and advanced methods for validating a classification map.
+
+::: {style="background-color:#f1f1f1;padding:18px 30px 1px"}
+In this chapter, the following content awaits you:
+
+[**Validation Intro**](https://blogs.fu-berlin.de/reseda/validate/#1)\
+-- training, testing, validation -- use the right terminology\
+-- best validation practice for remote sensing\
+[**Create Samples in R**](https://blogs.fu-berlin.de/reseda/create-samples-in-r/)\
+-- stratified random sampling in R\
+-- generation and export of point coordinates as shapefile for usage in QGIS\
+[**Label Samples in QGIS**](https://blogs.fu-berlin.de/reseda/label-samples-in-qgis/)\
+-- import of point shapefile\
+-- label points according to their class membership\
+-- use Landsat and very high resolution basemaps as validation basis for labeling\
+-- save labeled point shapefile\
+[**Accuracy Statistics in R**](https://blogs.fu-berlin.de/reseda/accuracy-statistics-in-r/)\
+-- generate a complete accuracy matrix in R\
+-- calculate confidence intervalls for overall accuracies\
+-- calculate kappa statistics\
+[**Area Adjusted Accuracies**](https://blogs.fu-berlin.de/reseda/area-adjusted-accuracies/)\
+-- calculate area weighted accuracy statistics according to [Olofsson et al. 2014](http://reddcr.go.cr/sites/default/files/centro-de-documentacion/olofsson_et_al._2014_-_good_practices_for_estimating_area_and_assessing_accuracy_of_land_change.pdf){rel="noopener" target="_blank"}
+:::
+.
+
+
+**Training dataset**: A model is initially fit on a training sample dataset. The model iteratively learn from those training samples and tries to map data $x$ to output response $y$.
+
+**Testing dataset**: During training, algorithms often use a testing dataset for an unbiased evaluation of a model fit while tuning the model's hyperparameter, e.g., $mtry$ for RF, or $\gamma$ and $C$ for SVM. The testing dataset is generated internally, e.g., in the form of OOB samples in RF, or cross validation in SVM.
+
+**Validation dataset**: Finally, a validation dataset is completely independent from the other two datasets and provides an unbiased evaluation of a model fit.
+
+All right, so what is the best validation practice for remote sensing studies?
+
+1.  automatically create multiple point coordinates all over your study area or your classification extent
+2.  manually attribute the corresponding class labels to all of those point coordinates (labeling)
+3.  statistically examine the deviations and matches between the manually assigned class labels and the labels assigned by the classificator at any given point coordinates
+
+In the following, we want to present a best practice workflow for a classification in detail.
+
+
+# Create Samples in R {#create-samples-in-r .entry-title}
+
+Creating validation samples is a crucial step in validation workflows. Certainly, sampling is not a trivial task. Many publications deal with the optimal sampling method, trying to maintain heterogeneity and avoid autcorrelations within validation samples, e.g., [Köhl et al. 2006](https://www.springer.com/de/book/9783540325710){rel="noopener" target="_blank"}, [Mu et al. 2015](http://www.mdpi.com/2072-4292/7/12/15817/htm){rel="noopener" target="_blank"}, [Oloffson et al. 2014](http://reddcr.go.cr/sites/default/files/centro-de-documentacion/olofsson_et_al._2014_-_good_practices_for_estimating_area_and_assessing_accuracy_of_land_change.pdf){rel="noopener" target="_blank"}.
+
+In general, there are several random sampling strategies commonly found in remote sensing studies and software solutions:
+
+-   **random**: Validation samples were picked completely random. Each pixel within the study area has the same probability of being picked.
+-   **stratified random**: The proportions of the classes in the validation samples correspond to the area proportion on the classification map.That is, the larger the area of class on the map, the more samples will be drawn from it.
+-   **equalized stratified random**: Ensures, that each class's sample size is exactly the same regardless of area of class on the map
+
+We will use **equalized stratified random** sampling for this example. This is a complete R script you need in order to automatically generate exactly 50 samples per class within your study extent:
+
+``` r
+# import package
+library(raster)
+ 
+# import classification image (last chapter)
+setwd("/media/sf_exchange/landsatdata/")
+img.classified <- raster("classification_RF.tif")
+ 
+# create 50 test samples per class
+samplesperclass <- 50
+smp.test <- sampleStratified(classification, size = samplesperclass, na.rm = TRUE, sp = TRUE)
+# shuffle test samples
+smp.test <- smp.test[sample(nrow(smp.test)), ]
+# delete attributes
+smp.test <- smp.test[ , -c(1, 2)]
+# create standard ID attribute
+smp.test$ID <- 1:nrow(smp.test)
+ 
+# save test samples as point shapefile
+shapefile(smp.test,
+          filename = "validation_RFnew.shp",
+          overwrite = TRUE
+          )
+```
+
+\
+
+## In-depth Guide
+
+All we need is the [raster` package, so make sure you've imported it.
+
+``` r
+#install.packages("raster")
+library(raster)
+```
+
+Furthermore, you should have your classification map ready ([Chapter Analysis](https://blogs.fu-berlin.de/reseda/analyse/){rel="noopener" target="_blank"}), lying in your working directory. Import it with the `raster()` function:
+
+``` r
+setwd("/media/sf_exchange/landsatdata/")
+img.classified <- raster("classification_RF.tif")
+```
+
+The `raster` provides a function called `sampleStratified()`, which does all the work for us:
+
+``` r
+smp.test <- sampleStratified(x = classification,
+                             size = 50,
+                             na.rm = TRUE,
+                             sp = TRUE)
+```
+
+This function needs an Raster-Object as `x` argument and a positive integer value as `size` argument. Latter is the number of sample points per class. Additionally we can exclude all `NA` values, by setting `na.rm = TRUE`. `NA` Values can arise if your scene lies diagonally in space and points are placed in the border areas. Line 4 ensures, that the returned object is a SpatialPointDataFrame (which is easier to handle).
+
+We can now check the class labels of our newly extracted validation points:
+
+``` r
+smp.test$classification_RF
+##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+##  [36] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+##  [71] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3
+## [106] 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+## [141] 3 3 3 3 3 3 3 3 3 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
+## [176] 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 5 5 5 5 5 5 5 5 5 5
+## [211] 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5
+## [246] 5 5 5 5 5 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+## [281] 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6
+```
+
+Note: the name of the column within `smp.test` depends on the file name of your classification map.
+
+Due to the subsequent manual labeling in the [next section](https://blogs.fu-berlin.de/reseda/label-samples-in-qgis/){rel="noopener" target="_blank"}, it makes sense to mix the samples so that the order is random. Again, we use the `sample()` function for this:
+
+``` r
+smp.test <- smp.test[sample(nrow(smp.test)), ]
+```
+
+By looking at the class labels again, we see that the order is now random:
+
+``` r
+smp.test$classification_RF
+##   [1] 3 1 4 4 6 4 5 3 6 2 1 5 4 2 2 4 4 3 4 5 1 3 4 2 6 3 3 6 1 4 6 6 5 6 2
+##  [36] 3 1 1 3 3 1 2 5 4 3 4 2 4 1 5 1 1 4 1 3 5 2 1 5 4 5 2 3 6 2 1 5 3 5 2
+##  [71] 2 6 4 1 5 1 6 4 6 6 6 6 1 1 1 2 4 5 6 4 5 3 5 4 2 2 1 2 2 3 5 6 6 1 1
+## [106] 2 1 2 1 1 3 4 6 1 6 6 5 4 6 2 1 6 6 5 1 5 2 3 6 4 2 6 6 3 4 6 4 2 6 3
+## [141] 2 2 2 3 2 6 6 5 3 3 4 2 6 1 2 5 1 3 6 1 3 6 1 3 4 2 2 5 4 1 1 6 5 4 4
+## [176] 4 2 5 1 6 1 5 5 6 4 5 2 2 2 5 3 2 6 2 5 3 6 4 1 5 5 3 1 3 5 4 4 4 4 2
+## [211] 3 5 3 4 1 1 3 3 4 2 2 3 3 1 4 4 6 2 1 1 2 6 3 4 5 3 6 1 6 5 2 3 6 3 6
+## [246] 5 1 1 4 1 2 4 3 4 5 5 3 5 2 3 2 2 6 3 6 5 5 3 2 4 3 1 3 6 5 6 5 5 5 6
+## [281] 2 3 5 5 1 1 3 4 4 1 4 5 6 4 2 3 5 3 5 4
+```
+
+In addition, we can delete all variables in our dataframe `smp.test` and append a consecutive ID variable called `ID`, which will then be displayed to us in QGIS:
+
+``` r
+smp.test <- smp.test[, -c(1, 2)]
+smp.test$ID <- 1:nrow(smp.test)
+
+smp.test
+## class       : SpatialPointsDataFrame 
+## features    : 300 
+## extent      : 369870, 400650, 5812410, 5827500  (xmin, xmax, ymin, ymax)
+## coord. ref. : +proj=utm +zone=33 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
+## variables   : 1
+## names       :  ID 
+## min values  :   1 
+## max values  : 300
+```
+
+To visualize the distribution of our validation points, we can plot the SpatialPointDataFrame `smp.test` on top of our classification map in one plot:
+
+``` r
+plot(classification, 
+     axes = FALSE, 
+     box = FALSE,
+     col = c("#fbf793", "#006601", "#bfe578", "#d00000", "#fa6700", "#6569ff")
+     )
+
+points(smp.test)
+```
+
+[![](./img/valid_009.png)](./img/valid_009.png)
+
+Last but not least, it is still necessary to save the SpatialPointDataFrame `smp.test` as a shapefile to your hard drive. This is also very easy with the `shapefile()` function from the raster package. Choose an appropriate `filename =` for the new shapefile created.
+
+``` r
+shapefile(smp.test,
+          filename = "validation_RF.shp",
+          overwrite = TRUE
+          )
+```
+
+# Label Samples in QGIS {#label-samples-in-qgis .entry-title}
+
+Open QGIS and import your initial image dataset (Landsat 8 scene) and the newly created point shapefile [validation_RF.shp` containing the test samples from the [previous section](https://blogs.fu-berlin.de/reseda/create-samples-in-r/){rel="noopener" target="_blank"}. Display the image data using a RGB composite of your choice (see section [Visualization in QGIS](https://blogs.fu-berlin.de/reseda/visualize-in-qgis/)). A good, high-contrast presentation makes it easier to interpret the scene during validation:
+
+[![](./img/valid_001.png)](./img/valid_001.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Landsat 8 scene (RGB 543) and point shapefile containing the test samples]{style="color: #686868;font-size: small"}
+:::
+
+For visual support, we also want to look at the high-resolution information provided by Google Maps. Starting from the main menu of QGIS, navigate via *Web* \> *OpenLayers Plugin* \> *Google Maps* \> *Google Satellite* to the satellite data from Google:
+
+[![](./img/valid_002.png){.aligncenter}](./img/valid_002.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Use the OpenLayers Plugin to import Google Maps imagery to your QGIS project]{style="color: #686868;font-size: small"}
+:::
+
+If you do not use our VM, you must first install the OpenLayers Plugin manually. See [this guide](http://www.qgistutorials.com/en/docs/using_plugins.html){rel="noopener" target="_blank"} to learn how to install a plugin.\
+Your data may look slightly rotated after the import of external Google Maps imagery. This is because the Google Maps data are subject to a different projection and they can not be reprojected on-the-fly. Because of this, your data will be temporarily adjusted so that everything is on top of each other.\
+Right click your point shapefile ("validation_RF.shp") and choose "Open Attribute Table". Enable the editing features by pressing the pencil in the toolbar of the attribute table:
+
+[![](./img/valid_003.png){.aligncenter}](./img/valid_003.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Enable editing of attributes]{style="color: #686868;font-size: small"}
+:::
+
+Now press the "new field" button ![](./img/valid_005.png){.alignnone .size-full .wp-image-2232 loading="lazy" width="24" height="22"} in the toolbar to add a new column to the attribute table into which we will write the correct class labels. We just want to enter the number for the corresponding class, instead of typing the complete class names every time. So we need an integer column, which we call "validclass". Copy the following settings and confirm with OK:
+
+[![](./img/valid_004.png){.aligncenter .size-full}](./img/valid_004.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[New attribute settings]{style="color: #686868;font-size: small"}
+:::
+
+Reminder: You wonder what numbers represent which class? Look again at section [Prepare Samples in R](https://blogs.fu-berlin.de/reseda/prepare-samples/){rel="noopener" target="_blank"}. Starting from our training polygon shapefile, we were able to display the individual class labels and the corresponding class IDs in the following step. The order results according to the alphabetical sorting of the class names:
+
+``` r
+levels(as.factor(shp$classes))
+## [1] "baresoil"  "forest"    "grassland" "urban_hd"  "urban_ld"  "water"
+
+for (i in 1:length(unique(shp$classes))) {cat(paste0(i, " ", levels(as.factor(shp$classes))[i]), sep="\n")}
+## 1 baresoil
+## 2 forest
+## 3 grassland
+## 4 urban_hd
+## 5 urban_ld
+## 6 water
+```
+
+Write down the classification key! A wrong labeling of the points would be fatal for your validation statistics!
+
+If the class IDs are finally known, you can start:\
+Zoom to a scale level that allows you to differentiate your target classes in Google Earth. Then click on the left part of a line in the attribute table to highlight/select it. Once selected, press the icon "Zoom to selected Features" in the toolbar or simply **Control+J** on your keyboard to automatically navigate to the respective point in the Map View:
+
+[![](./img/valid_008.png){.aligncenter .size-full}](./img/valid_008.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Select a point and automatically zoom to it]{style="color: #686868;font-size: small"}
+:::
+
+Use both your initial dataset (Landsat 8) and any high-resolution information (Google Maps) to decide which class the pixel that contains the point belongs to.
+
+[![](./img/valid_006.png){.aligncenter .size-full}](./img/valid_006.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Validate random stratified points by low resolution Landsat 8 data (initial dataset)]{style="color: #686868;font-size: small"}
+:::
+
+[![](./img/valid_007.png){.aligncenter .size-full}](./img/valid_007.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Validate random stratified points by high resolution Google Maps imagery]{style="color: #686868;font-size: small"}
+
+
+# Accuracy Matrix {#Accuracy-Matrix}
+
+A confusion matrix, also known as error or accuracy matrix, is a specific type of table showing the performance of an algorithm. The name *confusion matrix* comes from the fact that you can quickly see where the algorithm confuses two classes, which would indicate a misclassification.
+
+Several metrics can be derived from the table:
+
+-   **User's accuracies**: Depict how often the class in the classification map will actually be present on the ground. The User's Accuracy is complement of the Commission Error (User's Accuracy = 100% -- Commission Error)
+-   **Producer's accuracies**: Depict how often real features in the study area are correctly shown on the classication map. The Producer's Accuracy is complement of the *Omission Error* (Producer's Accuracy = 100% -- Omission Error)
+-   **Overall accuracy**: Characterize the proportion of all correctly classified validation points in percent.
+
+**Implementation in R:**:\
+You need your final classification map, as well as both the training and validation shapefiles created in the course of the [Classification in R section](https://blogs.fu-berlin.de/reseda/classification-in-r/){rel="noopener" target="_blank"}.\
+Good to go?
+
+Fine, then import your `raster` library in R as usual:
+
+``` r
+#install.packages("raster")
+library(raster)
+```
+
+Then import your classification image `classification_RF.tif`, your training shapefile `training_data.shp` and your validation shapefile `validation_RF.shp`. In this example we use the output of the RF classification. However, the workflow is applicable to every classifier!
+
+``` r
+setwd("/media/sf_exchange/landsatdata/")
+img.classified <- raster("classification_RF.tif")
+shp.train <- shapefile("training_data.shp")
+shp.valid <- shapefile("validation_RF.shp")
+```
+
+Our goal is first to generate two factor vectors, which we then compare in our confusion matrix:
+
+1.  **reference** : class labels you assigned manually in the previous section
+2.  **predicted** : class labels that resulted in the automatic RF (or SVM) classification
+
+For the reference vector, we need to address the *validclass* column of our shapefile (we created this column in [this section in QGIS](https://blogs.fu-berlin.de/reseda/label-samples-in-qgis/){rel="noopener" target="_blank"}). As already mentioned, we need to transform the vectors into factors using `as.factor()` (it becomes clear why in a second):
+
+``` r
+reference <- as.factor(shp.valid$validclass)
+reference
+##   [1] 3    1    4    4    6    4    5    3    6    2    1    5    4    2   
+##  [15] 2    4    4    5    4    5    1    3    <NA> 2    6    3    3    6   
+##  [29] 1    4    6    6    5    6    2    3    1    1    3    2    4    2   
+##  [43] 5    4    2    5    2    4    5    5    3    1    4    1    3    5   
+##  [57] 2    3    5    4    5    2    5    6    2    1    5    2    5    2   
+##  [71] 2    6    4    1    5    3    6    4    6    6    6    6    1    5   
+##  [85] 1    2    5    5    6    4    5    3    5    5    2    2    5    6   
+##  [99] 2    3    5    6    6    1    1    2    1    2    1    <NA> 3    4   
+## [113] 6    1    6    6    5    5    6    2    3    6    6    5    3    5   
+## [127] 2    3    6    4    3    6    6    5    4    6    4    2    6    3   
+## [141] 2    2    2    3    2    6    6    5    3    3    4    2    6    <NA>
+## [155] 2    5    <NA> 3    6    1    3    6    1    2    5    2    2    5   
+## [169] 5    <NA> 4    6    5    5    4    4    2    5    1    6    3    5   
+## [183] 5    <NA> 5    5    2    2    2    5    3    2    6    2    5    3   
+## [197] 6    4    1    3    5    3    3    3    5    4    4    4    4    2   
+## [211] 3    5    2    4    1    1    3    2    4    2    2    3    3    5   
+## [225] 4    4    6    2    1    1    2    6    3    4    5    3    6    1   
+## [239] 6    5    2    2    6    3    6    5    5    1    4    1    2    5   
+## [253] 3    4    5    5    3    5    2    3    2    2    6    3    6    5   
+## [267] 5    5    3    4    3    <NA> 3    6    5    6    5    5    5    6   
+## [281] 2    3    4    5    1    1    3    4    4    1    4    5    6    4   
+## [295] 2    3    4    3    5    4   
+## Levels: 1 2 3 4 5 6
+```
+
+You may notice some entries in your reference values. These arise, for example, if you have skipped some validation points during the [labeling in QGIS](https://blogs.fu-berlin.de/reseda/label-samples-in-qgis/){rel="noopener" target="_blank"} because you could not make a clear classification based on the available image data. We simply ignore them later on in the statistics -- no problem!
+
+For the predicted vector, we need to extract the classification values at the validation coordinates. Here again, we want a factor object via `as.factor()`:
+
+``` r
+predicted <- as.factor(extract(img.classified, shp.valid))
+predicted
+##   [1] 3 1 4 4 6 4 5 3 6 2 1 5 4 2 2 4 4 3 4 5 1 3 4 2 6 3 3 6 1 4 6 6 5 6 2
+##  [36] 3 1 1 3 3 1 2 5 4 3 4 2 4 1 5 1 1 4 1 3 5 2 1 5 4 5 2 3 6 2 1 5 3 5 2
+##  [71] 2 6 4 1 5 1 6 4 6 6 6 6 1 1 1 2 4 5 6 4 5 3 5 4 2 2 1 2 2 3 5 6 6 1 1
+## [106] 2 1 2 1 1 3 4 6 1 6 6 5 4 6 2 1 6 6 5 1 5 2 3 6 4 2 6 6 3 4 6 4 2 6 3
+## [141] 2 2 2 3 2 6 6 5 3 3 4 2 6 1 2 5 1 3 6 1 3 6 1 3 4 2 2 5 4 1 1 6 5 4 4
+## [176] 4 2 5 1 6 1 5 5 6 4 5 2 2 2 5 3 2 6 2 5 3 6 4 1 5 5 3 1 3 5 4 4 4 4 2
+## [211] 3 5 3 4 1 1 3 3 4 2 2 3 3 1 4 4 6 2 1 1 2 6 3 4 5 3 6 1 6 5 2 3 6 3 6
+## [246] 5 1 1 4 1 2 4 3 4 5 5 3 5 2 3 2 2 6 3 6 5 5 3 2 4 3 1 3 6 5 6 5 5 5 6
+## [281] 2 3 5 5 1 1 3 4 4 1 4 5 6 4 2 3 5 3 5 4
+## Levels: 1 2 3 4 5 6
+```
+
+Once we prepared both factor vectors, we can utilize the `table` function in an elegant way to build a contingency table of the counts at each combination of factor levels. We can additionally name the vectors so that they are also displayed in the table accordingly:
+
+``` r
+accmat <- table("pred" = predicted, "ref" = reference)
+accmat
+##     ref
+## pred  1  2  3  4  5  6
+##    1 31  0  7  2  5  0
+##    2  0 47  2  0  0  1
+##    3  0  7 39  0  4  0
+##    4  0  0  0 40  9  0
+##    5  0  0  1  2 47  0
+##    6  0  0  0  0  0 49
+```
+
+The numbers thus reflect the number of validation pixels. All pixels that have a value in either or were ignored here.\
+Excellent! This output already visualize if and where there are misclassifications in our map: all pixels located on the diagonale are correctly classified, all pixels off the diagonal are not.
+
+We can now calculate the user's accuracies, producer's accuracies, and the overall accuracy:
+
+``` r
+UA <- diag(accmat) / rowSums(accmat) * 100
+UA
+##         1         2         3         4         5         6 
+##  68.88889  94.00000  78.00000  81.63265  94.00000 100.00000
+
+PA <- diag(accmat) / colSums(accmat) * 100
+PA
+##         1         2         3         4         5         6 
+## 100.00000  87.03704  79.59184  90.90909  72.30769  98.00000
+
+OA <- sum(diag(accmat)) / sum(accmat) * 100
+OA
+## [1] 86.34812
+```
+
+Actually we already extracted all information needed for a confusion matrix, so let us form a nicely formatted matrix in R:
+
+``` r
+accmat.ext <- addmargins(accmat)
+accmat.ext <- rbind(accmat.ext, "Users" = c(PA, NA))
+accmat.ext <- cbind(accmat.ext, "Producers" = c(UA, NA, OA))
+colnames(accmat.ext) <- c(levels(as.factor(shp.train$classes)), "Sum", "PA")
+rownames(accmat.ext) <- c(levels(as.factor(shp.train$classes)), "Sum", "UA")
+accmat.ext <- round(accmat.ext, digits = 1)
+dimnames(accmat.ext) <- list("Prediction" = colnames(accmat.ext),
+                             "Reference" = rownames(accmat.ext))
+class(accmat.ext) <- "table"
+accmat.ext
+##            Reference
+## Prediction  baresoil forest grassland urban_hd urban_ld water   Sum    UA
+##   baresoil      31.0    0.0       7.0      2.0      5.0   0.0  45.0  68.9
+##   forest         0.0   47.0       2.0      0.0      0.0   1.0  50.0  94.0
+##   grassland      0.0    7.0      39.0      0.0      4.0   0.0  50.0  78.0
+##   urban_hd       0.0    0.0       0.0     40.0      9.0   0.0  49.0  81.6
+##   urban_ld       0.0    0.0       1.0      2.0     47.0   0.0  50.0  94.0
+##   water          0.0    0.0       0.0      0.0      0.0  49.0  49.0 100.0
+##   Sum           31.0   54.0      49.0     44.0     65.0  50.0 293.0      
+##   PA           100.0   87.0      79.6     90.9     72.3  98.0        86.3
+```
+
+## Significance Test
+
+Furthermore, we can check if the result is purely coincidental, i.e., whether a random classification of the classes could have led to an identical result. We can use a [binomial test](https://en.wikipedia.org/wiki/Binomial_test){rel="noopener" target="_blank"} for this. We only need two values for this test:\
+total number of correctly classified validation points, and\
+the total number of validation points in our confusion matrix:
+
+``` r
+sign <- binom.test(x = sum(diag(accmat)),
+                   n = sum(accmat),
+                   alternative = c("two.sided"),
+                   conf.level = 0.95
+                   )
+
+pvalue <- sign$p.value
+pvalue
+## [1] 5.30128e-39
+
+CI95 <- sign$conf.int[1:2]
+CI95
+## [1] 0.8187710 0.9006459
+```
+
+The p-value is much lower than 0.05, so the classification result is highly significant. If the classification were repeated under the same conditions, it can be assumed that the OA is 95% in the range of 81.2% to 90.0%.
+
+\
+
+## Kappa
+
+The Kappa Coefficient can be used to evaluate the accuracy of a classification. It evaluates how well the classification performs compared to map, in which all values are just randomly assigned.\
+The Kappa coefficient can range from -1 to 1.\
+A value of 0 indicates that the classification is as good as random values.\
+A value below 0 indicates the classification is significantly worse than random.\
+A value greater than 0 indicates that the classification is significantly better than random.
+
+When you have the accuracy matrix as a table $m_{i, j}$ with $c$ different classes, then Kappa is
+
+$$\kappa = \frac{N_{o} – N_{e}}{N – N_{e}} , \text{with} \\ 
+   N = \sum_{i,j = 1}^{c} m_{i, j}\\ 
+   N_{o} = \sum_{i=1}^c{m_{i, i}}\\ 
+   N_{e} = \frac{1}{N}\cdot\sum_{l=1}^c\left(\sum_{j=1}^c{m_{l, j}} \cdot \sum_{i=1}^c{m_{i, l}}\right) 
+$$
+
+
+That looks pretty complicated. Using R, we can write our own function, which calculates $\kappa$ for us! The calculation also looks much friendlier:
+
+``` r
+kappa <- function(m) {
+  N <- sum(m)
+  No <- sum(diag(m))
+  Ne <- 1 / N * sum(colSums(m) * rowSums(m))
+  return( (No - Ne) / (N - Ne) )
+}
+```
+
+Use the accuracy matrix as argument for our new function to calculate the Kappa coefficient:
+
+``` r
+kappacoefficient <- kappa(accmat)
+kappacoefficient
+## [1] 0.8359646
+```
+
+However, Kappas use has been questioned by many articles and is therefore not recommended (see [Pontius Jr and Millones 2011](https://sensoremoto2016.files.wordpress.com/2016/09/pontius_death_to_kappa_2011.pdf){rel="noopener" target="_blank"}).
+
+# Area Adjusted Accuracies {#area-adjusted-accuracies .entry-title}
+
+The area of land cover change obtained from a map may differ greatly from the true area of change because of misclassifications in your map. In regard of this, Olofsson et al. published two papers in [2013](https://ac.els-cdn.com/S0034425712004191/1-s2.0-S0034425712004191-main.pdf?_tid=c4857f5c-edcf-48ca-b372-d5a40a6e6005&acdnat=1537182066_0c994600d448d5ef70ccbcf8d7465a6f){rel="noopener" target="_blank"} and [2014](http://reddcr.go.cr/sites/default/files/centro-de-documentacion/olofsson_et_al._2014_-_good_practices_for_estimating_area_and_assessing_accuracy_of_land_change.pdf){rel="noopener" target="_blank"}, introducing an error-adjusted estimator of area, that can be easily produced once an accuracy assessment has been performed and an error matrix was constructed. Furthermore, they provide a confidence interval for the area of land change to quantify the uncertainty of the estimations. The following script reproduces the findings of [Olofsson et al. 2014](http://reddcr.go.cr/sites/default/files/centro-de-documentacion/olofsson_et_al._2014_-_good_practices_for_estimating_area_and_assessing_accuracy_of_land_change.pdf){rel="noopener" target="_blank"}.
+
+**What do you need?**
+
+-   your classification map
+-   your training shapefile
+-   your validation shapefile
+
+**What do you get?**
+
+-   error-adjusted area estimates of your classes
+-   confidence intervals for all accuracies
+
+The script is commented comprehensively and the equations from the paper are marked accordingly in the comments of this script.
+
+``` r
+# area adjusted accuracy assessment 
+# calculated as in Olofsson et al. 2014
+
+library(raster)
+
+# import classification image and train and validation shapefiles
+setwd("/media/sf_exchange/landsatdata/")
+img.class <- raster("classification_RF.tif")
+shp.train <- shapefile("training_data.shp")
+shp.valid <- shapefile("validation_RF.shp")
+
+# create regular accuracy matrix 
+confmat <- table(as.factor(extract(img.class, shp.valid)), as.factor(shp.valid$validclass))
+# get number of pixels per class and convert in km²
+imgVal <- as.factor(getValues(img.class))
+nclass <- length(unique(shp.train$classes))
+maparea <- sapply(1:nclass, function(x) sum(imgVal == x))
+maparea <- maparea * res(img.class)[1] ^ 2 / 1000000
+
+# set confidence interval
+conf <- 1.96
+
+# total  map area
+A <- sum(maparea)
+# proportion of area mapped as class i
+W_i <- maparea / A
+# number of reference points per class
+n_i <- rowSums(confmat) 
+# population error matrix (Eq.4)
+p <- W_i * confmat / n_i
+p[is.na(p)] <- 0
+
+# area estimation
+p_area <- colSums(p) * A
+# area estimation confidence interval (Eq.10)
+p_area_CI <- conf * A * sqrt(colSums((W_i * p - p ^ 2) / (n_i - 1))) 
+
+# overall accuracy (Eq.1)
+OA <- sum(diag(p))
+# producers accuracy (Eq.2)
+PA <- diag(p) / colSums(p)
+# users accuracy (Eq.3)
+UA <- diag(p) / rowSums(p)
+
+# overall accuracy confidence interval (Eq.5)
+OA_CI <- conf * sqrt(sum(W_i ^ 2 * UA * (1 - UA) / (n_i - 1)))
+# user accuracy confidence interval (Eq.6)
+UA_CI <- conf * sqrt(UA * (1 - UA) / (n_i - 1)) 
+# producer accuracy confidence interval (Eq.7)
+N_j <- sapply(1:nclass, function(x) sum(maparea / n_i * confmat[ , x]) )
+tmp <- sapply(1:nclass, function(x) sum(maparea[-x] ^ 2 * confmat[-x, x] / n_i[-x] * ( 1 - confmat[-x, x] / n_i[-x]) / (n_i[-x] - 1)) )
+PA_CI <- conf * sqrt(1 / N_j ^ 2 * (maparea ^ 2 * ( 1 - PA ) ^ 2 * UA * (1 - UA) / (n_i - 1) + PA ^ 2 * tmp))
+
+# gather results
+result <- matrix(c(p_area, p_area_CI, PA * 100, PA_CI * 100, UA * 100, UA_CI * 100, c(OA * 100, rep(NA, nclass-1)), c(OA_CI * 100, rep(NA, nclass-1))), nrow = nclass)
+result <- round(result, digits = 2) 
+rownames(result) <- levels(as.factor(shp.train$classes))
+colnames(result) <- c("km²", "km²±", "PA", "PA±", "UA", "UA±", "OA", "OA±")
+class(result) <- "table"
+result
+```
+
+``` r
+library(raster)
+
+setwd("/media/sf_exchange/landsatdata/")
+img.class <- raster("classification_RF.tif")
+shp.train <- shapefile("training_data.shp")
+shp.valid <- shapefile("validation_RF.shp")
+
+confmat <- table(as.factor(extract(img.class, shp.valid)), as.factor(shp.valid$validclass))
+confmat
+##    
+##      1  2  3  4  5  6
+##   1 31  0  7  2  5  0
+##   2  0 47  2  0  0  1
+##   3  0  7 39  0  4  0
+##   4  0  0  0 40  9  0
+##   5  0  0  1  2 47  0
+##   6  0  0  0  0  0 49
+
+imgVal <- as.factor(getValues(img.class))
+head(imgVal)
+## [1] 5 5 5 5 5 5
+## Levels: 1 2 3 4 5 6
+
+nclass <- length(unique(shp.train$classes))
+nclass
+## [1] 6
+
+maparea <- sapply(1:nclass, function(x) sum(imgVal == x))
+maparea
+## [1]  26741 121740  36345 129130 185222  19942
+
+maparea <- maparea * res(img.class)[1] ^ 2 / 1000000
+maparea
+## [1]  24.0669 109.5660  32.7105 116.2170 166.6998  17.9478
+
+conf <- 1.96
+
+A <- sum(maparea)
+A
+## [1] 467.208
+
+W_i <- maparea / A
+W_i
+## [1] 0.05151217 0.23451225 0.07001271 0.24874788 0.35679997 0.03841501
+
+n_i <- rowSums(confmat) 
+n_i
+##  1  2  3  4  5  6 
+## 45 50 50 49 50 49
+
+p <- W_i * confmat / n_i
+p[is.na(p)] <- 0
+round(p, digits = 4)
+##    
+##          1      2      3      4      5      6
+##   1 0.0355 0.0000 0.0080 0.0023 0.0057 0.0000
+##   2 0.0000 0.2204 0.0094 0.0000 0.0000 0.0047
+##   3 0.0000 0.0098 0.0546 0.0000 0.0056 0.0000
+##   4 0.0000 0.0000 0.0000 0.2031 0.0457 0.0000
+##   5 0.0000 0.0000 0.0071 0.0143 0.3354 0.0000
+##   6 0.0000 0.0000 0.0000 0.0000 0.0000 0.0384
+
+p_area <- colSums(p) * A
+p_area
+##         1         2         3         4         5         6 
+##  16.57942 107.57151  36.97457 102.60865 183.33473  20.13912
+
+p_area_CI <- conf * A * sqrt(colSums((W_i * p - p ^ 2) / (n_i - 1))) 
+p_area_CI
+##         1         2         3         4         5         6 
+##  3.292170  7.948700  9.994001 15.744342 17.208163  4.294987
+
+OA <- sum(diag(p))
+OA
+## [1] 0.8874041
+
+PA <- diag(p) / colSums(p)
+PA
+##         1         2         3         4         5         6 
+## 1.0000000 0.9574286 0.6900470 0.9245908 0.8547088 0.8911909
+
+UA <- diag(p) / rowSums(p)
+UA
+##         1         2         3         4         5         6 
+## 0.6888889 0.9400000 0.7800000 0.8163265 0.9400000 1.0000000
+
+OA_CI <- conf * sqrt(sum(W_i ^ 2 * UA * (1 - UA) / (n_i - 1)))
+OA_CI
+## [1] 0.04079462
+
+UA_CI <- conf * sqrt(UA * (1 - UA) / (n_i - 1)) 
+UA_CI
+##          1          2          3          4          5          6 
+## 0.13679244 0.06649632 0.11598896 0.10954451 0.06649632 0.00000000
+
+N_j <- sapply(1:nclass, function(x) sum(maparea / n_i * confmat[ , x]) )
+tmp <- sapply(1:nclass, function(x) sum(maparea[-x] ^ 2 * confmat[-x, x] / n_i[-x] * ( 1 - confmat[-x, x] / n_i[-x]) / (n_i[-x] - 1)) )
+PA_CI <- conf * sqrt(1 / N_j ^ 2 * (maparea ^ 2 * ( 1 - PA ) ^ 2 * UA * (1 - UA) / (n_i - 1) + PA ^ 2 * tmp))
+PA_CI
+##          1          2          3          4          5          6 
+## 0.00000000 0.02843232 0.17545912 0.08399238 0.06198829 0.19006061
+
+result <- matrix(c(p_area, p_area_CI, PA * 100, PA_CI * 100, UA * 100, UA_CI * 100, c(OA * 100, rep(NA, nclass-1)), c(OA_CI * 100, rep(NA, nclass-1))), nrow = nclass)
+result <- round(result, digits = 2) 
+rownames(result) <- levels(as.factor(shp.train$classes))
+colnames(result) <- c("km²", "km²±", "PA", "PA±", "UA", "UA±", "OA", "OA±")
+class(result) <- "table"
+result
+##              km²   km²±     PA    PA±     UA    UA±     OA    OA±
+## baresoil   16.58   3.29 100.00   0.00  68.89  13.68  88.74   4.08
+## forest    107.57   7.95  95.74   2.84  94.00   6.65              
+## grassland  36.97   9.99  69.00  17.55  78.00  11.60              
+## urban_hd  102.61  15.74  92.46   8.40  81.63  10.95              
+## urban_ld  183.33  17.21  85.47   6.20  94.00   6.65              
+## water      20.14   4.29  89.12  19.01 100.00   0.00
+```
+
