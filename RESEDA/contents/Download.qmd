@@ -237,8 +237,6 @@ Click on your Order ID, which brings you to the download site. Simply click on t
 [Finally get your Level-2 data!]{style="color: #686868;font-size: small"}
 :::
 
-Follow the search queries in the upcoming exercise to familiarize yourself with how to use the EarthExplorer!
-
 # Landsat BIG DATA {}
 
 The procedures shown in the [previous section](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/) are sufficient if you want to acquire a few scenes. However, if you need many more scenes, e.g. if you want to do a time series analysis, the manual download becomes a real test of patience.\
@@ -384,6 +382,13 @@ If you have selected the Level-2 product, select **Order** on the next page and 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Level-2 product Bulk Download order]{style="color: #686868;font-size: small"}
 :::
+
+Follow the search queries in the upcoming exercise to familiarize yourself with how to use the EarthExplorer!
+
+<p><a target="_blank" href="https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/EarthExplorer-Exercise"><br>
+<button style="width:100%;text-align:center;padding: 0;background-color:#6b9e1f;color: white"><p></p>
+<div style="font-family: &#39;Noto Sans&#39;,sans-serif"><span style="font-size: 30px"><strong>Test Your KNOWLEDGE</strong></span></div>
+<p></p></button></a></p>
 
 # Sentinel / SciHUB {#SentinelScihub}
 
