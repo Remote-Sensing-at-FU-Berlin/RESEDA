@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -47,7 +47,12 @@ ul.task-list li input[type="checkbox"] {
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -56,6 +61,7 @@ ul.task-list li input[type="checkbox"] {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -65,15 +71,42 @@ ul.task-list li input[type="checkbox"] {
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 </head>
 
 <body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
     <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo">
     </a>
@@ -85,63 +118,63 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../projects/index.html" rel="" target="">
- <span class="menu-text">Projects</span></a>
+    <a class="nav-link" href="../../projects/index.html"> 
+<span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../staff/index.html" rel="" target="">
- <span class="menu-text">Staff</span></a>
+    <a class="nav-link" href="../../staff/index.html"> 
+<span class="menu-text">Staff</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../R-Crash-Course/index.html" rel="" target="">
- <span class="menu-text">R Crash Course</span></a>
+    <a class="nav-link" href="../../R-Crash-Course/index.html"> 
+<span class="menu-text">R Crash Course</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../RESEDA/index.html" rel="" target="" aria-current="page">
- <span class="menu-text">RESEDA</span></a>
+    <a class="nav-link active" href="../../RESEDA/index.html" aria-current="page"> 
+<span class="menu-text">RESEDA</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../About/index.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="../../About/index.html"> 
+<span class="menu-text">About</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://blogs.fu-berlin.de/reseda/" rel="" target=""><i class="bi bi-folder-symlink" role="img">
+    <a class="nav-link" href="https://blogs.fu-berlin.de/reseda/"> <i class="bi bi-folder-symlink" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://github.com/Remote-Sensing-at-FU-Berlin" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/Remote-Sensing-at-FU-Berlin"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text">Github</span></a>
+<span class="menu-text">Github</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="mailto:marion.stellmes@fu-berlin.de" rel="" target=""><i class="bi bi-envelope" role="img" aria-label="email">
+    <a class="nav-link" href="mailto:marion.stellmes@fu-berlin.de"> <i class="bi bi-envelope" role="img" aria-label="email">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../RESEDA/contents/Analyse.html">Analyse</a></li><li class="breadcrumb-item"><a href="../../RESEDA/contents/Machine-Learning-Basics.html">Machine Learning Basics</a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../RESEDA/contents/Analyse.html">Analyse</a></li><li class="breadcrumb-item"><a href="../../RESEDA/contents/Machine-Learning-Basics.html">Machine Learning Basics</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
     </div>
   </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
@@ -295,10 +328,51 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text">Validate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter in a box</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#create-samples-in-r" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Create Samples in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Label Samples in QGIS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#Accuracy-Matrix" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Accuracy Matrix</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#area-adjusted-accuracies" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Area Adjusted Accuracies</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -308,8 +382,8 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#machine-learning-basics" id="toc-machine-learning-basics" class="nav-link active" data-scroll-target="#machine-learning-basics">Machine Learning Basics</a>
   <ul class="collapse">
   <li><a href="#WIML" id="toc-WIML" class="nav-link" data-scroll-target="#WIML">What is machine learning?</a></li>
-  <li><a href="#unsupervised-vs.-supervised-algorithms" id="toc-unsupervised-vs.-supervised-algorithms" class="nav-link" data-scroll-target="#unsupervised-vs.-supervised-algorithms">Unsupervised vs.&nbsp;Supervised Algorithms</a></li>
-  <li><a href="#linear-vs.-nonlinear-algorithms" id="toc-linear-vs.-nonlinear-algorithms" class="nav-link" data-scroll-target="#linear-vs.-nonlinear-algorithms">Linear vs.&nbsp;Nonlinear Algorithms</a></li>
+  <li><a href="#UvS" id="toc-UvS" class="nav-link" data-scroll-target="#UvS">Unsupervised vs.&nbsp;Supervised Algorithms</a></li>
+  <li><a href="#LnL" id="toc-LnL" class="nav-link" data-scroll-target="#LnL">Linear vs.&nbsp;Nonlinear Algorithms</a></li>
   <li><a href="#parametric-vs.-non-parametric-algorithms" id="toc-parametric-vs.-non-parametric-algorithms" class="nav-link" data-scroll-target="#parametric-vs.-non-parametric-algorithms">Parametric vs.&nbsp;Non-Parametric Algorithms</a></li>
   <li><a href="#overfitting-vs.-underfitting" id="toc-overfitting-vs.-underfitting" class="nav-link" data-scroll-target="#overfitting-vs.-underfitting">Overfitting vs.&nbsp;Underfitting</a></li>
   </ul></li>
@@ -331,6 +405,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+
 <section id="machine-learning-basics" class="level1 entry-title">
 <h1 class="entry-title">Machine Learning Basics</h1>
 <p>This section includes the basics of machine learning (ML) theory as well as the commonly used terms and concepts in order to get comfortable with with the two ML algorithms we will focus on: Random Forest (RF) and Support Vector Machines (SVM).</p>
@@ -339,10 +414,10 @@ ul.task-list li input[type="checkbox"] {
 <p><a href="../../RESEDA/contents/Machine-Learning-Basics.html#WIML"><strong>What is Machine Learning?</strong></a><br>
 – basic introduction and definintion<br>
 – commonly used terms when dealing with ML<br>
-<strong>Random Forest</strong><br>
+<a href="../../RESEDA/contents/Machine-Learning-Basics.html#random-forest"><strong>Random Forest</strong></a><br>
 – Random Forest method explained<br>
 – concept of Decision Trees (CART) as part of Random Forests<br>
-<strong>Support Vector Machine</strong><br>
+<a href="../../RESEDA/contents/Machine-Learning-Basics.html#support-vector-machine"><strong>Support Vector Machine</strong></a><br>
 – concept of a Support Vector Machine</p>
 </div>
 <p><br>
@@ -360,8 +435,8 @@ ML methods optimize their performances iteratively by learning from the training
 <p><br>
 </p>
 </section>
-<section id="unsupervised-vs.-supervised-algorithms" class="level2">
-<h2 class="anchored" data-anchor-id="unsupervised-vs.-supervised-algorithms">Unsupervised vs.&nbsp;Supervised Algorithms</h2>
+<section id="UvS" class="level2">
+<h2 class="anchored" data-anchor-id="UvS">Unsupervised vs.&nbsp;Supervised Algorithms</h2>
 <p>The difference between unsupervised and supervised algorithms is based on whether they include a priori knowledge during the training phase by using labeled training samples or not.</p>
 <p><strong>Unsupervised algorithms</strong> have only the training samples <span class="math inline">\(x\)</span> available, e.g., reflectance values of all 9 bands of Landsat 8. Thus, the class label information, e.g., <em>urban</em>, or <em>forest</em>, is missing. The objective of the algorithm is to describe how the data are organized or clustered – it has to find patterns and relationships by itself.</p>
 <p><strong>Supervised algorithms</strong> make use of a set of labeled training samples, including the samples <span class="math inline">\(x\)</span> and the appropriate class labels <span class="math inline">\(y\)</span>. The objective here is to predict the value <span class="math inline">\(y\)</span> corresponding to a new, unknown, sample <span class="math inline">\(x\)</span>. In other words, we teach the algorithm what the individual classes look like in the feature space, e.g., Landsat 8 bands.</p>
@@ -369,8 +444,8 @@ ML methods optimize their performances iteratively by learning from the training
 <p><br>
 </p>
 </section>
-<section id="linear-vs.-nonlinear-algorithms" class="level2">
-<h2 class="anchored" data-anchor-id="linear-vs.-nonlinear-algorithms">Linear vs.&nbsp;Nonlinear Algorithms</h2>
+<section id="LnL" class="level2">
+<h2 class="anchored" data-anchor-id="LnL">Linear vs.&nbsp;Nonlinear Algorithms</h2>
 <p>This differentiation is straightforward:</p>
 <p><strong>Linear algorithms</strong> assume, that the sample features <span class="math inline">\(x\)</span> and the label output <span class="math inline">\(y\)</span> are linearly related and there is an affine function <span class="math inline">\(f(x) = \langle w, x \rangle + b\)</span> describing the underlying relationship.</p>
 <p><strong>Nonlinear algorithms</strong> assumes a nonlinear relationship between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>. Thus, <span class="math inline">\(f(x)\)</span> can by a function of arbitrary complexity.</p>
@@ -409,29 +484,17 @@ But one thing at a time…</p>
 <li><strong>Multiple Leaf (or Terminal) Nodes</strong>: Those are nodes where the assignments to the classes (e.g., <em>urban</em>, <em>water</em>, etc.) happens for classifications tasks (or the mean response of all observation in this node is calculated for regressions).</li>
 </ul>
 <p>The structure and complexity of each DT can vary, depending on the training samples and the features used. For example, a very simple DT could look like this:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/rf_001.png"><img src="./img/rf_001.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/rf_001.png"><img src="./img/rf_001.png" class="img-fluid"></a></p>
 <p>Ok, let us make that clearer with a fictitious example: We want to classify a Landsat 8 scene with 11 multispectral bands into four classes <em>Forest</em>, <em>Urban</em>, <em>Bare Soil</em> &amp; <em>Water</em>. As a training dataset we use 500 pixels, 200 pixels belong to the forest class, 120 to urban, 80 to bare soil and to 100 water class, accordingly. We put <strong>all 500 samples in the Root Node</strong> in the top of the DT:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/rrf_001.png"><img src="./img/rrf_001.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/rrf_001.png"><img src="./img/rrf_001.png" class="img-fluid"></a></p>
 <p>The next step is to split the node into two sub-nodes using a single threshold value. The CART algorithm always uses binary splits, i.e., it splits a node exactly in two sub-nodes, to increase the homogeneity of the resultant sub-nodes. In other words, it increases the purity of the node in respect to our target class. For example, the highest purity would be achieved if only one class was present in the first sub-node, and only one second class in the second sub-node. Of course this is not possible in our four class classification problem with only one split:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/rrf_002.png"><img src="./img/rrf_002.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/rrf_002.png"><img src="./img/rrf_002.png" class="img-fluid"></a></p>
 <p>The first split could only clearly separate the <em>Water</em> samples, otherwise all classes are present at certain proportions in both subnodes. As you can see in the figure above, the DT decided to use the Landsat band 2 (b2) and the reflectance threshold value of 450 to do the split.</p>
 <p>But wait a minute, how does the classifier know HOW and WHERE to do a split?!</p>
 <p>The DT does not consider all features (Landsat bands) as candidates at each split, but only a certain number of features (<span class="math inline">\(mtry\)</span>). By default, the parameter <span class="math inline">\(mtry\)</span> corresponds to the root of the number of features <span class="math inline">\(M\)</span> available, i.e., <span class="math inline">\(mtry = \sqrt{M}\)</span>. Thus, in our example the DT samples 3 out of 11 Landsat bands randomly and with replacement, because <span class="math inline">\(\sqrt{11}\approx3\)</span>.</p>
 <p>There are various measures for determining the most significant candidate (e.g., Gini Index, Chi-Square, Variance Reduction or Information Gain). Our CART algorithm uses the <a href="https://en.wikipedia.org/wiki/Gini_coefficient" rel="noopener" target="_blank">Gini Index</a>, so let us have a look at what it does:<br>
 Gini Index says, if we select two samples from our node, then they must be of the same class. If a node contains only one class, i.e., a completely pure node, Gini value would be 0. Thus, the lower the Gini value, the purer the node – which is good, because we want to group the samples according to their classes. The Gini Index is calculated by subtracting the sum of the squared probabilities <span class="math inline">\(p\)</span> of each class <span class="math inline">\(\{1,2, …, C\}\)</span> from one:</p>
-<p><span class="math display">\[ \label{poly}\tag{1}
+<p><span class="math display">\[
 \text{Gini} = 1 – \sum_{i=1}^{C} (p^2).
 \]</span></p>
 <p>For the first split in our example shown in the figure above, the math would be:</p>
@@ -440,16 +503,12 @@ Gini Index says, if we select two samples from our node, then they must be of th
 <li>calculate Gini for right sub-node: <span class="math inline">\(0.38\)</span> if the Landsat Band 2 and the reflectance value 450 are chosen as as the feature and the threshold value, respectively. Finding a suitable threshold is an iterative process. So the algorithm tries many different values before picking out the one resulting in the smallest Gini, in this case the 450. As <span class="math inline">\(mtry = 3\)</span> in our example, the DT will test two more bands, e.g., band11 and band 1, the same way and compare the Gini values in the end.</li>
 </ol>
 <p>That is all the magic behind splitting procedure! In the same way, the sub-nodes are split further, making the tree “grow”:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/rf_002.png"><img src="./img/rf_002.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/rf_002.png"><img src="./img/rf_002.png" class="img-fluid"></a></p>
 <p>All samples within a leaf node are assigned to the class most frequently represented. The figure above shows, that the leaf nodes are not perfectly pure, e.g., there are 35 forest and 8 urban samples assigned to the water-node on the far left. These will result in misclassifications in your final classification map.</p>
 </section>
 <section id="working-with-random-forests" class="level2">
 <h2 class="anchored" data-anchor-id="working-with-random-forests">Working With Random Forests</h2>
-<p>In the case of a Random Forest approach, the tree shown above would continue growing until almost all nodes contain only one class at a time. While that would most likely result in <a href="https://blogs.fu-berlin.de/reseda/machine-learning-basics/#5" rel="noopener" target="_blank">overfitting</a> in a single DT, this effect is relativized by the majority vote in the end when using a RF. Anyway, there are some more advantages when using a RF:</p>
+<p>In the case of a Random Forest approach, the tree shown above would continue growing until almost all nodes contain only one class at a time. While that would most likely result in <a href="../../RESEDA/contents/Machine-Learning-Basics.html#WIML" rel="noopener" target="_blank">overfitting</a> in a single DT, this effect is relativized by the majority vote in the end when using a RF. Anyway, there are some more advantages when using a RF:</p>
 <p><strong>Out of Bag (OOB) Error:</strong><br>
 There is no need for a cross-validation or a separate test set, as the OOB Error is estimated internally in the training phase as an unbiased estimate of the classification error. Remind: Each DT is created based on a small sample of your original training data (the so-called bootstrap sample). About one-third of the samples within this bootstrap sample are left out (out-of-bag) and not used for the construction of the DT. After the construction of the DT, the left out samples are used to test the tree. The Leaf Nodes then provide the class that is most represented by the OOB samples in each node. The proportion of samples that does not correspond to the class in the Leaf Node, averaged over all Leaf Nodes, is the OOB Error (overall accuracy for classifications and mean absolute error for regressions).</p>
 <p><strong>Variable Importance (VI):</strong>:<br>
@@ -461,34 +520,30 @@ If you plot the variable importance, you will get two measures in the <a href="h
 </section>
 <section id="support-vector-machine" class="level1 entry-title">
 <h1 class="entry-title">Support Vector Machine</h1>
-<p>The concept of Support Vector Machines (SVM) was introduced in the context of pattern recognition and machine learning in 1979 by Vapnik &amp; Chervonenkis. A SVM is a powerful tool for highdimensional, <a href="https://blogs.fu-berlin.de/reseda/machine-learning-basics/#3" rel="noopener" target="_blank">linear and non-linear</a> data science problems. It is always a good choice to consider a SVM for classification and regression tasks due to its high customizability and settings options. However, the search procedure for critical parameter is more complex compared to the RF.</p>
-<p>Let us have a look at the basic concepts of a <a href="https://blogs.fu-berlin.de/reseda/machine-learning-basics/#2" rel="noopener" target="_blank">supervised</a> SVM implementation for a classification task.</p>
+<p>The concept of Support Vector Machines (SVM) was introduced in the context of pattern recognition and machine learning in 1979 by Vapnik &amp; Chervonenkis. A SVM is a powerful tool for highdimensional, <a href="../../RESEDA/contents/Machine-Learning-Basics.html#LnL" rel="noopener" target="_blank">linear and non-linear</a> data science problems. It is always a good choice to consider a SVM for classification and regression tasks due to its high customizability and settings options. However, the search procedure for critical parameter is more complex compared to the RF.</p>
+<p>Let us have a look at the basic concepts of a <a href="../../RESEDA/contents/Machine-Learning-Basics.html#UvS" rel="noopener" target="_blank">supervised</a> SVM implementation for a classification task.</p>
 <section id="basic-concept" class="level2">
 <h2 class="anchored" data-anchor-id="basic-concept">Basic Concept</h2>
 <p>Consider a set of labelled training samples <span class="math inline">\(X\)</span>, e.g., pixels of an RS image. Each sample is a single vector in the feature space, e.g., one grey scale value for each of the 11 spectral bands of a Landsat 8 scene gives a vector with dimensions <span class="math inline">\(1\times8\)</span>. The concept of a SVM is based on an optimal linear separating hyperplane that is fitted to the training samples of two classes within this multidimensional feature space. Thereby, the optimization problem that has to be solved is aiming at a maximization of the margins between this hyperplane and the closest training samples, the so-called and name giving <strong>Support Vectors</strong>. Only those Support Vectors are needed to describe the hyperplane mathematically exact, vectors farther from the hyperplane remain hidden. The following figure shows a hyperplane separating two classes in two-dimensional space, e.g.&nbsp;Band 3 on the x-axis and Band 4 on the y-axis:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/SVM001.png"><img src="./img/SVM001.png" class="img-fluid figure-img" width="800"></a></p>
+<p><a href="./img/SVM001.png"><img src="./img/SVM001.png" class="img-fluid figure-img" width="800" alt="A linear hyperplane separating two classes (blue and green dots) in a two-dimensional feature space, e.g., Landsat bands 3 and 4"></a></p>
+<figcaption>A linear hyperplane separating two classes (blue and green dots) in a two-dimensional feature space, e.g., Landsat bands 3 and 4</figcaption>
 </figure>
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">A linear hyperplane separating two classes (blue and green dots) in a two-dimensional feature space, e.g., Landsat bands 3 and 4</span></p>
 </div>
 <p>This wide and empty border area surrounding the hyperplane should ensure that new vectors, which are not in our training dataset, i.e., pixels in S imagery, will be classified as reliably as possible in a later prediction process.</p>
 <p>Ok, the classification problem in the figure above is very easy to solve linearly. However, the condition of linear separability is generally not met in real-life data. In the case of non-linear separable samples, the SVM needs a so-called kernel. A <strong>kernel</strong> is actually a function, which maps the data into a higher dimensional space where the data is separable. There are several of these kernels, such as linear, polynomial, radial basis and sigmoid kernels, with the radial basis function (RBF) kernel most commonly used for non-linear problems. In doing so, even the most nested training samples become linear separable and the hyperplane can be determined. After a transformation back into the initial lower-dimensional space, this linear hyperplane can become a non-linear or even un-connected hypersurface:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/SVM002.png"><img src="./img/SVM002.png" class="img-fluid figure-img" width="800"></a></p>
+<p><a href="./img/SVM002.png"><img src="./img/SVM002.png" class="img-fluid figure-img" width="800" alt="Non-linear hyperplane after inverse transformation from higher dimensionality separating two classes"></a></p>
+<figcaption>Non-linear hyperplane after inverse transformation from higher dimensionality separating two classes</figcaption>
 </figure>
 </div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Non-linear hyperplane after inverse transformation from higher dimensionality separating two classes</span></p>
-</div>
-<p>In the context of Remote Sensing, binary classification problems are not common. There are several approaches to solve multi-class problems, the most frequently used approach is the one-against-one rule, which is also implemented in the <a href="https://cran.r-project.org/web/packages/e1071/e1071.pdf" rel="noopener" target="_blank">e1071 package</a> we use in the <a href="https://blogs.fu-berlin.de/reseda/svm-classification/" rel="noopener" target="_blank">next section</a>. According to this one-against-one approach, a binary classifier is trained for each pair-wise class combination, and the most frequently assigned class label is assigned in the end.</p>
+<p>In the context of Remote Sensing, binary classification problems are not common. There are several approaches to solve multi-class problems, the most frequently used approach is the one-against-one rule, which is also implemented in the <a href="https://cran.r-project.org/web/packages/e1071/e1071.pdf" rel="noopener" target="_blank">e1071 package</a> we use in the <a href="../../RESEDA/contents/Classification-in-R.html#svm-classification" rel="noopener" target="_blank">next section</a>. According to this one-against-one approach, a binary classifier is trained for each pair-wise class combination, and the most frequently assigned class label is assigned in the end.</p>
 </section>
 <section id="common-parameters" class="level2">
 <h2 class="anchored" data-anchor-id="common-parameters">Common Parameters</h2>
-<p><strong>Regularisation parameter</strong> <span class="math inline">\(C\)</span>: As the hyperplane can be of arbitrary dimensionality, it could be fitted perfectly to match the training dataset. However, this would result in extreme <a href="https://blogs.fu-berlin.de/reseda/machine-learning-basics/#5">overfitting</a>. To regularisation parameter C allows the SVM to misclassify individual samples, but at the same time punish them. Large C values cause the hyperplane margin to shrink, which may help to increase the amount of correctly classified samples. Conversely, a small C value will result in a larger-margin hyperplane, leading to lower punishments and maybe more misclassified samples.</p>
+<p><strong>Regularisation parameter</strong> <span class="math inline">\(C\)</span>: As the hyperplane can be of arbitrary dimensionality, it could be fitted perfectly to match the training dataset. However, this would result in extreme <a href="../../RESEDA/contents/Machine-Learning-Basics.html#WIML">overfitting</a>. To regularisation parameter C allows the SVM to misclassify individual samples, but at the same time punish them. Large C values cause the hyperplane margin to shrink, which may help to increase the amount of correctly classified samples. Conversely, a small C value will result in a larger-margin hyperplane, leading to lower punishments and maybe more misclassified samples.</p>
 <p><strong>Kernel parameter gamma</strong> <span class="math inline">\(\gamma\)</span>: This parameter defines how far the influence of a single training sample reaches, i.e., its radius of influence. Low values mean “far”, and high values mean “close”. The model performance is quite sensitive to this parameter: when gamma is too large, the radii of influence of the SVs are too small and only affect the SVs itself, making the regularisation with C impossible and thus lead to overfitting. When gamma is too small, the model is too constrained and may not be capable to capture the complexity of our training dataset.</p>
 <p><strong>Parameter epsilon</strong> <span class="math inline">\(\varepsilon\)</span> (only in regressions): The epsilon parameter is an additional value of tolerance where no penalty is given to errors. The larger epsilon is, the larger errors you allow in your model. When epsilon is zero, all errors will be penalized.</p>
 
@@ -576,10 +631,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -589,8 +661,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -602,7 +683,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -646,6 +850,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -671,6 +876,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -732,12 +963,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../RESEDA/contents/Analyse.html" class="pagination-link">
+      <a href="../../RESEDA/contents/Analyse.html" class="pagination-link" aria-label="Chapter in a box">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Chapter in a box</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../RESEDA/contents/Classification-in-R.html" class="pagination-link">
+      <a href="../../RESEDA/contents/Classification-in-R.html" class="pagination-link" aria-label="Classification in R">
         <span class="nav-page-text">Classification in R</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -745,11 +976,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-    <div class="nav-footer-left"><span class="faux-block">© 2023 Fernerkundung und Geoinformatik 1.0</span></div>   
-    <div class="nav-footer-center"><span class="faux-block"><a href="https://www.marvinschmitt.com/blog/website-tutorial-quarto/">View the tutorial for this template!</a></span></div>
-    <div class="nav-footer-right"><span class="faux-block"><a href="https://github.com/marvinschmitt/quarto-website-template/">View source on GitHub</a></span></div>
+    <div class="nav-footer-left">
+<p><span class="faux-block">© 2023 Fernerkundung und Geoinformatik 1.0</span></p>
+</div>   
+    <div class="nav-footer-center">
+<p><span class="faux-block"><a href="https://www.marvinschmitt.com/blog/website-tutorial-quarto/">View the tutorial for this template!</a></span></p>
+</div>
+    <div class="nav-footer-right">
+<p><span class="faux-block"><a href="https://github.com/marvinschmitt/quarto-website-template/">View source on GitHub</a></span></p>
+</div>
   </div>
 </footer>
+
 
 
 

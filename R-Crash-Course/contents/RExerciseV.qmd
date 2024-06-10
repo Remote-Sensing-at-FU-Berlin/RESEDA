@@ -6,6 +6,8 @@
 ::: entry-content
 1) Use `ifelse()` and your data frame `df` from exercise IV: If the person is less than or equal to 175 cm, it should have the attribute "small", otherwise "tall". Save the result in your `df` as the new column `size.category`.
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 x <- ifelse(df$size <= 175, "small", "tall")
 
@@ -22,9 +24,12 @@ df
 ## 4   Ede  36  180 Cologne   87.0          tall
 ## 5  Anna  32  174 Hamburg   63.0          small
 ```
+</details>
 
 2) Write a loop that outputs all integers from 5 to 15!
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 vektor <- 5:15
 vektor
@@ -45,9 +50,12 @@ for (i in vektor) {
 ## [1] 14
 ## [1] 15
 ```
+</details>
 
 3) Advanced: Create a for loop that outputs the arithmetic mean for each variable (column) of your data frame `df` -- provided that the variable is numeric!
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 for (i in 1:ncol(df)) {
   
@@ -67,5 +75,6 @@ for (i in 1:ncol(df)) {
 
 # Even if it looks complicated, take your time and go through it line by line. Everything should be known by now! 
 ```
+</details>
 :::
 :::

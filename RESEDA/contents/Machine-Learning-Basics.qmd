@@ -8,10 +8,10 @@ You will learn what machine learning means and get insight in two ML algorithms 
 [**What is Machine Learning?**](./Machine-Learning-Basics.qmd#WIML)\
 -- basic introduction and definintion\
 -- commonly used terms when dealing with ML\
-**Random Forest**\
+[**Random Forest**](./Machine-Learning-Basics.qmd#random-forest)\
 -- Random Forest method explained\
 -- concept of Decision Trees (CART) as part of Random Forests\
-**Support Vector Machine**\
+[**Support Vector Machine**](./Machine-Learning-Basics.qmd#support-vector-machine)\
 -- concept of a Support Vector Machine
 :::
 
@@ -33,7 +33,7 @@ In the field of remote sensing, descriptive ML algorithms are often used for lan
 
 \
 
-## Unsupervised vs. Supervised Algorithms
+## Unsupervised vs. Supervised Algorithms {#UvS}
 
 The difference between unsupervised and supervised algorithms is based on whether they include a priori knowledge during the training phase by using labeled training samples or not.
 
@@ -45,7 +45,7 @@ There are also semisupervised methods, where the two beforementioned approaches 
 
 \
 
-## Linear vs. Nonlinear Algorithms
+## Linear vs. Nonlinear Algorithms {#LnL}
 
 This differentiation is straightforward:
 
@@ -113,8 +113,8 @@ The DT does not consider all features (Landsat bands) as candidates at each spli
 There are various measures for determining the most significant candidate (e.g., Gini Index, Chi-Square, Variance Reduction or Information Gain). Our CART algorithm uses the [Gini Index](https://en.wikipedia.org/wiki/Gini_coefficient){rel="noopener" target="_blank"}, so let us have a look at what it does:\
 Gini Index says, if we select two samples from our node, then they must be of the same class. If a node contains only one class, i.e., a completely pure node, Gini value would be 0. Thus, the lower the Gini value, the purer the node -- which is good, because we want to group the samples according to their classes. The Gini Index is calculated by subtracting the sum of the squared probabilities $p$ of each class $\{1,2, …, C\}$ from one:
 
-$$ \label{poly}\tag{1} 
-\text{Gini} = 1 – \sum_{i=1}^{C} (p^2). 
+$$ 
+\text{Gini} = 1 – \sum_{i=1}^{C} (p^2).
 $$
 
 For the first split in our example shown in the figure above, the math would be:
@@ -130,7 +130,7 @@ All samples within a leaf node are assigned to the class most frequently represe
 
 ## Working With Random Forests
 
-In the case of a Random Forest approach, the tree shown above would continue growing until almost all nodes contain only one class at a time. While that would most likely result in [overfitting](https://blogs.fu-berlin.de/reseda/machine-learning-basics/#5){rel="noopener" target="_blank"} in a single DT, this effect is relativized by the majority vote in the end when using a RF. Anyway, there are some more advantages when using a RF:
+In the case of a Random Forest approach, the tree shown above would continue growing until almost all nodes contain only one class at a time. While that would most likely result in [overfitting](./Machine-Learning-Basics.qmd#WIML){rel="noopener" target="_blank"} in a single DT, this effect is relativized by the majority vote in the end when using a RF. Anyway, there are some more advantages when using a RF:
 
 **Out of Bag (OOB) Error:**\
 There is no need for a cross-validation or a separate test set, as the OOB Error is estimated internally in the training phase as an unbiased estimate of the classification error. Remind: Each DT is created based on a small sample of your original training data (the so-called bootstrap sample). About one-third of the samples within this bootstrap sample are left out (out-of-bag) and not used for the construction of the DT. After the construction of the DT, the left out samples are used to test the tree. The Leaf Nodes then provide the class that is most represented by the OOB samples in each node. The proportion of samples that does not correspond to the class in the Leaf Node, averaged over all Leaf Nodes, is the OOB Error (overall accuracy for classifications and mean absolute error for regressions).
@@ -143,35 +143,27 @@ If you plot the variable importance, you will get two measures in the [randomfor
 
 # Support Vector Machine {#support-vector-machine .entry-title}
 
-The concept of Support Vector Machines (SVM) was introduced in the context of pattern recognition and machine learning in 1979 by Vapnik & Chervonenkis. A SVM is a powerful tool for highdimensional, [linear and non-linear](https://blogs.fu-berlin.de/reseda/machine-learning-basics/#3){rel="noopener" target="_blank"} data science problems. It is always a good choice to consider a SVM for classification and regression tasks due to its high customizability and settings options. However, the search procedure for critical parameter is more complex compared to the RF.
+The concept of Support Vector Machines (SVM) was introduced in the context of pattern recognition and machine learning in 1979 by Vapnik & Chervonenkis. A SVM is a powerful tool for highdimensional, [linear and non-linear](./Machine-Learning-Basics.qmd#LnL){rel="noopener" target="_blank"} data science problems. It is always a good choice to consider a SVM for classification and regression tasks due to its high customizability and settings options. However, the search procedure for critical parameter is more complex compared to the RF.
 
-Let us have a look at the basic concepts of a [supervised](https://blogs.fu-berlin.de/reseda/machine-learning-basics/#2){rel="noopener" target="_blank"} SVM implementation for a classification task.
+Let us have a look at the basic concepts of a [supervised](./Machine-Learning-Basics.qmd#UvS){rel="noopener" target="_blank"} SVM implementation for a classification task.
 
 ## Basic Concept
 
 Consider a set of labelled training samples $X$, e.g., pixels of an RS image. Each sample is a single vector in the feature space, e.g., one grey scale value for each of the 11 spectral bands of a Landsat 8 scene gives a vector with dimensions $1\times8$. The concept of a SVM is based on an optimal linear separating hyperplane that is fitted to the training samples of two classes within this multidimensional feature space. Thereby, the optimization problem that has to be solved is aiming at a maximization of the margins between this hyperplane and the closest training samples, the so-called and name giving **Support Vectors**. Only those Support Vectors are needed to describe the hyperplane mathematically exact, vectors farther from the hyperplane remain hidden. The following figure shows a hyperplane separating two classes in two-dimensional space, e.g. Band 3 on the x-axis and Band 4 on the y-axis:
 
-[![](./img/SVM001.png){width="800"}](./img/SVM001.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[A linear hyperplane separating two classes (blue and green dots) in a two-dimensional feature space, e.g., Landsat bands 3 and 4]{style="color: #686868;font-size: small"}
-:::
+[![A linear hyperplane separating two classes (blue and green dots) in a two-dimensional feature space, e.g., Landsat bands 3 and 4](./img/SVM001.png){width="800"}](./img/SVM001.png)
 
 This wide and empty border area surrounding the hyperplane should ensure that new vectors, which are not in our training dataset, i.e., pixels in S imagery, will be classified as reliably as possible in a later prediction process.
 
 Ok, the classification problem in the figure above is very easy to solve linearly. However, the condition of linear separability is generally not met in real-life data. In the case of non-linear separable samples, the SVM needs a so-called kernel. A **kernel** is actually a function, which maps the data into a higher dimensional space where the data is separable. There are several of these kernels, such as linear, polynomial, radial basis and sigmoid kernels, with the radial basis function (RBF) kernel most commonly used for non-linear problems. In doing so, even the most nested training samples become linear separable and the hyperplane can be determined. After a transformation back into the initial lower-dimensional space, this linear hyperplane can become a non-linear or even un-connected hypersurface:
 
-[![](./img/SVM002.png){width="800"}](./img/SVM002.png)
+[![Non-linear hyperplane after inverse transformation from higher dimensionality separating two classes](./img/SVM002.png){width="800"}](./img/SVM002.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Non-linear hyperplane after inverse transformation from higher dimensionality separating two classes]{style="color: #686868;font-size: small"}
-:::
-
-In the context of Remote Sensing, binary classification problems are not common. There are several approaches to solve multi-class problems, the most frequently used approach is the one-against-one rule, which is also implemented in the [e1071 package](https://cran.r-project.org/web/packages/e1071/e1071.pdf){rel="noopener" target="_blank"} we use in the [next section](https://blogs.fu-berlin.de/reseda/svm-classification/){rel="noopener" target="_blank"}. According to this one-against-one approach, a binary classifier is trained for each pair-wise class combination, and the most frequently assigned class label is assigned in the end.
+In the context of Remote Sensing, binary classification problems are not common. There are several approaches to solve multi-class problems, the most frequently used approach is the one-against-one rule, which is also implemented in the [e1071 package](https://cran.r-project.org/web/packages/e1071/e1071.pdf){rel="noopener" target="_blank"} we use in the [next section](./Classification-in-R.qmd#svm-classification){rel="noopener" target="_blank"}. According to this one-against-one approach, a binary classifier is trained for each pair-wise class combination, and the most frequently assigned class label is assigned in the end.
 
 ## Common Parameters
 
-**Regularisation parameter** $C$: As the hyperplane can be of arbitrary dimensionality, it could be fitted perfectly to match the training dataset. However, this would result in extreme [overfitting](https://blogs.fu-berlin.de/reseda/machine-learning-basics/#5). To regularisation parameter C allows the SVM to misclassify individual samples, but at the same time punish them. Large C values cause the hyperplane margin to shrink, which may help to increase the amount of correctly classified samples. Conversely, a small C value will result in a larger-margin hyperplane, leading to lower punishments and maybe more misclassified samples.
+**Regularisation parameter** $C$: As the hyperplane can be of arbitrary dimensionality, it could be fitted perfectly to match the training dataset. However, this would result in extreme [overfitting](./Machine-Learning-Basics.qmd#WIML). To regularisation parameter C allows the SVM to misclassify individual samples, but at the same time punish them. Large C values cause the hyperplane margin to shrink, which may help to increase the amount of correctly classified samples. Conversely, a small C value will result in a larger-margin hyperplane, leading to lower punishments and maybe more misclassified samples.
 
 **Kernel parameter gamma** $\gamma$: This parameter defines how far the influence of a single training sample reaches, i.e., its radius of influence. Low values mean "far", and high values mean "close". The model performance is quite sensitive to this parameter: when gamma is too large, the radii of influence of the SVs are too small and only affect the SVs itself, making the regularisation with C impossible and thus lead to overfitting. When gamma is too small, the model is too constrained and may not be capable to capture the complexity of our training dataset.
 

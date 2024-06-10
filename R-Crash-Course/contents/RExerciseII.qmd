@@ -6,49 +6,66 @@
 ::: entry-content
 1) Create an integer variable `e` holding the value `42`! Check the object class of `e` with `class()`!
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 e <- 42L
 
 class(e)
 ## [1] "integer"
 ```
+</details>
 
 2) Convert `e` to the character data type with `as.character()`! Check the object class again!
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 e <- as.character(e)
 
 class(e)
 ## [1] "character"
 ```
+</details>
 
 3) Create a character vector `friends` with four names from your circle of friends or acquaintances!
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 friends <- c("Anna", "Otto", "Natan", "Ede")
 
 friends
 ## [1] "Anna"  "Otto"  "Natan" "Ede"
 ```
+</details>
 
 4) Index the second element from the vector `friends`!
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 friends[2]
 ## [1] "Otto"
 ```
+</details>
 
 5) Replace the first element of the vector `friends` with "Isolde" and check the updated vector again!
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 freunde[1] <- "Isolde"
 
 freunde
 ## [1] "Isolde" "Otto"   "Natan"  "Ede"
 ```
+</details>
 
 6) Create a vector `v1` from the following elements ` 1, "Hello", 2, "World" `! Check the object class!
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 v1 <- c(1, "Hello", 2, "World")
 
@@ -58,9 +75,12 @@ v1
 class(v1)
 ## [1] "character"
 ```
+</details>
 
 7) Create a vector v2 with numerical values ​​(only integers) ranging from 4 to 10!
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 v2 <- c(4, 5, 6, 7, 8, 9, 10)
 
@@ -74,9 +94,12 @@ v2 <- c(4:10)
 v2
 ## [1]  4  5  6  7  8  9 10
 ```
+</details>
 
 8) Index the first three elements from `v2`!
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 v2[1:3]
 ## [1] 4 5 6
@@ -86,31 +109,42 @@ v2[1:3]
 v2[ c(1, 2, 3) ]
 ## [1] 4 5 6
 ```
+</details>
 
 9) Index all elements of `v2` except the second element and save the result as `v2.subset`!
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 v2.subset <- v2[-2]
 
 v2.subset
 ## [1]  4  6  7  8  9 10
 ```
+</details>
 
 10) Use the length () function to find out the length of `v2.subset` (= the number of elements in the vector)!
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 length(v2.subset)
 ## [1] 6
 ```
+</details>
 
 11) Calculate the arithmetic mean of vector `v2`! In addition, determine the standard deviation of `v2.subset`!
 
-``` r
-mean(v2)
-## [1] 7
+<details>
+  <summary>Click here to see the answer</summary>
+  ``` r
+  mean(v2)
+  ## [1] 7
 
-sd(v2.subset)
-## [1] 2.160247
-```
+  sd(v2.subset)
+  ## [1] 2.160247
+  ```
+</details>
+
 :::
 :::

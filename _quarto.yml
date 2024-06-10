@@ -165,7 +165,8 @@ format:
   html:
 #    code-fold: true
 #    code-tools: true
-      
+    details:
+      enabled: true
     fontsize: 1.1em
     theme: 
       - sadstone
@@ -173,6 +174,7 @@ format:
     toc: true
     code-link: true
     anchor-sections: true
-    fig-cap-location: margin
+    fig-cap-location: bottom
     reference-location: margin
     footnotes-hover: true
+    

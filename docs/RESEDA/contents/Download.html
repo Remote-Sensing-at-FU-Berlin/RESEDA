@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -81,7 +81,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,6 +95,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -99,15 +105,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 </head>
 
 <body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
     <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo">
     </a>
@@ -119,63 +152,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../projects/index.html" rel="" target="">
- <span class="menu-text">Projects</span></a>
+    <a class="nav-link" href="../../projects/index.html"> 
+<span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../staff/index.html" rel="" target="">
- <span class="menu-text">Staff</span></a>
+    <a class="nav-link" href="../../staff/index.html"> 
+<span class="menu-text">Staff</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../R-Crash-Course/index.html" rel="" target="">
- <span class="menu-text">R Crash Course</span></a>
+    <a class="nav-link" href="../../R-Crash-Course/index.html"> 
+<span class="menu-text">R Crash Course</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../RESEDA/index.html" rel="" target="" aria-current="page">
- <span class="menu-text">RESEDA</span></a>
+    <a class="nav-link active" href="../../RESEDA/index.html" aria-current="page"> 
+<span class="menu-text">RESEDA</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../About/index.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="../../About/index.html"> 
+<span class="menu-text">About</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://blogs.fu-berlin.de/reseda/" rel="" target=""><i class="bi bi-folder-symlink" role="img">
+    <a class="nav-link" href="https://blogs.fu-berlin.de/reseda/"> <i class="bi bi-folder-symlink" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://github.com/Remote-Sensing-at-FU-Berlin" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/Remote-Sensing-at-FU-Berlin"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text">Github</span></a>
+<span class="menu-text">Github</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="mailto:marion.stellmes@fu-berlin.de" rel="" target=""><i class="bi bi-envelope" role="img" aria-label="email">
+    <a class="nav-link" href="mailto:marion.stellmes@fu-berlin.de"> <i class="bi bi-envelope" role="img" aria-label="email">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../RESEDA/contents/Acquireyourdata.html">Acquire</a></li><li class="breadcrumb-item"><a href="../../RESEDA/contents/Download.html">Download</a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../RESEDA/contents/Acquireyourdata.html">Acquire</a></li><li class="breadcrumb-item"><a href="../../RESEDA/contents/Download.html">Download</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
     </div>
   </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
@@ -329,10 +362,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text">Validate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter in a box</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#create-samples-in-r" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Create Samples in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Label Samples in QGIS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#Accuracy-Matrix" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Accuracy Matrix</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#area-adjusted-accuracies" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Area Adjusted Accuracies</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -369,25 +443,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
+
 <section id="download" class="level1 entry-title">
 <h1 class="entry-title">Download</h1>
 <p>We show you two platforms which allow users to view and download remote sensing data such as satellite images, aerial photographs, and cartographic products. You will learn how to use them in order to query and download Landsat 8, Sentinel 2 and Sentinel 1 data from the archives.</p>
 <p><br>
 </p>
 <p><strong>Landsat Data via USGS EarthExplorer</strong></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="../../RESEDA/contents/Download.html#landsatEarth"><img src="./img/USGS_thumb.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="../../RESEDA/contents/Download.html#landsatEarth"><img src="./img/USGS_thumb.png" class="img-fluid"></a></p>
 <p><br>
 </p>
 <p><strong>Sentinel Data via ESA SciHUB</strong></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="../../RESEDA/contents/Download.html#SentinelScihub"><img src="./img/ESAsciHUB.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="../../RESEDA/contents/Download.html#SentinelScihub"><img src="./img/ESAsciHUB.png" class="img-fluid"></a></p>
 </section>
 <section id="landsatEarth" class="level1">
 <h1>Landsat Landsat / EarthExplorer</h1>
@@ -411,11 +478,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The EarthExplorer supports online search in comprehensive databases, quicklook visualizations, metadata export, and data download for earth science data from the archives of the U.S.Geological Survey (USGS). You get to the USGS EarthExplorer via the following URL using any web browser (Firefox in our RESEDA VM):</p>
 <p><a href="https://earthexplorer.usgs.gov/" target="_blank">https://earthexplorer.usgs.gov/</a></p>
 <p>Once clicked, the main EarthExplorer graphical user interface (GUI) should be loaded, which is composed of three key elements:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_001.png"><img src="./img/USGS_001.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_001.png"><img src="./img/USGS_001.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">USGS EarthExplorer user interface</span></p>
 </div>
@@ -434,20 +497,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 <p>Once you have completed the registration, you should get an email on your given email address to confirm your account. After confirmation you will be redirected to the login page where you have to fill in your username and password (or click on “login” in the header menu bar).</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_008.png"><img src="./img/USGS_008.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_008.png"><img src="./img/USGS_008.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">USGS EarthExplorer login formular</span></p>
 </div>
 <p>After login you will notice your username and your “shopping”/ item basked in the header menu bar:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_009.png"><img src="./img/USGS_009.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_009.png"><img src="./img/USGS_009.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Successful login</span></p>
 </div>
@@ -458,86 +513,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="Performe-search">3 Perform a Search</h2>
 <p>We want to use an example to explore the search function of the EarthExplorer: We are looking for all Landsat 8 scenes that depict Berlin in summer 2017 and have a cloud cover of less than 10 %!</p>
 <p>EarthExplorer provides four tabs in the search procedure to guide you through your search request:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_019.png"><img src="./img/USGS_019.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_019.png"><img src="./img/USGS_019.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">EarthExplorer search tabs</span></p>
 </div>
 <p><strong>1. Enter Search Criteria</strong>: This one helps defining an area of interest (AOI) and a time span in which data will be found. The most straightforward way to define the AOI is to use the integrated Google Maps by typing in an address or place name, e.g., “Berlin, Alexanderplatz”, click <img src="./img/USGS_showbutton.png" class="alignnone size-full wp-image-1245" loading="lazy" width="46" height="25"> and choose one of the prompted suggestions. Designations for geographical longitude and latitude of the desired position are also possible, e.g., “52.5194, 13.4067”.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_015.png"><img src="./img/USGS_015.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_015.png"><img src="./img/USGS_015.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Defining area of interest (AOI)</span></p>
 </div>
 <p>Furthermore there is a global notation used for cataloging Landsat data, called Worldwide Reference System (WRS), whereby Landsat 8 follows the WRS-2. This system divides the Earth’s surface into the recording geometries of the Landsat acquisitions. There are a <a href="https://landsat.usgs.gov/sites/default/files/images/tools_wrs2_pr_UTM.gif" target="_blank">WRS-2 overview map</a> and a <a href="https://landsat.usgs.gov/landsat_acq#convertPathRow" target="_blank">WRS-2 Path/Row to Latitude/Longitude converter</a> provided by the USGS. Especially the converter helps to find all possible Path-Row combinations for your AOI, which is 192/024 and 193/23 in our case for Berlin. Entering one of those Path/Row pairs and click <img src="./img/USGS_showbutton.png" class="alignnone size-full wp-image-1245" loading="lazy" width="46" height="25"> to add the adequate center of the Landsat acquisition as a coordinate to your Google Map interface:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_016.png"><img src="./img/USGS_016.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_016.png"><img src="./img/USGS_016.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Use Path and Row specifications for queries</span></p>
 </div>
 <p>In order to delete any given coordinate, press the red cross <img src="./img/USGS_017.png" class="alignnone size-full wp-image-1250" loading="lazy" width="19" height="19"> next to it.<br>
 Another easy way to define your AOI is to just left click within the map, which automatically adds a coordinate for a single coordinate search. By defining two points on the map, you will do a line search, which results in all data products which intersects the line. By defining three or more coordinates, a polygon is automatically displayed, forming your AOI:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_018.png"><img src="./img/USGS_018.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_018.png"><img src="./img/USGS_018.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Polygon defined by four coordinates via left clicking in the Google Map interface</span></p>
 </div>
 <p>There are several other ways to define the subject area more precisely, e.g., by shapefiles, features, predefined areas, or kmls, but the methods described are effective and usually sufficient. For more detailed descriptions please have a look at the <a href="https://earthexplorer.usgs.gov/documents/helptutorial.pdf" target="_blank">online help</a>.</p>
 <p>To make your query more concrete, you can define the time span within which you want to get data at the bottom of the Search Criteria tab. Simply set the start date and end date as well as all desired months, in our case june, july and august:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_020.png"><img src="./img/USGS_020.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_020.png"><img src="./img/USGS_020.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Defining the time span and months of interest</span></p>
 </div>
 <p><strong>2. Select Your Data Set(s)</strong>: The Data Set tab categorizes datasets into similar data collections. There is a dynamic tree structure, which allows you to expand/ collapse products by pressing on the plus and minus signs next to it. As you can see, there is a huge amount of data to choose from. Landsat 8 Level-1 data can be found at <em>Landsat</em> &gt; <em>Landsat Collection 1 Level-1</em> &gt; <em>Landsat 8 OLI/TIRS C1 Level-1</em>:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_021.png"><img src="./img/USGS_021.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_021.png"><img src="./img/USGS_021.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Landsat Collection 1 Data Level-1 products</span></p>
 </div>
 <p>Landsat 8 Level-2 data is also available on demand under <em>Landsat</em> &gt; <em>Landsat Collection 1 Level-2 (On-Demand)</em> &gt; <em>Landsat 8 OLI/TIRS C1 Level-2</em> (see chapter <a href="https://blogs.fu-berlin.de/reseda/landsat-8/" target="_blank">Landsat 8</a> for more information).</p>
 <p><strong>3. Additional Criteria (Optional)</strong>: This tab helps to further narrow the results of your search query by defining additional search criteria, e.g., the allowed proportion of cloud cover over land, absolute cloud cover, day or night as well as Path/Row restrictions. In addition, you can use the unique product ID (e.g., LC08_L1TP_192023_20170830_20170914_01_T1) to find specific individual scenes. Restrict the Land Cloud Cover to “Less than 10%” for our query:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_022.png"><img src="./img/USGS_022.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_022.png"><img src="./img/USGS_022.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Additional Criteria tab: cloud cover restrictions</span></p>
 </div>
 <p><strong>4. Search Results</strong>: When set, click on <img src="./img/USGS_023.png" class="alignnone size-full wp-image-1265" loading="lazy" width="77" height="31"> on the bottom of the Data Search Side Bar or the Results tab on the top to execute your research. You will most likely get four data products as a result (depending on the shape of your AOI):</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_024.png"><img src="./img/USGS_024.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_024.png"><img src="./img/USGS_024.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Search results</span></p>
 </div>
 <p>Four scenes are not much, are they? A cloud cover under 10% is already pretty strict, when you allow more cloud coverage, the number of scenes will increases. Each product is given a unique ID, as well as a acquisition time and the WGS-2 Path and Row. Furthermore there is a number of overlay and download controls you can choose from for each scene:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_025.png"><img src="./img/USGS_025.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_025.png"><img src="./img/USGS_025.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Overlay and download controls</span></p>
 </div>
@@ -557,48 +576,28 @@ Another easy way to define your AOI is to just left click within the map, which 
 <section id="Down-sec" class="level2">
 <h2 class="anchored" data-anchor-id="Down-sec">4 Download a Dataset</h2>
 <p>In order to download a single Level-1 scene (see <a href="https://blogs.fu-berlin.de/reseda/landsat-8/" target="_blank">chapter Landsat 8</a>), click on <strong>Download Options</strong> <img src="./img/USGS_027.png" class="img-fluid"> and choose the last item, which should be the largest file (approximately 700-900 MB for Landsat 8):</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_026.png"><img src="./img/USGS_026.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_026.png"><img src="./img/USGS_026.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Download options for a Landsat 8 Level-1 scene</span></p>
 </div>
 <p>You will recieve a zipped file, which contains all spectral bands as georeferenced geotiff-files.</p>
 <p>Anyway, Level-2 products need a preprocessing and are NOT available for immediate download. In order to acquire Level-2 data, pick Landsat Collection 1 Level-2 in the Data Sets tab (as shown in <strong>2. Select Your Data Set(s)</strong>). In the Result tab you have to use <strong>Order Scene</strong> <img src="./img/USGS_028.png" class="alignnone size-full wp-image-1279" loading="lazy" width="20" height="19"> to put all the wanted scenes in your Item Basket. A number next to your Item Basket shows how many scenes you have chosen:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_029.png"><img src="./img/USGS_029.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_029.png"><img src="./img/USGS_029.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Add scenes to Item Basket</span></p>
 </div>
 <p>When you are done, click on Item Basket in the Header Menu Bar to submit your order. You will see a list of all selected scenes. Confirm your selection by pressing Proceed To Checkout:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_030.png"><img src="./img/USGS_030.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_030.png"><img src="./img/USGS_030.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Order overview when clicked on Item Basked</span></p>
 </div>
 <p>On the next screen, press Submit Order:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_031.png"><img src="./img/USGS_031.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_031.png"><img src="./img/USGS_031.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Submit your order</span></p>
 </div>
 <p>DONE! You will be given a unqiue order ID and a confirmation email will be sent to your email address – check in your email inbox!</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_032.png"><img src="./img/USGS_032.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_032.png"><img src="./img/USGS_032.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Order confirmation</span></p>
 </div>
@@ -606,20 +605,12 @@ Another easy way to define your AOI is to just left click within the map, which 
 Be patient.<br>
 A second email confirmation will be send when the products are ready for download. From this moment on, all scenes will remain available for 10 days.<br>
 Click on the Order status url in your second confirmation email, which redirects you to the following website:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_033.png"><img src="./img/USGS_033.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_033.png"><img src="./img/USGS_033.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Order overview given by the link of the second email</span></p>
 </div>
 <p>Click on your Order ID, which brings you to the download site. Simply click on the download link in order to get your data:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_034.png"><img src="./img/USGS_034.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_034.png"><img src="./img/USGS_034.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Finally get your Level-2 data!</span></p>
 </div>
@@ -642,47 +633,27 @@ There are several ways to perform a mass, or bulk, download for Landsat 8 data. 
 <section id="bulk-download-l8-level-1-data" class="level2">
 <h2 class="anchored" data-anchor-id="bulk-download-l8-level-1-data">Bulk Download L8 Level-1 data</h2>
 <p>USGS provides an application for bulk-downloading Level-1 Landsat data with a very appropriate name: the Bulk Download Application. The Bulk Download Application is an easy-to-use tool for downloading large quantities of satellite imagery and geospatial data. In order to use it, you have to order your Landsat 8 scenes via the <strong>Add to Bulk Download</strong> option <img src="./img/usgs_039.png" class="alignnone size-full wp-image-1314" width="18" height="18"> as mentioned in the <a href="../../RESEDA/contents/Download.html#Down-sec">Download section</a>:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/usgs_040.png"><img src="./img/usgs_040.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/usgs_040.png"><img src="./img/usgs_040.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Order imagery by choosing bulk download option</span></p>
 </div>
 <p>Proceed to checkout and confirm your order as shown in the <a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#4">Download section</a>. After that, a specific order number is given to you by email and on the USGS website:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/usgs_041.png"><img src="./img/usgs_041.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/usgs_041.png"><img src="./img/usgs_041.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Order number provided after submission</span></p>
 </div>
 <p>Now open the application by navigating to <em>Other</em> &gt; <em>Bulk Download Application</em> in the start menu. The user interface opens, in which you have to fill in your username and password used for the USGS Earth Explorer orders:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/usgs_043.png"><img src="./img/usgs_043.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/usgs_043.png"><img src="./img/usgs_043.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Log in for bulk downloading</span></p>
 </div>
 <p>Choose your order by its ID and click Select Order:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/usgs_044.png"><img src="./img/usgs_044.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/usgs_044.png"><img src="./img/usgs_044.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Choose the order ID for your download</span></p>
 </div>
 <p>Change the target directory to your liking by clicking on the right top icon to your. We recommend to set this path to “/media/sf_exchange” to not unnecessarily enlarge the VirtualBox storage. Begin your download by pressing Begin Download:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/usgs_045.png"><img src="./img/usgs_045.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/usgs_045.png"><img src="./img/usgs_045.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Begin your bulk download</span></p>
 </div>
@@ -692,11 +663,7 @@ There are several ways to perform a mass, or bulk, download for Landsat 8 data. 
 <p>Unfortunately, Level-2 data is not supported by the USGS bulk download application as shown in the previous section. Anyway, there is a nice python based script provided by USGS-EROS, which downloads automatically all scenes for you! The source code is open source and can be reviewed on GitHub <a href="https://github.com/USGS-EROS/espa-bulk-downloader" target="_blank" rel="noopener">via this link</a> and can also be downloaded <a href="https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FPython&amp;files=download_espa_order.py" target="_blank" rel="noopener">here</a>. If you are using our VM, the script is locally stored in your document folder under <em>/home/student/Documents/download_espa_order.py</em>.</p>
 <p>First of all, you should follow the guide for ordering Level-2 scenes (<a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#4">Download section</a>) and receive the second email with the download confirmation.<br>
 Then open the linux terminal – it is linked in the taskbar of our VM:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_036.png"><img src="./img/USGS_036.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_036.png"><img src="./img/USGS_036.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Linux terminal shortcut in taskbar</span></p>
 </div>
@@ -704,20 +671,12 @@ Then open the linux terminal – it is linked in the taskbar of our VM:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="sc">/</span>usr<span class="sc">/</span>bin<span class="sc">/</span>python <span class="sc">/</span>home<span class="sc">/</span>student<span class="sc">/</span>Documents<span class="sc">/</span>download_espa_order.py <span class="sc">-</span>r <span class="dv">10</span> <span class="sc">-</span>c <span class="sc">-</span>o ALL <span class="sc">-</span>d <span class="sc">/</span>media<span class="sc">/</span>sf_exchange<span class="sc">/</span> <span class="sc">-</span>e john.doe<span class="sc">@</span>gmail.com <span class="sc">-</span>u user123 <span class="sc">-</span>p password123</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Explanation: The command needs a python installation to work, so we define the location of python via <code>/usr/bin/python</code>. The download script itself is named “download_espa_order.py” and is stored in the documents folder of our VM, so we define its location with <code>/home/student/Documents/download_espa_order.py</code>. All individual letters preceded by a minus sign are arguments, which are assigned with the subsequent input. You have to change the email-address <code>-e [john.doe\@gmail.com](mailto:john.doe@gmail.com){.email}</code>, the username <code>-u user123</code>, and the adequate password <code>-p password123</code> to your own settings (USGS login data). For more information on this, have a look at the <a href="https://github.com/USGS-EROS/espa-bulk-downloader" target="_blank" rel="noopener">readme on GitHub</a>.<br>
 Type in the whole command without any linebreaks into the terminal:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_035.png"><img src="./img/USGS_035.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_035.png"><img src="./img/USGS_035.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Terminal command for bulk downloading Landsat Level-2 data</span></p>
 </div>
 <p>Press the enter-key and watch the script downloading and saving all ordered scenes to your exchange folder <code>-d /media/sf_exchange/</code> (you can change this destination folder to your liking):</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_037.png"><img src="./img/USGS_037.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_037.png"><img src="./img/USGS_037.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Terminal command for bulk downloading Landsat Level-2 data</span></p>
 </div>
@@ -725,20 +684,12 @@ Type in the whole command without any linebreaks into the terminal:</p>
 <section id="big-data-download" class="level2">
 <h2 class="anchored" data-anchor-id="big-data-download">BIG DATA Download</h2>
 <p>You can not get enough of data and you have some Terrabyte of disk space available? So, if you just want to download ALL the scenes of a search query (up to 20,000 scenes at once), there is an easy way to do it! When you have completed a search query, as shown in the <a href="../../RESEDA/contents/Download.html#Performe-search">Perform a Search section</a>, there is an button on top of the scene list which can be used to export your results. This button is only clickable when you are logged in:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/usgs_047.png"><img src="./img/usgs_047.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/usgs_047.png"><img src="./img/usgs_047.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Metadata Export button</span></p>
 </div>
 <p>A small window opens asking what format the metadata should be exported to. Choose “Non-Limited Results” and “CSV” in order to export the metadata of every single file found to a csv-file (which is a text file):</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/usgs_048.png"><img src="./img/usgs_048.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/usgs_048.png"><img src="./img/usgs_048.png" class="aligncenter size-full img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Metadata Export options</span></p>
 </div>
@@ -751,29 +702,17 @@ Click the link in the mail and you will be redirected to a USGS page. Download t
 <li><strong>Data Set for Level-2</strong>: Landsat Collection 1 Level-2 (On-Demand): Landsat 8 OLI/TIRS C1 Level-2</li>
 </ul>
 <p>Click the button next to <strong>File</strong> and upload the unzipped .csv-file containing the metadata information. Confirm by pressing <strong>Submit File List</strong>:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/usgs_049.png"><img src="./img/usgs_049.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/usgs_049.png"><img src="./img/usgs_049.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Metadata Export options</span></p>
 </div>
 <p>If you have selected the Level-1 product, select <strong>Bulk Download</strong> on the next page and click on <strong>Submit Order</strong>. Please follow the instructions given in <a href="https://blogs.fu-berlin.de/reseda/landsat-big-data-download/#1">the bulk download section above</a> to complete your download with the bulk download application.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/usgs_050.png"><img src="./img/usgs_050.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/usgs_050.png"><img src="./img/usgs_050.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Level-1 product Bulk Download order</span></p>
 </div>
 <p>If you have selected the Level-2 product, select <strong>Order</strong> on the next page and click on <strong>Submit Order</strong>, wait for the ESPA confirmation email (<a href="https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#4">Download section</a>) and follow the instructions given in the <a href="https://blogs.fu-berlin.de/reseda/landsat-big-data-download/#2">Bulk Download section above</a>:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/usgs_051.png"><img src="./img/usgs_051.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/usgs_051.png"><img src="./img/usgs_051.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Level-2 product Bulk Download order</span></p>
 </div>
@@ -801,11 +740,7 @@ Click the link in the mail and you will be redirected to a USGS page. Download t
 <p>The ESA Open Access Hub, or SciHUB, provides complete, free and open access to Sentinel-1, Sentinel-2 and Sentinel-3 user products. Sentinels products are available at no cost for anybody, provided you accept the <a href="https://sentinels.copernicus.eu/documents/247904/690755/Sentinel_Data_Legal_Notice" target="_blank">Legal Notice</a> on the use of Copernicus Sentinel Data and Service Information. You get to the ESA SciHUB via the following URL using any web browser (Firefox in our RESEDA VM):</p>
 <p><a href="https://scihub.copernicus.eu/dhus/#/home" target="_blank">https://scihub.copernicus.eu/dhus/#/home</a></p>
 <p>Once loaded, the main SciHUB graphical user interface (GUI) should be visible, which is composed of several key elements:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/ESA_001.png"><img src="./img/ESA_001.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/ESA_001.png"><img src="./img/ESA_001.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">ESA SciHUB user interface</span></p>
 </div>
@@ -840,11 +775,7 @@ Click the link in the mail and you will be redirected to a USGS page. Download t
 <h2 class="anchored" data-anchor-id="perform-a-search">3 Perform a Search</h2>
 <p>Let us use an example to explore the search function of the ESA SciHUB: We are looking for all Sentinel 2 scenes (Level-1) that depict Berlin in summer 2017 (June, July &amp; August) and have a maximum cloud cover of 10 %!</p>
 <p>Unlike <a href="../../RESEDA/contents/Download.html#landsatEarth" target="_blank">EarthExplorer</a>, SciHub does not support Google Maps search. Therefore, the most straightforward way to define your area of interest is to use the <strong>Polygon Tool</strong> in the <strong>5 Drawing Tools and Coordinates</strong> elements to mark your study area. So zoom to Berlin and click on the Polygon-Tool. You can define a polygon by successively defining the vertices by a single left click. The polygon will not be finalized until you click on the first point again, which fills it yellow, as shown in the picture:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/ESA_009.png"><img src="./img/ESA_009.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/ESA_009.png"><img src="./img/ESA_009.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Drawing an AOI with the Polygon Tool (bottom)</span></p>
 </div>
@@ -864,29 +795,17 @@ Click the link in the mail and you will be redirected to a USGS page. Download t
 10\]</span></p></li>
 </ul>
 <p>Take the query for Sentinel 2 Level-1 products as follows:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/ESA_010.png"><img src="./img/ESA_010.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/ESA_010.png"><img src="./img/ESA_010.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Advanced Search Tools</span></p>
 </div>
 <p>Press the lens icon <img src="./img/ESA_015.png" class="alignnone size-full wp-image-1384" loading="lazy" width="30" height="32"> to start the query. The Search results list provides all the products matching the submitted search query. Each result consists of thumbnail, the product name, a download-link, the sensing date, the instrument name, the imaging mode, the satellite name and the size of the file in MB. In the upper part of the result window, the current query can be obtained in text form. You can copy this text to the <strong>1 Search Panel</strong> to reproduce the identical query later on.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/ESA_012.png"><img src="./img/ESA_012.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/ESA_012.png"><img src="./img/ESA_012.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Query results</span></p>
 </div>
 <p>There are the several options for each product when hovering over it with the mouse coursor:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/ESA_013.png"><img src="./img/ESA_013.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/ESA_013.png"><img src="./img/ESA_013.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Query results</span></p>
 </div>
@@ -904,40 +823,24 @@ Click the link in the mail and you will be redirected to a USGS page. Download t
 <h2 class="anchored" data-anchor-id="download-one-or-several-datasets">4 Download one or several Datasets</h2>
 <p>In order to download a single Sentinel scene simply click on the download icon <img src="./img/ESA_014.png" class="alignnone size-full wp-image-1383" loading="lazy" width="26" height="25"> and pick a location on your hard drive.</p>
 <p>If you want to download multiple datasets, choose <strong>Add Product to Cart</strong>. The shopping cart can be viewed in your user profile in the <strong>2 Header Menu Bar</strong>:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/ESA_016.png"><img src="./img/ESA_016.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/ESA_016.png"><img src="./img/ESA_016.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Open Cart</span></p>
 </div>
 <p>When you examine your shopping cart, it is possible to select just some of them or to bulk download all of the products in the Cart by clicking on <img src="./img/ESA_018.png" class="alignnone size-full wp-image-1388 img-fluid" width="100">. A download window will pop up, asking you confirmation to save a “.meta4”-file, containing all the metalinks of the products in the Cart.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/ESA_017.png"><img src="./img/ESA_017.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/ESA_017.png"><img src="./img/ESA_017.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Open Cart</span></p>
 </div>
 <p>To make use of such a meta4-file, a <a href="https://en.wikipedia.org/wiki/Comparison_of_download_managers" target="_blank">download manager</a> is required. For this purpose, we will use the <a href="https://aria2.github.io/" target="_blank">aria2</a> download utility, which is already installed in our VM. First of all, open the linux terminal – it is linked in the taskbar of our VM:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/USGS_036.png"><img src="./img/USGS_036.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/USGS_036.png"><img src="./img/USGS_036.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Linux terminal shortcut in taskbar</span></p>
 </div>
 <p>Type the following command into the terminal, but you need to replace your <code>username</code>, your <code>password</code> and the path to your <code>.meta4-file</code> before executing. Pay special attention to the quotes containing the username and password, because they must be preserved!</p>
 <pre><code>aria2c – max-concurrent-downloads=2 -d /media/sf_exchange – http-user='user123' – http-passwd='password123' -M /media/sf_exchange/products.meta4</code></pre>
 <p>Explanation: The download utility is addressed by <code>aria2c</code>. The max concurrent downloads are limited by ESA to two parallel downloads, so we set it to two (because its better than one…) via <code>--max-concurrent-downloads=2</code>. The output directory is set to the exchange directory by <code>-d /media/sf_exchange</code>. You could change this directory to your liking.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/ESA_019.png"><img src="./img/ESA_019.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/ESA_019.png"><img src="./img/ESA_019.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Terminal command for bulk downloading Sentinel 1 / 2 data based on meta4-file</span></p>
 </div>
@@ -963,22 +866,14 @@ First of all, let us have a look at a blueprint of the command, we will adapt to
 <li><code>-F 'query'</code>: this is the full text query you can copy/paste from the ESA SciHUB website</li>
 </ul>
 <p>If you use our VM, you just need to replace your username <code>-u user123</code> and password <code>-p password123</code> with your own login information. Actually, you only need to integrate your search query in <code>-F 'query'</code> as a last step. Thus, visit the ESA Sci-HUB portal and set your data query to your liking as shown in <a href="https://blogs.fu-berlin.de/reseda/esa-scihub/#3">Perform a Search section</a>. In the upper part of the result window, the query can be obtained in text form. This is an example of a query giving all Sentinel 2 products sensed between the first and second of June 2018 globally:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/ESA_020.png"><img src="./img/ESA_020.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/ESA_020.png"><img src="./img/ESA_020.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Free text OpenSearch query example and number of products available</span></p>
 </div>
 <p>You will want to mark and copy the whole query expression and paste it between the simple quotes of the <code>-F 'query'</code> option, like so:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="sc">-</span>F <span class="st">' ( beginPosition:[2018-06-01T00:00:00.000Z TO 2018-06-02T23:59:59.999Z] AND endPosition:[2018-06-01T00:00:00.000Z TO 2018-06-02T23:59:59.999Z] ) AND (platformname:Sentinel-2) '</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Open a terminal (taskbar in our VM) and type in the complete query, e.g.:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/ESA_021.png"><img src="./img/ESA_021.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/ESA_021.png"><img src="./img/ESA_021.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Terminal with exemplary download command for 100 Sentinel 2 products</span></p>
 </div>
@@ -1068,10 +963,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1081,8 +993,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1094,7 +1015,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1138,6 +1182,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1163,6 +1208,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1224,12 +1295,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../RESEDA/contents/SensorBasics.html" class="pagination-link">
+      <a href="../../RESEDA/contents/SensorBasics.html" class="pagination-link" aria-label="Sensor basics">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Sensor basics</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../RESEDA/contents/Preprocess.html" class="pagination-link">
+      <a href="../../RESEDA/contents/Preprocess.html" class="pagination-link" aria-label="Chapter in a box">
         <span class="nav-page-text">Chapter in a box</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -1237,11 +1308,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-    <div class="nav-footer-left"><span class="faux-block">© 2023 Fernerkundung und Geoinformatik 1.0</span></div>   
-    <div class="nav-footer-center"><span class="faux-block"><a href="https://www.marvinschmitt.com/blog/website-tutorial-quarto/">View the tutorial for this template!</a></span></div>
-    <div class="nav-footer-right"><span class="faux-block"><a href="https://github.com/marvinschmitt/quarto-website-template/">View source on GitHub</a></span></div>
+    <div class="nav-footer-left">
+<p><span class="faux-block">© 2023 Fernerkundung und Geoinformatik 1.0</span></p>
+</div>   
+    <div class="nav-footer-center">
+<p><span class="faux-block"><a href="https://www.marvinschmitt.com/blog/website-tutorial-quarto/">View the tutorial for this template!</a></span></p>
+</div>
+    <div class="nav-footer-right">
+<p><span class="faux-block"><a href="https://github.com/marvinschmitt/quarto-website-template/">View source on GitHub</a></span></p>
+</div>
   </div>
 </footer>
+
 
 
 

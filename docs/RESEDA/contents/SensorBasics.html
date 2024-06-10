@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -47,7 +47,12 @@ ul.task-list li input[type="checkbox"] {
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -56,6 +61,7 @@ ul.task-list li input[type="checkbox"] {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -65,15 +71,42 @@ ul.task-list li input[type="checkbox"] {
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 </head>
 
 <body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
     <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo">
     </a>
@@ -85,63 +118,63 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../projects/index.html" rel="" target="">
- <span class="menu-text">Projects</span></a>
+    <a class="nav-link" href="../../projects/index.html"> 
+<span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../staff/index.html" rel="" target="">
- <span class="menu-text">Staff</span></a>
+    <a class="nav-link" href="../../staff/index.html"> 
+<span class="menu-text">Staff</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../R-Crash-Course/index.html" rel="" target="">
- <span class="menu-text">R Crash Course</span></a>
+    <a class="nav-link" href="../../R-Crash-Course/index.html"> 
+<span class="menu-text">R Crash Course</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../RESEDA/index.html" rel="" target="" aria-current="page">
- <span class="menu-text">RESEDA</span></a>
+    <a class="nav-link active" href="../../RESEDA/index.html" aria-current="page"> 
+<span class="menu-text">RESEDA</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../About/index.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="../../About/index.html"> 
+<span class="menu-text">About</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://blogs.fu-berlin.de/reseda/" rel="" target=""><i class="bi bi-folder-symlink" role="img">
+    <a class="nav-link" href="https://blogs.fu-berlin.de/reseda/"> <i class="bi bi-folder-symlink" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://github.com/Remote-Sensing-at-FU-Berlin" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/Remote-Sensing-at-FU-Berlin"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text">Github</span></a>
+<span class="menu-text">Github</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="mailto:marion.stellmes@fu-berlin.de" rel="" target=""><i class="bi bi-envelope" role="img" aria-label="email">
+    <a class="nav-link" href="mailto:marion.stellmes@fu-berlin.de"> <i class="bi bi-envelope" role="img" aria-label="email">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../RESEDA/contents/Acquireyourdata.html">Acquire</a></li><li class="breadcrumb-item"><a href="../../RESEDA/contents/SensorBasics.html">Sensor basics</a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../RESEDA/contents/Acquireyourdata.html">Acquire</a></li><li class="breadcrumb-item"><a href="../../RESEDA/contents/SensorBasics.html">Sensor basics</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
     </div>
   </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
@@ -295,10 +328,51 @@ ul.task-list li input[type="checkbox"] {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text">Validate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter in a box</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#create-samples-in-r" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Create Samples in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Label Samples in QGIS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#Accuracy-Matrix" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Accuracy Matrix</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#area-adjusted-accuracies" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Area Adjusted Accuracies</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -341,6 +415,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+
 <section id="sensor-basics" class="level1 entry-title">
 <h1 class="entry-title">Sensor Basics</h1>
 <p>In this section you will repeat the meaning of basic remote sensing terminology using the example of three satellites which we will continue to use in RESEDA, i.e., Landsat 8, Sentinel 2 and Sentinel 1. However, the shown methods in this online course are also adaptable to other satellite sensors, airborne imagery or close-ups by considering the respective sensor characteristics.</p>
@@ -356,11 +431,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="passive-vs-active-sensors" class="level2">
 <h2 class="anchored" data-anchor-id="passive-vs-active-sensors">Passive vs Active Sensors</h2>
 <p>Anyway, there is a fundamental differentiation of remote sensing systems that we need to be aware of: passive and active sensors. This classification is based on the underlying recording principles, which are contrasted in the following:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/passiveSystems.png"><img src="./img/passiveSystems.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/passiveSystems.png"><img src="./img/passiveSystems.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Passive sensor operating mode</span></p>
 </div>
@@ -368,11 +439,7 @@ ul.task-list li input[type="checkbox"] {
 These instruments primarily rely on short waved electromagnetic solar energy of the sun as the only source of radiation. Objects on the Earth’s surface react to this electromagnetic energy either with reflection, transmission, or absorption, depending on the composition of the object’s atoms. Passive sensors mainly capture the reflected proportion of the solar energy. Thus, they can only do their observation job when the sun is present as a radiation source – that is, only during the day. Anyway, since objects also partially absorb incoming solar light, there is a inherent radiation of these objects, which can be measured, for example, as thermal radiation.<br>
 Passive remote sensing imagery can be very similar to how our human eyes perceive land cover, which makes it easier for us to interpret the image data.<br>
 Unfortunately, there is one big limitation of passive systems: Due to the fact that the reflected electromagnetic radiation has to pass through the Earth’s atmosphere, the signal is strongly influenced by the weather and cloud conditions: Fog, haze and clouds render affected image information partially or completely useless, as electromagnetic energy is scattered by the large particles of dense clouds. This is where active sensors come into play.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/activeSystems.png"><img src="./img/activeSystems.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/activeSystems.png"><img src="./img/activeSystems.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Active sensor operating mode</span></p>
 </div>
@@ -389,11 +456,7 @@ Since no natural light source is required, active sensors are capable to emit an
 <section id="geometric-resolution" class="level3">
 <h3 class="anchored" data-anchor-id="geometric-resolution">1. Geometric Resolution</h3>
 <p>A digital image consists of at least one matrix of integers values – the picture elements, or pixels. Each pixel contains information about a signal response from a small area on the land surface, e.g., reflectance or backscatter. The geometric Resolution describes the edge length of this area (usually in meters) and is determined by the sensor’s instantaneous field of view (IFOV). It determines which object sizes can still be identified in the image – the degree of detail, so to speak. The effects of geometric resolutions becomes evident when comparing different images, for example an airborne orthophoto (0.1 m), Sentinel 2 (10 m) and Landsat 8 (30 m) images:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/resolutions.png"><img src="./img/resolutions.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/resolutions.png"><img src="./img/resolutions.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Residential area in Friedenau, orthophoto (l), Sentinel 2 data (m), and Landsat 8 data (r)</span></p>
 </div>
@@ -418,11 +481,7 @@ Multispectral systems generally refers to 3 to 15 bands, which are usually locat
 <h3 class="anchored" data-anchor-id="radiometric-resolution">3. Radiometric Resolution</h3>
 <p>A digital sensor generally recognizes objects as intensity values, whereby it can only distinguish between dark and bright. The radiometric resolution refers to the ability to tell apart objects based on differences in those intensities. Thus, a sensor with a high radiometric resolution records more intensity levels or grey-scale levels. This property is expressed by the number of bits. Most satellite products have a bit depth of 8 to 16 bits, which means that they support 2<sup>8</sup>(=256) or 2<sup>16</sup>(=65536) different gray scale levels, respectively. A 1 bit image would be subject to a huge loss of information in comparison!<br>
 Those effects are easier to understand when looking at the image comparison below: An image with a bit depth of 1 contains only two gray scale levels (2<sup>1</sup>=2), i.e., black and white. Using 2 bits double the number of available colors (2<sup>2</sup>=4), which allows a few more details (as shown in the middle image). When using 8 bits, the image can draw from a whole color ramp ranging from black to white (dark to bright) comprising 256 grey scale values (2<sup>8</sup>=256).</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/bits.png"><img src="./img/bits.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/bits.png"><img src="./img/bits.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Blue band of an orthophoto in 1 bit (l), 2 bit (m), and 8 bit (r) representation</span></p>
 </div>
@@ -433,20 +492,12 @@ Those effects are easier to understand when looking at the image comparison belo
 <p>The temporal resolution of a sensor is simply the distance of time (usually in days) between two image acquisitions of the same area. A high temporal resolution thus indicates a smaller time window between two images, which allows a better observation of temporally highly dynamic processes on the Earth’s surface, e.g., weather or active fire monitoring.<br>
 Most satellite sensors have a temporal resolution of about 14 days. Anyway, by using a satellite constellation of multiple sensors identical in construction the time between two acquisitions can be shortened. For example Planet Labs operates five <a href="https://www.planet.com/products/satellite-imagery/rapid-eye-basic-product/" target="_blank">RapidEye</a> satellites, which are synchronized so that they overlap in coverage.<br>
 However, weather satellites are capable of acquiring images of the same area every 15 minutes. This can be explained by the different orbits of the satellites: geostationary and polar orbiting satellite systems.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/orbit_geostat.png"><img src="./img/orbit_geostat.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/orbit_geostat.png"><img src="./img/orbit_geostat.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Geostationary orbiting satellite</span></p>
 </div>
 <p>Geostationary sensors follow a circular geosynchronous orbit directly above the Earth’s equator. A geosynchronous system provides the same orbital period as the Earth’s rotation period (24 h), so it always looks at the same area on Earth, which it can observate at very high frequencies of several minutes. This rotation pattern is only possible at an altitude very close to 35.786 km, which generally results in a comparatively lower geometric resolution. Geostationary orbits are used by weather, communication and television satellites.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/orbit_polar.png"><img src="./img/orbit_polar.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/orbit_polar.png"><img src="./img/orbit_polar.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Polar orbiting satellite</span></p>
 </div>
@@ -457,22 +508,14 @@ However, weather satellites are capable of acquiring images of the same area eve
 <section id="landsat-8" class="level1">
 <h1>Landsat-8</h1>
 <p>Landsat 8 is the latest installment of the U.S. Landsat satellite series, operated by National Aeronautics and Space Administration (NASA) and United States Geological Survey (USGS). The Landsat program represents the world’s longest continuously acquired collection of spaceborne data in history and since late 2008, all data were made available to all users free of charge.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/landsat8.png"><img src="./img/landsat8.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/landsat8.png"><img src="./img/landsat8.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Landsat 8 satellite</span></p>
 </div>
 <p>The Landsat 8 satellite was launched on February 11, 2013 by an Atlas-V rocket in California, as part of the long-term Earth Observation Systems (EOS) program. Like its predecessors, Landsat 8 is a passive satellite with a multispectral, optical sensor.<br>
 For the first time in the Landsat program, the payload consists of two push-broom instruments onboard – the Operational Land Imager (OLI) and the Thermal Infrared Sensor (TIRS). OLI uses a four-mirror telescope and collects data for visible, near infrared, and short wave infrared spectral bands as well as a panchromatic band. TIRS collects two spectral bands in the thermalinfrared (TIR).<br>
 Together, they scan the electromagnetic spectrum in 11 separate bands in a moderate geometric resolutions of 15-30 m:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/landsat8_channels.png"><img src="./img/landsat8_channels.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/landsat8_channels.png"><img src="./img/landsat8_channels.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Landsat 8 bands</span></p>
 </div>
@@ -658,20 +701,12 @@ Although these data are also free, it may take several days for the processing t
 <section id="sentinel-2" class="level1">
 <h1>Sentinel-2</h1>
 <p>Sentinel 2 is a multi-spectral mission consisting of a pair of optical Earth observation satellites: Sentinel-2A and Sentinel-2B, operated by the European Space Agency (ESA) within the framework of the Copernicus program. Sentinel 2 is the European counterpart on Landsat and provides freely available data to study climate change processes.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/sentinel2.png"><img src="./img/sentinel2.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/sentinel2.png"><img src="./img/sentinel2.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Sentinel 2 satellite</span></p>
 </div>
 <p>Both Sentinel 2 satellites were built by Airbus DS and launched on a Vega launch vehicle in French Guiana (Kourou) on June 23, 2015 and on March 7, 2017, respectively. Two more identical satellites are scheduled to launch in 2021 to improve the temporal resolution. Each Sentinel 2 satellite carries a single multi-spectral instrument (MSI), which uses a push-broom concept and provides 13 spectral channels ranging from the visible (VIS) to the short-wavelength infrared (SWIR) in different spatial resolutions. Incoming light is collected by a three-mirror telescope and focused by a beam-splitter onto two focalplane assemblies (FPAs) – one for the ten VNIR bands and one for the three SWIR wavelengths:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/sentinel_2_channels.png"><img src="./img/sentinel_2_channels.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/sentinel_2_channels.png"><img src="./img/sentinel_2_channels.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Sentinel 2 bands</span></p>
 </div>
@@ -847,11 +882,7 @@ Anyway, if you already own a Level-1C scene, the conversion to Level-2A can also
 <section id="sentinel-1" class="level1">
 <h1>Sentinel-1</h1>
 <p>Sentinel 1 is a imaging RADAR mission consisting of a pair of active satellites: Sentinel-1A and Sentinel-1B, operated by the European Space Agency (ESA). Sentinel 1 has initiated the operational phase of Copernicus – the largest European Earth observation program.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/sentinel1.png"><img src="./img/sentinel1.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/sentinel1.png"><img src="./img/sentinel1.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Sentinel 1 satellite</span></p>
 </div>
@@ -1099,10 +1130,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1112,8 +1160,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1125,7 +1182,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1169,6 +1349,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1194,6 +1375,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1255,12 +1462,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../RESEDA/contents/Acquireyourdata.html" class="pagination-link">
+      <a href="../../RESEDA/contents/Acquireyourdata.html" class="pagination-link" aria-label="Chapter in a box">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Chapter in a box</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../RESEDA/contents/Download.html" class="pagination-link">
+      <a href="../../RESEDA/contents/Download.html" class="pagination-link" aria-label="Download">
         <span class="nav-page-text">Download</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -1268,11 +1475,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-    <div class="nav-footer-left"><span class="faux-block">© 2023 Fernerkundung und Geoinformatik 1.0</span></div>   
-    <div class="nav-footer-center"><span class="faux-block"><a href="https://www.marvinschmitt.com/blog/website-tutorial-quarto/">View the tutorial for this template!</a></span></div>
-    <div class="nav-footer-right"><span class="faux-block"><a href="https://github.com/marvinschmitt/quarto-website-template/">View source on GitHub</a></span></div>
+    <div class="nav-footer-left">
+<p><span class="faux-block">© 2023 Fernerkundung und Geoinformatik 1.0</span></p>
+</div>   
+    <div class="nav-footer-center">
+<p><span class="faux-block"><a href="https://www.marvinschmitt.com/blog/website-tutorial-quarto/">View the tutorial for this template!</a></span></p>
+</div>
+    <div class="nav-footer-right">
+<p><span class="faux-block"><a href="https://github.com/marvinschmitt/quarto-website-template/">View source on GitHub</a></span></p>
+</div>
   </div>
 </footer>
+
 
 
 

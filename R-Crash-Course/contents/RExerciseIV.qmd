@@ -11,6 +11,8 @@
 -   size: the height of those persons in cm
 -   city: Place of residence of those persons (city)
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 df <- data.frame(
   name = c("Anna", "Otto", "Natan", "Ede"), 
@@ -26,9 +28,12 @@ df
 ## 3 Natan  22  182  Berlin
 ## 4   Ede  36  180 Cologne
 ```
+</details>
 
 2) Examine the dimensionality, structure and statistical summary of your data frame `df`!
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 dim(df)
 ## [1] 4 4
@@ -49,9 +54,12 @@ summary(df)
 ##            3rd Qu.:56.25   3rd Qu.:180.5              
 ##            Max.   :66.00   Max.   :182.0
 ```
+</details>
 
 3) Index the second column with simple square brackets `[]` and save the output as `df.subset`! Which class does the output belong to?
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 df.subset <- df[2]
 
@@ -65,9 +73,12 @@ df.subset
 class(df.subset)
 ## [1] "data.frame"
 ```
+</details>
 
 4) Index the variable `age` with double square brackets `[]` and save the output as `age.persons`. Which class does the output belong to?
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 age.persons <- df[["alter"]]
 
@@ -81,9 +92,12 @@ age.persons
 class(age.persons)
 ## [1] "numeric"
 ```
+</details>
 
 5) Add the variable `weight` in kg to the data frame `df`!
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 df$weight <- c(115, 110.2, 95, 87)
 
@@ -94,9 +108,12 @@ df
 ## 3 Natan  22  182  Berlin   95.0
 ## 4   Ede  36  180 Cologne   87.0
 ```
+</details>
 
 6) Add another observation (person) to your `df`!
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 new.person <- data.frame(
   "name"   = "Anna",
@@ -116,21 +133,30 @@ df
 ## 4   Ede  36  180 Cologne   87.0
 ## 5  Anna  32  174 Hamburg   63.0
 ```
+</details>
 
 7) Calculate the mean value of the variable `age` and save the result as `ages.mean`!
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 ages.mean <- mean(df$age)
 ```
+</details>
 
 8) Index all observations (persons) that are older than the average `ages.mean`!
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 df[df$age > ages.mean, ]
 ```
+</details>
 
 9) Index all persons, which are lighter than 100 kg AND at least 180 cm tall!
 
+<details>
+  <summary>Click here to see the answer</summary>
 ``` r
 df[df$weight = 180, ]
 ##    name age size    city weight
@@ -144,5 +170,6 @@ subset(df, df$weight = 180)
 ## 3 Natan  22  182  Berlin     95
 ## 4   Ede  36  180 Cologne     87
 ```
+</details>
 :::
 :::

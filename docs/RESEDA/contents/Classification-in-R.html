@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -81,7 +81,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,6 +95,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -99,15 +105,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 </head>
 
 <body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
     <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo">
     </a>
@@ -119,63 +152,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../projects/index.html" rel="" target="">
- <span class="menu-text">Projects</span></a>
+    <a class="nav-link" href="../../projects/index.html"> 
+<span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../staff/index.html" rel="" target="">
- <span class="menu-text">Staff</span></a>
+    <a class="nav-link" href="../../staff/index.html"> 
+<span class="menu-text">Staff</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../R-Crash-Course/index.html" rel="" target="">
- <span class="menu-text">R Crash Course</span></a>
+    <a class="nav-link" href="../../R-Crash-Course/index.html"> 
+<span class="menu-text">R Crash Course</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../RESEDA/index.html" rel="" target="" aria-current="page">
- <span class="menu-text">RESEDA</span></a>
+    <a class="nav-link active" href="../../RESEDA/index.html" aria-current="page"> 
+<span class="menu-text">RESEDA</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../About/index.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="../../About/index.html"> 
+<span class="menu-text">About</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://blogs.fu-berlin.de/reseda/" rel="" target=""><i class="bi bi-folder-symlink" role="img">
+    <a class="nav-link" href="https://blogs.fu-berlin.de/reseda/"> <i class="bi bi-folder-symlink" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://github.com/Remote-Sensing-at-FU-Berlin" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/Remote-Sensing-at-FU-Berlin"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text">Github</span></a>
+<span class="menu-text">Github</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="mailto:marion.stellmes@fu-berlin.de" rel="" target=""><i class="bi bi-envelope" role="img" aria-label="email">
+    <a class="nav-link" href="mailto:marion.stellmes@fu-berlin.de"> <i class="bi bi-envelope" role="img" aria-label="email">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../RESEDA/contents/Analyse.html">Analyse</a></li><li class="breadcrumb-item"><a href="../../RESEDA/contents/Classification-in-R.html">Classification in R</a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../RESEDA/contents/Analyse.html">Analyse</a></li><li class="breadcrumb-item"><a href="../../RESEDA/contents/Classification-in-R.html">Classification in R</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
     </div>
   </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
@@ -329,10 +362,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text">Validate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter in a box</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#create-samples-in-r" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Create Samples in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Label Samples in QGIS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#Accuracy-Matrix" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Accuracy Matrix</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#area-adjusted-accuracies" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Area Adjusted Accuracies</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -364,6 +438,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+
 
 
 
@@ -426,20 +501,12 @@ There are statistical heuristic methods available to calculate a suitable sample
 <p>The training polygons should define relevant areas for the differentiation of the desired target classes (<em>bare soil</em>, <em>water</em>, <em>grassland</em>, <em>forest</em>, <em>urban low density</em>, and <em>urban high density</em> in our example). To know where these surfaces are located, we need corresponding image data as a basis. So let us import an image dataset!</p>
 <p>First of all, open <a href="https://blogs.fu-berlin.de/reseda/qgis/">QGIS</a>.</p>
 <p>There are several ways to open a raster dataset here: Either navigate via the main menu to <em>Layer</em> &gt; <em>Add Layer</em> &gt; <em>Add Raster Layer…</em>, or press the corresponding icon <img src="./img/vis_008.png" class="alignnone size-full wp-image-1909" width="24" height="24"> in the toolbar or press the shortcut <strong>Ctrl + Shift + R</strong> to open a file explorer window.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/vis_007.png"><img src="./img/vis_007.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/vis_007.png"><img src="./img/vis_007.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Location of Add Raster Layer-function in QGIS</span></p>
 </div>
 <p>In the file explorer window, navigate to the data folder which holds your L8 data and import a raster dataset. We will use a L8 scene showing Berlin (ID: LC08_L1TP_193023_20170602_20170615_01_T1) from the <a href="https://blogs.fu-berlin.de/reseda/earthexplorer-exercise/" rel="noopener" target="_blank">L8 Download Exercise</a>. The spatial subset can be downloaded <a href="https://box.fu-berlin.de/s/zEfqNyQREJrGBLy" rel="noopener" target="_blank">here</a> directly:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/cla_009.png"><img src="./img/cla_009.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/cla_009.png"><img src="./img/cla_009.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Landsat 8 spatial subset imported into QGIS</span></p>
 </div>
@@ -448,31 +515,19 @@ There are statistical heuristic methods available to calculate a suitable sample
 <section id="create-a-new-polygon-shapefile" class="level2">
 <h2 class="anchored" data-anchor-id="create-a-new-polygon-shapefile">Create a New Polygon Shapefile</h2>
 <p>First, navigate to the area of interest (AOI) in your image data. Then click on the New Shapfile Layer <img src="./img/cla_011.png" class="alignnone size-full wp-image-2073" loading="lazy" width="29" height="28"> icon in the toolbar. If you can not find this icon, right-click in the toolbar area and make sure there is a check mark next to “Manage Layer Toolbar”, which should reveal this icon among others. Once clicked, the “New Shapefile Layer” dialog will be displayed. Choose “polygon” as the Type in the top row of the window. Click on the Coordinate System icon. A new window will pup up, allowing you the choose the CRS of your new shapefile. Choose the same CRS as your raster data (you can use the filter function at the top). On the Fields list, select “id”, and click the button <img src="./img/cla_012.png" class="alignnone img-fluid"> at the bottom of the list. Under “New field”, type “classes” in the Name box, click on <img src="./img/cla_013.png" class="alignnone img-fluid">. Finally, this should look like this:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/cla_014.png"><img src="./img/cla_014.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/cla_014.png"><img src="./img/cla_014.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">New Shapefile dialog settings</span></p>
 </div>
 <p>If everything is set up, click OK. You will be prompted to the “Save layer as…” dialog. Type the file name (“training_data.shp”), choose a file path and click Save. You will be able to see the new shapefile in the Layers Panel of QGIS. Select it and press the Toggle Editing <img src="./img/cla_015.png" class="alignnone size-full wp-image-2078 img-fluid" width="22"> icon in order to activate editing functionalities. Note that a little pencil symbol will show up on top of the layer, indicating that the layer is now editable. Now click on the Add Feature <img src="./img/cla_016.png" class="alignnone size-full wp-image-2079" loading="lazy" width="22" height="30"> icon. The mouse cursor will now look like a crosshairs. Left-click on the map in the Map View to create the first point of your new feature. Keep on left-clicking for each additional point you wish to include in your polygon. When you have finished adding your points, right-click anywhere on the map area to confirm your polygon geometry. An attribute window will appear immediately, asking for your class label. Input the appropriate class label for your polygon and click OK. Click on the Toggle Editing <img src="./img/cla_015.png" class="alignnone img-fluid"> icon again in order to end editing and to save your changes by choosing Save.</p>
 <p>You can edit the shape of a polygon with the Node tool <img src="./img/cla_018.png" class="alignnone size-full wp-image-2084" loading="lazy" width="28" height="28">. Delete any unwanted polygons by clicking on the tool called “Select Features by Area or Single Click” <img src="./img/cla_019.png" class="alignnone size-full wp-image-2085" loading="lazy" width="28" height="27">. Once activated you can left-click on polygons you want to delete, causing them to turn yellow. Then, press the delete key on your keyboard to remove the polygons (only in editing mode). Choose “Categorized” in the uppermost drop-down menu.</p>
 <p>After some time you should have collected some training areas:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/cla_017.png"><img src="./img/cla_017.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/cla_017.png"><img src="./img/cla_017.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Collection of training polygons in one shapefile</span></p>
 </div>
 <p>You can also color the polygons during editing based on the “classes” attribute, which makes it easier for you to estimate the class distribution. Double-click the shapefile in the Layers Panel and navigate to the Style tab. Ensure that your attribute “classes” is selected in the drop-down menu below. Click Classify once to apply an individual color to each class (click on the colored boxes in order to change the colors) and confirm everything by pressing OK:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/cla_020.png"><img src="./img/cla_020.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/cla_020.png"><img src="./img/cla_020.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Style settings for coloring classes</span></p>
 </div>
@@ -545,11 +600,7 @@ compareCRS(shp, img)
 Plot your data to make sure everything is imported properly (check <a href="https://blogs.fu-berlin.de/reseda/visualize-in-r/">Visualize in R</a> for an intro to plotting). With the argument <code>add = TRUE</code> in line 2 several data layers can be displayed one above the other:</p>
 <pre class="theme:amityreseda"><code>plotRGB(img, r = 4, g = 3, b = 2, stretch = "lin")
 plot(shp, col="red", add=TRUE)</code></pre>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/cla_001.png" class="fancybox image"><img src="./img/cla_001.png" width="1344" height="657" class="figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/cla_001.png" class="fancybox image"><img src="./img/cla_001.png" class="aligncenter size-full wp-image-1981" width="1344" height="657"></a></p>
 <p>If you followed this course in the <a href="https://blogs.fu-berlin.de/reseda/sampling-in-qgis/">previous section</a>, your shapefile should provide an attribute called “classes”, which includes your target classes as strings, e.g., “water” or “urban”. We will later turn this column into the <a href="https://blogs.fu-berlin.de/reseda/r-crash-course-2/#ch55">factor</a> data type because classifiers can only work with integer values instead of words like “water” or “urban”. When converting to factors, strings are sorted alphabetically and numbered consecutively. In order to be able to read the classification image at the end, you should make a note of your classification key:</p>
 <pre class="theme:amityreseda"><code>levels(as.factor(shp$classes))
 ## [1] "baresoil"  "forest"    "grassland" "urban_hd"  "urban_ld"  "water"
@@ -713,11 +764,7 @@ In our example this is the class <em>baresoil</em> with 719 samples. With the <c
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="do">## mtry = 4     OOB error = 2.7% </span></span>
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="do">## -0.07954545 0.05                                       </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In line 3, we pass our <code>smp.size</code> to define how many samples it should draw per class, and <code>strata =</code> at line 4 defines the column which should use for this stratified sampling. The argument <code>importance =</code> in line 6 allows the subsequent assessment of the variable importance when set to <code>TRUE</code>. By setting the argument <code>doBest</code> to <code>TRUE</code>, the RF with the optimal <em>mtry</em> is output directly from the function.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/cla_006.png"><img src="./img/cla_006.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/cla_006.png"><img src="./img/cla_006.png" class="img-fluid"></a></p>
 <p>If you use <code>tuneRF</code>, you will automatically get a plot that will tell you the OOB errors in the dependency of different <em>mtry</em> settings. As mentioned, the feature automatically identifies the best <em>mtry</em> setting and uses this to generate the optimal RF.</p>
 <p>When the model is created, we get some really useful information by executing the object name. First we get the command call with which we trained the model and the final number of variables tried at each split, i.e.&nbsp;the <em>mtry</em> parameter. Furthermore, we get an averaged out of bag (OOB) estimate, as well as a complete confusion matrix based on the training data! The column headers contain the classes of training pixels and the rows describe the corresponding classification. For a more detailed description of a confusion matrix, please refer to the chapter <a href="https://blogs.fu-berlin.de/reseda/validate-classifiers/">Validate Classifiers</a>.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>rfmodel</span>
@@ -740,19 +787,11 @@ In our example this is the class <em>baresoil</em> with 719 samples. With the <c
 <span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="do">## water            0      0         0        1        0   762 0.001310616</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Before we started the training procedure, we set the argument <code>importance = true</code>, which now allow us to have a look at the importance variable using the <code>varImpPlot</code> command:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(rfmodel)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/cla_002.png"><img src="./img/cla_002.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/cla_002.png"><img src="./img/cla_002.png" class="img-fluid"></a></p>
 <p>The <a href="https://blogs.fu-berlin.de/reseda/random-forest/#VI" rel="noopener" target="_blank">variable importance</a> shows the most significant or important features for the classification, which are band 5 and 6 in this case. For details of those metrics, please refer to the <a href="https://blogs.fu-berlin.de/reseda/random-forest/#5" rel="noopener" target="_blank">Random Forest Section</a>. However, it is interesting to note that the most important bands also provide the largest spectral differences between the classes <a href="https://blogs.fu-berlin.de/reseda/prepare-samples/#plot" rel="noopener" target="_blank">in the previous section</a>.</p>
 <p>Additionally, you can plot the RF model itself, which shows you the relationship between <a href="https://blogs.fu-berlin.de/reseda/random-forest/#oob" rel="noopener" target="_blank">OOB Error</a> and the number of trees used. We can color the lines by passing a vector of <a href="https://en.wikipedia.org/wiki/Web_colors" rel="noopener" target="_blank">hex-colors</a> whose length equals the number of classes + 1 – the first color is the average OOB line, which is also plotted automatically:</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rfmodel, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#000000"</span>, <span class="st">"#fbf793"</span>, <span class="st">"#006601"</span>, <span class="st">"#bfe578"</span>, <span class="st">"#d00000"</span>, <span class="st">"#fa6700"</span>, <span class="st">"#6569ff"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/cla_003.png"><img src="./img/cla_003.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/cla_003.png"><img src="./img/cla_003.png" class="img-fluid"></a></p>
 <p>We can see a decrease in the error with increasing number of trees, where the urban classes have the highest OOB error values.</p>
 <p>Save the model by using the <code>save()</code> function. This function saves the model object <code>rfmodel</code> to your working directory, so that you have it permanently stored on your hard drive. If needed, you can load it any time with <code>load()</code>.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(rfmodel, <span class="at">file =</span> <span class="st">"rfmodel.RData"</span>)</span>
@@ -776,11 +815,7 @@ If you store the result of the <code>predict()</code> function in an object, e.g
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>             <span class="st">"#6569ff"</span>  <span class="co"># water</span></span>
 <span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>             )</span>
 <span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>     )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/cla_004-1.png"><img src="./img/cla_004-1.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/cla_004-1.png"><img src="./img/cla_004-1.png" class="img-fluid"></a></p>
 </section>
 </section>
 <section id="svm-classification" class="level1 entry-title">
@@ -922,11 +957,7 @@ We start the training with the <code>tune()</code> function. We need to specify 
 <p>In the course of the cross-validation, the overall accuracies were compared and the best parameters were determined: In our example, those are 2 and 8 for <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(C\)</span>, respectively. Furthermore, the error of the best model is displayed: 2.1% error rate (which is quite good!).<br>
 We can plot the errors of all 196 different hyperparameter combinations in the so called gridsearch using the standard <code>plot()</code> function:</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(svmgs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/cla_022.png"><img src="./img/cla_022.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/cla_022.png"><img src="./img/cla_022.png" class="img-fluid"></a></p>
 <p>The plot appears very homogeneous, as the performance varies only very slightly and is already at a very high level. It can happen that the highest accuracies are found on the edge of the grid search. Then the training with other ranges for <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(C\)</span> should be done again.<br>
 We can extract the best model out of our <code>svmgs</code> to use for image prediction:</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>svmmodel <span class="ot">&lt;-</span> svmgs<span class="sc">$</span>best.model</span>
@@ -968,11 +999,7 @@ We can extract the best model out of our <code>svmgs</code> to use for image pre
 <span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>     )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Support Vector Machine classification completed!<br>
 If you store the result of the <code>predict()</code> function in an object, e.g., <code>result</code>, you can plot the map using the standard plot command and passing this object:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/cla_007.png"><img src="./img/cla_007.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/cla_007.png"><img src="./img/cla_007.png" class="img-fluid"></a></p>
 </section>
 </section>
 <section id="learning-curve" class="level1 entry-title">
@@ -1070,11 +1097,7 @@ Plotting those results will (hopefully) show a decreasing error rate with increa
 <span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">3</span>,</span>
 <span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">"n"</span></span>
 <span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a>       )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/cla_021.png"><img src="./img/cla_021.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/cla_021.png"><img src="./img/cla_021.png" class="img-fluid"></a></p>
 <p>Conclusion for this example: From 512 samples per class the achieved improvement is negligible. So 512 samples per class should be enough to get a robust classification.</p>
 
 
@@ -1160,10 +1183,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1173,8 +1213,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1186,7 +1235,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1230,6 +1402,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1255,6 +1428,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1316,12 +1515,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../RESEDA/contents/Machine-Learning-Basics.html" class="pagination-link">
+      <a href="../../RESEDA/contents/Machine-Learning-Basics.html" class="pagination-link" aria-label="Machine Learning Basics">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Machine Learning Basics</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../RESEDA/contents/Regression-in-R.html" class="pagination-link">
+      <a href="../../RESEDA/contents/Regression-in-R.html" class="pagination-link" aria-label="Regression in R">
         <span class="nav-page-text">Regression in R</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -1329,11 +1528,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-    <div class="nav-footer-left"><span class="faux-block">© 2023 Fernerkundung und Geoinformatik 1.0</span></div>   
-    <div class="nav-footer-center"><span class="faux-block"><a href="https://www.marvinschmitt.com/blog/website-tutorial-quarto/">View the tutorial for this template!</a></span></div>
-    <div class="nav-footer-right"><span class="faux-block"><a href="https://github.com/marvinschmitt/quarto-website-template/">View source on GitHub</a></span></div>
+    <div class="nav-footer-left">
+<p><span class="faux-block">© 2023 Fernerkundung und Geoinformatik 1.0</span></p>
+</div>   
+    <div class="nav-footer-center">
+<p><span class="faux-block"><a href="https://www.marvinschmitt.com/blog/website-tutorial-quarto/">View the tutorial for this template!</a></span></p>
+</div>
+    <div class="nav-footer-right">
+<p><span class="faux-block"><a href="https://github.com/marvinschmitt/quarto-website-template/">View source on GitHub</a></span></p>
+</div>
   </div>
 </footer>
+
 
 
 

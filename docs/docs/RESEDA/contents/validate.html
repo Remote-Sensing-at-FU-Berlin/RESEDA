@@ -57,24 +57,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../../">
-<link href="../../RESEDA/contents/Validate.qmd#create-samples-in-r" rel="next">
-<link href="../../RESEDA/contents/Regression-in-R.html" rel="prev">
-<link href="../../img/favicon.png" rel="icon" type="image/png">
-<script src="../../site_libs/quarto-html/quarto.js"></script>
-<script src="../../site_libs/quarto-html/popper.min.js"></script>
-<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../img/favicon.png" rel="icon" type="image/png">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -134,15 +132,15 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo">
+    <a href="../../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -152,23 +150,23 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../projects/index.html"> 
+    <a class="nav-link" href="../../../projects/index.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../staff/index.html"> 
+    <a class="nav-link" href="../../../staff/index.html"> 
 <span class="menu-text">Staff</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../R-Crash-Course/index.html"> 
+    <a class="nav-link" href="../../../R-Crash-Course/index.html"> 
 <span class="menu-text">R Crash Course</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../RESEDA/index.html" aria-current="page"> 
+    <a class="nav-link" href="../../../RESEDA/index.html"> 
 <span class="menu-text">RESEDA</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../About/index.html"> 
+    <a class="nav-link" href="../../../About/index.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -194,219 +192,10 @@ window.Quarto = {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../RESEDA/contents/Validate.html">Validate</a></li><li class="breadcrumb-item"><a href="../../RESEDA/contents/Validate.html">Chapter in a box</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-    </div>
-  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
- <span class="menu-text">Overview</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Welcome</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
- <span class="menu-text">Preparations</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/PrepareYourself.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter in a box</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/QGIS.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">QGIS</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/R-Studio.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">RStudio</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/SNAP.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">SNAP</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
- <span class="menu-text">Acquire</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/Acquireyourdata.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter in a box</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/SensorBasics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Sensor basics</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/Download.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Download</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
- <span class="menu-text">Preprocess</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/Preprocess.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter in a box</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/Preprocess-Optical-Data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Preprocess Optical Data</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/SAR-Data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">SAR Data</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/Visualization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Visualization</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
- <span class="menu-text">Analyse</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/Analyse.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter in a box</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/Machine-Learning-Basics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Machine Learning Basics</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/Classification-in-R.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Classification in R</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/Regression-in-R.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Regression in R</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
- <span class="menu-text">Validate</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/Validate.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Chapter in a box</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/Validate.html#create-samples-in-r" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Create Samples in R</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Label Samples in QGIS</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/Validate.html#Accuracy-Matrix" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Accuracy Matrix</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/Validate.html#area-adjusted-accuracies" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Area Adjusted Accuracies</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -440,22 +229,22 @@ window.Quarto = {
 The validation of remote sensing data is the last step in our workflow. The purpose of this chapter is to describe standard and advanced methods for validating a classification map.</p>
 <div style="background-color:#f1f1f1;padding:18px 30px 1px">
 <p>In this chapter, the following content awaits you:</p>
-<p><a href="../../RESEDA/contents/Validate.html#Validate"><strong>Validation Intro</strong></a><br>
+<p><a href="./Validate.qmd#Validate"><strong>Validation Intro</strong></a><br>
 – training, testing, validation – use the right terminology<br>
 – best validation practice for remote sensing<br>
-<a href="../../RESEDA/contents/Validate.html#create-samples-in-r"><strong>Create Samples in R</strong></a><br>
+<a href="./Validate.qmd#create-samples-in-r"><strong>Create Samples in R</strong></a><br>
 – stratified random sampling in R<br>
 – generation and export of point coordinates as shapefile for usage in QGIS<br>
-<a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis"><strong>Label Samples in QGIS</strong></a><br>
+<a href="./Validate.qmd#label-samples-in-qgis"><strong>Label Samples in QGIS</strong></a><br>
 – import of point shapefile<br>
 – label points according to their class membership<br>
 – use Landsat and very high resolution basemaps as validation basis for labeling<br>
 – save labeled point shapefile<br>
-<a href="../../RESEDA/contents/Validate.html#Accuracy-Matrix"><strong>Accuracy Statistics in R</strong></a><br>
+<a href="./Validate.qmd#Accuracy-Matrix"><strong>Accuracy Statistics in R</strong></a><br>
 – generate a complete accuracy matrix in R<br>
 – calculate confidence intervalls for overall accuracies<br>
 – calculate kappa statistics<br>
-<a href="../../RESEDA/contents/Validate.html#area-adjusted-accuracies"><strong>Area Adjusted Accuracies</strong></a><br>
+<a href="./Validate.qmd#area-adjusted-accuracies"><strong>Area Adjusted Accuracies</strong></a><br>
 – calculate area weighted accuracy statistics according to <a href="http://reddcr.go.cr/sites/default/files/centro-de-documentacion/olofsson_et_al._2014_-_good_practices_for_estimating_area_and_assessing_accuracy_of_land_change.pdf" rel="noopener" target="_blank">Olofsson et al.&nbsp;2014</a></p>
 </div>
 <p>.</p>
@@ -509,7 +298,7 @@ The validation of remote sensing data is the last step in our workflow. The purp
 <p>All we need is the [raster` package, so make sure you’ve imported it.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("raster")</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Furthermore, you should have your classification map ready (<a href="../../RESEDA/contents/Analyse.html" rel="noopener" target="_blank">Chapter Analysis</a>), lying in your working directory. Import it with the <code>raster()</code> function:</p>
+<p>Furthermore, you should have your classification map ready (<a href="./Analyse.qmd" rel="noopener" target="_blank">Chapter Analysis</a>), lying in your working directory. Import it with the <code>raster()</code> function:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/media/sf_exchange/landsatdata/"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>img.classified <span class="ot">&lt;-</span> <span class="fu">raster</span>(<span class="st">"classification_RF.tif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>raster</code> provides a function called <code>sampleStratified()</code>, which does all the work for us:</p>
@@ -574,7 +363,7 @@ The validation of remote sensing data is the last step in our workflow. The purp
 </section>
 <section id="label-samples-in-qgis" class="level1 entry-title">
 <h1 class="entry-title">Label Samples in QGIS</h1>
-<p>Open QGIS and import your initial image dataset (Landsat 8 scene) and the newly created point shapefile [validation_RF.shp` containing the test samples from the <a href="../../RESEDA/contents/Validate.html#create-samples-in-r" rel="noopener" target="_blank">previous section</a>. Display the image data using a RGB composite of your choice (see section <a href="../../RESEDA/contents/Visualization.html">Visualization in QGIS</a>). A good, high-contrast presentation makes it easier to interpret the scene during validation:</p>
+<p>Open QGIS and import your initial image dataset (Landsat 8 scene) and the newly created point shapefile [validation_RF.shp` containing the test samples from the <a href="./Validate.qmd#create-samples-in-r" rel="noopener" target="_blank">previous section</a>. Display the image data using a RGB composite of your choice (see section <a href="./Visualization.qmd">Visualization in QGIS</a>). A good, high-contrast presentation makes it easier to interpret the scene during validation:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="./img/valid_001.png"><img src="./img/valid_001.png" class="img-fluid figure-img" alt="Landsat 8 scene (RGB 543) and point shapefile containing the test samples"></a></p>
@@ -648,7 +437,7 @@ Zoom to a scale level that allows you to differentiate your target classes in Go
 <li><strong>Overall accuracy</strong>: Characterize the proportion of all correctly classified validation points in percent.</li>
 </ul>
 <p><strong>Implementation in R:</strong>:<br>
-You need your final classification map, as well as both the training and validation shapefiles created in the course of the <a href="../../RESEDA/contents/Analyse.html" rel="noopener" target="_blank">Classification in R section</a>.<br>
+You need your final classification map, as well as both the training and validation shapefiles created in the course of the <a href="./Analyse.qmd" rel="noopener" target="_blank">Classification in R section</a>.<br>
 Good to go?</p>
 <p>Fine, then import your <code>raster</code> library in R as usual:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("raster")</span></span>
@@ -663,7 +452,7 @@ Good to go?</p>
 <li><strong>reference</strong> : class labels you assigned manually in the previous section</li>
 <li><strong>predicted</strong> : class labels that resulted in the automatic RF (or SVM) classification</li>
 </ol>
-<p>For the reference vector, we need to address the <em>validclass</em> column of our shapefile (we created this column in <a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis\" rel="noopener" target="_blank">this section in QGIS</a>). As already mentioned, we need to transform the vectors into factors using <code>as.factor()</code> (it becomes clear why in a second):</p>
+<p>For the reference vector, we need to address the <em>validclass</em> column of our shapefile (we created this column in <a href="./Validate.qmd#label-samples-in-qgis/" rel="noopener" target="_blank">this section in QGIS</a>). As already mentioned, we need to transform the vectors into factors using <code>as.factor()</code> (it becomes clear why in a second):</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>reference <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(shp.valid<span class="sc">$</span>validclass)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>reference</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="do">##   [1] 3    1    4    4    6    4    5    3    6    2    1    5    4    2   </span></span>
@@ -689,7 +478,7 @@ Good to go?</p>
 <span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="do">## [281] 2    3    4    5    1    1    3    4    4    1    4    5    6    4   </span></span>
 <span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="do">## [295] 2    3    4    3    5    4   </span></span>
 <span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="do">## Levels: 1 2 3 4 5 6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>You may notice some entries in your reference values. These arise, for example, if you have skipped some validation points during the <a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis\" rel="noopener" target="_blank">labeling in QGIS</a> because you could not make a clear classification based on the available image data. We simply ignore them later on in the statistics – no problem!</p>
+<p>You may notice some entries in your reference values. These arise, for example, if you have skipped some validation points during the <a href="./Validate.qmd#label-samples-in-qgis/" rel="noopener" target="_blank">labeling in QGIS</a> because you could not make a clear classification based on the available image data. We simply ignore them later on in the statistics – no problem!</p>
 <p>For the predicted vector, we need to extract the classification values at the validation coordinates. Here again, we want a factor object via <code>as.factor()</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>predicted <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">extract</span>(img.classified, shp.valid))</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>predicted</span>
@@ -1404,18 +1193,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-      <a href="../../RESEDA/contents/Regression-in-R.html" class="pagination-link" aria-label="Regression in R">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Regression in R</span>
-      </a>          
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../../RESEDA/contents/Validate.html#create-samples-in-r" class="pagination-link" aria-label="Create Samples in R">
-        <span class="nav-page-text">Create Samples in R</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">

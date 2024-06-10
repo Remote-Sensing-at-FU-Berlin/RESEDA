@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.553">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -81,7 +81,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,6 +95,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -103,9 +109,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
     <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo">
     </a>
@@ -117,63 +123,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../../projects/index.html" rel="" target="">
- <span class="menu-text">Projects</span></a>
+    <a class="nav-link" href="../../projects/index.html"> 
+<span class="menu-text">Projects</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../staff/index.html" rel="" target="">
- <span class="menu-text">Staff</span></a>
+    <a class="nav-link" href="../../staff/index.html"> 
+<span class="menu-text">Staff</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../R-Crash-Course/index.html" rel="" target="">
- <span class="menu-text">R Crash Course</span></a>
+    <a class="nav-link" href="../../R-Crash-Course/index.html"> 
+<span class="menu-text">R Crash Course</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../../RESEDA/index.html" rel="" target="" aria-current="page">
- <span class="menu-text">RESEDA</span></a>
+    <a class="nav-link active" href="../../RESEDA/index.html" aria-current="page"> 
+<span class="menu-text">RESEDA</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../About/index.html" rel="" target="">
- <span class="menu-text">About</span></a>
+    <a class="nav-link" href="../../About/index.html"> 
+<span class="menu-text">About</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://blogs.fu-berlin.de/reseda/" rel="" target=""><i class="bi bi-folder-symlink" role="img">
+    <a class="nav-link" href="https://blogs.fu-berlin.de/reseda/"> <i class="bi bi-folder-symlink" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="https://github.com/Remote-Sensing-at-FU-Berlin" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/Remote-Sensing-at-FU-Berlin"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text">Github</span></a>
+<span class="menu-text">Github</span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="mailto:marion.stellmes@fu-berlin.de" rel="" target=""><i class="bi bi-envelope" role="img" aria-label="email">
+    <a class="nav-link" href="mailto:marion.stellmes@fu-berlin.de"> <i class="bi bi-envelope" role="img" aria-label="email">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../RESEDA/contents/Preprocess.html">Preprocess</a></li><li class="breadcrumb-item"><a href="../../RESEDA/contents/Visualization.html">Visualization</a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../RESEDA/contents/Preprocess.html">Preprocess</a></li><li class="breadcrumb-item"><a href="../../RESEDA/contents/Visualization.html">Visualization</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
@@ -327,10 +333,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text">Validate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter in a box</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#create-samples-in-r" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Create Samples in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Label Samples in QGIS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#Accuracy-Matrix" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Accuracy Matrix</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#area-adjusted-accuracies" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Area Adjusted Accuracies</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -356,7 +403,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content column-body" id="quarto-document-content">
+
 
 
 
@@ -389,29 +437,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Most optical imaging satellite systems measure radiance in multiple spectral bands, including Landsat 8 and Sentinel 2 (see section <a href="../../RESEDA/contents/SensorBasics.html">Sensor Basics</a>). As shown in the section <a href="../../RESEDA/contents/Preprocess.html">Preprocess</a>, these spectral bands are delivered as individual jpg- or tif-files within the data products. You can visualize each of those images separately by choosing a gray scale gradient (or any color slice). The following picture shows only the green band of an orthophoto of Berlin. Bright areas indicate high intensity of solar radiation reflected by the targets in the pixel, dark areas indicate low intensity:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/vis_002.png"><img src="./img/vis_002.png" class="img-fluid figure-img"></a></p>
+<p><img src="./img/vis_002.png" class="img-fluid figure-img"></p>
+<figcaption>Green band of an very high resolution orthophoto of Berlin in gray scale visualization</figcaption>
 </figure>
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Green band of an very high resolution orthophoto of Berlin in gray scale visualization</span></p>
 </div>
 <p>Such gray scale visualizations are useful for panchromatic bands, where only one band is available. However, this representation does not reflect what resembles the perception by the human eye. We are used to colorful pictures through our eyesight. On digital monitors, such as PC monitors, TV, or smartphones, this colorful display is achieved by mixing a number of different light colors, with shades of three primary colors: Red, Green and Blue. This method is called additive color mixing:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/vis_003.png"><img src="./img/vis_003.png" class="img-fluid figure-img" width="430"></a></p>
+<p><a href="./img/vis_003.png"><img src="./img/vis_003.png" class="aligncenter img-fluid figure-img" width="430" alt="Additive color mixing: adding all three primary colors together yields white"></a></p>
+<figcaption>Additive color mixing: adding all three primary colors together yields white</figcaption>
 </figure>
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Additive color mixing: adding all three primary colors together yields white</span></p>
 </div>
 <p>The same principle is used in the representation of satellite data: In the case of a colored RGB representation we have three “slots”: one for red, one for green and one for blue. If we fill each of these slots with a spectral channel of our satellite product, we will create a RGB composite due to the mixture of three different matrices of pixel values, i.e., digital numbers (DNs):</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/vis_001.png"><img src="./img/vis_001.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/vis_001.png"><img src="./img/vis_001.png" class="aligncenter img-fluid figure-img" alt="Three bands (grey scale singlebands) form a multiband (RGB composite)"></a></p>
+<figcaption>Three bands (grey scale singlebands) form a multiband (RGB composite)</figcaption>
 </figure>
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Three bands (grey scale singlebands) form a multiband (RGB composite)</span></p>
 </div>
 <p>In this example, color representation is what we would assume: trees are green, footpaths are gray, and roofs are brown. This representation is called <strong>true-color composite</strong> and is achieved when the blue slot is occupied by the blue spectral band of the satellite sensor, the green slot with the green band and the red slot with the red band (have a look at the bands of <a href="../../RESEDA/contents/Preprocess-Optical-Data.html#landsat-8-preprocessing">L8</a> and <a href="../../RESEDA/contents/Preprocess-Optical-Data.html#sentinel-2-preprocessing">S2</a> again!). Since sensors have far more spectral bands, there is a wide range of possible band combinations, so called <strong>false-color</strong>, or <strong>pseudocolor composites</strong>. Over time, some of these combinations have proven useful for specific issues:</p>
 <table class="table">
@@ -468,30 +510,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Each grayscale image consists of a 2-dimensional array, i.e, a matrix, of pixels that describe the intensities of the solar energy radiance measured by the sensor. These pixels are nothing more than integers and can be represented as such:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/vis_004.png"><img src="./img/vis_004.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/vis_004.png"><img src="./img/vis_004.png" class="aligncenter img-fluid figure-img" alt="Digital numbers within a small subset of the red band of an orthophoto"></a></p>
+<figcaption>Digital numbers within a small subset of the red band of an orthophoto</figcaption>
 </figure>
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #bfbfbf;font-size: small">Digital numbers within a small subset of the red band of an orthophoto</span></p>
 </div>
 <p>The occurrence of these integers can be counted and plotted. This representation is called a histogram and describes the frequency distribution of the gray level values in a single band image. A histogram shows the frequencies at the y-axis and the respective digital numbers (pixel values) at the x-axis:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/vis_006.png"><img src="./img/vis_006.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/vis_006.png"><img src="./img/vis_006.png" class="aligncenter img-fluid figure-img" alt="Schematic histogram"></a></p>
+<figcaption>Schematic histogram</figcaption>
 </figure>
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Schematic histogram</span></p>
 </div>
 <p>Histograms of optical images are typically normally distributed and thus unimodal. The range of digital numbers (min &amp; max in the figure above) depends on the individual radiometric resolution of the data set, e.g., Landsat 8 Level-1 and Sentintel 2 Level-1 data provide 0 – 65,535 DNs (16 bit unsigned) and Landsat 8 Level-2 data provide −32,768 – 32,767 DNs (16 bit signed).<br>
 However, the complete range of theoretically possible digital numbers is rarely used by remote sensing imagery. As a consequence, images usually have a very low contrast when viewed in QGIS or R , whereby essential information remains hidden to us. The contrast of an image is a measure of its dynamic range, i.e., the spread of its histogram, and is calculated by the difference between maximum and minimum values of the image. A <strong>Minimum-Maximum contrast stretching</strong> increases the dynamic range by applying a linear scaling function that maps pixel values between the two extremes:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/vis_005.png"><img src="./img/vis_005.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/vis_005.png"><img src="./img/vis_005.png" class="aligncenter img-fluid figure-img" alt="Green band of a orthophoto; schematic contrast stretching – left: original image view, right: enhanced contrast due to contrast stretching"></a></p>
+<figcaption>Green band of a orthophoto; schematic contrast stretching – left: original image view, right: enhanced contrast due to contrast stretching</figcaption>
 </figure>
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p>Green band of a orthophoto; schematic contrast stretching – left: original image view, right: enhanced contrast due to contrast stretching]{style=“color: #686868;font-size: small”}</p>
 </div>
 <p>The image now takes on the full dynamic range and subjectively looks better to the human eye. The actual values of the dataset remain unaffected by any contrast stretching – it is only a modification for visual purposes. An underlying color or lookup table translates the original DNs to the stretched DNs. In addition to the Minimum-Maximum method, there are other stretch procedures available, such as <strong>Standard Deviations</strong>, <strong>Percent Clip</strong> or <strong>Sigmoid</strong>.</p>
 </section>
@@ -505,29 +541,23 @@ However, the complete range of theoretically possible digital numbers is rarely 
 <p>First of all, open <a href="../../RESEDA/contents/QGIS.html">QGIS</a>. QGIS is very similar to ArcGIS/ ArcMap, which you already know from the second semester (GIS course: “Geographische Informationssysteme”). As with all operations, there are several ways to open a raster dataset here: Either navigate via the main menu to <em>Layer</em> &gt; <em>Add Layer</em> &gt; <em>Add Raster Layer…</em>, or press the corresponding icon <img src="./img/vis_008.png" class="alignnone size-full wp-image-1909" width="24" height="24"> in the toolbar or press the shortcut <strong>Ctrl + Shift + R</strong> to open a file explorer window.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/vis_007.png"><img src="./img/vis_007.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/vis_007.png"><img src="./img/vis_007.png" class="aligncenter img-fluid figure-img" alt="Location of Add Raster Layer-function in QGIS"></a></p>
+<figcaption>Location of Add Raster Layer-function in QGIS</figcaption>
 </figure>
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Location of Add Raster Layer-function in QGIS</span></p>
 </div>
 <p>In the file explorer window, navigate to the data folder which holds your L8 data. In the meantime, due to preprocessing, you may already have quite a few files in this folder. Click on a tif-container (extension “.tif”) and then on <strong>Open</strong>.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/vis_009.png"><img src="./img/vis_009.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/vis_009.png"><img src="./img/vis_009.png" class="aligncenter img-fluid figure-img" alt="Choose a .tif-file for import in the file explorer"></a></p>
+<figcaption>Choose a .tif-file for import in the file explorer</figcaption>
 </figure>
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Choose a .tif-file for import in the file explorer</span></p>
 </div>
 <p>If you have clicked <strong>Open</strong>, your data shine in full glory for the first time in QGIS! The file name will automatically appear in the Layers panel and the image data will be visible in the Map View:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/vis_010.png"><img src="./img/vis_010.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/vis_010.png"><img src="./img/vis_010.png" class="aligncenter img-fluid figure-img" alt="Imported L8 dataset"></a></p>
+<figcaption>Imported L8 dataset</figcaption>
 </figure>
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Imported L8 dataset</span></p>
 </div>
 <p>Navigate through your data with the mouse buttons and the mouse wheel, or with the navigation tools <img src="./img/vis_011.png" class="alignnone img-fluid"> in the toolbar.</p>
 </section>
@@ -536,35 +566,25 @@ However, the complete range of theoretically possible digital numbers is rarely 
 <p>By default, QGIS maps the first three bands of a given rasterstack to the red, green and blue “slots” to create a color image. But we can also look at all the bands in the L8 layer stack individually. Open the Layer Properties dialog for the image layer by right-clicking on it in the Layer Panel and selecting Properties option or simply double-click the image layer. Switch to the Style tab and set <strong>Singleband gray</strong> in the drop down menu for the <strong>Render type</strong> option. You can choose the spectral channel you want to visualize by setting <strong>Gray band</strong> directly below. Confirm by clicking OK:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/vis_012.png"><img src="./img/vis_012.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/vis_012.png"><img src="./img/vis_012.png" class="aligncenter img-fluid figure-img" alt="Choose Singleband gray for the Render type option and press OK"></a></p>
+<figcaption>Choose Singleband gray for the Render type option and press OK</figcaption>
 </figure>
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Choose Singleband gray for the Render type option and press OK</span></p>
 </div>
 <p>Whoops! You will now see a totally gray rectangle which has no use at all. That is because we did not do any contrast stretching yet. We have to tell QGIS to scale the digital numbers to the whole bitspace (16 bit). In a grayscale visualization, this is black, white and all shades of gray in between. So open the Layer Properties dialog again, choose <strong>Stretch to MinMax</strong> as the contrast enhancement method. Unfold the <strong>Load min/max values</strong> section directly below. The <strong>Cumulative count cut</strong> setting helps to eliminate very low and very high digital numbers, e.g., as a result of clouds. The standard data range is set from 2% to 98% of the DNs and can be adapted manually. Now click on the <strong>Load</strong> button and you will notice that values for minimum and maximum values are generated in the fields above:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/vis_013.png"><img src="./img/vis_013.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/vis_013.png"><img src="./img/vis_013.png" class="aligncenter img-fluid"></a></p>
 <p>Confirm everything by clicking on <strong>Apply</strong> or <strong>OK</strong> after that. For the following picture we zoomed closer to the West of Berlin and its surrounding countryside:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/vis_014.png"><img src="./img/vis_014.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/vis_014.png"><img src="./img/vis_014.png" class="aligncenter img-fluid figure-img" alt="Landsat 8 band 1, West of Berlin, stretched based on global statistics"></a></p>
+<figcaption>Landsat 8 band 1, West of Berlin, stretched based on global statistics</figcaption>
 </figure>
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Landsat 8 band 1, West of Berlin, stretched based on global statistics</span></p>
 </div>
 <p>The city looks a bit oversaturated and offers little contrast. So far, we have used the information of the entire scene for contrast stretching. Since possible cloud fields and other edge areas of the scene are included in the calculation of the min/max values, it is advisable to zoom in on a cloud-free area and recalculate the values based on the currently visible canvas. So search for a cloud-free spot in your image, open the Layer Properties again and select <strong>Clip extent to canvas</strong> just below the <strong>Load</strong> button. Then click the <strong>Load</strong> button and <strong>OK</strong>:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/vis_015.png"><img src="./img/vis_015.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/vis_015.png"><img src="./img/vis_015.png" class="aligncenter img-fluid figure-img" alt="Landsat 8 band 1, West of Berlin, stretched based on local statistics"></a></p>
+<figcaption>Landsat 8 band 1, West of Berlin, stretched based on local statistics</figcaption>
 </figure>
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Landsat 8 band 1, West of Berlin, stretched based on local statistics</span></p>
 </div>
 <p>Okay, but now it is time to bring some color into play.</p>
 </section>
@@ -573,44 +593,34 @@ However, the complete range of theoretically possible digital numbers is rarely 
 <p>And again, open Layer Properties dialog for the L8 image layer by right-clicking on it in the Layer Panel and selecting Properties option or simply double-click the image layer. Now select <strong>Multiband color</strong> as the Render Type and select three spectral bands for the three RGB slots. First let us ave a look at the true color composite, which is band 4,3,2 for the RGB slots. Search for a cloud-free spot in your image, and select the remaining settings as described in the previous section as follows:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/vis_016.png"><img src="./img/vis_016.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/vis_016.png"><img src="./img/vis_016.png" class="aligncenter img-fluid figure-img" alt="Layer Properties settings for Multiband coloring"></a></p>
+<figcaption>Layer Properties settings for Multiband coloring</figcaption>
 </figure>
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Layer Properties settings for Multiband coloring</span></p>
 </div>
 <p>The resulting image is quite appealing, isn’t it? Feel free to play around with other band combinations!</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/vis_017.png"><img src="./img/vis_017.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/vis_017.png"><img src="./img/vis_017.png" class="aligncenter img-fluid figure-img" alt="Landsat 8 true color composite (RGB: 4,3,2)"></a></p>
+<figcaption>Landsat 8 true color composite (RGB: 4,3,2)</figcaption>
 </figure>
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Landsat 8 true color composite (RGB: 4,3,2)</span></p>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/vis_018.png"><img src="./img/vis_018.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/vis_018.png"><img src="./img/vis_018.png" class="aligncenter img-fluid figure-img" alt="Landsat 8 pseudocolor composite (RGB: 5,4,3)"></a></p>
+<figcaption>Landsat 8 pseudocolor composite (RGB: 5,4,3)</figcaption>
 </figure>
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Landsat 8 pseudocolor composite (RGB: 5,4,3)</span></p>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/vis_019.png"><img src="./img/vis_019.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/vis_019.png"><img src="./img/vis_019.png" class="aligncenter img-fluid figure-img" alt="Landsat 8 pseudocolor composite (RGB: 6,5,3)"></a></p>
+<figcaption>Landsat 8 pseudocolor composite (RGB: 6,5,3)</figcaption>
 </figure>
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Landsat 8 pseudocolor composite (RGB: 6,5,3)</span></p>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><a href="./img/vis_020.png"><img src="./img/vis_020.png" class="img-fluid figure-img"></a></p>
+<p><a href="./img/vis_020.png"><img src="./img/vis_020.png" class="aligncenter img-fluid figure-img" alt="Landsat 8 pseudocolor composite (RGB: 5,7,2)"></a></p>
+<figcaption>Landsat 8 pseudocolor composite (RGB: 5,7,2)</figcaption>
 </figure>
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Landsat 8 pseudocolor composite (RGB: 5,7,2)</span></p>
 </div>
 <p>Look at the forest areas in the southwest of the clipping (Berlin, Grunewald). The trees look so much more differentiated in the NIR and MIR bands – what an information gain!</p>
 </section>
@@ -650,11 +660,7 @@ If we just want to visualize one band (singleband visualization), we will fill a
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">3</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">stretch =</span> <span class="st">"lin"</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/vis_024.png"><img src="./img/vis_024.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/vis_024.png"><img src="./img/vis_024.png" class="aligncenter img-fluid"></a></p>
 <p>The stretch argument in line 3 was set to “lin” in order to perform a minimum-maximum contrast stretching to increase the contrast of the image, as described <a href="../../RESEDA/contents/Visualization.html">here</a>.<br>
 We can also do a spatial subsetting here by specifying an “Extent”-object using the <code>ext =</code> argument:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(img,</span>
@@ -662,11 +668,7 @@ We can also do a spatial subsetting here by specifying an “Extent”-object us
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">stretch =</span> <span class="st">"lin"</span>,</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">ext =</span> <span class="fu">extent</span>(<span class="dv">369800</span>, <span class="dv">400700</span>, <span class="dv">5812400</span>, <span class="dv">5827500</span>)</span>
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/vis_023.png"><img src="./img/vis_023.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/vis_023.png"><img src="./img/vis_023.png" class="aligncenter img-fluid"></a></p>
 <p>Objects of class “Extent” are used to define the spatial extent. The four specified arguments are UTM coordinates for (min x, max x, min y, max y). You can set those UTM coordinates arbitrarily and get them, for example, by reading them from QGIS or Google Maps.</p>
 <p>By defining different bands for the RGB slots, we can, just as in QGIS, create all imaginable RGB composites:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(img,</span>
@@ -674,11 +676,7 @@ We can also do a spatial subsetting here by specifying an “Extent”-object us
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">stretch =</span> <span class="st">"lin"</span>,</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">ext =</span> <span class="fu">extent</span>(<span class="dv">369800</span>, <span class="dv">400700</span>, <span class="dv">5812400</span>, <span class="dv">5827500</span>)</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/vis_022.png"><img src="./img/vis_022.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/vis_022.png"><img src="./img/vis_022.png" class="aligncenter img-fluid"></a></p>
 <p>Make your spatial subset permament by writing the trimmed image as a new file to your hard drive with <code>writeRaster</code>. This is especially useful if you want to test a classification workflow: small data sets will cheer up your work in QGIS, in R, as well as in all other software solutions.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>img.subset <span class="ot">&lt;-</span> <span class="fu">crop</span>(img, <span class="fu">extent</span>(<span class="dv">369800</span>, <span class="dv">400700</span>, <span class="dv">5812400</span>, <span class="dv">5827500</span>) )</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -698,11 +696,7 @@ We can also do a spatial subsetting here by specifying an “Extent”-object us
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"frequency"</span>,</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"histogram L8 band 3 (green)"</span></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>     )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><a href="./img/vis_026.png"><img src="./img/vis_026.png" class="img-fluid figure-img"></a></p>
-</figure>
-</div>
+<p><a href="./img/vis_026.png"><img src="./img/vis_026.png" class="aligncenter img-fluid"></a></p>
 <p>The <code>breaksargument</code> in line is assigned with a single number giving the number of cells for the histogram. So with more breaks, the bars in the histogram become narrower. With <code>xlim =</code> and <code>ylim =</code> you can narrow the x axis and y axis to a certain range.</p>
 
 
@@ -788,10 +782,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -801,8 +812,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -814,7 +834,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -858,6 +1001,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -883,6 +1027,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -942,14 +1112,14 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation">
+<nav class="page-navigation column-body">
   <div class="nav-page nav-page-previous">
-      <a href="../../RESEDA/contents/SAR-Data.html" class="pagination-link">
+      <a href="../../RESEDA/contents/SAR-Data.html" class="pagination-link" aria-label="SAR Data">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">SAR Data</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../RESEDA/contents/Analyse.html" class="pagination-link">
+      <a href="../../RESEDA/contents/Analyse.html" class="pagination-link" aria-label="Chapter in a box">
         <span class="nav-page-text">Chapter in a box</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -957,11 +1127,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
-    <div class="nav-footer-left"><span class="faux-block">© 2023 Fernerkundung und Geoinformatik 1.0</span></div>   
-    <div class="nav-footer-center"><span class="faux-block"><a href="https://www.marvinschmitt.com/blog/website-tutorial-quarto/">View the tutorial for this template!</a></span></div>
-    <div class="nav-footer-right"><span class="faux-block"><a href="https://github.com/marvinschmitt/quarto-website-template/">View source on GitHub</a></span></div>
+    <div class="nav-footer-left">
+<p><span class="faux-block">© 2023 Fernerkundung und Geoinformatik 1.0</span></p>
+</div>   
+    <div class="nav-footer-center">
+<p><span class="faux-block"><a href="https://www.marvinschmitt.com/blog/website-tutorial-quarto/">View the tutorial for this template!</a></span></p>
+</div>
+    <div class="nav-footer-right">
+<p><span class="faux-block"><a href="https://github.com/marvinschmitt/quarto-website-template/">View source on GitHub</a></span></p>
+</div>
   </div>
 </footer>
+
 
 
 

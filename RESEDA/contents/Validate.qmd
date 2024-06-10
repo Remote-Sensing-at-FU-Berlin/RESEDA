@@ -6,25 +6,26 @@ The validation of remote sensing data is the last step in our workflow. The purp
 ::: {style="background-color:#f1f1f1;padding:18px 30px 1px"}
 In this chapter, the following content awaits you:
 
-[**Validation Intro**](https://blogs.fu-berlin.de/reseda/validate/#1)\
+[**Validation Intro**](./Validate.qmd#Validate)\
 -- training, testing, validation -- use the right terminology\
 -- best validation practice for remote sensing\
-[**Create Samples in R**](https://blogs.fu-berlin.de/reseda/create-samples-in-r/)\
+[**Create Samples in R**](./Validate.qmd#create-samples-in-r)\
 -- stratified random sampling in R\
 -- generation and export of point coordinates as shapefile for usage in QGIS\
-[**Label Samples in QGIS**](https://blogs.fu-berlin.de/reseda/label-samples-in-qgis/)\
+[**Label Samples in QGIS**](./Validate.qmd#label-samples-in-qgis)\
 -- import of point shapefile\
 -- label points according to their class membership\
 -- use Landsat and very high resolution basemaps as validation basis for labeling\
 -- save labeled point shapefile\
-[**Accuracy Statistics in R**](https://blogs.fu-berlin.de/reseda/accuracy-statistics-in-r/)\
+[**Accuracy Statistics in R**](./Validate.qmd#Accuracy-Matrix)\
 -- generate a complete accuracy matrix in R\
 -- calculate confidence intervalls for overall accuracies\
 -- calculate kappa statistics\
-[**Area Adjusted Accuracies**](https://blogs.fu-berlin.de/reseda/area-adjusted-accuracies/)\
+[**Area Adjusted Accuracies**](./Validate.qmd#area-adjusted-accuracies)\
 -- calculate area weighted accuracy statistics according to [Olofsson et al. 2014](http://reddcr.go.cr/sites/default/files/centro-de-documentacion/olofsson_et_al._2014_-_good_practices_for_estimating_area_and_assessing_accuracy_of_land_change.pdf){rel="noopener" target="_blank"}
 :::
 .
+
 
 
 **Training dataset**: A model is initially fit on a training sample dataset. The model iteratively learn from those training samples and tries to map data $x$ to output response $y$.
@@ -90,7 +91,7 @@ All we need is the [raster` package, so make sure you've imported it.
 library(raster)
 ```
 
-Furthermore, you should have your classification map ready ([Chapter Analysis](https://blogs.fu-berlin.de/reseda/analyse/){rel="noopener" target="_blank"}), lying in your working directory. Import it with the `raster()` function:
+Furthermore, you should have your classification map ready ([Chapter Analysis](./Analyse.qmd){rel="noopener" target="_blank"}), lying in your working directory. Import it with the `raster()` function:
 
 ``` r
 setwd("/media/sf_exchange/landsatdata/")
@@ -125,7 +126,7 @@ smp.test$classification_RF
 
 Note: the name of the column within `smp.test` depends on the file name of your classification map.
 
-Due to the subsequent manual labeling in the [next section](https://blogs.fu-berlin.de/reseda/label-samples-in-qgis/){rel="noopener" target="_blank"}, it makes sense to mix the samples so that the order is random. Again, we use the `sample()` function for this:
+Due to the subsequent manual labeling in the [next section](./Validate.qmdlabel-samples-in-qgis){rel="noopener" target="_blank"}, it makes sense to mix the samples so that the order is random. Again, we use the `sample()` function for this:
 
 ``` r
 smp.test <- smp.test[sample(nrow(smp.test)), ]
@@ -188,41 +189,25 @@ shapefile(smp.test,
 
 # Label Samples in QGIS {#label-samples-in-qgis .entry-title}
 
-Open QGIS and import your initial image dataset (Landsat 8 scene) and the newly created point shapefile [validation_RF.shp` containing the test samples from the [previous section](https://blogs.fu-berlin.de/reseda/create-samples-in-r/){rel="noopener" target="_blank"}. Display the image data using a RGB composite of your choice (see section [Visualization in QGIS](https://blogs.fu-berlin.de/reseda/visualize-in-qgis/)). A good, high-contrast presentation makes it easier to interpret the scene during validation:
+Open QGIS and import your initial image dataset (Landsat 8 scene) and the newly created point shapefile [validation_RF.shp` containing the test samples from the [previous section](./Validate.qmd#create-samples-in-r){rel="noopener" target="_blank"}. Display the image data using a RGB composite of your choice (see section [Visualization in QGIS](./Visualization.qmd)). A good, high-contrast presentation makes it easier to interpret the scene during validation:
 
-[![](./img/valid_001.png)](./img/valid_001.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Landsat 8 scene (RGB 543) and point shapefile containing the test samples]{style="color: #686868;font-size: small"}
-:::
+[![Landsat 8 scene (RGB 543) and point shapefile containing the test samples](./img/valid_001.png)](./img/valid_001.png)
 
 For visual support, we also want to look at the high-resolution information provided by Google Maps. Starting from the main menu of QGIS, navigate via *Web* \> *OpenLayers Plugin* \> *Google Maps* \> *Google Satellite* to the satellite data from Google:
 
-[![](./img/valid_002.png){.aligncenter}](./img/valid_002.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Use the OpenLayers Plugin to import Google Maps imagery to your QGIS project]{style="color: #686868;font-size: small"}
-:::
+[![Use the OpenLayers Plugin to import Google Maps imagery to your QGIS projec](./img/valid_002.png){.aligncenter}](./img/valid_002.png)
 
 If you do not use our VM, you must first install the OpenLayers Plugin manually. See [this guide](http://www.qgistutorials.com/en/docs/using_plugins.html){rel="noopener" target="_blank"} to learn how to install a plugin.\
 Your data may look slightly rotated after the import of external Google Maps imagery. This is because the Google Maps data are subject to a different projection and they can not be reprojected on-the-fly. Because of this, your data will be temporarily adjusted so that everything is on top of each other.\
 Right click your point shapefile ("validation_RF.shp") and choose "Open Attribute Table". Enable the editing features by pressing the pencil in the toolbar of the attribute table:
 
-[![](./img/valid_003.png){.aligncenter}](./img/valid_003.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Enable editing of attributes]{style="color: #686868;font-size: small"}
-:::
+[![Enable editing of attributes](./img/valid_003.png){.aligncenter}](./img/valid_003.png)
 
 Now press the "new field" button ![](./img/valid_005.png){.alignnone .size-full .wp-image-2232 loading="lazy" width="24" height="22"} in the toolbar to add a new column to the attribute table into which we will write the correct class labels. We just want to enter the number for the corresponding class, instead of typing the complete class names every time. So we need an integer column, which we call "validclass". Copy the following settings and confirm with OK:
 
-[![](./img/valid_004.png){.aligncenter .size-full}](./img/valid_004.png)
+[![New attribute settings](./img/valid_004.png){.aligncenter .size-full}](./img/valid_004.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[New attribute settings]{style="color: #686868;font-size: small"}
-:::
-
-Reminder: You wonder what numbers represent which class? Look again at section [Prepare Samples in R](https://blogs.fu-berlin.de/reseda/prepare-samples/){rel="noopener" target="_blank"}. Starting from our training polygon shapefile, we were able to display the individual class labels and the corresponding class IDs in the following step. The order results according to the alphabetical sorting of the class names:
+Reminder: You wonder what numbers represent which class? Look again at section [Prepare Samples in R](./Analyse#machine-learning-basics){rel="noopener" target="_blank"}. Starting from our training polygon shapefile, we were able to display the individual class labels and the corresponding class IDs in the following step. The order results according to the alphabetical sorting of the class names:
 
 ``` r
 levels(as.factor(shp$classes))
@@ -242,25 +227,13 @@ Write down the classification key! A wrong labeling of the points would be fatal
 If the class IDs are finally known, you can start:\
 Zoom to a scale level that allows you to differentiate your target classes in Google Earth. Then click on the left part of a line in the attribute table to highlight/select it. Once selected, press the icon "Zoom to selected Features" in the toolbar or simply **Control+J** on your keyboard to automatically navigate to the respective point in the Map View:
 
-[![](./img/valid_008.png){.aligncenter .size-full}](./img/valid_008.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Select a point and automatically zoom to it]{style="color: #686868;font-size: small"}
-:::
+[![Select a point and automatically zoom to it](./img/valid_008.png){.aligncenter .size-full}](./img/valid_008.png)
 
 Use both your initial dataset (Landsat 8) and any high-resolution information (Google Maps) to decide which class the pixel that contains the point belongs to.
 
-[![](./img/valid_006.png){.aligncenter .size-full}](./img/valid_006.png)
+[![Validate random stratified points by low resolution Landsat 8 data (initial dataset)](./img/valid_006.png){.aligncenter .size-full}](./img/valid_006.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Validate random stratified points by low resolution Landsat 8 data (initial dataset)]{style="color: #686868;font-size: small"}
-:::
-
-[![](./img/valid_007.png){.aligncenter .size-full}](./img/valid_007.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Validate random stratified points by high resolution Google Maps imagery]{style="color: #686868;font-size: small"}
-
+[![Validate random stratified points by high resolution Google Maps imagery](./img/valid_007.png){.aligncenter .size-full}](./img/valid_007.png)
 
 # Accuracy Matrix {#Accuracy-Matrix}
 
@@ -273,7 +246,7 @@ Several metrics can be derived from the table:
 -   **Overall accuracy**: Characterize the proportion of all correctly classified validation points in percent.
 
 **Implementation in R:**:\
-You need your final classification map, as well as both the training and validation shapefiles created in the course of the [Classification in R section](https://blogs.fu-berlin.de/reseda/classification-in-r/){rel="noopener" target="_blank"}.\
+You need your final classification map, as well as both the training and validation shapefiles created in the course of the [Classification in R section](./Analyse.qmd){rel="noopener" target="_blank"}.\
 Good to go?
 
 Fine, then import your `raster` library in R as usual:
@@ -297,7 +270,7 @@ Our goal is first to generate two factor vectors, which we then compare in our c
 1.  **reference** : class labels you assigned manually in the previous section
 2.  **predicted** : class labels that resulted in the automatic RF (or SVM) classification
 
-For the reference vector, we need to address the *validclass* column of our shapefile (we created this column in [this section in QGIS](https://blogs.fu-berlin.de/reseda/label-samples-in-qgis/){rel="noopener" target="_blank"}). As already mentioned, we need to transform the vectors into factors using `as.factor()` (it becomes clear why in a second):
+For the reference vector, we need to address the *validclass* column of our shapefile (we created this column in [this section in QGIS](./Validate.qmd#label-samples-in-qgis/){rel="noopener" target="_blank"}). As already mentioned, we need to transform the vectors into factors using `as.factor()` (it becomes clear why in a second):
 
 ``` r
 reference <- as.factor(shp.valid$validclass)
@@ -327,7 +300,7 @@ reference
 ## Levels: 1 2 3 4 5 6
 ```
 
-You may notice some entries in your reference values. These arise, for example, if you have skipped some validation points during the [labeling in QGIS](https://blogs.fu-berlin.de/reseda/label-samples-in-qgis/){rel="noopener" target="_blank"} because you could not make a clear classification based on the available image data. We simply ignore them later on in the statistics -- no problem!
+You may notice some entries in your reference values. These arise, for example, if you have skipped some validation points during the [labeling in QGIS](./Validate.qmd#label-samples-in-qgis/){rel="noopener" target="_blank"} because you could not make a clear classification based on the available image data. We simply ignore them later on in the statistics -- no problem!
 
 For the predicted vector, we need to extract the classification values at the validation coordinates. Here again, we want a factor object via `as.factor()`:
 

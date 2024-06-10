@@ -7,63 +7,90 @@
 Welcome to your first training session!\
 No need to be nervous: this page contains not only tasks, but also their solutions as folded code elements. You can unfold these code blocks by simply clicking on them. Give it a try:
 
-``` r
-# Well done!
+<details>
+  <summary>Click here to see more</summary>
+  ``` r
+  # Well done!
 
-# Spoiler! -  you will find your answer here
-```
+  # Spoiler! -  you will find your answer here
+  ```
+</details>
+
 
 1) Create a variable called `a` and assign the number *2017* to it!
 
-``` r
-# use the "<-" operator for variable assignments:
-a <- 2017
-```
+<details>
+  <summary>Click here to see the answer</summary>
+  ``` r
+  # use the "<-" operator for variable assignments:
+  a <- 2017
+  ```
+</details>
+
 
 2) Calculate the square root of 1089 and save the result in variable `b`!
 
-``` r
-# use the built- in function "sqrt()" and the number 1089 as an argument:
-b <- sqrt(1089)
-```
+<details>
+  <summary>Click here to see the answer</summary>
+  ``` r
+  # use the built- in function "sqrt()" and the number 1089 as an argument:
+  b <- sqrt(1089)
+  ```
+</details>
+
 
 3) Calculate the sum of `a` and `b`!
 
-``` r
-# done via standard operators:
-a + b
-## [1] 2050
-```
+<details>
+  <summary>Click here to see the answer</summary>
+  ``` r
+  # done via standard operators:
+  a + b
+  ## [1] 2050
+  ```
+</details>
 
 4) Overwrite variable `a` by assigning the value 2018 to it!
 
-``` r
-# simply assign a new value to an existing variable in order to overwrite it
-a <- 2018
-```
+<details>
+  <summary>Click here to see the answer</summary>
+  ``` r
+  # simply assign a new value to an existing variable in order to overwrite it
+  a <- 2018
+  ```
+</details>
 
 5) Make a copy of variable `b` and name it `c`!
 
-``` r
-# variable assignment works from right (existing variable) to left (new variable):
-c <- b
-```
+<details>
+  <summary>Click here to see the answer</summary>
+  ``` r
+  # variable assignment works from right (existing variable) to left (new variable):
+  c <- b
+  ```
+</details>
 
 6) Create your own function called `my.fun()`, which requires three variables as input. The function should generate the square root of the product of all three variables and return one numeric value!
 
-``` r
-my.fun <- function( var1, var2, var3 ) {
-  result <- sqrt( var1 * var2 * var3 )
-  return(result)
-}
-```
+<details>
+  <summary>Click here to see the answer</summary>
+  ``` r
+  my.fun <- function( var1, var2, var3 ) {
+    result <- sqrt( var1 * var2 * var3 )
+    return(result)
+  }
+  ```
+</details>
 
 7) Use `a`, `b` and `c` (from the previous tasks) as input into `my.fun()` and save the output to variable `d`! Check the resulting value!
 
-``` r
-d <- my.fun(a, b, c)
-d
-## [1] 1482.431
-```
+<details>
+  <summary>Click here to see the answer</summary>
+  ``` r
+  d <- my.fun(a, b, c)
+  d
+  ## [1] 1482.431
+  ```
+</details>
 :::
 :::
