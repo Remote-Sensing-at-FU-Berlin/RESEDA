@@ -25,7 +25,6 @@ We will have a look at two supervised, non-parametric and nonlinear algorithms i
 ML methods optimize their performances iteratively by learning from the training examples or train data. Those methods can be **descriptive** by distinguishing between several classes of a phenomenon (i.e., classification) or **predictive** by making predictions of a phenomenon (i.e., regression). Ultimately, ML methods create a function, which tries to map input data $x$ (e.g., Landsat 8 band reflectances) to an desired output response $y$ (e.g., class labels, such as *urban*):
 
 $$
-\label{poly}\tag{1} 
 \text{Find }f : x \mapsto y = f(x). 
 $$
 

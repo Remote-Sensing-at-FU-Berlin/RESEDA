@@ -95,11 +95,7 @@ First, navigate to the area of interest (AOI) in your image data. Then click on 
 ![](./img/cla_011.png){.alignnone .size-full .wp-image-2073 loading="lazy" width="29" height="28"} icon in the toolbar. If you can not find this icon, right-click in the toolbar area and make sure there is a check mark next to "Manage Layer Toolbar", which should reveal this icon among others. Once clicked, the "New Shapefile Layer" dialog will be displayed. Choose "polygon" as the Type in the top row of the window. Click on the Coordinate System icon. A new window will pup up, allowing you the choose the CRS of your new shapefile. Choose the same CRS as your raster data (you can use the filter function at the top). On the Fields list, select "id", and click the button ![](./img/cla_012.png){.alignnone} at the bottom of the list. Under "New field", type "classes" in the Name box, click on ![](./img/cla_013.png){.alignnone}.
 Finally, this should look like this:
 
-[![](./img/cla_014.png){.aligncenter}](./img/cla_014.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[New Shapefile dialog settings]{style="color: #686868;font-size: small"}
-:::
+[![New Shapefile dialog settings](./img/cla_014.png){.aligncenter}](./img/cla_014.png)
 
 If everything is set up, click OK. You will be prompted to the "Save layer as..." dialog. Type the file name ("training_data.shp"), choose a file path and click Save. You will be able to see the new shapefile in
 the Layers Panel of QGIS. Select it and press the Toggle Editing ![](./img/cla_015.png){.alignnone .size-full
@@ -110,20 +106,11 @@ You can edit the shape of a polygon with the Node tool ![](./img/cla_018.png){.a
 
 After some time you should have collected some training areas:
 
-[![](./img/cla_017.png){.aligncenter}](./img/cla_017.png)
+[![Collection of training polygons in one shapefile](./img/cla_017.png){.aligncenter}](./img/cla_017.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Collection of training polygons in one shapefile]{style="color: #686868;font-size: small"}
-:::
+You can also color the polygons during editing based on the "classes" attribute, which makes it easier for you to estimate the class distribution. Double-click the shapefile in the Layers Panel and navigate to the Style tab. Ensure that your attribute "classes" is selected in the drop-down menu below. Click Classify once to apply an individual color to each class (click on the colored boxes in order to change the colors) and confirm everything by pressing OK:
 
-You can also color the polygons during editing based on the "classes" attribute, which makes it easier for you to estimate the class distribution. Double-click the shapefile in the Layers Panel and navigate to the Style tab. Ensure that your attribute "classes" is selected in the drop-down menu below. Click Classify once to apply an
-individual color to each class (click on the colored boxes in order to change the colors) and confirm everything by pressing OK:
-
-[![](./img/cla_020.png){.aligncenter}](./img/cla_020.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Style settings for coloring classes]{style="color: #686868;font-size: small"}
-:::
+[![Style settings for coloring classes](./img/cla_020.png){.aligncenter}](./img/cla_020.png)
 
 If you think you have collected enough samples, save everything by clicking on the Toggle Editing ![](./img/cla_015.png){.alignnone} icon again and choose to Save.\
 We do not need QGIS anymore, so close it.
@@ -209,7 +196,7 @@ compareCRS(shp, img)
 
 Both the `brick()` and `shapefile()` functions are provided by the raster package. As shown above, they create objects of the class RasterBrick and SpatialPolygonsDataFrame respectively. The L8 raster provides 7 bands, and our example shapefile 72 features, i.e., polygons. You can check whether the projections of the two datasets are identical or not by executing `compareCRS(shp, img)`. If this is not the case (output equals *FALSE*),
 the raster package will automatically re-project your data on the fly later on. However, we recommend to adjust the projections manually in advance to prevent any future inaccuracies.\
-Plot your data to make sure everything is imported properly (check [Visualize in R](https://blogs.fu-berlin.de/reseda/visualize-in-r/) for an intro to plotting). With the argument `add = TRUE` in line 2 several data layers can be displayed one above the other:
+Plot your data to make sure everything is imported properly (check [Visualize in R](./Visualization.qmd) for an intro to plotting). With the argument `add = TRUE` in line 2 several data layers can be displayed one above the other:
 
 ``` theme:amityreseda
 plotRGB(img, r = 4, g = 3, b = 2, stretch = "lin")
@@ -219,7 +206,7 @@ plot(shp, col="red", add=TRUE)
 [![](./img/cla_001.png){.aligncenter .size-full .wp-image-1981 width="1344"
 height="657"}](./img/cla_001.png){.fancybox .image}
 
-If you followed this course in the [previous section](https://blogs.fu-berlin.de/reseda/sampling-in-qgis/), your shapefile should provide an attribute called "classes", which includes your target classes as strings, e.g., "water" or "urban". We will later turn this column into the [factor](https://blogs.fu-berlin.de/reseda/r-crash-course-2/#ch55) data type because classifiers can only work with integer values instead of words like "water" or "urban". When converting to factors, strings are sorted alphabetically and numbered consecutively. In order to be able to read the classification image at the end, you should make a note of your classification key:
+If you followed this course in the [previous section](./Classification-in-R.qmd#sample-in-qgis), your shapefile should provide an attribute called "classes", which includes your target classes as strings, e.g., "water" or "urban". We will later turn this column into the [factor](../../R-Crash-Course/index.qmd) data type because classifiers can only work with integer values instead of words like "water" or "urban". When converting to factors, strings are sorted alphabetically and numbered consecutively. In order to be able to read the classification image at the end, you should make a note of your classification key:
 
 ``` theme:amityreseda
 levels(as.factor(shp$classes))
@@ -286,7 +273,7 @@ str(smp)
 ##  $ cl: Factor w/ 6 levels "baresoil","forest",..: 6 6 6 6 6 6 6 6 6 6 ...
 ```
 
-Now you are ready to start training your classifier as described in the [next sections](https://blogs.fu-berlin.de/reseda/rf-classification/)!
+Now you are ready to start training your classifier as described in the [next sections](./Classification.qmd#rf-classification)!
 
 **Optional**: If you only include spectral information in your classifier, as in our example, it is often helpful to plot the so-called spectral profiles, or z-profiles. Those represent the mean values of each class for the individual spectral bands. You can also represent other features, e.g., terrain height or precipitation, however, you must then pay attention to the value range in the presentation and possibly normalize the data at first. The magic here happens in the `aggregate()` command, which combines all the rows of the same class ` . \~ cl` and calculates the arithmetic mean of those groups
 `FUN = mean`. This happens for all classes, in the `cl` column, where NA values are to be ignored via `na.rm = TRUE`. The rest of the functions in the following script are for visualization purposes only and include standard functions such as `plot()`, `lines()`, `grid()` and `legend()`. Use the help function for a detailed description of the arguments!
@@ -385,7 +372,7 @@ library(raster)
 library(randomForest)
 ```
 
-First, it is necessary to process the training samples in the form of a data frame. The necessary steps are described in detail in the [previous section](https://blogs.fu-berlin.de/reseda/prepare-samples/).
+First, it is necessary to process the training samples in the form of a data frame. The necessary steps are described in detail in the [previous section](./Classification.qmd#prepare-samples).
 
 ``` r
 names(img) <- c("b1", "b2", "b3", "b4", "b5", "b6", "b7")
@@ -437,7 +424,7 @@ In line 3, we pass our `smp.size` to define how many samples it should draw per 
 
 If you use `tuneRF`, you will automatically get a plot that will tell you the OOB errors in the dependency of different *mtry* settings. As mentioned, the feature automatically identifies the best *mtry* setting and uses this to generate the optimal RF.
 
-When the model is created, we get some really useful information by executing the object name. First we get the command call with which we trained the model and the final number of variables tried at each split, i.e. the *mtry* parameter. Furthermore, we get an averaged out of bag (OOB) estimate, as well as a complete confusion matrix based on the training data! The column headers contain the classes of training pixels and the rows describe the corresponding classification. For a more detailed description of a confusion matrix, please refer to the chapter [Validate Classifiers](https://blogs.fu-berlin.de/reseda/validate-classifiers/).
+When the model is created, we get some really useful information by executing the object name. First we get the command call with which we trained the model and the final number of variables tried at each split, i.e. the *mtry* parameter. Furthermore, we get an averaged out of bag (OOB) estimate, as well as a complete confusion matrix based on the training data! The column headers contain the classes of training pixels and the rows describe the corresponding classification. For a more detailed description of a confusion matrix, please refer to the chapter [Validate Classifiers](./Validate.qmd).
 
 ``` r
 rfmodel
@@ -468,9 +455,9 @@ varImpPlot(rfmodel)
 
 [![](./img/cla_002.png)](./img/cla_002.png)
 
-The [variable importance](https://blogs.fu-berlin.de/reseda/random-forest/#VI){rel="noopener" target="_blank"} shows the most significant or important features for the classification, which are band 5 and 6 in this case. For details of those metrics, please refer to the [Random Forest Section](https://blogs.fu-berlin.de/reseda/random-forest/#5){rel="noopener" target="_blank"}. However, it is interesting to note that the most important bands also provide the largest spectral differences between the classes [in the previous section](https://blogs.fu-berlin.de/reseda/prepare-samples/#plot){rel="noopener" target="_blank"}.
+The [variable importance](./Machine-Learning-Basics.qmd#random-forest){rel="noopener" target="_blank"} shows the most significant or important features for the classification, which are band 5 and 6 in this case. For details of those metrics, please refer to the [Random Forest Section](./Machine-Learning-Basics.qmd#random-forest){rel="noopener" target="_blank"}. However, it is interesting to note that the most important bands also provide the largest spectral differences between the classes [in the previous section](./Classification.qmd#prepare-samples){rel="noopener" target="_blank"}.
 
-Additionally, you can plot the RF model itself, which shows you the relationship between [OOB Error](https://blogs.fu-berlin.de/reseda/random-forest/#oob){rel="noopener" target="_blank"} and the number of trees used. We can color the lines by passing a vector of [hex-colors](https://en.wikipedia.org/wiki/Web_colors){rel="noopener" target="_blank"} whose length equals the number of classes + 1 -- the first color is the average OOB line, which is also plotted automatically:
+Additionally, you can plot the RF model itself, which shows you the relationship between [OOB Error](./Machine-Learning-Basics.qmd#random-forest){rel="noopener" target="_blank"} and the number of trees used. We can color the lines by passing a vector of [hex-colors](https://en.wikipedia.org/wiki/Web_colors){rel="noopener" target="_blank"} whose length equals the number of classes + 1 -- the first color is the average OOB line, which is also plotted automatically:
 
 ``` r
 plot(rfmodel, col = c("#000000", "#fbf793", "#006601", "#bfe578", "#d00000", "#fa6700", "#6569ff"))
@@ -585,7 +572,7 @@ library(raster)
 library(e1071)
 ```
 
-First, it is necessary to process the training samples in the form of a data frame. The necessary steps are described in detail in the [previous section](https://blogs.fu-berlin.de/reseda/prepare-samples/).
+First, it is necessary to process the training samples in the form of a data frame. The necessary steps are described in detail in the [previous section](./Classification.qmd#prepare-samples-in-r).
 
 ``` r
 names(img) <- c("b1", "b2", "b3", "b4", "b5", "b6", "b7")
@@ -602,7 +589,7 @@ summary(smp$cl)
 ##       719      2074      1226      1284       969       763
 ```
 
-This often leads to the problem that classifiers favor and overclass strongly-represented classes in the classification. Unfortunately, a SVM can not handle this problem as elegantly as [Random Forest](https://blogs.fu-berlin.de/reseda/random-forest/){rel="noopener" target="_blank"} methods, why you might need to prepare your training [data:\\](data:\){.uri} **Only if your data is imbalanced**, you should consider to do the following undersampling: We shuffle our entire training dataset and pick out the same number of samples for each class. The purpose of shuffle is to prevent sampling of all pixels that are next to each other (spatial autocorrelation). The training data is mixed using the `sample()` method. We sample all rows of our dataset `nrow(smp)` in a random manner in line 10:
+This often leads to the problem that classifiers favor and overclass strongly-represented classes in the classification. Unfortunately, a SVM can not handle this problem as elegantly as [Random Forest](./Machine-Learning-Basics.qmd#random-forest){rel="noopener" target="_blank"} methods, why you might need to prepare your training [data:\\](data:\){.uri} **Only if your data is imbalanced**, you should consider to do the following undersampling: We shuffle our entire training dataset and pick out the same number of samples for each class. The purpose of shuffle is to prevent sampling of all pixels that are next to each other (spatial autocorrelation). The training data is mixed using the `sample()` method. We sample all rows of our dataset `nrow(smp)` in a random manner in line 10:
 
 ``` r
 head(smp)
@@ -646,7 +633,7 @@ summary(smp$cl)
 ```
 
 Let the training begin!\
-Classifications using an SVM require two parameters: one gamma $\gamma$ and one cost $C$ value (for more details refer to the [SVM section](https://blogs.fu-berlin.de/reseda/support-vector-machine/){rel="noopener" target="_blank"}). These hyperparameters significantly determine the performance of the model. Finding the best hyparameters is not trivial and the best combination can not be determined in advance. Thus, we try to find the best combination by trial and error. Therefore, we create two vectors comprising all values that should be tried out:
+Classifications using an SVM require two parameters: one gamma $\gamma$ and one cost $C$ value (for more details refer to the [SVM section](./Classification-in-R#svm-classification){rel="noopener" target="_blank"}). These hyperparameters significantly determine the performance of the model. Finding the best hyparameters is not trivial and the best combination can not be determined in advance. Thus, we try to find the best combination by trial and error. Therefore, we create two vectors comprising all values that should be tried out:
 
 ``` r
 gammas = 2^(-8:5)
@@ -676,7 +663,7 @@ svmgs <- tune(svm,
               )
 ```
 
-We have to set the `type` of the SVM to `"C-classification"` in line 4 in order to perform a classification task. Furthermore, we set the kernel used in training and predicting to a [RBF kernel](https://blogs.fu-berlin.de/reseda/support-vector-machine/){rel="noopener" target="_blank"} via `"radial"`. We set the argument `scale` to `TRUE` in order to initiate the [z-transformation of our data](https://blogs.fu-berlin.de/reseda/support-vector-machine/){rel="noopener" target="_blank"}. The argument `ranges` in line 7 takes a named list of parameter vectors spanning the sampling range. We put our `gammas` and `costs` vectors in this list. By using the `tunecontrol` argument in line 8, you can set k for [the k-fold cross validation on the training data](https://blogs.fu-berlin.de/reseda/support-vector-machine/){rel="noopener" target="_blank"}, which is necessary to assess the model performance.
+We have to set the `type` of the SVM to `"C-classification"` in line 4 in order to perform a classification task. Furthermore, we set the kernel used in training and predicting to a [RBF kernel](./Machine-Learning-Basics.qmd#support-vector-machine){rel="noopener" target="_blank"} via `"radial"`. We set the argument `scale` to `TRUE` in order to initiate the [z-transformation of our data](./Machine-Learning-Basics.qmd#support-vector-machine){rel="noopener" target="_blank"}. The argument `ranges` in line 7 takes a named list of parameter vectors spanning the sampling range. We put our `gammas` and `costs` vectors in this list. By using the `tunecontrol` argument in line 8, you can set k for [the k-fold cross validation on the training data](./Machine-Learning-Basics.qmd#support-vector-machine){rel="noopener" target="_blank"}, which is necessary to assess the model performance.
 
 Depending on the complexity of the data, this step may take some time. Once completed, you can check the output by calling the resultant object name:
 
@@ -766,7 +753,7 @@ However, there is an ideal analysis method to assess this problem for certain: c
 Simply repeat your training procedure multiple times with different train sample sizes and compare the performance differences!\
 Plotting those results will (hopefully) show a decreasing error rate with increasing amounts of train data.
 
-In the following, a complete script has been developed, which performs the [RF classification from the previous section](https://blogs.fu-berlin.de/reseda/rf-classification/) $\{2, 4, 8, 16, …, 2048\}$ samples per class ([steps`). In order to minimize any random effects and specify a confidence interval, all classifications were repeated 20 times each ([nrepeat`).
+In the following, a complete script has been developed, which performs the [RF classification from the previous section](./Classification-in-R.qmd##rf-classification) $\{2, 4, 8, 16, …, 2048\}$ samples per class ([steps`). In order to minimize any random effects and specify a confidence interval, all classifications were repeated 20 times each ([nrepeat`).
 
 In order not to unnecessarily inflate the code, we use for loops to iterate over the individual sample sizes and iterations and write the respective results into a matrix `r`. The following code is comprehensively documented.
 
