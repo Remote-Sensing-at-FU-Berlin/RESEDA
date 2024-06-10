@@ -51,7 +51,7 @@ relationships between input and output. **Training data** will optimally meet th
  A training dataset must be independent of the test dataset used for  a validation, but can follow the same probability distribution. No training sample may be used to test (validate) the performance of the classifier! In the context of remote sensing data, it is also important that train and test data are spatially maximally distant   to avoid spatial autocorrelation ([Morans I](https://en.wikipedia.org/wiki/Moran%27s_I){rel="noopener"  target="_blank"}).
 -   **mostly identical distributed:**\
  Each target class should be equally represented in the training data set. Most datasets do not have an exactly equal number of instances in each class. Small differences often does not matter. However, if there is a strong imbalance, e.g., 90% of all training data represent class 1 and only 10% class 2, most algorithms very quickly
- overclassify the more-prevalent classes. Some simple options here: Collect more samples of the low-represented classes, use data augmentation to synthetically create new samples for under-represented classes, or use a under sampling method. The simplest under sampling method is to delete samples from the over-represented classes during classifier training. We will use this latter method for the [RF](https://blogs.fu-berlin.de/reseda/rf-classification/) and [SVM](https://blogs.fu-berlin.de/reseda/svm-classification/) implementations later on.
+ overclassify the more-prevalent classes. Some simple options here: Collect more samples of the low-represented classes, use data augmentation to synthetically create new samples for under-represented classes, or use a under sampling method. The simplest under sampling method is to delete samples from the over-represented classes during classifier training. We will use this latter method for the [RF](./Classification-in-R.qmd#rf-classification) and [SVM](./Classification-in-R.qmd#svm-classification/) implementations later on.
 -   **representative for target classes:**\
  Training data should cover as many intra-class variations as possible, e.g., all spectral classes of a thematic target class, such as deciduous trees and conifers for the target class "forest". Especially with more complex, non-linear classifiers, such as RF and SVM, it is important to include near-border training samples to map the class transitions more accurately. For example, water bodies should also be sampled in the shore area rather than just creating polygons in deep water areas.
 -   **available in sufficient quantity:**\
@@ -73,17 +73,13 @@ Enough theory, time to collect training data.
 
 The training polygons should define relevant areas for the differentiation of the desired target classes (*bare soil*, *water*, *grassland*, *forest*, *urban low density*, and *urban high density* in our example). To know where these surfaces are located, we need corresponding image data as a basis. So let us import an image dataset!
 
-First of all, open [QGIS](https://blogs.fu-berlin.de/reseda/qgis/).
+First of all, open [QGIS](./QGIS.qmd).
 
 There are several ways to open a raster dataset here: Either navigate via the main menu to *Layer* \> *Add Layer* \> *Add Raster Layer...*, or press the corresponding icon ![](./img/vis_008.png){.alignnone .size-full .wp-image-1909 width="24" height="24"} in the toolbar or press the shortcut **Ctrl + Shift + R** to open a file explorer window.
 
-[![](./img/vis_007.png){.aligncenter}](./img/vis_007.png)
+[![Location of Add Raster Layer-function in QGIS](./img/vis_007.png){.aligncenter}](./img/vis_007.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Location of Add Raster Layer-function in QGIS]{style="color: #686868;font-size: small"}
-:::
-
-In the file explorer window, navigate to the data folder which holds your L8 data and import a raster dataset. We will use a L8 scene showing Berlin (ID: LC08_L1TP_193023_20170602_20170615_01_T1) from the [L8 Download Exercise](https://blogs.fu-berlin.de/reseda/earthexplorer-exercise/){rel="noopener" target="_blank"}. The spatial subset can be downloaded [here](https://box.fu-berlin.de/s/zEfqNyQREJrGBLy){rel="noopener" target="_blank"} directly:
+In the file explorer window, navigate to the data folder which holds your L8 data and import a raster dataset. We will use a L8 scene showing Berlin (ID: LC08_L1TP_193023_20170602_20170615_01_T1) from the [L8 Download Exercise](./EarthExplorer-Exercise.qmd){rel="noopener" target="_blank"}. The spatial subset can be downloaded [here](https://box.fu-berlin.de/s/zEfqNyQREJrGBLy){rel="noopener" target="_blank"} directly:
 
 [![](./img/cla_009.png){.aligncenter}](./img/cla_009.png)
 

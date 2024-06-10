@@ -1,0 +1,32 @@
+# EarthExplorer Exercise {#earthexplorer-exercise .entry-title}
+
+
+1)  Download all Landsat 8 Level-2 products which have sensed Berlin (location: Alexanderplatz) in the months of June through August 2017 and have a maximum cloud coverage of 10%! Save the downloaded files to "/media/sf_exchange/landsatdata/" in the VM!\
+
+::: warning
+At least the following scenes should be included:
+
+LC08_L1TP_192023_20170830_20170914_01_T1 LC08_L1TP_192024_20170830_20170914_01_T1
+:::
+
+2)  Download all Landsat 8 Level-2 products with the unique scene ID "LC08_L1TP_192023_20160827_20170321_01_T1"! Save the downloaded files to "/media/sf_exchange/landsatdata/" in the VM!\
+
+::: warning
+(Hint: use additional criteria for ID searches) As you search for a unique ID, exactly one scene should be found:
+
+LC08_L1TP_192023_20160827_20170321_01_T1
+:::
+
+3)  Find the latest Landsat 8 ascending (nighttime) imaging Berlin!\
+
+::: warning
+*(Hint: use additional criteria)* Night scenes are not stored regularly on the data server. The latest night scenes are from the September of 2014:
+
+LC08_L1GT_050221_20140904_20170419_01_T2
+:::
+
+4)  Search all Landsat 5 Level-1 scenes that have shown Berlin 2017:\
+
+::: warning
+*You will not find any scenes, because Landsat 5 was officially decommissioned on June 5, 2013.*
+:::

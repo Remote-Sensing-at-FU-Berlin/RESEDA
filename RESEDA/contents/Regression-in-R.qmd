@@ -25,7 +25,7 @@ We want to perform a Support Vector Regression in order to regress proportions o
 
 We want to create training samples in the form of a data frame -- which most regressors in R can handle easily. For this we will have to use a few GIS operations. Fortunately, these can also be done automatically in R, so that the entire workflow do not have to be performed manually again and again for other datasets. Finally, we will utilize the [raster](https://cran.r-project.org/web/packages/raster/raster.pdf){rel="noopener" target="_blank"} and the [rgeos](https://cran.rstudio.com/web/packages/rgeos/rgeos.pdf){rel="noopener" target="_blank"} packages for this.
 
-The complete code is shown below. The shapefile *reg_train_data.shp* and the imagery *LC081930232017060201T1-SC20180613160412_subset.tif* can be downloaded [here](https://blogs.fu-berlin.de/reseda/prepare-samples-for-regression/##){rel="noopener" target="_blank"}.\
+The complete code is shown below. The shapefile *reg_train_data.shp* and the imagery *LC081930232017060201T1-SC20180613160412_subset.tif* can be downloaded [here](./Regresion-in-R.qmd#prepare-samples-for-regression){rel="noopener" target="_blank"}.\
 However, we strongly advise you to have a look at the detailed description in the following.
 
 ``` r
@@ -134,7 +134,7 @@ compareCRS(shp, img)
 ```
 
 Both the `brick()` and `shapefile()` functions are provided by the raster package. As shown above, they create objects of the class RasterBrick and SpatialPolygonsDataFrame respectively. The L8 raster provides 7 bands, and our example shapefile 286 features, i.e., polygons. You can check whether the projections of the two datasets are identical or not by executing `compareCRS(shp, img)`. If this is not the case (output equals *FALSE*), the raster package will automatically re-project your data on the fly later on. However, we recommend to adjust the projections manually in advance to prevent any future inaccuracies.\
-Plot your data to make sure everything is imported properly (check [Visualize in R](https://blogs.fu-berlin.de/reseda/visualize-in-r/) for an intro to plotting):
+Plot your data to make sure everything is imported properly (check [Visualize in R](./Visualization.qmd) for an intro to plotting):
 
 ``` r
 plot(shp)
@@ -254,13 +254,13 @@ Line 10: use row bind (\[rbind()`) to add the new sample`newsmp`to our training 
 
 We now prepared a training data set `smp` with all input features (Landsat 8 bands 1 to 7) and the percentage value of our target class (*imperviousness*).
 
-Time to train a Support Vector Machine [in the next section](https://blogs.fu-berlin.de/reseda/svm-regression/)!
+Time to train a Support Vector Machine [in the next section](./Machine-Lerning-Basics.qmd#support-vector-machine)!
 
 # SVM Regression {#svm-regression .entry-title}
 
 There are several R packages that provide SVM regression, or Support Vector Regression (SVR), support, e.g., [caret](https://cran.r-project.org/web/packages/caret/caret.pdf){rel="noopener" target="_blank"}, [e1071](https://cran.r-project.org/web/packages/e1071/e1071.pdf){rel="noopener" target="_blank"}, or [kernLab](https://cran.r-project.org/web/packages/kernlab/kernlab.pdf){rel="noopener" target="_blank"}. We will use the e1071 package, as it offers [an interface to the well-known libsvm](https://cran.r-project.org/web/packages/e1071/vignettes/svmdoc.pdf){rel="noopener" target="_blank"} implementation.
 
-Below you can see a complete code implementation. Read the [previous section](https://blogs.fu-berlin.de/reseda/prepare-samples-for-regression/){rel="noopener" target="_blank"} to learn about pre-processing the training data. While this is already executable with the given input data, you should read the in-depth guide in the following to understand the code in detail.
+Below you can see a complete code implementation. Read the [previous section](./Regresion-in-R.qmd#prepare-samples-for-regression){rel="noopener" target="_blank"} to learn about pre-processing the training data. While this is already executable with the given input data, you should read the in-depth guide in the following to understand the code in detail.
 
 ``` r
 # import
@@ -334,9 +334,9 @@ library(rgeos)
 library(e1071)
 ```
 
-First, it is necessary to process the training samples in the form of a data frame. The necessary steps are shown in line 10-31 and described in detail in the [previous section](https://blogs.fu-berlin.de/reseda/prepare-samples-for-regression/){rel="noopener" target="_blank"}.
+First, it is necessary to process the training samples in the form of a data frame. The necessary steps are shown in line 10-31 and described in detail in the [previous section](./Regresion-in-R.qmd#prepare-samples-for-regression){rel="noopener" target="_blank"}.
 
-After the preprocessing, we can train our Support Vector Regression with the training dataset `smp`. We will utilize an epsilon Support Vector Regressions, which requires three parameters: one gamma $\gamma$ value, one cost $C$ value as well as a epsilon $\varepsilon$ value (for more details refer to the [SVM section](https://blogs.fu-berlin.de/reseda/support-vector-machine/#2){rel="noopener" target="_blank"}). These hyperparameters significantly determine the performance of the model. Finding the best hyparameters is not trivial and the best combination can not be determined in advance. Thus, we try to find the best combination iteratively by trial and error. Therefore, we create three vectors comprising all values that should be tested:
+After the preprocessing, we can train our Support Vector Regression with the training dataset `smp`. We will utilize an epsilon Support Vector Regressions, which requires three parameters: one gamma $\gamma$ value, one cost $C$ value as well as a epsilon $\varepsilon$ value (for more details refer to the [SVM section](./Machine-Learning-Basics.qmd#support-vector-machine){rel="noopener" target="_blank"}). These hyperparameters significantly determine the performance of the model. Finding the best hyparameters is not trivial and the best combination can not be determined in advance. Thus, we try to find the best combination iteratively by trial and error. Therefore, we create three vectors comprising all values that should be tested:
 
 ``` r
 gammas = 2^(-8:3)
@@ -359,7 +359,7 @@ svmgs <- tune(svm,
               )
 ```
 
-We have to set the `type` of the SVM to `"eps-regression"` in line 4 in order to perform a regression task. Furthermore, we set the kernel used in training and predicting to a [RBF kernel](https://blogs.fu-berlin.de/reseda/support-vector-machine/){rel="noopener" target="_blank"} via `"radial"` (have a look at the [SVM section](https://blogs.fu-berlin.de/reseda/support-vector-machine/){rel="noopener" target="_blank"} for more details). We set the argument `scale` to `TRUE` in order to initiate the [z-transformation of our data](https://blogs.fu-berlin.de/reseda/support-vector-machine/){rel="noopener" target="_blank"}. The argument `ranges` in line 7 takes a named list of parameter vectors spanning the sampling range. We put our vectors `gammas`, `costs` and `epsilons` in this list. By using the `tunecontrol` argument in line 8, you can set k for [the k-fold cross validation on the training data](https://blogs.fu-berlin.de/reseda/support-vector-machine/){rel="noopener" target="_blank"}, which is necessary to assess the model performance.
+We have to set the `type` of the SVM to `"eps-regression"` in line 4 in order to perform a regression task. Furthermore, we set the kernel used in training and predicting to a [RBF kernel](./Machine-Learning-Basics.qmd#support-vector-machine/){rel="noopener" target="_blank"} via `"radial"` (have a look at the [SVM section](./Machine-Learning-Basics.qmd#support-vector-machine){rel="noopener" target="_blank"} for more details). We set the argument `scale` to `TRUE` in order to initiate the [z-transformation of our data](./Machine-Learning-Basics.qmd#support-vector-machine){rel="noopener" target="_blank"}. The argument `ranges` in line 7 takes a named list of parameter vectors spanning the sampling range. We put our vectors `gammas`, `costs` and `epsilons` in this list. By using the `tunecontrol` argument in line 8, you can set k for [the k-fold cross validation on the training data](./Machine-Learning-Basics.qmd#support-vector-machine){rel="noopener" target="_blank"}, which is necessary to assess the model performance.
 
 Depending on the complexity of the data, this step may take some time. Once completed, you can check the output by calling the resultant object name:
 
