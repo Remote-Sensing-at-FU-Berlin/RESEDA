@@ -1,7 +1,7 @@
 
 # Acquire your data {#acquire-your-data .entry-title}
 
-First of all you need two things: On the one hand, obviously enough, a problem that you want to answer with remote sensing tools and, on the other hand, data with which you can accomplish this.\
+First of all you need two things: On the one hand, a problem that you want to answer with remote sensing tools and, on the other hand, data with which you can accomplish this.\
 In this chapter, you will get to know two optical ([Landsat 8](./SensorBasics.qmd#landsat-8) & [Sentinel 2](./SensorBasics.qmd#sentinel-2)) and one SAR satellites ([Sentinel 1](./SensorBasics.qmd#sentinel-1)) in more detail. At the end of the chapter, you will know where and how to acquire individual or immense amounts of data.
 
 ::: {style="background-color: #f1f1f1;padding: 18px 30px 1px;margin-bottom: 30px"}
