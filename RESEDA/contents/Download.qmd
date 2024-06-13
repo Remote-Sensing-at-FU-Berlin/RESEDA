@@ -19,7 +19,7 @@ We show you two platforms which allow users to view and download remote sensing 
 
 # Landsat Landsat / EarthExplorer {#landsatEarth}
 
-You will get to know an online platform that lets you search and download Landsat 8 data -- the USGS EarthExplorer. You need dozens of images? -- No problem! Have a look at the [section for bulk and BIG DATA downloading](https://blogs.fu-berlin.de/reseda/landsat-big-data-download/) and do not forget to test your knowledge at the end of this section!
+You will get to know an online platform that lets you search and download Landsat 8 data -- the USGS EarthExplorer. You need dozens of images? -- No problem! Have a look at the [section for bulk and BIG DATA downloading](./Download.qmd#Landsat-BD-download) and do not forget to test your knowledge at the end of this section!
 
 ::: {style="background-color:#f1f1f1;padding:18px 30px 1px"}
 In this section, the following content awaits you:
@@ -137,7 +137,7 @@ To make your query more concrete, you can define the time span within which you 
 [Landsat Collection 1 Data Level-1 products]{style="color: #686868;font-size: small"}
 :::
 
-Landsat 8 Level-2 data is also available on demand under *Landsat* \> *Landsat Collection 1 Level-2 (On-Demand)* \> *Landsat 8 OLI/TIRS C1 Level-2* (see chapter [Landsat 8](https://blogs.fu-berlin.de/reseda/landsat-8/){target="_blank"} for more information).
+Landsat 8 Level-2 data is also available on demand under *Landsat* \> *Landsat Collection 1 Level-2 (On-Demand)* \> *Landsat 8 OLI/TIRS C1 Level-2* (see chapter [Landsat 8](./SensorsBasics.qmd#landsat-8){target="_blank"} for more information).
 
 **3. Additional Criteria (Optional)**: This tab helps to further narrow the results of your search query by defining additional search criteria, e.g., the allowed proportion of cloud cover over land, absolute cloud cover, day or night as well as Path/Row restrictions. In addition, you can use the unique product ID (e.g., LC08_L1TP_192023_20170830_20170914_01_T1) to find specific individual scenes. Restrict the Land Cloud Cover to "Less than 10%" for our query:
 
@@ -176,7 +176,7 @@ Four scenes are not much, are they? A cloud cover under 10% is already pretty st
 
 ## 4 Download a Dataset {#Down-sec}
 
-In order to download a single Level-1 scene (see [chapter Landsat 8](https://blogs.fu-berlin.de/reseda/landsat-8/){target="_blank"}), click on **Download Options** ![](./img/USGS_027.png) and choose the last item, which should be the largest file (approximately 700-900 MB for Landsat 8):
+In order to download a single Level-1 scene (see [chapter Landsat 8](./SensorsBasics.qmd#landsat-8){target="_blank"}), click on **Download Options** ![](./img/USGS_027.png) and choose the last item, which should be the largest file (approximately 700-900 MB for Landsat 8):
 
 [![](./img/USGS_026.png)](./img/USGS_026.png)
 
@@ -239,7 +239,7 @@ Click on your Order ID, which brings you to the download site. Simply click on t
 
 # Landsat BIG DATA {}
 
-The procedures shown in the [previous section](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/) are sufficient if you want to acquire a few scenes. However, if you need many more scenes, e.g. if you want to do a time series analysis, the manual download becomes a real test of patience.\
+The procedures shown in the [previous section](./Download.qmd#EarthExplorer) are sufficient if you want to acquire a few scenes. However, if you need many more scenes, e.g. if you want to do a time series analysis, the manual download becomes a real test of patience.\
 There are several ways to perform a mass, or bulk, download for Landsat 8 data. Let us take a look at an application for Level-1 and a method for Level-2 Landsat 8 scenes.
 
 ::: {style="background-color: #f1f1f1;padding: 18px 30px 1px"}
@@ -253,9 +253,9 @@ In this section, the following content awaits you:
 -- use this when you need a lot more scenes...
 :::
 
-## Bulk Download L8 Level-1 data
+## Bulk Download L8 Level-1 data {#Bulk}
 
-USGS provides an application for bulk-downloading Level-1 Landsat data with a very appropriate name: the Bulk Download Application. The Bulk Download Application is an easy-to-use tool for downloading large quantities of satellite imagery and geospatial data. In order to use it, you have to order your Landsat 8 scenes via the **Add to Bulk Download** option ![](./img/usgs_039.png){.alignnone .size-full .wp-image-1314 width="18" height="18"} as mentioned in the [Download section](./Download.qmd#Down-sec):
+USGS provides an application for bulk-downloading Level-1 Landsat data with a very appropriate name: the Bulk Download Application. The Bulk Download Application is an easy-to-use tool for downloading large quantities of satellite imagery and geospatial data. In order to use it, you have to order your Landsat 8 scenes via the **Add to Bulk Download** option ![](./img/usgs_039.png){.alignnone .size-full .wp-image-1314 width="18" height="18"} as mentioned in the [Download section](./Download.qmd):
 
 [![](./img/usgs_040.png)](./img/usgs_040.png)
 
@@ -263,7 +263,7 @@ USGS provides an application for bulk-downloading Level-1 Landsat data with a ve
 [Order imagery by choosing bulk download option]{style="color: #686868;font-size: small"}
 :::
 
-Proceed to checkout and confirm your order as shown in the [Download section](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#4). After that, a specific order number is given to you by email and on the USGS website:
+Proceed to checkout and confirm your order as shown in the [Download section](./Download.qmd#EarthExplorer). After that, a specific order number is given to you by email and on the USGS website:
 
 [![](./img/usgs_041.png)](./img/usgs_041.png)
 
@@ -299,7 +299,7 @@ Change the target directory to your liking by clicking on the right top icon to 
 
 Unfortunately, Level-2 data is not supported by the USGS bulk download application as shown in the previous section. Anyway, there is a nice python based script provided by USGS-EROS, which downloads automatically all scenes for you! The source code is open source and can be reviewed on GitHub [via this link](https://github.com/USGS-EROS/espa-bulk-downloader){target="_blank" rel="noopener"} and can also be downloaded [here](https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FPython&files=download_espa_order.py){target="_blank" rel="noopener"}. If you are using our VM, the script is locally stored in your document folder under */home/student/Documents/download_espa_order.py*.
 
-First of all, you should follow the guide for ordering Level-2 scenes ([Download section](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#4)) and receive the second email with the download confirmation.\
+First of all, you should follow the guide for ordering Level-2 scenes ([Download section](./Download.qmd#EarthExplorer)) and receive the second email with the download confirmation.\
 Then open the linux terminal -- it is linked in the taskbar of our VM:
 
 [![](./img/USGS_036.png)](./img/USGS_036.png)
@@ -331,7 +331,7 @@ Press the enter-key and watch the script downloading and saving all ordered scen
 [Terminal command for bulk downloading Landsat Level-2 data]{style="color: #686868;font-size: small"}
 :::
 
-## BIG DATA Download
+## BIG DATA Download {#Landsat-BD-download}
 
 You can not get enough of data and you have some Terrabyte of disk space available? So, if you just want to download ALL the scenes of a search query (up to 20,000 scenes at once), there is an easy way to do it! When you have completed a search query, as shown in the [Perform a Search section](./Download.qmd#Performe-search), there is an button on top of the scene list which can be used to export your results. This button is only clickable when you are logged in:
 
@@ -367,7 +367,7 @@ Click the button next to **File** and upload the unzipped .csv-file containing t
 [Metadata Export options]{style="color: #686868;font-size: small"}
 :::
 
-If you have selected the Level-1 product, select **Bulk Download** on the next page and click on **Submit Order**. Please follow the instructions given in [the bulk download section above](https://blogs.fu-berlin.de/reseda/landsat-big-data-download/#1) to complete your download with the bulk download application.
+If you have selected the Level-1 product, select **Bulk Download** on the next page and click on **Submit Order**. Please follow the instructions given in [the bulk download section above](./Download.qmd#Bulk) to complete your download with the bulk download application.
 
 [![](./img/usgs_050.png)](./img/usgs_050.png)
 
@@ -375,7 +375,7 @@ If you have selected the Level-1 product, select **Bulk Download** on the next p
 [Level-1 product Bulk Download order]{style="color: #686868;font-size: small"}
 :::
 
-If you have selected the Level-2 product, select **Order** on the next page and click on **Submit Order**, wait for the ESPA confirmation email ([Download section](https://blogs.fu-berlin.de/reseda/usgs-earth-explorer/#4)) and follow the instructions given in the [Bulk Download section above](https://blogs.fu-berlin.de/reseda/landsat-big-data-download/#2):
+If you have selected the Level-2 product, select **Order** on the next page and click on **Submit Order**, wait for the ESPA confirmation email ([Download section](./Download.qmd#EarthExplorer)) and follow the instructions given in the [Bulk Download section above](./Download.qmd#Bulk):
 
 [![](./img/usgs_051.png)](./img/usgs_051.png)
 
