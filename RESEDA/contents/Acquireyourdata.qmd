@@ -66,10 +66,10 @@ In the following an overview of the most popular imaging remote sensing programs
 | **MISSION**     | **FREE** | **COMM** | **PROP** | **OPERATIONAL** | **COMMENT**                                                                                       |
 | **OPTICAL**     |          |          |          |                 |                                                                                                   |
 | Landsat 5/7/8/9 |    ✔     |    X     |    X     | 03/1984 – today | [USGS Earth Explorer](https://earthexplorer.usgs.gov/){target="_blank" rel="noopener"}            |
-| Sentinel 2      |    ✔     |    X     |    X     | 06/2015 – today | [ESA SciHUB](https://scihub.copernicus.eu/dhus/#/home){target="_blank" rel="noopener"}            |
-| Sentinel 3      |    ✔     |    X     |    X     | 02/2016 – today | [ESA SciHUB](https://scihub.copernicus.eu/dhus/#/home){target="_blank" rel="noopener"}            |
-| RapidEye        |    X     |    ✔     |    ✔     | 02/2009 - today | [Planet EyeFind](https://www.planet.com/products/planet-imagery/){target="_blank" rel="noopener"} |
+| Sentinel 2      |    ✔     |    X     |    X     | 06/2015 – today | [ESA SciHUB](https://dataspace.copernicus.eu/){target="_blank" rel="noopener"}            |
+| Sentinel 3      |    ✔     |    X     |    X     | 02/2016 – today | [ESA SciHUB](https://dataspace.copernicus.eu/){target="_blank" rel="noopener"}            |
+| RapidEye        |    (✔)     |    ✔     |    ✔     | 02/2009 - today | [Planet EyeFind](https://www.planet.com/products/planet-imagery/){target="_blank" rel="noopener"} |
 | **RADAR**       |          |          |          |                 |                                                                                                   |
-| Sentinel 1      |    ✔     |    X     |    X     | 04/2014 - today | [ESA SciHUB](https://scihub.copernicus.eu/dhus/#/home){target="_blank" rel="noopener"}            |
-| TerraSAR-X      |    X     |    ✔     |    ✔     | 06/2007 - today | [AIRBUS TSX Archive](https://terrasar-x-archive.terrasar.com/){target="_blank" rel="noopener"}    |
+| Sentinel 1      |    ✔     |    X     |    X     | 04/2014 - today | [ESA Copernicus Browser](https://dataspace.copernicus.eu/){target="_blank" rel="noopener"}            |
+| TerraSAR-X      |    (✔)     |    ✔     |    ✔     | 06/2007 - today | [TerraSAR-X ESA archive](https://earth.esa.int/eogateway/catalog/terrasar-x-esa-archive/){target="_blank" rel="noopener"}    |
 
