@@ -25,7 +25,7 @@ In this chapter, the following content awaits you:
 ## Remote Sensing Applications {#remotesensingapp}
 
 In general, satellite remote sensing has enabled major advances in understanding global climate systems and its changes. Thus, most of the research questions are aimed at better understanding and quantifying climate change to some extent. The results are regularly compiled in the [IPCC reports](https://www.ipcc.ch/report/ar5/){target="_blank" rel="noopener"}.\
-However, the focus of our chair at the FU-Berlin is on the analysis of land cover and land use changes (LULC), which includes all subsystems of the earth and allows a wide range of questions.
+However, here we focus on the analysis of land cover and land use changes (LULC), which includes all subsystems of the earth and allows a wide range of questions.
 
 ![](./img/icon_agriculture.png){.alignleft .size-full width="90"}\
 [**Agriculture**]{style="color: #6b9e1f"}\
@@ -58,7 +58,7 @@ monitoring ice sheets and glaciers, glacier melting, snow melt runoff, carbon co
 ## Earth Observation Missions
 
 There is a tremendous amount of free data products (**FREE**) provided by various remote sensing missions. We will take a closer look at three of them in the upcoming sections ([Landsat 8](./SensorBasics.qmd#landsat-8), [Sentinel 2](./SensorBasics.qmd#sentinel-2) and [Sentinel 1](./SensorBasics.qmd#sentinel-1)).\
-Then again, companies, as *Digital Globe* and *Planet Labs*, offer very high quality commercial data products (**COMM**ercial) for large amounts of money (four-digit range or more). Nevertheless, such data is sometimes offered free of charge during Announcement of Opportunity (AO)-events or can be used for scientific purposes when you submit a project proposal (**PROP**osal) at any time. Additionally, it is worth to visit the mission websites, as there might be some selected sample data sets for free -- but pay attention to the user agreements!\
+Then again, companies, as *Digital Globe* and *Planet Labs*, offer very high quality commercial data products (**COMM**ercial). Nevertheless, such data is sometimes offered free of charge during Announcement of Opportunity (AO)-events or can be used for scientific purposes when you submit a project proposal (**PROP**osal) at any time. Additionally, it is worth to visit the mission websites, as there might be some selected sample data sets for free -- but pay attention to the user agreements!\
 In the following an overview of the most popular imaging remote sensing programs is given. The corresponding data providers are linked. Each of these satellites has unique specifications and different mission goals and may well complement each other for your research.
 
 |                 |          |          |          |                 |                                                                                                   |
@@ -66,10 +66,11 @@ In the following an overview of the most popular imaging remote sensing programs
 | **MISSION**     | **FREE** | **COMM** | **PROP** | **OPERATIONAL** | **COMMENT**                                                                                       |
 | **OPTICAL**     |          |          |          |                 |                                                                                                   |
 | Landsat 5/7/8/9 |    ✔     |    X     |    X     | 03/1984 – today | [USGS Earth Explorer](https://earthexplorer.usgs.gov/){target="_blank" rel="noopener"}            |
-| Sentinel 2      |    ✔     |    X     |    X     | 06/2015 – today | [ESA SciHUB](https://scihub.copernicus.eu/dhus/#/home){target="_blank" rel="noopener"}            |
-| Sentinel 3      |    ✔     |    X     |    X     | 02/2016 – today | [ESA SciHUB](https://scihub.copernicus.eu/dhus/#/home){target="_blank" rel="noopener"}            |
-| RapidEye        |    X     |    ✔     |    ✔     | 02/2009 - today | [Planet EyeFind](https://www.planet.com/products/planet-imagery/){target="_blank" rel="noopener"} |
+| Sentinel 2      |    ✔     |    X     |    X     | 06/2015 – today | [ESA SciHUB](https://dataspace.copernicus.eu/){target="_blank" rel="noopener"}            |
+| Sentinel 3      |    ✔     |    X     |    X     | 02/2016 – today | [ESA SciHUB](https://dataspace.copernicus.eu/){target="_blank" rel="noopener"}            |
+| MODIS Terra & Aqua      |    ✔     |    X     |    X     | 02/2001 – today | [NASA Earthdata](https://dataspace.copernicus.eu/){target="_blank" rel="noopener"}            |
+| RapidEye        |    (✔)     |    ✔     |    ✔     | 02/2009 - today | [Planet EyeFind](https://www.planet.com/products/planet-imagery/){target="_blank" rel="noopener"} |
 | **RADAR**       |          |          |          |                 |                                                                                                   |
-| Sentinel 1      |    ✔     |    X     |    X     | 04/2014 - today | [ESA SciHUB](https://scihub.copernicus.eu/dhus/#/home){target="_blank" rel="noopener"}            |
-| TerraSAR-X      |    X     |    ✔     |    ✔     | 06/2007 - today | [AIRBUS TSX Archive](https://terrasar-x-archive.terrasar.com/){target="_blank" rel="noopener"}    |
+| Sentinel 1      |    ✔     |    X     |    X     | 04/2014 - today | [ESA Copernicus Browser](https://dataspace.copernicus.eu/){target="_blank" rel="noopener"}            |
+| TerraSAR-X      |    (✔)     |    ✔     |    ✔     | 06/2007 - today | [TerraSAR-X ESA archive](https://earth.esa.int/eogateway/catalog/terrasar-x-esa-archive/){target="_blank" rel="noopener"}    |
 
