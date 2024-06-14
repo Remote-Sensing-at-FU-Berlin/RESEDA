@@ -367,7 +367,7 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="acquire-your-data" class="level1 entry-title">
 <h1 class="entry-title">Acquire your data</h1>
-<p>First of all you need two things: On the one hand, obviously enough, a problem that you want to answer with remote sensing tools and, on the other hand, data with which you can accomplish this.<br>
+<p>First of all you need two things: On the one hand, a problem that you want to answer with remote sensing tools and, on the other hand, data with which you can accomplish this.<br>
 In this chapter, you will get to know two optical (<a href="../../RESEDA/contents/SensorBasics.html#landsat-8">Landsat 8</a> &amp; <a href="../../RESEDA/contents/SensorBasics.html#sentinel-2">Sentinel 2</a>) and one SAR satellites (<a href="../../RESEDA/contents/SensorBasics.html#sentinel-1">Sentinel 1</a>) in more detail. At the end of the chapter, you will know where and how to acquire individual or immense amounts of data.</p>
 <section id="chapter-in-a-box" class="level2" style="background-color: #f1f1f1;padding: 18px 30px 1px;margin-bottom: 30px">
 <h2 class="anchored" data-anchor-id="chapter-in-a-box">Chapter in a Box</h2>
@@ -387,7 +387,7 @@ In this chapter, you will get to know two optical (<a href="../../RESEDA/content
 <section id="remotesensingapp" class="level2">
 <h2 class="anchored" data-anchor-id="remotesensingapp">Remote Sensing Applications</h2>
 <p>In general, satellite remote sensing has enabled major advances in understanding global climate systems and its changes. Thus, most of the research questions are aimed at better understanding and quantifying climate change to some extent. The results are regularly compiled in the <a href="https://www.ipcc.ch/report/ar5/" target="_blank" rel="noopener">IPCC reports</a>.<br>
-However, the focus of our chair at the FU-Berlin is on the analysis of land cover and land use changes (LULC), which includes all subsystems of the earth and allows a wide range of questions.</p>
+However, within this tutorial we focus on the analysis of land cover and land use changes (LULC), which includes all subsystems of the earth and allows a wide range of questions.</p>
 <p><img src="./img/icon_agriculture.png" class="alignleft size-full img-fluid" width="90"><br>
 <span style="color: #6b9e1f"><strong>Agriculture</strong></span><br>
 crop type classification, crop condition assessment, crop yield estimation &amp; forecasting, precision farming, irrigation management</p>
@@ -413,7 +413,7 @@ monitoring ice sheets and glaciers, glacier melting, snow melt runoff, carbon co
 <section id="earth-observation-missions" class="level2">
 <h2 class="anchored" data-anchor-id="earth-observation-missions">Earth Observation Missions</h2>
 <p>There is a tremendous amount of free data products (<strong>FREE</strong>) provided by various remote sensing missions. We will take a closer look at three of them in the upcoming sections (<a href="../../RESEDA/contents/SensorBasics.html#landsat-8">Landsat 8</a>, <a href="../../RESEDA/contents/SensorBasics.html#sentinel-2">Sentinel 2</a> and <a href="../../RESEDA/contents/SensorBasics.html#sentinel-1">Sentinel 1</a>).<br>
-Then again, companies, as <em>Digital Globe</em> and <em>Planet Labs</em>, offer very high quality commercial data products (<strong>COMM</strong>ercial) for large amounts of money (four-digit range or more). Nevertheless, such data is sometimes offered free of charge during Announcement of Opportunity (AO)-events or can be used for scientific purposes when you submit a project proposal (<strong>PROP</strong>osal) at any time. Additionally, it is worth to visit the mission websites, as there might be some selected sample data sets for free – but pay attention to the user agreements!<br>
+Then again, companies, as <em>Digital Globe</em> and <em>Planet Labs</em>, offer very high quality commercial data products (<strong>COMM</strong>ercial). Nevertheless, such data is sometimes offered free of charge during Announcement of Opportunity (AO)-events or can be used for scientific purposes when you submit a project proposal (<strong>PROP</strong>osal) at any time. Additionally, it is worth to visit the mission websites, as there might be some selected sample data sets for free – but pay attention to the user agreements!<br>
 In the following an overview of the most popular imaging remote sensing programs is given. The corresponding data providers are linked. Each of these satellites has unique specifications and different mission goals and may well complement each other for your research.</p>
 <table class="table">
 <tbody>
@@ -447,7 +447,7 @@ In the following an overview of the most popular imaging remote sensing programs
 <td style="text-align: center;">X</td>
 <td style="text-align: center;">X</td>
 <td>06/2015 – today</td>
-<td style="text-align: left;"><a href="https://scihub.copernicus.eu/dhus/#/home" target="_blank" rel="noopener">ESA SciHUB</a></td>
+<td style="text-align: left;"><a href="https://dataspace.copernicus.eu/" target="_blank" rel="noopener">ESA SciHUB</a></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Sentinel 3</td>
@@ -455,17 +455,25 @@ In the following an overview of the most popular imaging remote sensing programs
 <td style="text-align: center;">X</td>
 <td style="text-align: center;">X</td>
 <td>02/2016 – today</td>
-<td style="text-align: left;"><a href="https://scihub.copernicus.eu/dhus/#/home" target="_blank" rel="noopener">ESA SciHUB</a></td>
+<td style="text-align: left;"><a href="https://dataspace.copernicus.eu/" target="_blank" rel="noopener">ESA SciHUB</a></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">RapidEye</td>
+<td style="text-align: left;">MODIS Terra &amp; Aqua</td>
+<td style="text-align: center;">✔</td>
 <td style="text-align: center;">X</td>
+<td style="text-align: center;">X</td>
+<td>02/2001 – today</td>
+<td style="text-align: left;"><a href="https://dataspace.copernicus.eu/" target="_blank" rel="noopener">NASA Earthdata</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">RapidEye</td>
+<td style="text-align: center;">(✔)</td>
 <td style="text-align: center;">✔</td>
 <td style="text-align: center;">✔</td>
 <td>02/2009 - today</td>
 <td style="text-align: left;"><a href="https://www.planet.com/products/planet-imagery/" target="_blank" rel="noopener">Planet EyeFind</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><strong>RADAR</strong></td>
 <td style="text-align: center;"></td>
 <td style="text-align: center;"></td>
@@ -473,21 +481,21 @@ In the following an overview of the most popular imaging remote sensing programs
 <td></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Sentinel 1</td>
 <td style="text-align: center;">✔</td>
 <td style="text-align: center;">X</td>
 <td style="text-align: center;">X</td>
 <td>04/2014 - today</td>
-<td style="text-align: left;"><a href="https://scihub.copernicus.eu/dhus/#/home" target="_blank" rel="noopener">ESA SciHUB</a></td>
+<td style="text-align: left;"><a href="https://dataspace.copernicus.eu/" target="_blank" rel="noopener">ESA Copernicus Browser</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">TerraSAR-X</td>
-<td style="text-align: center;">X</td>
+<td style="text-align: center;">(✔)</td>
 <td style="text-align: center;">✔</td>
 <td style="text-align: center;">✔</td>
 <td>06/2007 - today</td>
-<td style="text-align: left;"><a href="https://terrasar-x-archive.terrasar.com/" target="_blank" rel="noopener">AIRBUS TSX Archive</a></td>
+<td style="text-align: left;"><a href="https://earth.esa.int/eogateway/catalog/terrasar-x-esa-archive/" target="_blank" rel="noopener">TerraSAR-X ESA archive</a></td>
 </tr>
 </tbody>
 </table>
