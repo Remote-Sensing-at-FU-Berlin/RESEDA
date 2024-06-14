@@ -25,7 +25,7 @@ In this chapter, the following content awaits you:
 ## Remote Sensing Applications {#remotesensingapp}
 
 In general, satellite remote sensing has enabled major advances in understanding global climate systems and its changes. Thus, most of the research questions are aimed at better understanding and quantifying climate change to some extent. The results are regularly compiled in the [IPCC reports](https://www.ipcc.ch/report/ar5/){target="_blank" rel="noopener"}.\
-However, here we focus on the analysis of land cover and land use changes (LULC), which includes all subsystems of the earth and allows a wide range of questions.
+However, within this tutorial we focus on the analysis of land cover and land use changes (LULC), which includes all subsystems of the earth and allows a wide range of questions.
 
 ![](./img/icon_agriculture.png){.alignleft .size-full width="90"}\
 [**Agriculture**]{style="color: #6b9e1f"}\
