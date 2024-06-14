@@ -1,4 +1,3 @@
-
 # Download {#download .entry-title}
 
 We show you two platforms which allow users to view and download remote sensing data such as satellite images, aerial photographs, and cartographic products. You will learn how to use them in order to query and download Landsat 8, Sentinel 2 and Sentinel 1 data from the archives.
@@ -14,8 +13,6 @@ We show you two platforms which allow users to view and download remote sensing 
 **Sentinel Data via ESA SciHUB**
 
 [![](./img/ESAsciHUB.png)](./Download.qmd#SentinelScihub)
-
-
 
 # Landsat Landsat / EarthExplorer {#landsatEarth}
 
@@ -237,7 +234,7 @@ Click on your Order ID, which brings you to the download site. Simply click on t
 [Finally get your Level-2 data!]{style="color: #686868;font-size: small"}
 :::
 
-# Landsat BIG DATA {}
+# Landsat BIG DATA
 
 The procedures shown in the [previous section](./Download.qmd#EarthExplorer) are sufficient if you want to acquire a few scenes. However, if you need many more scenes, e.g. if you want to do a time series analysis, the manual download becomes a real test of patience.\
 There are several ways to perform a mass, or bulk, download for Landsat 8 data. Let us take a look at an application for Level-1 and a method for Level-2 Landsat 8 scenes.
@@ -385,11 +382,27 @@ If you have selected the Level-2 product, select **Order** on the next page and 
 
 Follow the search queries in the upcoming exercise to familiarize yourself with how to use the EarthExplorer!
 
-<p><a target="_blank" href="https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/EarthExplorer-Exercise"><br>
-<button style="width:100%;text-align:center;padding: 0;background-color:#6b9e1f;color: white"><p></p>
-<div style="font-family: &#39;Noto Sans&#39;,sans-serif"><span style="font-size: 30px"><strong>Test Your KNOWLEDGE</strong></span></div>
-<p></p></button></a></p>
+<p>
 
+<a target="_blank" href="https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/EarthExplorer-Exercise"><br> <button style="width:100%;text-align:center;padding: 0;background-color:#6b9e1f;color: white">
+
+<p>
+
+</p>
+
+::: {style="font-family: 'Noto Sans',sans-serif"}
+[<strong>Test Your KNOWLEDGE</strong>]{style="font-size: 30px"}
+:::
+
+<p>
+
+</p>
+
+</button>
+
+</a>
+
+</p>
 
 # Sentinel / SciHUB {#SentinelScihub}
 
@@ -434,8 +447,6 @@ Once loaded, the main SciHUB graphical user interface (GUI) should be visible, w
     -   **Box**: defining a rectangle area of interest
     -   **Polygon**: defining an area of interest enclosed by a polygon shape
     -   **Clear**: deleting the area of interests active on map
-
-
 
 ## 2 Registration
 
@@ -558,8 +569,7 @@ Explanation: The download utility is addressed by `aria2c`. The max concurrent d
 # Sentinel BIG DATA {#Sentinelbigdata}
 
 Once again it is time for a BIG DATA download, which is useful when you need dozens or hundreds of scenes. People have come up with some Python (e.g., [sentinelsat](https://pypi.org/project/sentinelsat/){target="_blank"} or [Sentinel_download](https://github.com/olivierhagolle/Sentinel-download){target="_blank"}) and R libraries (e.g., [sentinel2](https://github.com/IVFL-BOKU/sentinel2){target="_blank"}) in recent years to automatically copy Sentinel data from the ESA servers. All of these libraries are based on two Application Program Interfaces (APIs) provided by the ESA Data Hub used for browsing and downloading the data stored in the rolling archives.\
-We will take a closer look at ESA's underlying, [official script](https://github.com/SentinelDataHub/Scripts/blob/master/dhusget_0.3.5.sh){target="_blank"}
-and we will use it to automatically download ALL records of any of your search queries. The script is named **dhusget.sh** and already deposited in our VM (or [available for download here](https://box.fu-berlin.de/s/e7dGWGKnJPJi47Y){rel="noopener" target="_blank"}). You need to have a Linux Environment with [wget](https://wiki.ubuntuusers.de/wget/){target="_blank"} installed (such as [our VM](https://blogs.fu-berlin.de/reseda/get-your-vm/){target="_blank"}) in order to use the script, which is a Unix shell script (.sh).\
+We will take a closer look at ESA's underlying, [official script](https://github.com/SentinelDataHub/Scripts/blob/master/dhusget_0.3.5.sh){target="_blank"} and we will use it to automatically download ALL records of any of your search queries. The script is named **dhusget.sh** and already deposited in our VM (or [available for download here](https://box.fu-berlin.de/s/e7dGWGKnJPJi47Y){rel="noopener" target="_blank"}). You need to have a Linux Environment with [wget](https://wiki.ubuntuusers.de/wget/){target="_blank"} installed (such as [our VM](https://blogs.fu-berlin.de/reseda/get-your-vm/){target="_blank"}) in order to use the script, which is a Unix shell script (.sh).\
 First of all, let us have a look at a blueprint of the command, we will adapt to your needs in the following:
 
 ``` r
@@ -576,9 +586,8 @@ Explanation: That is a lot of options! Each option is separated from the next by
 -   `-p password123`: insert your ESA SciHUB password here
 -   `-o product`: activate download for the Product ZIP files
 -   `-O /media/sf_exchange/sentineldata`: folder where downloaded Sentinel data will be stored
--   `-R /media/sf_exchange/sentinel_data/failed.txt`: file listing products which failed to     download
--   `-F 'query'`: this is the
-    full text query you can copy/paste from the ESA SciHUB website
+-   `-R /media/sf_exchange/sentinel_data/failed.txt`: file listing products which failed to download
+-   `-F 'query'`: this is the full text query you can copy/paste from the ESA SciHUB website
 
 If you use our VM, you just need to replace your username `-u user123` and password `-p password123` with your own login information. Actually, you only need to integrate your search query in `-F 'query'` as a last step. Thus, visit the ESA Sci-HUB portal and set your data query to your liking as shown in [Perform a Search section](https://blogs.fu-berlin.de/reseda/esa-scihub/#3). In the upper part of the result window, the query can be obtained in text form. This is an example of a query giving all Sentinel 2 products sensed between the first and second of June 2018 globally:
 
@@ -599,8 +608,7 @@ Open a terminal (taskbar in our VM) and type in the complete query, e.g.:
 [![](./img/ESA_021.png){.aligncenter}](./img/ESA_021.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Terminal with exemplary download command for 100 Sentinel 2
-products]{style="color: #686868;font-size: small"}
+[Terminal with exemplary download command for 100 Sentinel 2 products]{style="color: #686868;font-size: small"}
 :::
 
 By pressing enter it will start downloading up to 100 scenes at once. Previously downloaded scenes will not be downloaded again, and if the internet connection is lost, the download will continue at that point when restarting the script. When a scene is fully loaded, the [MD5 integrity](https://en.wikipedia.org/wiki/MD5){target="_blank"} will be checked, telling you whether the file is complete or not. If not, the scene is written to a text file to notify you `-R/media/sf_exchange/sentinel_data/failed.txt`.
