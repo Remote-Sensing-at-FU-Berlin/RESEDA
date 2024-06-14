@@ -426,9 +426,9 @@ In this section, the following content awaits you:
 
 ## 1 ESA SciHUB User Interface
 
-The ESA Open Access Hub, or SciHUB, provides complete, free and open access to Sentinel-1, Sentinel-2 and Sentinel-3 user products. Sentinels products are available at no cost for anybody, provided you accept the [Legal Notice](https://sentinels.copernicus.eu/documents/247904/690755/Sentinel_Data_Legal_Notice){target="_blank"} on the use of Copernicus Sentinel Data and Service Information. You get to the ESA SciHUB via the following URL using any web browser (Firefox in our RESEDA VM):
+ESA's dataspace provides complete, free and open access to Sentinel-1, Sentinel-2 and Sentinel-3 user products. Sentinel products are available at no cost for anybody, provided you accept the [Legal Notice](https://sentinels.copernicus.eu/documents/247904/690755/Sentinel_Data_Legal_Notice){target="_blank"} on the use of Copernicus Sentinel Data and Service Information. You get to the ESA SciHUB via the following URL using any web browser (Firefox in our RESEDA VM):
 
-[https://scihub.copernicus.eu/dhus/#/home](https://scihub.copernicus.eu/dhus/#/home){target="_blank"}
+[https://dataspace.copernicus.eu/](https://dataspace.copernicus.eu/){target="_blank"}
 
 Once loaded, the main SciHUB graphical user interface (GUI) should be visible, which is composed of several key elements:
 
