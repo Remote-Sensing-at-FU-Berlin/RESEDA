@@ -1,4 +1,3 @@
-
 name: Quarto Publish
 
 on:
@@ -25,6 +24,9 @@ jobs:
 
       - name: Render site
         run: quarto render
+
+      - name: Prevent Jekyll Build
+        run: echo > docs/.nojekyll
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
