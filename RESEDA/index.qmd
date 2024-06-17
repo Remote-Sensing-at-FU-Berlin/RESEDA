@@ -12,6 +12,8 @@ sidebar: true
 
 # Let's start!
 
+:::
+
 :::{#hero-heading}
 ## Learning Objectives
 This online course is divided into separate sections covering particular topics, which together provide a whole workflow commonly used for remote sensing imagery. Although the sections are built on one another and we recommend to handle them in given order, feel free to skip parts you are already comfortable with and focus on the chapters you are interested in. In almost every section you will come across exercises, e.g., multiple choice questionnaires or coding exercises to proof your comprehension of previous sections.
