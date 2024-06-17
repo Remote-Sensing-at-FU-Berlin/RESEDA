@@ -1,0 +1,55 @@
+---
+title: "Dr. Marco Bobinger"
+author: "Remote sensing & geoinformatics group"
+date: "2024-03-09"
+categories: [Postdoctoral researcher, Researcher]
+image: "Marco.jpg"
+sidebar: false
+---
+
+**Institute of Geographical Sciences**\
+
+Remote Sensing and Geoinformatics\
+Postdoctoral researcher
+
+::: panel-tabset
+
+#### Contact
+
+**Address:** Malteserstraße 74-100 12249 Berlin \
+**Telephone:** +49 30 838 61040 \
+**Email:** marco.bobinger[at]fu-berlin.de \
+**Office hours:**\
+
+#### Personal Profile
+
+**Short CV**
+
+2023: Postdoctoral researcher at Free University of Berlin and system engineer for the FutureForest project.
+
+2019 - 2022: Technical Director at ECOSOPH GmbH.
+
+2015 - 2019 (Electrical Engineering department): PhD student and Postdoctoral researcher at Technical University of Munich.
+
+2012 - 2015 (Physics department): B.Sc. and M.Sc. in physics at the Technical University of Munich.
+
+**Technical Skills:**
+
+-   Embedded programming with Microcontrollers (STM32Cube, Arduino, Espressif) , C++, Edge computing (RaspberryPi & NVidia Jetson series).
+
+-   Python
+
+-   Web design: Django, CSS, HTML, Javascript, Amazon AWS, Google Cloud, Pythonanywhere.
+
+-   PCB design, simmulation and assembly (Autodesk)
+
+-   CAD design (CATIAv5)
+
+
+#### Publications
+
+Complete lists at:
+
+[Google Scholar](https://scholar.google.com/citations?user=tZhxAcoAAAAJ&hl=en)\
+
+:::

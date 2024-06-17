@@ -1,16 +1,31 @@
 [
   {
+    "listing": "/staff/index.html",
+    "items": [
+      "/staff/people/AnikaSieber.html",
+      "/staff/people/ChristopherSchiller.html",
+      "/staff/people/FabianFassnach.html",
+      "/staff/people/FlorianArendholz.html",
+      "/staff/people/FlorianKaterndahl.html",
+      "/staff/people/FlorianPlewnia.html",
+      "/staff/people/HannesBluhm.html",
+      "/staff/people/JonasErnst.html",
+      "/staff/people/JonathanKoltzow.html",
+      "/staff/people/LinaPerez.html",
+      "/staff/people/MarcoBobinger.html",
+      "/staff/people/MarionStellmes.html",
+      "/staff/people/MariusDerenthal.html",
+      "/staff/people/MiriamHerrmann.html",
+      "/staff/people/TamalikaChakraborty.html",
+      "/staff/people/ThomasRuhtz.html",
+      "/staff/people/UteEggert.html"
+    ]
+  },
+  {
     "listing": "/projects/index.html",
     "items": [
       "/projects/posts/post-with-code/index.html",
       "/projects/posts/welcome/index.html"
-    ]
-  },
-  {
-    "listing": "/staff/index.html",
-    "items": [
-      "/staff/people/FabianFassnach.html",
-      "/staff/people/MarionStellmes.html"
     ]
   }
 ]

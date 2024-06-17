@@ -1,0 +1,198 @@
+---
+title: "Dr. Tamalika Chakraborty"
+author: "Remote sensing & geoinformatics group"
+date: "2024-03-09"
+categories: [Postdoctoral researcher, Researcher]
+image: "Tamalika.jpg"
+sidebar: false
+---
+
+**Institute of Geographical Sciences**\
+
+Remote Sensing and Geoinformatics\
+Postdoctoral researcher
+
+::: panel-tabset
+
+#### Contact
+
+**Address:** Malteserstraße 74-100 12249 Berlin \
+**Email:** tamalika.chakraborty[at]fu-berlin.de \
+**Office hours:** by appointment
+
+#### Personal Profile
+
+**Short CV**
+
+Since 6/2022: Researcher, Free University of Berlin, Department of Earth Sciences, Remote Sensing and Geoinformatics
+
+Since 6/2021: Guest Scientist, Karlsruhe Institute of Technology, Institute of Geography and Geoecology
+
+09/2018-10/2019: Researcher, Forest Ecology and Biodiversity, Thünen Institute of Forest Ecosystems
+
+10/2017-06/2018: Postdoctoral Research Fellow, Working Group 'Plant Interactions Ecophysiology', Department of Biology, University of Konstanz
+
+02/2017-09/2017: Guest Researcher, University of Freiburg, Chair of Site Classification and Vegetation Science
+
+04/2011-01/2017: Doctor rerum naturalium (Dr. rer. nat.), University of Freiburg, Chair of Site Classification and Vegetation Science, Thesis: "Impact of drought on European beech (Fagus sylvatica) trees at the dry temperate forest"
+
+10/2008-11/2010: M.Sc. in Forest Ecology and Management, University of Freiburg, Thesis: "Effect of soil drought on vitality and growth on juvenile and understorey beech (Fagus sylvatica L.) trees. Case study from a rocky gneiss outcrop near Freiburg, Black Forest, Germany"
+
+04/2008-09/2008: Project Coordinator, Tagore Society for Rural Development, Kolkata, India
+
+08/2007-02/2008: Senior Project Associate, Regional Centre for Development Cooperation, Orissa, India
+
+07/2005-07/2007: M.Sc. in Medicinal Plants and Herbal Resource Management, Jiwaji University, India, Thesis: "Study on availability, utilization, and marketing of Non-Wood Forest Products (NWFPs) at the Western Arunachal Pradesh of the Eastern Himalayas, India"
+
+05/2002-07/2005: B.Sc. in Botany (Honours), Zoology, Chemistry, Environmental Science, English, and Bengali Literature, Victoria Institution (College), University of Calcutta, India
+
+Award and scholarship/ fellowship
+
+2011: "Best master thesis award of 2011", Ecological Society of Germany, Austria and Switzerland (Gesellschaft für Ökologie) (https://www.waldbau.uni-freiburg.de/news_events/GFOE_preis_tamalika)
+
+2017: Postdoctoral scholarship, Bridge Fellowship, University of Konstanz
+
+2015-2016: Doctoral scholarship from the Landeckh-Stiftung and White-Stiftung through the Stiftungsverwaltung, University of Freiburg          
+
+2012-2015: Doctoral scholarship from the Heinrich-Böll-Stiftung e.V.
+
+2012: Doctoral scholarship from Landesgraduiertenförderungsgesetz Baden-Württemberg (declined)
+
+2009-2010: Master’s scholarship from the Heinrich-Böll-Stiftung e.V.
+
+#### Teaching
+
+**SS 2022:**
+
+-   VL und PC-S Geographische Informationssysteme (BSc)
+
+-   Projekt I WP Modul (MSc)
+
+
+#### Research
+
+**Research interest and expertise:**
+
+-   Applying remote sensing data to understand ecological patterns and processes of vegetation ecosystems\
+
+I am an ecologist. Ecology describes the biota's relations and environmental surroundings. My research interest focuses on studying the ecological behaviour of different temperate tree species of various ecosystems. My research includes the assessment of the ecological patterns and the processes of the vegetation under stress, like temperature and precipitation anomalies due to climate change and anthropogenic disturbances. I investigate the interactions between the climate, soil, and trees in the forest ecosystem to study the impact of stress on trees at the single-tree and stand level. I also worked on the anthropogenic impacts and socio-economical dependence of the huge tribal populations on different forests in India. My research combines field ecology, dendrochronology, stable isotope ecology, ecophysiology, and statistical modeling techniques. I have worked in different universities and research institutes in Germany, Switzerland and India.
+
+**Expertise**
+
+-   Dendroecology, and stable isotope analysis in plant materials
+
+-   Quantification of drought and water balance model
+
+-   Soil analyses
+
+-   Statistical modelling
+
+-   Identification of plants and phytosociology
+
+-   Forest inventory and field data collection
+
+#### Publications
+
+Complete lists at:
+
+[Researchgate](https://www.researchgate.net/profile/Tamalika-Chakraborty)\
+
+[Google Scholar](https://scholar.google.com/citations?hl=en&user=AoJHvRkAAAAJ)\
+
+**Refereed Journal Paper**
+
+Chakraborty, T., Reif, A., Matzarakis, A., Helle, G., Faßnacht, F. and Saha, S. (2022): Carbon and oxygen dual-isotopes in tree rings indicate alternative physiological responses opted by European beech trees to survive drought stress, Scandinavian Journal of Forest Research, 37:5-8, 295-313, https://doi.org/10.1080/02827581.2022.2155236
+
+Chakraborty, T., Reif, A., Matzarakis, A. and Saha, S. (2021): How does radial growth of water-stressed populations of European beech (Fagus sylvatica L.) trees vary under multiple drought events? Forests, 12, 129. https://doi.org/10.3390/f12020129
+
+Singh, P.P., Chakraborty, T., Gäßler, A.F., Dermann, F., Adhikari, D., Barik, S.K., Bauhus, J., Gurung, P.B., Fassnacht, F., Day, DC., Rösch, C. and Saha, S. (2020): Assessing restoration potential of fragmented and degraded Fagaceae forests in Meghalaya, North-East India. Forests, 11 (9), 1008. https://doi.org/10.3390/f11091008
+
+Chakraborty, T., Saha, S., Matzarakis, A. and Reif, A. (2017): Influence of multiple biotic and abiotic factors on the crown die-back of European beech trees at their drought limit. Flora - Morphology, Distribution, Functional Ecology of Plants, 229, 58-70. https://doi.org/10.1016/j.flora.2017.02.012
+
+Chakraborty, T., Saha, S. and Bisht, N.S. (2017): First Report on the Ethnopharmacological Uses of Medicinal Plants by Monpa Tribe from the Zemithang Region of Arunachal Pradesh, Eastern Himalayas, India. Plants, 6, 1-13. https://doi.org/10.3390/plants6010013
+
+Forrester, D. I., Tachauer, I. H. H., Annighoefer, P., Barbeito, I., Pretzsch, H., Ruiz-Peinado, R., Stark, H., Vacchiano, V., Zlatanov, T., Chakraborty, T., Saha, S. and Sileshi, G. W. (2017): Generalized biomass and leaf area allometric equations for European tree species incorporating stand structure, tree age and climate. Forest Ecology and Management, 396, 160-175. https://doi.org/10.1016/j.foreco.2017.04.011
+
+Chakraborty, T., Saha, S. and Reif, A. (2016): Biomass equations for European beech growing on dry sites. iForest - Biogeosciences and Forestry, 9, 751-757. https://doi.org/10.3832/ifor1881-009
+
+Chakraborty, T., Saha, S. and Reif, A. (2013): Decrease in Available Soil Water Storage Capacity Reduces Vitality of Young Understorey European Beeches (Fagus sylvatica L.) - A Case Study from the Black Forest, Germany. Plants, 2(4), 676-698. https://doi.org/10.3390/plants2040676
+
+
+
+**Theses**
+
+Chakraborty, T. (2017): Impact of drought on European Beech (Fagus sylvatica) trees at dry temperate forest. In, Chair of Site Classification and Vegetation Science. Doctoral dissertation, University of Freiburg, Freiburg, Germany (available in the University library).
+
+Chakraborty, T. (2010): Effect of soil drought on vitality and growth on juvenile and understorey beech (Fagus sylvatica) trees. Case study from a rocky gneiss outcrop near Freiburg, Black Forest, Germany. Master thesis, In, Institute of Silviculture. University of Freiburg, Freiburg, Germany. Published online at: http://www.freidok.uni-freiburg.de/volltexte/8066/
+
+Chakraborty, T. (2007) Study on availability, utilization and marketing of Non-Wood Forest Products at the Western Arunachal Pradesh of the Eastern Himalayas, India. Master thesis, In, Institute of Ethnobotany. Jiwaji University, Gwalior, India (available in the University library).
+
+
+**Others**
+
+Bolte, A., Sanders, T., Natkhin, M., Czajkowski, T., Chakraborty, T., Liesebach, H., Kersten, B., Mader, M., Liesebach, M., Lenz, C., Lautner, S., Löffler, S. and Kätzel, R. (2021): Coming from dry regions Norway spruce seedlings suffer less under drought. In: Project brief, 16a, Thünen Institute of Forest Ecosystems, Eberswalde, Germany, DOI: 10.3220/PB1623066406000
+
+Chakraborty, T. and Reif, A. (2011): Influence of soil drought on crown die-back and basal area increment of understorey Fagus sylvatica at their drought limit. In: Wagner, S., Fahlvik, N., Fischer, H. (Eds.), Ecology and Silviculture of Beech: Proceedings of the 9th IUFRO International Beech Symposium, Technische Universität Dresden, Germany, p. 38-40.
+
+
+**Conferences**
+
+**Oral presentations**
+
+Chakraborty, T., Saha, S., Matzarakis, A. and Reif, A. (2018): Temperate broadleaved European beech (Fagus sylvatica L.) trees are showing high ecological plasticity under multiple drought events. In the IUFRO Satellite Session, sixth International Conference on Plants and Environmental Pollution, CSIR-NBRI, Lucknow, India.
+
+Chakraborty, T., Czajkowski, T. and Bolte, A. (2018) Adaptive capacity of different Norway spruce provenances to lethal drought. In the sixth International Conference on Plants and Environmental Pollution, CSIR-NBRI, Lucknow, India.
+
+Chakraborty, T. (2018) Biomass, annual growth, C and O isotope signatures in tree rings revealed high ecological plasticity in European Beech (Fagus sylvatica L.) trees under multiple drought events. In the11th IUFRO International Beech Symposium, Viterbo, Italy.
+
+Chakraborty, T., Saha, S., Matzarakis, A. and Reif, A. (2017):Impact of drought on European beech (Fagus sylvatica L.) trees.In theVegetations­kundliche Perspektiven im weltweiten Kontext, Abschiedskolloquium für Prof. Dr. Dr. h.c. Albert Reif, University of Freiburg, Germany (Invited talk).
+
+Saha, S., Gessler, A.F., Dermann, F., Singh, P.P., Adhikari, D., Chakraborty, T., Bauhus, J. and Barik, S.K. (2017): Anthropogenic disturbances differently impacted natural regeneration and coppicing ability in nine Fagaceae tree species in moist oak-laurel hill forests of Khasi Hills, Northeast India. In the 3rd Conference Restoring Forests Regeneration and Ecosystem Function for the Future, Lund, Sweden.
+
+Chakraborty, T., Saha, S., Matzarakis, A. and Reif, A. (2017): Role of multiple stressors on crown die-back & growth sensitivity of European beech (Fagus sylvatica L.) trees under recurrent droughts. In the IUFRO 125th Anniversary Congress, Freiburg, Germany.
+
+Chakraborty, T., Saha, S. and Reif, A. (2016) Stress ecology of beech trees in dry forests: Role of multiple stressors on crown die-back & growth sensitivity under recurrent drought.In the Annual Meeting of the Ecological Society of Germany, Austria, and Switzerland, Marburg, Germany.
+
+Chakraborty, T. (2015): European beech trees show high variability in crown-dieback and growth in relation to soil available water and climatic drought. In the Annual Graduate School Day of the Graduate School "Environment, Society and Global Change", University of Freiburg, Freiburg, Germany.
+
+Chakraborty, T. (2014):Impact of drought on beech trees growing at oak-beech ecotone in Germany and Switzerland. In theNREL Special Seminar, Colorado State University, Fort Collins, Colorado. USA (Invited talk).
+
+Chakraborty, T. (2014): Causes and consequences of drought on dry temperate forest. Hemvati Nandan Bahuguna Garhwal University, Srinagar (Garhwal), Uttarakhand, India (Invited talk).
+
+Chakraborty, T. (2014): Influence of drought on European Beech (Fagus sylvatica L.) trees. Hemvati Nandan Bahuguna Garhwal University, Srinagar (Garhwal), Uttarakhand, India (Invited talk).
+
+Chakraborty, T. and Reif, A. (2012): Soil drought impedes vitality and growth of young beech (Fagus sylvatica L.). In the German Forestry Congress: Forest-Climate-Energy (Forstwissenschaftlichen Tagung: Wald-Umwelt-Energie), Technical University of Munich, Freising, Germany.
+
+Chakraborty, T. (2012): Future of European beech: A modeling approach to study drought stress on biomass, annual growth of young beech trees at oak-beech ecotone in southwest Germany. In the 7th Workshop of Young Modellers in Ecology, Schloss Craheim, Schweinfurt, Germany.
+
+Chakraborty, T. and Reif, A. (2011): Influence of soil drought on crown die-back and basal area increment of understorey Fagus sylvatica L. at their drought limit. In, Ecology and Silviculture of Beech, 9th IUFRO International Beech Symposium, Technische Universität Dresden, Germany.
+
+Chakraborty, T. (2011): Effect of soil drought on vitality and growth of juvenile and understory beech (Fagus sylvatica L.) trees: Case study from a rocky gneiss outcrop near Freiburg, Black Forest, Germany. In the Platform of the master/diplom award of annual meeting of the Ecological Society of Germany, Austria and Switzerland, Oldenburg, Germany (Invited talk).
+
+Chakraborty, T. and Reif, A. (2011): Effect of soil drought on vitality and growth on juvenile and understorey beech (Fagus sylvatica L.) trees at their drought limit - Case study from a rocky gneiss outcrop near Freiburg, Black Forest, Germany. In the Workshop REAR EDGES - Wenn es Baumarten zu heiß wird, Technical University of Munich, Freising, Germany.
+
+**Poster presentations**
+
+Schiller, C., Költzow, J., Chakraborty, T., Faßnacht, F.E. (2022): Future Forest Project - FF.ai: AI to Obtain Tree Species and Forest Condition Information from Remotely Sensed Data. In the ForestSAT Conference, Berlin, Germany.
+
+Chakraborty, T., Saha, S. and Reif, A. (2017): Young European beech plants had differently tuned root and shoot growth between dry and less-dry forest plots in summer drought of 2003 and 2011: a study on limestone outcrop in Northern Switzerland. In the IUFRO 125th Anniversary Congress, Freiburg, Germany.
+
+Chakraborty, T., Saha, S. and Reif, A. (2015): High variability in vitality and growth was observed in European beech trees under the changing soil available water as drought become more frequent and severe. In the Annual meeting of British ecological Society, Edinburgh, U.K.
+
+Chakraborty, T., Saha, S. and Reif, A. (2014): Ecological complexity, stand basal area and rooting intensity respond differently under edaphic drought in ecotones at abandoned coppice forests. In, "Sustaining Forests, Sustaining People: The Role Of Research", XXIV IUFRO World Congress", Salt Lake City, USA.
+
+Chakraborty, T., Saha, S. and Reif, A. (2014): European beech trees have developed an adaptive strategy of survival through crown die-back under stress of drought and plant competition. In, "Sustaining Forests, Sustaining People: The Role Of Research", XXIV IUFRO World Congress", Salt Lake City, USA.
+
+Chakraborty, T. and Saha, S. (2014): Impact of anthropogenic disturbances on high value NTFPs in temperate moist oak forest: a case study from the Eastern Himalayas, India. In, "Sustaining Forests, Sustaining People: The Role Of Research", XXIV IUFRO World Congress", Salt Lake City, USA.
+
+Saha, S. and Chakraborty, T. (2014): Traditional knowledge is trivial for managing mountain natural resources: a case study from the Eastern Himalaya. In, "Sustaining Forests, Sustaining People: The Role Of Research", XXIV IUFRO World Congress", Salt Lake City, USA.
+
+Saha, S. and Chakraborty, T. (2014): Use of medicinal plants among Panchen-Monpa tribe in remote region in the Eastern Himalayas, India. In, "Sustaining Forests, Sustaining People: The Role Of Research", XXIV IUFRO World Congress”, Salt Lake City, USA.
+
+Chakraborty, T. and Reif, A. (2013): Soil drought impedes understorey beech vitality at their drought limit in oak-beech (Quercus petraea (Matt.) Liebl. - Fagus sylvatica L.) ecotone, Black Forest, Germany. In the IUFRO Landscape Ecology Conference, Sustaining Human and Forest in Changing Landscape: Forest, Society and Global Change, Concepción, Chile.
+
+Chakraborty, T., Matzarakis, A. and Reif, A. (2013): Influence of drought on understorey beech (Fagus sylvatica) in dry beech forest and adjacent oak-beech ecotone. In the Annual Graduate School Day of the Graduate School "Environment, Society and Global Change", University of Freiburg, Freiburg, Germany.
+
+Chakraborty, T. and Reif, A. (2010): Relationship between soil drought and mortality of young beech (Fagus sylvatica): Case study from a rocky gneiss outcrop near Freiburg, Black Forest. In, Adaptation of perennial plants to episodic drought: impact on ecosystems, Georg-August University of Göttingen, Göttingen, Germany.
+
+:::

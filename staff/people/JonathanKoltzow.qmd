@@ -1,0 +1,50 @@
+---
+title: "Jonathan Költzow"
+author: "Remote sensing & geoinformatics group"
+date: "2024-03-09"
+categories: [Researcher]
+image: "Fabian.png"
+sidebar: false
+---
+
+**Institute of Geographical Sciences**\
+
+Remote Sensing and Geoinformatics\
+Researcher
+
+::: panel-tabset
+
+#### Contact
+
+**Address:** Malteserstraße 74-100 12249 Berlin \
+**Email:** jonathan.koeltzow[at]fu-berlin.de \
+**Office hours:**\
+**Sprechstunde:** nach Vereinbarung \
+**Office hour:** by appointment
+
+#### Personal Profile
+
+**Short CV**
+
+since 08/2022 - PhD student, Free University of Berlin (Future Forest Project)
+
+10/2019 - 05/2022: Researcher, Forest Research Institute Baden-Württemberg (Biometry and Informatics)
+
+9/2018 - 05/2020: MSc. Forest Information Technology, HNE Eberswalde, Warsaw University of Life Sciences
+
+#### Teaching
+
+**SS 2022:**
+
+-   VL und PC-S Geographische Informationssysteme (BSc)
+
+-   Projekt I WP Modul (MSc)
+
+
+#### Research
+
+**Research interest and expertise:**
+
+I am currently working on a nationwide tree species classification from multi-spectral satellite imagery using a deep neural network.
+
+:::

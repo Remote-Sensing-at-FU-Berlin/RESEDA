@@ -1,0 +1,24 @@
+---
+title: "Hannes Bluhm"
+author: "Remote sensing & geoinformatics group"
+date: "2024-03-09"
+categories: [Student collaborator]
+image: "Hannes.jpg"
+sidebar: false
+---
+
+**Institute of Geographical Sciences**\
+
+Remote Sensing and Geoinformatics\
+Student collaborator
+
+::: panel-tabset
+
+#### Contact
+
+**Address:** Malteserstraße 74-100 Room H051 12249 Berlin \
+**Telephone:** +49 30 838 51773 \
+**Email:** hannes.bluhm[at]fu-berlin.de \
+**Office hours:** arrangement by email
+
+:::

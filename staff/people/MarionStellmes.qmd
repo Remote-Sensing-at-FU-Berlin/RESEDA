@@ -2,9 +2,97 @@
 title: "Marion Stellmes"
 author: "Remote sensing & geoinformatics group"
 date: "2024-03-09"
-#categories: [Ongoing, sentinel-2, forest damage]
-image: "Marion.png"
+categories: [Researcher, Lecturer]
+image: "Marion1.jpg"
 sidebar: false
 ---
 
+**Institute of Geographical Sciences**\
 
+Remote Sensing and Geoinformatics\
+Researcher and lecturer
+
+::: panel-tabset
+#### Contact
+
+**Address:** Malteserstraße 74-100 Room H055 12249 Berlin\
+**Telephone:** +49 3083861978\
+**Email:** marion.stellmes\[at\]fu-berlin.de\
+**Office hours:**\
+**Sprechstunde:** wird noch bekanntgegeben\
+**Office hour:**  Summer term 2023\
+(Online) Consultation hours during the term: Tuesday, 14 to 16 o'clock, appointment via e-mail.\
+(Online-) Sprechstunde während des Semesters: dienstags zwischen 14.00 und 16.00 Uhr, Anmeldung per E-Mail
+
+#### Personal Profile
+
+**Short CV**
+
+Since 11/2016: Senior Lecturer and Researcher, FU Berlin, Department of Earth Sciences, Remote Sensing and Geoinformatics
+
+05/2011 – 10/2016: PostDoc and lecturer; BMBF-Project TFO (The Future Okavango) and SASSCAL (Southern African Science Service Centre for Climate Change and Adaptive Land Management), Trier University, Environmental Remote Sensing and Geoinformatics
+
+04/2011: PhD (Dr. rer. nat), thesis title: Land use change syndromes as a framework for integrating satellite observations into the assessment of dryland degradation, Trier University
+
+01/2003 - 04/2011: Scientific assistant and PhD; EU projects LADAMER (Land Degradation Assessment in Mediterranean Europe) and DeSurvey (A Surveillance System for Assessing and Monitoring of Desertification) as well as the Interreg IVa project Regiowood; Trier University, Environmental Remote Sensing and Geoinformatics
+
+12/2002: Diploma in Applied Environmental Sciences, Thesis: “Ableitung sonneninduzierter Chlorophyll-Fluoreszenz zur Detektion von Pflanzenstress” (Deduction of sun-induced chlorophyll-fluorescence for the detection of plants under stress conditions); Trier University and DLR Oberpfaffenhofen
+
+10/1996 - 12/2002: Studies of Applied Environmental Sciences; main subjects: remote sensing and geomathematics, subsidiary subjects: soil sciences and climatology; Trier University
+
+#### Teaching
+
+**SS 2021:**
+
+-   PC-S Regionale Themen der Fernerkundung (BSc)
+
+-   S und LFP Projektbezogenes Arbeiten: Urbane Fernerkundung (BSc)
+
+**WS 2020/2021:**
+
+-   PC-S Spezielle Themen der Fernerkundung: Umweltmonitoring (BSc)
+
+-   PC-S Fernerkundung und Geoinformatik für Fortgeschrittene (MSc)
+
+**Vorherige Kurse FU Berlin:**\
+
+-   PC-S Geographische Informationssysteme (BSc)
+
+-   PC-S Fernerkundung und digitale Bildverarbeitung (BSc)
+
+-   V Fernerkundung und digitale Bildverarbeitung 
+
+-   PC-S Regionale Themen der Fernerkundung (BSc) 
+
+-   PC-S Spezielle Themen der Fernerkundung (BSc) 
+
+-   S, PS, LFP Projekt I (u.a. Kyritzer Heide, Rügen) 
+
+-   S Projekt II 
+
+-   PC-S Advanced Remote Sensing (MSc) 
+
+-   V Advanced Remote Sensing (MSc)
+
+#### Research
+
+**Research interest and expertise:**
+
+I am specialized in time series analysis of medium and coarse resolution remote sensing time series and I have been working for more than ten years in the field of land cover/use change detection. Moreover, I have attended in many field studies and campaigns to collect validation data with spectrometers and many other instruments.
+
+I am interested in interdisciplinary environmental research, especially in the evaluation of ecosystem goods and services and I have a strong background in remote sensing based monitoring of land degradation and desertification. I worked in many EU-funded projects, amongst others the LADAMER project and the DeSurvey project, which were dedicated to assessment of land degradation in the Mediterranean. During the last years, I was involved in the international interdisciplinary project SASSCAL, which is funded by the German Federal Ministry of Education and Research is a joint initiative of Angola, Botswana, Namibia, South Africa, Zambia, and Germany, responding to the challenges of global change.
+
+**Background**
+
+I received my Diploma in Applied Environmental Sciences in 2002, with an emphasis on optical remote sensing and geomathematics and I wrote my diploma thesis in collaboration with the German Aerospace Centre (DLR), Oberpfaffenhofen, Germany. Until October 2016, I was a senior scientist in the Department of Environmental Remote Sensing and Geoinformatics at Trier University, Germany, where I also obtained my PhD in 2012.
+
+#### Publications
+
+Complete lists at:
+
+[Researchgate](https://www.researchgate.net/profile/Marion-Stellmes)\
+
+[Google Scholar](https://scholar.google.de/citations?user=ODMRtfgAAAAJ&hl=de)\
+
+[Orcid](https://orcid.org/0000-0001-7325-6152)\
+:::

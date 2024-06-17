@@ -1,0 +1,45 @@
+---
+title: "Christopher Schiller"
+author: "Remote sensing & geoinformatics group"
+date: "2024-03-09"
+categories: [Researcher]
+image: "christopher.jpg"
+sidebar: false
+---
+
+**Institute of Geographical Sciences**\
+
+Remote Sensing and Geoinformatics\
+Researcher
+
+::: panel-tabset
+
+#### Contact
+
+**Address:** Malteserstraße 74-100 Room H057 12249 Berlin \
+**Email:** christopher.schiller[at]fu-berlin.de \
+**Office hours:**\
+**Sprechstunde:**  nach Vereinbarung \
+**Office hour:** by appointment
+
+#### Personal Profile
+
+**Short CV**
+
+since 06/2022: PhD student at Freie Universität Berlin
+
+01/2022 - 05/2022: academic assistant at Karlsruhe Institute of Technology, Institute of Geography and Geoecology (IfGG)
+
+04/2021 - 07/2021 and 10/2021 - 12/2021: scientific assistant at Thomas Breunig Institut für Botanik und Landschaftskunde (Breunig Institute of Botany and Landscapes), Karlsruhe
+
+10/2015 - 12/2020: Karlsruhe Institute of Technology (KIT), Institute of Geography and Geoecology (IfGG), Studies of Geoecology (Bachelor + Master)
+
+
+
+#### Publications
+
+Schiller, C., Schmidtlein, S., Boonman, C., Moreno-Martínez, A., & Kattenborn, T. (2021). Deep learning and citizen science enable automated plant trait predictions from photographs. Scientific Reports, 11(1), 1-12. https://doi.org/10.1038/s41598-021-95616-0
+
+Fassnacht, F. E., Schiller, C., Kattenborn, T., Zhao, X., & Qu, J. (2019). A Landsat-based vegetation trend product of the Tibetan Plateau for the time-period 1990–2018. Scientific data, 6(1), 1-11.
+
+:::
