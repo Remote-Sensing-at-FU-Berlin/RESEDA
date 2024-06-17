@@ -26,7 +26,7 @@ This section guides you through a complete classification process for satellite 
 
 # Sample in QGIS {#sample-in-qgis .entry-title}
 
-This section provide a guide on how to create training areas in the form of polygons, which we save in a shapefile in QGIS. The process is very similar to collecting samples in ArcGIS/ ArcMAP, which you already know from our GIS seminars.
+This section provide a guide on how to create training areas in the form of polygons, which we save in a shapefile in QGIS. The process is very similar to collecting samples in ArcGIS/SNAP, which you already know from our GIS seminars.
 
 Collecting training areas is essential when working with supervised classifiers and significantly influences the classification outputs. You should make some preliminary considerations and approach the sampling very carefully! In the following, we will focus on the most important basics to consider.
 
@@ -44,7 +44,7 @@ Sampling data in machine learning is a science in itself, which is why there is 
 
 Fine, so far that is not much of a help...
 
-To keep it very simple: You need a sample of your data that representatively describes the problem you want to solve. Keep in mind, a classifier learns a mathematical function, which maps input data (e.g., spectral bands) to output data (e.g., class labels). In order to achieve this, you should provide enough training data to capture the
+To keep it very simple: You need a sample of your data that represents the problem you want to solve. Keep in mind, a classifier learns a mathematical function, which maps input data (e.g., spectral bands) to output data (e.g., class labels). In order to achieve this, you should provide enough training data to capture the
 relationships between input and output. **Training data** will optimally meet the following requirements:
 
 -   **independent of test data:**\
@@ -79,7 +79,7 @@ There are several ways to open a raster dataset here: Either navigate via the ma
 
 [![Location of Add Raster Layer-function in QGIS](./img/vis_007.png){.aligncenter}](./img/vis_007.png)
 
-In the file explorer window, navigate to the data folder which holds your L8 data and import a raster dataset. We will use a L8 scene showing Berlin (ID: LC08_L1TP_193023_20170602_20170615_01_T1) from the [L8 Download Exercise](./EarthExplorer-Exercise.qmd){rel="noopener" target="_blank"}. The spatial subset can be downloaded [here](https://box.fu-berlin.de/s/zEfqNyQREJrGBLy){rel="noopener" target="_blank"} directly:
+In the file explorer window, navigate to the data folder which holds your L8 data and import a raster dataset. We will use a L8 scene showing Berlin (ID: LC08_L1TP_193023_20170602_20170615_01_T1) from the [L8 Download Exercise](./EarthExplorer-Exercise.qmd){rel="noopener" target="_blank"}. The spatial subset can be downloaded [here](XXX){rel="noopener" target="_blank"} directly:
 
 [![](./img/cla_009.png){.aligncenter}](./img/cla_009.png)
 
@@ -117,22 +117,33 @@ We do not need QGIS anymore, so close it.
 
 # Prepare Samples in R {#prepare-samples-in-r .entry-title}
 
-We want to put the training samples created in the previous section in the form of a data frame -- which most classifiers in R can handle easily (especially our RF and SVM algorithms). You can [download the training_data shapefile here](https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FShapfiles&files=training_data.zip){target="_blank" rel="noopener"}. For this task, we again take advantage of the powerful [raster](https://cran.r-project.org/web/packages/raster/raster.pdf){target="_blank" rel="noopener"} package. The complete code is shown below and a more detailed description is given afterwards.
+We want to put the training samples created in the previous section in the form of a data frame -- which most classifiers in R can handle easily (especially our RF and SVM algorithms). You can [download the training_data shapefile here](XXX){target="_blank" rel="noopener"}. For this task, we again take advantage of the powerful [terra](https://cran.r-project.org/web/packages/terra/terra.pdf){target="_blank" rel="noopener"} package. The complete code is shown below and a more detailed description is given afterwards.
 
 ``` theme:amityreseda
-# import raster package
-library(raster)
+# Load the terra package
+library(terra)
 
-# import image (img) and shapefile (shp)
+# Set the working directory
 setwd("/media/sf_exchange/landsatdata/")
-img <- brick("LC081930232017060201T1-SC20180613160412_subset.tif")
-shp <- shapefile("training_data.shp")
- 
-# extract samples with class labels and put them all together in a dataframe
+
+# Import the raster image and shapefile
+img <- rast("LC081930232017060201T1-SC20180613160412_subset.tif")
+shp <- vect("training_data.shp")
+
+# Rename the raster bands
 names(img) <- c("b1", "b2", "b3", "b4", "b5", "b6", "b7")
+
+# Extract samples with class labels and put them all together in a dataframe
 smp <- extract(img, shp, df = TRUE)
-smp$cl <- as.factor( shp$classes[ match(smp$ID, seq(nrow(shp)) ) ] )
+
+# Match the extracted samples with class labels
+smp$cl <- as.factor(shp$classes[match(smp$ID, shp$ID)])
+
+# Remove the ID column (the first column) if not needed
 smp <- smp[-1]
+
+# Display the resulting dataframe
+print(smp)
 ```
 
 []{#1}
