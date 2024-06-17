@@ -23,13 +23,13 @@ about:
 
 to your Remote Sensing Data Analysis online course, or RESEDA for short!
 
-This course helps you improve your analysis of remote sensing image data for the next data science project or thesis. We will have a look at basic and advanced concepts needed for a complete project implementation using remote sensing imagery – with a special focus on automatisation of individual operations and big data processing. This course will provide a great deal of knowledge and valuable expertise for all related fields of environmental earth sciences!
+This course helps you improve your analysis of remote sensing image data for the next data science project or thesis. We will have a look at basic and advanced concepts needed for a complete project implementation using remote sensing imagery – with a special focus on automation of individual operations and big data processing. This course will provide a great deal of knowledge and valuable expertise for all related fields of environmental earth sciences!
 
 For that purpose we will mainly use the statistical programming language R in a Linux environment – but please don’t panic, it’s not as bad as it sounds: You will be led through a complete analysis process, from data acquisition, to import, exploration and finally the export of your results, guided by a lot of reproduceable examples, exercises and pretty pictures!
 
-Keep in mind that this course content complements and extends the material covered in the classes Fernerkundung und Digitale Bildverarbeitung and Geographische Informationssysteme, both being taught at the Freie Universität Berlin.
+Keep in mind that this course content complements and extends the material covered in the classes "Fernerkundung und Digitale Bildverarbeitung" and "Geographische Informationssysteme", both being taught at the Freie Universität Berlin.
 
-Please feel free to [contact us](mailto:fabian.fassnacht[at]fu-berlin.de) if you have any questions or would like to discuss potential projects.
+Please feel free to [contact us](mailto:remotesensing@geo.fu-berlin.de) if you have any questions or would like to discuss potential projects.
 :::
 
 :::{#hero-heading}
