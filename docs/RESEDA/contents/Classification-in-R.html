@@ -462,7 +462,7 @@ window.Quarto = {
 </section>
 <section id="sample-in-qgis" class="level1 entry-title">
 <h1 class="entry-title">Sample in QGIS</h1>
-<p>This section provide a guide on how to create training areas in the form of polygons, which we save in a shapefile in QGIS. The process is very similar to collecting samples in ArcGIS/ ArcMAP, which you already know from our GIS seminars.</p>
+<p>This section provide a guide on how to create training areas in the form of polygons, which we save in a shapefile in QGIS. The process is very similar to collecting samples in ArcGIS/SNAP, which you already know from our GIS seminars.</p>
 <p>Collecting training areas is essential when working with supervised classifiers and significantly influences the classification outputs. You should make some preliminary considerations and approach the sampling very carefully! In the following, we will focus on the most important basics to consider.</p>
 <section id="preliminary-thoughts-about-sampling" class="level2">
 <h2 class="anchored" data-anchor-id="preliminary-thoughts-about-sampling">Preliminary thoughts about sampling</h2>
@@ -475,7 +475,7 @@ window.Quarto = {
 </ul>
 <p>Sampling data in machine learning is a science in itself, which is why there is a wealth of scientific publications about it (<a href="https://www.sciencedirect.com/science/article/pii/003442578690012X" rel="noopener" target="_blank">Curran &amp; Williamson 1986</a>, <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3307431/pdf/1472-6947-12-8.pdf" rel="noopener" target="_blank">Figueroa et al.&nbsp;2012</a>) and even entire books (<a href="https://books.google.de/books?id=uspzLjVWNgMC&amp;printsec=frontcover&amp;hl=de&amp;source=gbs_ge_summary_r&amp;cad=0#v=onepage&amp;q&amp;f=false" rel="noopener" target="_blank">Marchetti et al.&nbsp;2006</a>, <a href="https://books.google.de/books?id=tVIjmNS3Ob8C&amp;printsec=frontcover&amp;dq=The+Elements+of+Statistical+Learning:+Data+Mining,+Inference,+and+Prediction,+Second+Edition&amp;hl=de&amp;sa=X&amp;ved=0ahUKEwiylJDL76XcAhWDZVAKHdG1CLAQ6AEIKDAA#v=onepage&amp;q=The%20Elements%20of%20Statistical%20Learning%3A%20Data%20Mining%2C%20Inference%2C%20and%20Prediction%2C%20Second%20Edition&amp;f=false" rel="noopener" target="_blank">Hastie et al.&nbsp;2017</a>).</p>
 <p>Fine, so far that is not much of a help…</p>
-<p>To keep it very simple: You need a sample of your data that representatively describes the problem you want to solve. Keep in mind, a classifier learns a mathematical function, which maps input data (e.g., spectral bands) to output data (e.g., class labels). In order to achieve this, you should provide enough training data to capture the relationships between input and output. <strong>Training data</strong> will optimally meet the following requirements:</p>
+<p>To keep it very simple: You need a sample of your data that represents the problem you want to solve. Keep in mind, a classifier learns a mathematical function, which maps input data (e.g., spectral bands) to output data (e.g., class labels). In order to achieve this, you should provide enough training data to capture the relationships between input and output. <strong>Training data</strong> will optimally meet the following requirements:</p>
 <ul>
 <li><strong>independent of test data:</strong><br>
 A training dataset must be independent of the test dataset used for a validation, but can follow the same probability distribution. No training sample may be used to test (validate) the performance of the classifier! In the context of remote sensing data, it is also important that train and test data are spatially maximally distant to avoid spatial autocorrelation (<a href="https://en.wikipedia.org/wiki/Moran%27s_I" rel="noopener" target="_blank">Morans I</a>).</li>
@@ -507,7 +507,7 @@ There are statistical heuristic methods available to calculate a suitable sample
 <figcaption>Location of Add Raster Layer-function in QGIS</figcaption>
 </figure>
 </div>
-<p>In the file explorer window, navigate to the data folder which holds your L8 data and import a raster dataset. We will use a L8 scene showing Berlin (ID: LC08_L1TP_193023_20170602_20170615_01_T1) from the <a href="../../RESEDA/contents/EarthExplorer-Exercise.html" rel="noopener" target="_blank">L8 Download Exercise</a>. The spatial subset can be downloaded <a href="https://box.fu-berlin.de/s/zEfqNyQREJrGBLy" rel="noopener" target="_blank">here</a> directly:</p>
+<p>In the file explorer window, navigate to the data folder which holds your L8 data and import a raster dataset. We will use a L8 scene showing Berlin (ID: LC08_L1TP_193023_20170602_20170615_01_T1) from the <a href="../../RESEDA/contents/EarthExplorer-Exercise.html" rel="noopener" target="_blank">L8 Download Exercise</a>. The spatial subset can be downloaded <a href="XXX" rel="noopener" target="_blank">here</a> directly:</p>
 <p><a href="./img/cla_009.png"><img src="./img/cla_009.png" class="aligncenter img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Landsat 8 spatial subset imported into QGIS</span></p>
@@ -545,20 +545,31 @@ We do not need QGIS anymore, so close it.</p>
 </section>
 <section id="prepare-samples-in-r" class="level1 entry-title">
 <h1 class="entry-title">Prepare Samples in R</h1>
-<p>We want to put the training samples created in the previous section in the form of a data frame – which most classifiers in R can handle easily (especially our RF and SVM algorithms). You can <a href="https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FShapfiles&amp;files=training_data.zip" target="_blank" rel="noopener">download the training_data shapefile here</a>. For this task, we again take advantage of the powerful <a href="https://cran.r-project.org/web/packages/raster/raster.pdf" target="_blank" rel="noopener">raster</a> package. The complete code is shown below and a more detailed description is given afterwards.</p>
-<pre class="theme:amityreseda"><code># import raster package
-library(raster)
+<p>We want to put the training samples created in the previous section in the form of a data frame – which most classifiers in R can handle easily (especially our RF and SVM algorithms). You can <a href="XXX" target="_blank" rel="noopener">download the training_data shapefile here</a>. For this task, we again take advantage of the powerful <a href="https://cran.r-project.org/web/packages/terra/terra.pdf" target="_blank" rel="noopener">terra</a> package. The complete code is shown below and a more detailed description is given afterwards.</p>
+<pre class="theme:amityreseda"><code># Load the terra package
+library(terra)
 
-# import image (img) and shapefile (shp)
+# Set the working directory
 setwd("/media/sf_exchange/landsatdata/")
-img &lt;- brick("LC081930232017060201T1-SC20180613160412_subset.tif")
-shp &lt;- shapefile("training_data.shp")
- 
-# extract samples with class labels and put them all together in a dataframe
+
+# Import the raster image and shapefile
+img &lt;- rast("LC081930232017060201T1-SC20180613160412_subset.tif")
+shp &lt;- vect("training_data.shp")
+
+# Rename the raster bands
 names(img) &lt;- c("b1", "b2", "b3", "b4", "b5", "b6", "b7")
+
+# Extract samples with class labels and put them all together in a dataframe
 smp &lt;- extract(img, shp, df = TRUE)
-smp$cl &lt;- as.factor( shp$classes[ match(smp$ID, seq(nrow(shp)) ) ] )
-smp &lt;- smp[-1]</code></pre>
+
+# Match the extracted samples with class labels
+smp$cl &lt;- as.factor(shp$classes[match(smp$ID, shp$ID)])
+
+# Remove the ID column (the first column) if not needed
+smp &lt;- smp[-1]
+
+# Display the resulting dataframe
+print(smp)</code></pre>
 <p><span id="1"></span></p>
 <section id="in-depth-guide" class="level2">
 <h2 class="anchored" data-anchor-id="in-depth-guide">In-depth Guide</h2>
