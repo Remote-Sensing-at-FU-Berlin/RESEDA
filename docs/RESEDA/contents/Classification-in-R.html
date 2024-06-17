@@ -618,7 +618,7 @@ compareCRS(shp, img)
 <p>Both the <code>rast</code>()<code>and</code>vect()<code>functions are provided by the terra package. As shown above, they create objects of the class RasterBrick and SpatialPolygonsDataFrame respectively. The L8 raster provides 7 bands, and our example shapefile 72 features, i.e., polygons. You can check whether the projections of the two datasets are identical or not by executing</code>compareCRS(shp, img)<code>. If this is not the case (output equals *FALSE*), the raster package will automatically re-project your data on the fly later on. However, we recommend to adjust the projections manually in advance to prevent any future inaccuracies.\ Plot your data to make sure everything is imported properly (check [Visualize in R](./Visualization.qmd) for an intro to plotting). With the argument</code>add = TRUE` in line 2 several data layers can be displayed one above the other:</p>
 <pre class="theme:amityreseda"><code>plotRGB(img, r = 4, g = 3, b = 2, stretch = "lin")
 plot(shp, col="red", add=TRUE)</code></pre>
-<p><a href="./img/cla_001.png" class="fancybox image"><img src="./img/cla_001.png" class="aligncenter size-full wp-image-1981" width="1344" height="657"></a></p>
+<p><a href="./img/cla_001.png" class="fancybox image"><img src="./img/cla_001.png" class="img-fluid">{.aligncenter</a></p>
 <p>If you followed this course in the <a href="../../RESEDA/contents/Classification-in-R.html#sample-in-qgis">previous section</a>, your shapefile should provide an attribute called “classes”, which includes your target classes as strings, e.g., “water” or “urban”. We will later turn this column into the <a href="../../R-Crash-Course/index.html">factor</a> data type because classifiers can only work with integer values instead of words like “water” or “urban”. When converting to factors, strings are sorted alphabetically and numbered consecutively. In order to be able to read the classification image at the end, you should make a note of your classification key:</p>
 <pre class="theme:amityreseda"><code>levels(as.factor(shp$classes))
 ## [1] "baresoil"  "forest"    "grassland" "urban_hd"  "urban_ld"  "water"
@@ -701,7 +701,7 @@ legend(as.character(sp$cl),
        lwd = 5,
        bty = "n"
        )</code></pre>
-<p><span id="plot"></span><a href="./img/cla_005.png" class="fancybox image"><img src="./img/cla_005.png" class="aligncenter size-full wp-image-1985" loading="lazy" width="1253" height="755"></a></p>
+<p><span id="plot"></span><a href="./img/cla_005.png" class="fancybox image"><img src="./img/cla_005.png" class="img-fluid">{.aligncenter</a></p>
 <p>Note that the values represent only the arithmetic mean of the classes and do not allow any statement about the underlying distribution. However, such a z-profile plot helps to visually assess the separability of classes at the beginning.</p>
 </section>
 </section>
