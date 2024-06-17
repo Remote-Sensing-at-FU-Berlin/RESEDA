@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -63,6 +63,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../">
+<link href="../../RESEDA/contents/Validate.qmd#create-samples-in-r" rel="next">
+<link href="../../RESEDA/contents/Regression-in-R.html" rel="prev">
 <link href="../../img/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
@@ -73,14 +75,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
-<script src="../../site_libs/quarto-dashboard/quarto-dashboard.js"></script>
-<script src="../../site_libs/quarto-dashboard/stickythead.js"></script>
-<script src="../../site_libs/quarto-dashboard/datatables.min.js" kdttablesentinel="true"></script>
-<script src="../../site_libs/quarto-dashboard/pdfmake.min.js" kdttablesentinel="true"></script>
-<script src="../../site_libs/quarto-dashboard/vfs_fonts.js" kdttablesentinel="true"></script>
-<script src="../../site_libs/quarto-dashboard/web-components.js" type="module"></script>
-<script src="../../site_libs/quarto-dashboard/components.js"></script>
-<link href="../../site_libs/quarto-dashboard/datatables.min.css" rel="stylesheet" kdttablesentinel="true">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -111,10 +105,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 </head>
 
-<body class="quarto-dashboard nav-sidebar nav-fixed dashboard-fill fullcontent">
-
+<body class="nav-sidebar docked nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -144,7 +164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">R Crash Course</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../RESEDA/index.html"> 
+    <a class="nav-link active" href="../../RESEDA/index.html" aria-current="page"> 
 <span class="menu-text">RESEDA</span></a>
   </li>  
   <li class="nav-item">
@@ -174,30 +194,251 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-<header id="quarto-dashboard-header">
-<nav class="navbar navbar-expand-md slim" data-bs-theme="dark">
-  <div class="navbar-container container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-controls="dashboard-collapse" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>    
-
-
-<div id="dashboard-collapse" class="navbar-collapse collapse"><ul class="navbar-nav navbar-nav-scroll me-auto" role="tablist"><li class="nav-item" role="presentation"><a id="tab-Validate" class="nav-link active" data-bs-toggle="tab" role="tab" data-bs-target="#Validate" data-scrolling="false" href="#Validate" aria-controls="Validate" aria-selected="true"><span class="nav-link-text">Validate</span></a></li><li class="nav-item" role="presentation"><a id="tab-create-samples-in-r" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#create-samples-in-r" data-scrolling="false" href="#create-samples-in-r" aria-controls="create-samples-in-r" aria-selected="false"><span class="nav-link-text">Create Samples in R</span></a></li><li class="nav-item" role="presentation"><a id="tab-label-samples-in-qgis" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#label-samples-in-qgis" data-scrolling="false" href="#label-samples-in-qgis" aria-controls="label-samples-in-qgis" aria-selected="false"><span class="nav-link-text">Label Samples in QGIS</span></a></li><li class="nav-item" role="presentation"><a id="tab-Accuracy-Matrix" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#Accuracy-Matrix" data-scrolling="false" href="#Accuracy-Matrix" aria-controls="Accuracy-Matrix" aria-selected="false"><span class="nav-link-text">Accuracy Matrix</span></a></li><li class="nav-item" role="presentation"><a id="tab-area-adjusted-accuracies" class="nav-link" data-bs-toggle="tab" role="tab" data-bs-target="#area-adjusted-accuracies" data-scrolling="false" href="#area-adjusted-accuracies" aria-controls="area-adjusted-accuracies" aria-selected="false"><span class="nav-link-text">Area Adjusted Accuracies</span></a></li></ul></div></div></nav>
-</header></header>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../RESEDA/contents/Validate.html">Validate</a></li><li class="breadcrumb-item"><a href="../../RESEDA/contents/Validate.html">Chapter in a box</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-layout-custom page-navbar quarto-dashboard-content bslib-gap-spacing html-fill-container bslib-page-fill quarto-dashboard-pages">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">Overview</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Let’s start!</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">Preparations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/PrepareYourself.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter in a box</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/QGIS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">QGIS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/R-Studio.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">RStudio</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/SNAP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SNAP</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">Acquire</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Acquireyourdata.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter in a box</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/SensorBasics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Sensor basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Download.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Download</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">Preprocess</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Preprocess.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter in a box</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Preprocess-Optical-Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preprocess Optical Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/SAR-Data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">SAR Data</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Visualization</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">Analyse</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Analyse.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Chapter in a box</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Machine-Learning-Basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Machine Learning Basics</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Classification-in-R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Classification in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Regression-in-R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Regression in R</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text">Validate</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Chapter in a box</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#create-samples-in-r" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Create Samples in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Label Samples in QGIS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#Accuracy-Matrix" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Accuracy Matrix</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../RESEDA/contents/Validate.html#area-adjusted-accuracies" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Area Adjusted Accuracies</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#Validate" id="toc-Validate" class="nav-link active" data-scroll-target="#Validate">Validate</a></li>
+  <li><a href="#create-samples-in-r" id="toc-create-samples-in-r" class="nav-link" data-scroll-target="#create-samples-in-r">Create Samples in R</a>
+  <ul class="collapse">
+  <li><a href="#in-depth-guide" id="toc-in-depth-guide" class="nav-link" data-scroll-target="#in-depth-guide">In-depth Guide</a></li>
+  </ul></li>
+  <li><a href="#label-samples-in-qgis" id="toc-label-samples-in-qgis" class="nav-link" data-scroll-target="#label-samples-in-qgis">Label Samples in QGIS</a></li>
+  <li><a href="#Accuracy-Matrix" id="toc-Accuracy-Matrix" class="nav-link" data-scroll-target="#Accuracy-Matrix">Accuracy Matrix</a>
+  <ul class="collapse">
+  <li><a href="#significance-test" id="toc-significance-test" class="nav-link" data-scroll-target="#significance-test">Significance Test</a></li>
+  <li><a href="#kappa" id="toc-kappa" class="nav-link" data-scroll-target="#kappa">Kappa</a></li>
+  </ul></li>
+  <li><a href="#area-adjusted-accuracies" id="toc-area-adjusted-accuracies" class="nav-link" data-scroll-target="#area-adjusted-accuracies">Area Adjusted Accuracies</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
+<main class="content" id="quarto-document-content">
 
-<div class="bslib-grid-item html-fill-item tab-content bslib-grid" data-layout="fill" style="display: grid; grid-template-rows: minmax(3em, 1fr); grid-auto-columns: minmax(0, 1fr);">
-<div id="Validate" class="dashboard-page tab-pane show active html-fill-item html-fill-container" data-orientation="rows" aria-labelledby="tab-Validate">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
+
+
+
+<section id="Validate" class="level1 entry-title">
+<h1 class="entry-title">Validate</h1>
 <p>By now, you have generated your classification map, great! But can you rely on the map’s information? To underpin the meaningfulness of your results, a validation is needed.<br>
 The validation of remote sensing data is the last step in our workflow. The purpose of this chapter is to describe standard and advanced methods for validating a classification map.</p>
-<div style="background-color:#f1f1f1;padding:18px 30px 1px" class="html-fill-item html-fill-container">
+<div style="background-color:#f1f1f1;padding:18px 30px 1px">
 <p>In this chapter, the following content awaits you:</p>
 <p><a href="../../RESEDA/contents/Validate.html#Validate"><strong>Validation Intro</strong></a><br>
 – training, testing, validation – use the right terminology<br>
@@ -217,7 +458,7 @@ The validation of remote sensing data is the last step in our workflow. The purp
 <a href="../../RESEDA/contents/Validate.html#area-adjusted-accuracies"><strong>Area Adjusted Accuracies</strong></a><br>
 – calculate area weighted accuracy statistics according to <a href="http://reddcr.go.cr/sites/default/files/centro-de-documentacion/olofsson_et_al._2014_-_good_practices_for_estimating_area_and_assessing_accuracy_of_land_change.pdf" rel="noopener" target="_blank">Olofsson et al.&nbsp;2014</a></p>
 </div>
-.
+<p>.</p>
 <p><strong>Training dataset</strong>: A model is initially fit on a training sample dataset. The model iteratively learn from those training samples and tries to map data <span class="math inline">\(x\)</span> to output response <span class="math inline">\(y\)</span>.</p>
 <p><strong>Testing dataset</strong>: During training, algorithms often use a testing dataset for an unbiased evaluation of a model fit while tuning the model’s hyperparameter, e.g., <span class="math inline">\(mtry\)</span> for RF, or <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(C\)</span> for SVM. The testing dataset is generated internally, e.g., in the form of OOB samples in RF, or cross validation in SVM.</p>
 <p><strong>Validation dataset</strong>: Finally, a validation dataset is completely independent from the other two datasets and provides an unbiased evaluation of a model fit.</p>
@@ -228,19 +469,9 @@ The validation of remote sensing data is the last step in our workflow. The purp
 <li>statistically examine the deviations and matches between the manually assigned class labels and the labels assigned by the classificator at any given point coordinates</li>
 </ol>
 <p>In the following, we want to present a best practice workflow for a classification in detail.</p>
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div>
-</div>
-<div id="create-samples-in-r" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="rows" aria-labelledby="tab-create-samples-in-r">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content) minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
+</section>
+<section id="create-samples-in-r" class="level1 entry-title">
+<h1 class="entry-title">Create Samples in R</h1>
 <p>Creating validation samples is a crucial step in validation workflows. Certainly, sampling is not a trivial task. Many publications deal with the optimal sampling method, trying to maintain heterogeneity and avoid autcorrelations within validation samples, e.g., <a href="https://www.springer.com/de/book/9783540325710" rel="noopener" target="_blank">Köhl et al.&nbsp;2006</a>, <a href="http://www.mdpi.com/2072-4292/7/12/15817/htm" rel="noopener" target="_blank">Mu et al.&nbsp;2015</a>, <a href="http://reddcr.go.cr/sites/default/files/centro-de-documentacion/olofsson_et_al._2014_-_good_practices_for_estimating_area_and_assessing_accuracy_of_land_change.pdf" rel="noopener" target="_blank">Oloffson et al.&nbsp;2014</a>.</p>
 <p>In general, there are several random sampling strategies commonly found in remote sensing studies and software solutions:</p>
 <ul>
@@ -249,7 +480,7 @@ The validation of remote sensing data is the last step in our workflow. The purp
 <li><strong>equalized stratified random</strong>: Ensures, that each class’s sample size is exactly the same regardless of area of class on the map</li>
 </ul>
 <p>We will use <strong>equalized stratified random</strong> sampling for this example. This is a complete R script you need in order to automatically generate exactly 50 samples per class within your study extent:</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import package</span></span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import package</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a> </span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># import classification image (last chapter)</span></span>
@@ -271,33 +502,24 @@ The validation of remote sensing data is the last step in our workflow. The purp
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>          <span class="at">filename =</span> <span class="st">"validation_RFnew.shp"</span>,</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>          <span class="at">overwrite =</span> <span class="cn">TRUE</span></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>          )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<br>
-
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
-grid-auto-rows: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
+<p><br>
+</p>
+<section id="in-depth-guide" class="level2">
+<h2 class="anchored" data-anchor-id="in-depth-guide">In-depth Guide</h2>
 <p>All we need is the [raster` package, so make sure you’ve imported it.</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("raster")</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("raster")</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Furthermore, you should have your classification map ready (<a href="../../RESEDA/contents/Analyse.html" rel="noopener" target="_blank">Chapter Analysis</a>), lying in your working directory. Import it with the <code>raster()</code> function:</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/media/sf_exchange/landsatdata/"</span>)</span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/media/sf_exchange/landsatdata/"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>img.classified <span class="ot">&lt;-</span> <span class="fu">raster</span>(<span class="st">"classification_RF.tif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>raster</code> provides a function called <code>sampleStratified()</code>, which does all the work for us:</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>smp.test <span class="ot">&lt;-</span> <span class="fu">sampleStratified</span>(<span class="at">x =</span> classification,</span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>smp.test <span class="ot">&lt;-</span> <span class="fu">sampleStratified</span>(<span class="at">x =</span> classification,</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">size =</span> <span class="dv">50</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                             <span class="at">na.rm =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                             <span class="at">sp =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This function needs an Raster-Object as <code>x</code> argument and a positive integer value as <code>size</code> argument. Latter is the number of sample points per class. Additionally we can exclude all <code>NA</code> values, by setting <code>na.rm = TRUE</code>. <code>NA</code> Values can arise if your scene lies diagonally in space and points are placed in the border areas. Line 4 ensures, that the returned object is a SpatialPointDataFrame (which is easier to handle).</p>
 <p>We can now check the class labels of our newly extracted validation points:</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>smp.test<span class="sc">$</span>classification_RF</span>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>smp.test<span class="sc">$</span>classification_RF</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="do">##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">##  [36] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  [71] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3</span></span>
@@ -309,9 +531,9 @@ grid-auto-rows: minmax(0, 1fr);">
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="do">## [281] 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Note: the name of the column within <code>smp.test</code> depends on the file name of your classification map.</p>
 <p>Due to the subsequent manual labeling in the <a href="./Validate.qmdlabel-samples-in-qgis" rel="noopener" target="_blank">next section</a>, it makes sense to mix the samples so that the order is random. Again, we use the <code>sample()</code> function for this:</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>smp.test <span class="ot">&lt;-</span> smp.test[<span class="fu">sample</span>(<span class="fu">nrow</span>(smp.test)), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>smp.test <span class="ot">&lt;-</span> smp.test[<span class="fu">sample</span>(<span class="fu">nrow</span>(smp.test)), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>By looking at the class labels again, we see that the order is now random:</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>smp.test<span class="sc">$</span>classification_RF</span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>smp.test<span class="sc">$</span>classification_RF</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">##   [1] 3 1 4 4 6 4 5 3 6 2 1 5 4 2 2 4 4 3 4 5 1 3 4 2 6 3 3 6 1 4 6 6 5 6 2</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">##  [36] 3 1 1 3 3 1 2 5 4 3 4 2 4 1 5 1 1 4 1 3 5 2 1 5 4 5 2 3 6 2 1 5 3 5 2</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  [71] 2 6 4 1 5 1 6 4 6 6 6 6 1 1 1 2 4 5 6 4 5 3 5 4 2 2 1 2 2 3 5 6 6 1 1</span></span>
@@ -322,7 +544,7 @@ grid-auto-rows: minmax(0, 1fr);">
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="do">## [246] 5 1 1 4 1 2 4 3 4 5 5 3 5 2 3 2 2 6 3 6 5 5 3 2 4 3 1 3 6 5 6 5 5 5 6</span></span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="do">## [281] 2 3 5 5 1 1 3 4 4 1 4 5 6 4 2 3 5 3 5 4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>In addition, we can delete all variables in our dataframe <code>smp.test</code> and append a consecutive ID variable called <code>ID</code>, which will then be displayed to us in QGIS:</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>smp.test <span class="ot">&lt;-</span> smp.test[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)]</span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>smp.test <span class="ot">&lt;-</span> smp.test[, <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)]</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>smp.test<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(smp.test)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>smp.test</span>
@@ -335,42 +557,32 @@ grid-auto-rows: minmax(0, 1fr);">
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="do">## min values  :   1 </span></span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="do">## max values  : 300</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>To visualize the distribution of our validation points, we can plot the SpatialPointDataFrame <code>smp.test</code> on top of our classification map in one plot:</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(classification, </span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(classification, </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">axes =</span> <span class="cn">FALSE</span>, </span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">box =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#fbf793"</span>, <span class="st">"#006601"</span>, <span class="st">"#bfe578"</span>, <span class="st">"#d00000"</span>, <span class="st">"#fa6700"</span>, <span class="st">"#6569ff"</span>)</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>     )</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(smp.test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<a href="./img/valid_009.png"><img src="./img/valid_009.png" class="img-fluid"></a>
+<p><a href="./img/valid_009.png"><img src="./img/valid_009.png" class="img-fluid"></a></p>
 <p>Last but not least, it is still necessary to save the SpatialPointDataFrame <code>smp.test</code> as a shapefile to your hard drive. This is also very easy with the <code>shapefile()</code> function from the raster package. Choose an appropriate <code>filename =</code> for the new shapefile created.</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapefile</span>(smp.test,</span>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapefile</span>(smp.test,</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>          <span class="at">filename =</span> <span class="st">"validation_RF.shp"</span>,</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>          <span class="at">overwrite =</span> <span class="cn">TRUE</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>          )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div>
-</div>
-</div>
-<div id="label-samples-in-qgis" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="rows" aria-labelledby="tab-label-samples-in-qgis">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
+</section>
+</section>
+<section id="label-samples-in-qgis" class="level1 entry-title">
+<h1 class="entry-title">Label Samples in QGIS</h1>
 <p>Open QGIS and import your initial image dataset (Landsat 8 scene) and the newly created point shapefile [validation_RF.shp` containing the test samples from the <a href="../../RESEDA/contents/Validate.html#create-samples-in-r" rel="noopener" target="_blank">previous section</a>. Display the image data using a RGB composite of your choice (see section <a href="../../RESEDA/contents/Visualization.html">Visualization in QGIS</a>). A good, high-contrast presentation makes it easier to interpret the scene during validation:</p>
-<div class="quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="./img/valid_001.png"><img src="./img/valid_001.png" class="img-fluid figure-img" alt="Landsat 8 scene (RGB 543) and point shapefile containing the test samples"></a></p>
 <figcaption>Landsat 8 scene (RGB 543) and point shapefile containing the test samples</figcaption>
 </figure>
 </div>
 <p>For visual support, we also want to look at the high-resolution information provided by Google Maps. Starting from the main menu of QGIS, navigate via <em>Web</em> &gt; <em>OpenLayers Plugin</em> &gt; <em>Google Maps</em> &gt; <em>Google Satellite</em> to the satellite data from Google:</p>
-<div class="quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="./img/valid_002.png"><img src="./img/valid_002.png" class="aligncenter img-fluid figure-img" alt="Use the OpenLayers Plugin to import Google Maps imagery to your QGIS projec"></a></p>
 <figcaption>Use the OpenLayers Plugin to import Google Maps imagery to your QGIS projec</figcaption>
@@ -379,21 +591,21 @@ grid-auto-rows: minmax(0, 1fr);">
 <p>If you do not use our VM, you must first install the OpenLayers Plugin manually. See <a href="http://www.qgistutorials.com/en/docs/using_plugins.html" rel="noopener" target="_blank">this guide</a> to learn how to install a plugin.<br>
 Your data may look slightly rotated after the import of external Google Maps imagery. This is because the Google Maps data are subject to a different projection and they can not be reprojected on-the-fly. Because of this, your data will be temporarily adjusted so that everything is on top of each other.<br>
 Right click your point shapefile (“validation_RF.shp”) and choose “Open Attribute Table”. Enable the editing features by pressing the pencil in the toolbar of the attribute table:</p>
-<div class="quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="./img/valid_003.png"><img src="./img/valid_003.png" class="aligncenter img-fluid figure-img" alt="Enable editing of attributes"></a></p>
 <figcaption>Enable editing of attributes</figcaption>
 </figure>
 </div>
 <p>Now press the “new field” button <img src="./img/valid_005.png" class="alignnone size-full wp-image-2232" loading="lazy" width="24" height="22"> in the toolbar to add a new column to the attribute table into which we will write the correct class labels. We just want to enter the number for the corresponding class, instead of typing the complete class names every time. So we need an integer column, which we call “validclass”. Copy the following settings and confirm with OK:</p>
-<div class="quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="./img/valid_004.png"><img src="./img/valid_004.png" class="aligncenter size-full img-fluid figure-img" alt="New attribute settings"></a></p>
 <figcaption>New attribute settings</figcaption>
 </figure>
 </div>
 <p>Reminder: You wonder what numbers represent which class? Look again at section <a href="./Analyse#machine-learning-basics" rel="noopener" target="_blank">Prepare Samples in R</a>. Starting from our training polygon shapefile, we were able to display the individual class labels and the corresponding class IDs in the following step. The order results according to the alphabetical sorting of the class names:</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(<span class="fu">as.factor</span>(shp<span class="sc">$</span>classes))</span>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(<span class="fu">as.factor</span>(shp<span class="sc">$</span>classes))</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "baresoil"  "forest"    "grassland" "urban_hd"  "urban_ld"  "water"</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(<span class="fu">unique</span>(shp<span class="sc">$</span>classes))) {<span class="fu">cat</span>(<span class="fu">paste0</span>(i, <span class="st">" "</span>, <span class="fu">levels</span>(<span class="fu">as.factor</span>(shp<span class="sc">$</span>classes))[i]), <span class="at">sep=</span><span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)}</span>
@@ -406,38 +618,28 @@ Right click your point shapefile (“validation_RF.shp”) and choose “Open At
 <p>Write down the classification key! A wrong labeling of the points would be fatal for your validation statistics!</p>
 <p>If the class IDs are finally known, you can start:<br>
 Zoom to a scale level that allows you to differentiate your target classes in Google Earth. Then click on the left part of a line in the attribute table to highlight/select it. Once selected, press the icon “Zoom to selected Features” in the toolbar or simply <strong>Control+J</strong> on your keyboard to automatically navigate to the respective point in the Map View:</p>
-<div class="quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="./img/valid_008.png"><img src="./img/valid_008.png" class="aligncenter size-full img-fluid figure-img" alt="Select a point and automatically zoom to it"></a></p>
 <figcaption>Select a point and automatically zoom to it</figcaption>
 </figure>
 </div>
 <p>Use both your initial dataset (Landsat 8) and any high-resolution information (Google Maps) to decide which class the pixel that contains the point belongs to.</p>
-<div class="quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="./img/valid_006.png"><img src="./img/valid_006.png" class="aligncenter size-full img-fluid figure-img" alt="Validate random stratified points by low resolution Landsat 8 data (initial dataset)"></a></p>
 <figcaption>Validate random stratified points by low resolution Landsat 8 data (initial dataset)</figcaption>
 </figure>
 </div>
-<div class="quarto-figure quarto-figure-center html-fill-item html-fill-container">
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="./img/valid_007.png"><img src="./img/valid_007.png" class="aligncenter size-full img-fluid figure-img" alt="Validate random stratified points by high resolution Google Maps imagery"></a></p>
 <figcaption>Validate random stratified points by high resolution Google Maps imagery</figcaption>
 </figure>
 </div>
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div>
-</div>
-<div id="Accuracy-Matrix" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="rows" aria-labelledby="tab-Accuracy-Matrix">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content) minmax(3em, max-content) minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
+</section>
+<section id="Accuracy-Matrix" class="level1">
+<h1>Accuracy Matrix</h1>
 <p>A confusion matrix, also known as error or accuracy matrix, is a specific type of table showing the performance of an algorithm. The name <em>confusion matrix</em> comes from the fact that you can quickly see where the algorithm confuses two classes, which would indicate a misclassification.</p>
 <p>Several metrics can be derived from the table:</p>
 <ul>
@@ -449,10 +651,10 @@ Zoom to a scale level that allows you to differentiate your target classes in Go
 You need your final classification map, as well as both the training and validation shapefiles created in the course of the <a href="../../RESEDA/contents/Analyse.html" rel="noopener" target="_blank">Classification in R section</a>.<br>
 Good to go?</p>
 <p>Fine, then import your <code>raster</code> library in R as usual:</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("raster")</span></span>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("raster")</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then import your classification image <code>classification_RF.tif</code>, your training shapefile <code>training_data.shp</code> and your validation shapefile <code>validation_RF.shp</code>. In this example we use the output of the RF classification. However, the workflow is applicable to every classifier!</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/media/sf_exchange/landsatdata/"</span>)</span>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/media/sf_exchange/landsatdata/"</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>img.classified <span class="ot">&lt;-</span> <span class="fu">raster</span>(<span class="st">"classification_RF.tif"</span>)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>shp.train <span class="ot">&lt;-</span> <span class="fu">shapefile</span>(<span class="st">"training_data.shp"</span>)</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>shp.valid <span class="ot">&lt;-</span> <span class="fu">shapefile</span>(<span class="st">"validation_RF.shp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -461,8 +663,8 @@ Good to go?</p>
 <li><strong>reference</strong> : class labels you assigned manually in the previous section</li>
 <li><strong>predicted</strong> : class labels that resulted in the automatic RF (or SVM) classification</li>
 </ol>
-<p>For the reference vector, we need to address the <em>validclass</em> column of our shapefile (we created this column in <a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis\" rel="noopener" target="_blank">this section in QGIS</a>). As already mentioned, we need to transform the vectors into factors using <code>as.factor()</code> (it becomes clear why in a second):</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>reference <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(shp.valid<span class="sc">$</span>validclass)</span>
+<p>For the reference vector, we need to address the <em>validclass</em> column of our shapefile (we created this column in <a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis/" rel="noopener" target="_blank">this section in QGIS</a>). As already mentioned, we need to transform the vectors into factors using <code>as.factor()</code> (it becomes clear why in a second):</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>reference <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(shp.valid<span class="sc">$</span>validclass)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>reference</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="do">##   [1] 3    1    4    4    6    4    5    3    6    2    1    5    4    2   </span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  [15] 2    4    4    5    4    5    1    3    &lt;NA&gt; 2    6    3    3    6   </span></span>
@@ -487,9 +689,9 @@ Good to go?</p>
 <span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="do">## [281] 2    3    4    5    1    1    3    4    4    1    4    5    6    4   </span></span>
 <span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="do">## [295] 2    3    4    3    5    4   </span></span>
 <span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="do">## Levels: 1 2 3 4 5 6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>You may notice some entries in your reference values. These arise, for example, if you have skipped some validation points during the <a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis\" rel="noopener" target="_blank">labeling in QGIS</a> because you could not make a clear classification based on the available image data. We simply ignore them later on in the statistics – no problem!</p>
+<p>You may notice some entries in your reference values. These arise, for example, if you have skipped some validation points during the <a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis/" rel="noopener" target="_blank">labeling in QGIS</a> because you could not make a clear classification based on the available image data. We simply ignore them later on in the statistics – no problem!</p>
 <p>For the predicted vector, we need to extract the classification values at the validation coordinates. Here again, we want a factor object via <code>as.factor()</code>:</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>predicted <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">extract</span>(img.classified, shp.valid))</span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>predicted <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">extract</span>(img.classified, shp.valid))</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>predicted</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="do">##   [1] 3 1 4 4 6 4 5 3 6 2 1 5 4 2 2 4 4 3 4 5 1 3 4 2 6 3 3 6 1 4 6 6 5 6 2</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  [36] 3 1 1 3 3 1 2 5 4 3 4 2 4 1 5 1 1 4 1 3 5 2 1 5 4 5 2 3 6 2 1 5 3 5 2</span></span>
@@ -502,7 +704,7 @@ Good to go?</p>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="do">## [281] 2 3 5 5 1 1 3 4 4 1 4 5 6 4 2 3 5 3 5 4</span></span>
 <span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Levels: 1 2 3 4 5 6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Once we prepared both factor vectors, we can utilize the <code>table</code> function in an elegant way to build a contingency table of the counts at each combination of factor levels. We can additionally name the vectors so that they are also displayed in the table accordingly:</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>accmat <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="st">"pred"</span> <span class="ot">=</span> predicted, <span class="st">"ref"</span> <span class="ot">=</span> reference)</span>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>accmat <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="st">"pred"</span> <span class="ot">=</span> predicted, <span class="st">"ref"</span> <span class="ot">=</span> reference)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>accmat</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="do">##     ref</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="do">## pred  1  2  3  4  5  6</span></span>
@@ -515,7 +717,7 @@ Good to go?</p>
 <p>The numbers thus reflect the number of validation pixels. All pixels that have a value in either or were ignored here.<br>
 Excellent! This output already visualize if and where there are misclassifications in our map: all pixels located on the diagonale are correctly classified, all pixels off the diagonal are not.</p>
 <p>We can now calculate the user’s accuracies, producer’s accuracies, and the overall accuracy:</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>UA <span class="ot">&lt;-</span> <span class="fu">diag</span>(accmat) <span class="sc">/</span> <span class="fu">rowSums</span>(accmat) <span class="sc">*</span> <span class="dv">100</span></span>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>UA <span class="ot">&lt;-</span> <span class="fu">diag</span>(accmat) <span class="sc">/</span> <span class="fu">rowSums</span>(accmat) <span class="sc">*</span> <span class="dv">100</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>UA</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="do">##         1         2         3         4         5         6 </span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  68.88889  94.00000  78.00000  81.63265  94.00000 100.00000</span></span>
@@ -529,7 +731,7 @@ Excellent! This output already visualize if and where there are misclassificatio
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>OA</span>
 <span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 86.34812</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Actually we already extracted all information needed for a confusion matrix, so let us form a nicely formatted matrix in R:</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>accmat.ext <span class="ot">&lt;-</span> <span class="fu">addmargins</span>(accmat)</span>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>accmat.ext <span class="ot">&lt;-</span> <span class="fu">addmargins</span>(accmat)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>accmat.ext <span class="ot">&lt;-</span> <span class="fu">rbind</span>(accmat.ext, <span class="st">"Users"</span> <span class="ot">=</span> <span class="fu">c</span>(PA, <span class="cn">NA</span>))</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>accmat.ext <span class="ot">&lt;-</span> <span class="fu">cbind</span>(accmat.ext, <span class="st">"Producers"</span> <span class="ot">=</span> <span class="fu">c</span>(UA, <span class="cn">NA</span>, OA))</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(accmat.ext) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">levels</span>(<span class="fu">as.factor</span>(shp.train<span class="sc">$</span>classes)), <span class="st">"Sum"</span>, <span class="st">"PA"</span>)</span>
@@ -549,21 +751,12 @@ Excellent! This output already visualize if and where there are misclassificatio
 <span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="do">##   water          0.0    0.0       0.0      0.0      0.0  49.0  49.0 100.0</span></span>
 <span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="do">##   Sum           31.0   54.0      49.0     44.0     65.0  50.0 293.0      </span></span>
 <span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="do">##   PA           100.0   87.0      79.6     90.9     72.3  98.0        86.3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
-grid-auto-rows: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
+<section id="significance-test" class="level2">
+<h2 class="anchored" data-anchor-id="significance-test">Significance Test</h2>
 <p>Furthermore, we can check if the result is purely coincidental, i.e., whether a random classification of the classes could have led to an identical result. We can use a <a href="https://en.wikipedia.org/wiki/Binomial_test" rel="noopener" target="_blank">binomial test</a> for this. We only need two values for this test:<br>
 total number of correctly classified validation points, and<br>
 the total number of validation points in our confusion matrix:</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sign <span class="ot">&lt;-</span> <span class="fu">binom.test</span>(<span class="at">x =</span> <span class="fu">sum</span>(<span class="fu">diag</span>(accmat)),</span>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sign <span class="ot">&lt;-</span> <span class="fu">binom.test</span>(<span class="at">x =</span> <span class="fu">sum</span>(<span class="fu">diag</span>(accmat)),</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">n =</span> <span class="fu">sum</span>(accmat),</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">alternative =</span> <span class="fu">c</span>(<span class="st">"two.sided"</span>),</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">conf.level =</span> <span class="fl">0.95</span></span>
@@ -577,71 +770,52 @@ the total number of validation points in our confusion matrix:</p>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>CI95</span>
 <span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.8187710 0.9006459</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The p-value is much lower than 0.05, so the classification result is highly significant. If the classification were repeated under the same conditions, it can be assumed that the OA is 95% in the range of 81.2% to 90.0%.</p>
-<br>
-
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div>
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-columns: minmax(3em, 1fr);
-grid-auto-rows: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
+<p><br>
+</p>
+</section>
+<section id="kappa" class="level2">
+<h2 class="anchored" data-anchor-id="kappa">Kappa</h2>
 <p>The Kappa Coefficient can be used to evaluate the accuracy of a classification. It evaluates how well the classification performs compared to map, in which all values are just randomly assigned.<br>
 The Kappa coefficient can range from -1 to 1.<br>
 A value of 0 indicates that the classification is as good as random values.<br>
 A value below 0 indicates the classification is significantly worse than random.<br>
 A value greater than 0 indicates that the classification is significantly better than random.</p>
 <p>When you have the accuracy matrix as a table <span class="math inline">\(m_{i, j}\)</span> with <span class="math inline">\(c\)</span> different classes, then Kappa is</p>
-<span class="math display">\[\kappa = \frac{N_{o} – N_{e}}{N – N_{e}} , \text{with} \\
+<p><span class="math display">\[\kappa = \frac{N_{o} – N_{e}}{N – N_{e}} , \text{with} \\
    N = \sum_{i,j = 1}^{c} m_{i, j}\\
    N_{o} = \sum_{i=1}^c{m_{i, i}}\\
    N_{e} = \frac{1}{N}\cdot\sum_{l=1}^c\left(\sum_{j=1}^c{m_{l, j}} \cdot \sum_{i=1}^c{m_{i, l}}\right)
-\]</span>
+\]</span></p>
 <p>That looks pretty complicated. Using R, we can write our own function, which calculates <span class="math inline">\(\kappa\)</span> for us! The calculation also looks much friendlier:</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>kappa <span class="ot">&lt;-</span> <span class="cf">function</span>(m) {</span>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>kappa <span class="ot">&lt;-</span> <span class="cf">function</span>(m) {</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> <span class="fu">sum</span>(m)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  No <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">diag</span>(m))</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  Ne <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> N <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">colSums</span>(m) <span class="sc">*</span> <span class="fu">rowSums</span>(m))</span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>( (No <span class="sc">-</span> Ne) <span class="sc">/</span> (N <span class="sc">-</span> Ne) )</span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Use the accuracy matrix as argument for our new function to calculate the Kappa coefficient:</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>kappacoefficient <span class="ot">&lt;-</span> <span class="fu">kappa</span>(accmat)</span>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>kappacoefficient <span class="ot">&lt;-</span> <span class="fu">kappa</span>(accmat)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>kappacoefficient</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.8359646</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>However, Kappas use has been questioned by many articles and is therefore not recommended (see <a href="https://sensoremoto2016.files.wordpress.com/2016/09/pontius_death_to_kappa_2011.pdf" rel="noopener" target="_blank">Pontius Jr and Millones 2011</a>).</p>
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
-</div>
-</div>
-</div>
-<div id="area-adjusted-accuracies" class="dashboard-page tab-pane grid-skip html-fill-item html-fill-container" data-orientation="rows" aria-labelledby="tab-area-adjusted-accuracies">
-<div class="html-fill-item html-fill-container bslib-grid" style="display: grid; grid-template-rows: minmax(3em, max-content); grid-auto-columns: minmax(0, 1fr);">
-<div class="card html-fill-item html-fill-container bslib-card" data-fill="false" data-bslib-card-init="" data-require-bs-caller="card()" data-full-screen="false">
-<div class="card-body html-fill-item html-fill-container">
+</section>
+</section>
+<section id="area-adjusted-accuracies" class="level1 entry-title">
+<h1 class="entry-title">Area Adjusted Accuracies</h1>
 <p>The area of land cover change obtained from a map may differ greatly from the true area of change because of misclassifications in your map. In regard of this, Olofsson et al.&nbsp;published two papers in <a href="https://ac.els-cdn.com/S0034425712004191/1-s2.0-S0034425712004191-main.pdf?_tid=c4857f5c-edcf-48ca-b372-d5a40a6e6005&amp;acdnat=1537182066_0c994600d448d5ef70ccbcf8d7465a6f" rel="noopener" target="_blank">2013</a> and <a href="http://reddcr.go.cr/sites/default/files/centro-de-documentacion/olofsson_et_al._2014_-_good_practices_for_estimating_area_and_assessing_accuracy_of_land_change.pdf" rel="noopener" target="_blank">2014</a>, introducing an error-adjusted estimator of area, that can be easily produced once an accuracy assessment has been performed and an error matrix was constructed. Furthermore, they provide a confidence interval for the area of land change to quantify the uncertainty of the estimations. The following script reproduces the findings of <a href="http://reddcr.go.cr/sites/default/files/centro-de-documentacion/olofsson_et_al._2014_-_good_practices_for_estimating_area_and_assessing_accuracy_of_land_change.pdf" rel="noopener" target="_blank">Olofsson et al.&nbsp;2014</a>.</p>
-<strong>What do you need?</strong>
+<p><strong>What do you need?</strong></p>
 <ul>
 <li>your classification map</li>
 <li>your training shapefile</li>
 <li>your validation shapefile</li>
 </ul>
-<strong>What do you get?</strong>
+<p><strong>What do you get?</strong></p>
 <ul>
 <li>error-adjusted area estimates of your classes</li>
 <li>confidence intervals for all accuracies</li>
 </ul>
 <p>The script is commented comprehensively and the equations from the paper are marked accordingly in the comments of this script.</p>
-<div class="sourceCode html-fill-item html-fill-container" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># area adjusted accuracy assessment </span></span>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># area adjusted accuracy assessment </span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># calculated as in Olofsson et al. 2014</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
@@ -701,7 +875,7 @@ A value greater than 0 indicates that the classification is significantly better
 <span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(result) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"km²"</span>, <span class="st">"km²±"</span>, <span class="st">"PA"</span>, <span class="st">"PA±"</span>, <span class="st">"UA"</span>, <span class="st">"UA±"</span>, <span class="st">"OA"</span>, <span class="st">"OA±"</span>)</span>
 <span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(result) <span class="ot">&lt;-</span> <span class="st">"table"</span></span>
 <span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a>result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode html-fill-item html-fill-container" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/media/sf_exchange/landsatdata/"</span>)</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>img.class <span class="ot">&lt;-</span> <span class="fu">raster</span>(<span class="st">"classification_RF.tif"</span>)</span>
@@ -816,23 +990,11 @@ A value greater than 0 indicates that the classification is significantly better
 <span id="cb23-113"><a href="#cb23-113" aria-hidden="true" tabindex="-1"></a><span class="do">## urban_hd  102.61  15.74  92.46   8.40  81.63  10.95              </span></span>
 <span id="cb23-114"><a href="#cb23-114" aria-hidden="true" tabindex="-1"></a><span class="do">## urban_ld  183.33  17.21  85.47   6.20  94.00   6.65              </span></span>
 <span id="cb23-115"><a href="#cb23-115" aria-hidden="true" tabindex="-1"></a><span class="do">## water      20.14   4.29  89.12  19.01 100.00   0.00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">
-    <template>Expand</template>
-    <span class="bslib-full-screen-enter badge rounded-pill">
-        <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" style="height:1em;width:1em;" aria-hidden="true" role="img"><path d="M20 5C20 4.4 19.6 4 19 4H13C12.4 4 12 3.6 12 3C12 2.4 12.4 2 13 2H21C21.6 2 22 2.4 22 3V11C22 11.6 21.6 12 21 12C20.4 12 20 11.6 20 11V5ZM4 19C4 19.6 4.4 20 5 20H11C11.6 20 12 20.4 12 21C12 21.6 11.6 22 11 22H3C2.4 22 2 21.6 2 21V13C2 12.4 2.4 12 3 12C3.6 12 4 12.4 4 13V19Z"></path></svg>
-    </span>
-</bslib-tooltip><script data-bslib-card-init="">bslib.Card.initializeAllCards();</script></div>
 
 
-<div id="3ade8a4a-fb1d-4a6c-8409-ac45482d5fc9" class="hidden html-fill-item html-fill-container">
+</section>
 
-</div>
-</div>
-</div>
-</div>
-
-
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1242,6 +1404,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../RESEDA/contents/Regression-in-R.html" class="pagination-link" aria-label="Regression in R">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Regression in R</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../RESEDA/contents/Validate.html#create-samples-in-r" class="pagination-link" aria-label="Create Samples in R">
+        <span class="nav-page-text">Create Samples in R</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -1257,14 +1431,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </footer>
 
-<script type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (_event) {
-  if (window.bslib.Card) {
-    window.bslib.Card.initializeAllCards();
-  }
-}); 
-</script>
-  
 
 
 
