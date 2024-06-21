@@ -408,7 +408,7 @@ There are six atomic vector types in R. In this context, “atomic” means that
 <p>Integer values ​​must be explicitly declared with an “L”, otherwise they are considered numeric or double.<br>
 Everything in R is an object that belongs to certain classes. This is because R is subject to an object-oriented paradigm. However, within this course, we only focus on the relevant aspects of object orientation in order not to go beyond the scope.<br>
 Objects have different properties, or attributes, such as column names, dimensionality, length or class membership, and many more. These attributes can be queried using, for example, <code>class()</code> or <code>length()</code> function (like above).<br>
-The official <a href="https://www.rstudio.com/resources/cheatsheets/">cheat sheets</a> also provide a very good overview of data types and their most important properties.</p>
+The <a href="https://iqss.github.io/dss-workshops/R/Rintro/base-r-cheat-sheet.pdf">cheat sheet for basic R</a> and other cheat sheets (https://www.rstudio.com/resources/cheatsheets/) also provide a very good overview of R functions.</p>
 <p>If several classes are combined in one vector, the conversion into a uniform class is automatically forced:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ab <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Hello"</span>, <span class="fl">1.3</span>, <span class="st">"World"</span>, <span class="fl">5.6</span>)   </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(ab)</span>
