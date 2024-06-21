@@ -9,8 +9,7 @@ common architecture for the Sentinel 1, 2 and 3 Toolboxes, which support
 the scientific exploitation for the ERS-ENVISAT missions, the Sentinel
 1/2/3 missions and a range of national and third party missions. Those
 toolboxes contain the functionalities of previous toolboxes such as
-[BEAM](http://www.brockmann-consult.de/cms/web/beam/){target="_blank"},
-NEST and [Orfeo](https://www.orfeo-toolbox.org/){target="_blank"}
+BEAM, NEST and [Orfeo](https://www.orfeo-toolbox.org/){target="_blank"}
 Toolbox. SNAP not only enables simple functionalities, such as opening
 and exploring data products, but also creating and computing complex,
 user-defined processing chains.
@@ -49,8 +48,8 @@ user-defined processing chains.
     stretching
 -   **4 Product Library**: browse and view metadata of your locally
     stored Sentinel data products or search for new data sets on the ESA
-    SciHUB servers. Have a look at chapter [ESA
-    SciHUB](./Download.qmd#Sentinel_SciHUB) for more
+    Copernicus Data Space Ecosytem. Have a look at chapter [ESA
+    Data Space](./Download.qmd#SentinelDataspace) for more information.
 -   **5 Image View**: data you have loaded in your current session can
     be visualized here. If multiple data sets are open, you can switch
     back and forth between them by clicking on the tabs at the top of
@@ -59,7 +58,7 @@ user-defined processing chains.
     .wp-image-894 loading="lazy" width="126" height="30"} in the toolbar
     (1).
 
-There is an official science toolbox expoitation platform,
+There is an official science toolbox exploitation platform,
 [STEP](http://step.esa.int/main/toolboxes/snap/){target="_blank"} for
 short. On this website you can access [useful video
 tutorials](http://step.esa.int/main/doc/tutorials/){target="_blank"}
