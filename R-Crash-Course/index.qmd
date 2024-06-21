@@ -13,7 +13,7 @@ toc: false
 This is a R crash course for anyone who previously had no or very little contact with script-based programming. It should establish the basic understanding needed for upcoming chapters.\
 You are an old hand in R programming and do not need this introduction? -- Skip this section and go explore the [RESEDA](../RESEDA/index.qmd) course!
 
-In order to deepen your knowledge, in particular with a view to statistical analysis, we recommend the advanced e-learning course [SOGA](https://www.geo.fu-berlin.de/en/v/soga/index.html) (Softwaregestützte Geodatenanalyse). User name and password for SOGA are "ilovestats" in a single word. Of course, there are lots of advanced [tutorials](https://www.rstudio.com/online-learning/#R) and relevant [literature](https://cran.r-project.org/doc/manuals/R-intro.pdf) out there, which should not go unmentioned here.
+In order to deepen your knowledge, in particular with a view to statistical analysis, we recommend the advanced e-learning course [SOGA](https://www.geo.fu-berlin.de/en/v/soga/index.html) (Softwaregestützte Geodatenanalyse). User name and password for SOGA are "ilovestats" in a single word. Of course, there are lots of [tutorials](https://education.rstudio.com/learn/) and relevant [literature](https://cran.r-project.org/doc/manuals/R-intro.pdf) out there, which should not go unmentioned here.
 
 ::: {style="background-color: #f1f1f1;padding: 18px 30px 1px"}
 # Crash Course in a Box

@@ -50,7 +50,7 @@ length(a)                   # get number of elements in vector
 Integer values ​​must be explicitly declared with an "L", otherwise they are considered numeric or double.\
 Everything in R is an object that belongs to certain classes. This is because R is subject to an object-oriented paradigm. However, within this course, we only focus on the relevant aspects of object orientation in order not to go beyond the scope.\
 Objects have different properties, or attributes, such as column names, dimensionality, length or class membership, and many more. These attributes can be queried using, for example, `class()` or `length()` function (like above).\
-The official [cheat sheets](https://www.rstudio.com/resources/cheatsheets/) also provide a very good overview of data types and their most important properties.
+The [cheat sheet for basic R](https://iqss.github.io/dss-workshops/R/Rintro/base-r-cheat-sheet.pdf) and other cheat sheets (https://www.rstudio.com/resources/cheatsheets/) also provide a very good overview of R functions.
 
 If several classes are combined in one vector, the conversion into a uniform class is automatically forced:
 
