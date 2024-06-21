@@ -12,6 +12,8 @@ sidebar: true
 
 # Let's start!
 
+Caution (June 2024): We are updating the tutorial step by step! 
+
 :::
 
 :::{#hero-heading}
