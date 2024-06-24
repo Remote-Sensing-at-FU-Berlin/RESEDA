@@ -112,11 +112,10 @@ Markdown is a lightweight markup language for creating formatted text using a pl
 Quarto extends Markdown with additional capabilities specific to scientific and technical writing. Some common Quarto-specific syntax and extensions include:
 
 1. **Code Blocks with Output**:
-   ```markdown
+   
    ```{r}
    # R code here
    summary(cars)
-   ```
    ```
 
 2. **Cross-referencing**:
@@ -134,12 +133,12 @@ Quarto extends Markdown with additional capabilities specific to scientific and 
    ```
 
 4. **Layout Elements**:
-   - **Columns**:
-     ```markdown
-     ::: {.column}
-     Content in a column.
-     :::
-     ```
+   **Columns**:
+    ```markdown
+    ::: {.column}
+    Content in a column.
+    :::
+    ```
 
 5. **Callouts**:
    ```markdown
@@ -148,6 +147,8 @@ Quarto extends Markdown with additional capabilities specific to scientific and 
    :::
 
    ```
+------------------------------------------------------------------------  
+   
 To make changes to the RESEDA website, here are the files you should edit based on the type of modification you want to make:
 
 #### **Style Changes**
