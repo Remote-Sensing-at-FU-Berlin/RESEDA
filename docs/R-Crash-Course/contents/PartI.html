@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -343,7 +343,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="package-management" class="level1">
 <h1>Package Management</h1>
-<p>Packages are collections of functions and compiled code written by the R community or the <a href="https://www.r-project.org/contributors.html">R Development Core Team</a>. R comes with a standard set of packages, e.g., <em>base</em>, <em>stats</em>, and <em>graphics</em>. However, R is enormously expandable in its (geo-)statistical functionality via the official network CRAN (The Comprehensive R Archive Network). There are over 11,000 different extensions, or packages, available free of charge. The directory, where installed packages are stored, is called library.<br>
+<p>Packages are collections of functions and compiled code written by the R community or the <a href="https://www.r-project.org/contributors.html">R Development Core Team</a>. R comes with a standard set of packages, e.g., <em>base</em>, <em>stats</em>, and <em>graphics</em>. However, R is enormously expandable in its (geo-)statistical functionality via the official network CRAN (The Comprehensive R Archive Network). There are over 20,000 different extensions, or packages, available free of charge. The directory, where installed packages are stored, is called library.<br>
 Your can install new packages to your library by clicking on the <strong>Packages</strong>-tab and then <strong>Install</strong> in the Files Pane of R-Studio. Anyway, download and installation of packages can also be done script-based via the function <code>install.packages()</code> (illustrated using the <a href="https://cran.r-project.org/web/packages/ggplot2/ggplot2.pdf">ggplot2</a> package, which is useful for creating elegant data visualizations):</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -373,7 +373,7 @@ Once installed, you have to load the package into your current R-session before 
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>(<span class="dv">2</span> <span class="sc">+</span> <span class="dv">3</span>) <span class="sc">*</span> <span class="dv">4</span>  </span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 20</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You will see a number in square brackets [1] at the beginning of your output prompts. This number refers to the length of your output, i.e., the number of elements, which is 1 for all examples above. More on that in chapter <a href="./Part-II/index.qmd">Vectors</a>. In addition to these standard operators, there were plenty of other operators commonly encountered in R:</p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 52%">
 <col style="width: 47%">

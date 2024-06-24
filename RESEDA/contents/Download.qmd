@@ -10,7 +10,7 @@ We show you two platforms which allow users to view and download remote sensing 
 
 \
 
-**Sentinel Data via ESA SciHUB**
+**Sentinel Data via ESA Dataspace**
 
 [![](./img/ESAsciHUB.png)](./Download.qmd#SentinelScihub)
 
@@ -404,7 +404,7 @@ Follow the search queries in the upcoming exercise to familiarize yourself with 
 
 </p>
 
-# Sentinel / SciHUB {#SentinelScihub}
+# Sentinel / Dataspace {#SentinelDataspace}
 
 You will get to know an online platform that lets you search and download Sentinel 1 and 2 data -- the ESA SciHUB portal. Again, there are ways to download a lot of data automatically -- Have a look at the [section for BIG DATA downloading](./Download.qmd#Sentinelbigdata) and test your knowledge of this section with an exercise!
 

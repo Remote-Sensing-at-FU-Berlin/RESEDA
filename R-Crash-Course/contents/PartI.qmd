@@ -3,7 +3,7 @@
 
 # Package Management
 
-Packages are collections of functions and compiled code written by the R community or the [R Development Core Team](https://www.r-project.org/contributors.html). R comes with a standard set of packages, e.g., *base*, *stats*, and *graphics*. However, R is enormously expandable in its (geo-)statistical functionality via the official network CRAN (The Comprehensive R Archive Network). There are over 11,000 different extensions, or packages, available free of charge. The directory, where installed packages are stored, is called library.\
+Packages are collections of functions and compiled code written by the R community or the [R Development Core Team](https://www.r-project.org/contributors.html). R comes with a standard set of packages, e.g., *base*, *stats*, and *graphics*. However, R is enormously expandable in its (geo-)statistical functionality via the official network CRAN (The Comprehensive R Archive Network). There are over 20,000 different extensions, or packages, available free of charge. The directory, where installed packages are stored, is called library.\
 Your can install new packages to your library by clicking on the **Packages**-tab and then **Install** in the Files Pane of R-Studio. Anyway, download and installation of packages can also be done script-based via the function `install.packages()` (illustrated using the [ggplot2](https://cran.r-project.org/web/packages/ggplot2/ggplot2.pdf) package, which is useful for creating elegant data visualizations):
 
 ```r
