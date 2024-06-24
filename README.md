@@ -13,10 +13,8 @@
 1.  Accessing the Quarto Project
 2.  Understanding the Project Structure
 3.  Editing Content
-4.  Previewing Changes
-5.  Publishing Updates
-6.  Troubleshooting Tips
-7.  Additional Resources
+4.  Publishing Updates
+5.  Additional Resources
 
 ------------------------------------------------------------------------
 
