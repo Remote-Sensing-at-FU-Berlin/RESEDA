@@ -28,13 +28,13 @@
 
 -   **Step 3**: Install GitHub Desktop from: https://docs.github.com/en/desktop/installing-and-authenticating-to-github-desktop/installing-github-desktop
     
--   **Step 3**: Clone the repository
+-   **Step 4**: Clone the repository
     -   Instructions on how to clone the repository from GitHub can be found in the following link:
         https://docs.github.com/en/desktop/adding-and-cloning-repositories/cloning-and-forking-repositories-from-github-desktop
 
--   **Step 4**: Open project in R-Studio: Inside R-studio you should see a files tab in the bottom right hand corner. Most files you click will be opened up as text files in the R-studio editor. Click the "Index.Rmd" file.
+-   **Step 5**: Open project in R-Studio: Inside R-studio you should see a files tab in the bottom right hand corner. Most files you click will be opened up as text files in the R-studio editor. Click the "Index.Rmd" file.
 
--   **Step 5**: To compile the entire website, find the build tab in the top right hand corner. You should see the option to "build website". Click this. The website should be built.
+-   **Step 6**: To compile the entire website, find the build tab in the top right hand corner. You should see the option to "build website". Click this. The website should be built.
 
 ***Important***: If you want to see the website, you need to upload it to a web server to serve the webpage on the internet. Open the main Quarto file (such as index.qmd) in R-Studio, then click render the website by clicking the "Render Website" button in the top right corner of the editor or by running quarto::quarto_render() in the R console.
 
