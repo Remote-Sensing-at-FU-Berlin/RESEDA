@@ -5,7 +5,7 @@
 ### Table of Contents
 
 0.  [Introduction](#introduction)
-1.  [Accessing the Quarto Project](#Accessing)
+1.  [Accessing the Quarto Project](#1. Accessing the Quarto Project)
 2.  Understanding the Project Structure
 3.  Editing Content
 4.  Publishing Updates
