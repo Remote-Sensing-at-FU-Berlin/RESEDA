@@ -43,7 +43,7 @@
 
 ------------------------------------------------------------------------
 
-### 2. Understanding the Project Structure
+### Understanding the Project Structure
 
 Here's an overview of the project's structure:
 
@@ -68,7 +68,7 @@ The project is hosted on GitHub, and more details, including the full directory 
 
 ------------------------------------------------------------------------
 
-### 3. Editing Content
+### Editing Content
 
 **Instructions for Editing Quarto Website Files**
 
@@ -174,7 +174,7 @@ By editing these files, you can customize the style, structure, and content of t
 
 ------------------------------------------------------------------------
 
-### 4. Publishing Updates
+### Publishing Updates
 
 To publish changes to your Quarto website using GitHub Desktop and RStudio, follow these steps:
 
@@ -230,7 +230,7 @@ By following these steps, you can efficiently manage and publish your Quarto web
 
 ------------------------------------------------------------------------
 
-### 5. Additional Resources
+### Additional Resources
 
 -   **Links**:
     -   Quarto Documentation: [Quarto Documentation](https://quarto.org/docs/)
