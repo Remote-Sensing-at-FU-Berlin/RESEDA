@@ -1,4 +1,4 @@
-## Title: **Guide to Basic Edits of the Webpage**
+## **Guide to Basic Edits of the Webpage**
 
 ------------------------------------------------------------------------
 
@@ -39,7 +39,9 @@
 
 -   **Step 4**: After the website is built, you should be able to see it in the R-studio browser. There is a little button (blue arrow with a little browser icon) that allows you to pop the website into your default web-browser. This way you can look at the website in your browser.
 
-**Important**: If you want to see the website, you need to upload it to a web server to serve the webpage on the internet. Open the main Quarto file (such as index.qmd) in R-Studio, then click render the website by clicking the "Render Website" button in the top right corner of the editor or by running quarto::quarto_render() in the R console.
+***Important***: If you want to see the website, you need to upload it to a web server to serve the webpage on the internet. Open the main Quarto file (such as index.qmd) in R-Studio, then click render the website by clicking the "Render Website" button in the top right corner of the editor or by running quarto::quarto_render() in the R console.
+
+
 ------------------------------------------------------------------------
 
 ### 2. Understanding the Project Structure
