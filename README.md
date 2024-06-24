@@ -19,7 +19,7 @@
 
 ------------------------------------------------------------------------
 
-### 1. Accessing the Quarto Project
+### Accessing the Quarto Project
 
 -   **Step 1**: Make sure the rmarkdown package is installed in R-studio. Open R-studio, click the packages tab in the lower left hand corner, click install packages, type in rmarkdown, make sure "install dependencies" is clicked on, then press install. Close R-studio.
 
