@@ -2,15 +2,10 @@
 
 ------------------------------------------------------------------------
 
-### Introduction
-
--   **Purpose**: The purpose of this guide is to provide users with clear, step-by-step instructions on how to perform basic edits and customization tasks on a Quarto website. Whether you're looking to modify content, update styles, or restructure the site, this guide will help you understand which files to edit and how to publish your changes effectively using GitHub Desktop and RStudio. This ensures that your website remains up-to-date, well-maintained, and aligned with your specific needs and goals.
-
-------------------------------------------------------------------------
-
 ### Table of Contents
 
-1.  Accessing the Quarto Project
+0.  [Introduction](#introduction)
+1.  [Accessing the Quarto Project](#Accessing)
 2.  Understanding the Project Structure
 3.  Editing Content
 4.  Publishing Updates
@@ -18,7 +13,13 @@
 
 ------------------------------------------------------------------------
 
-### 1. Accessing the Quarto Project
+### Introduction {@introduction}
+
+-   **Purpose**: The purpose of this guide is to provide users with clear, step-by-step instructions on how to perform basic edits and customization tasks on a Quarto website. Whether you're looking to modify content, update styles, or restructure the site, this guide will help you understand which files to edit and how to publish your changes effectively using GitHub Desktop and RStudio. This ensures that your website remains up-to-date, well-maintained, and aligned with your specific needs and goals.
+
+------------------------------------------------------------------------
+
+### 1. Accessing the Quarto Project {@Accessing}
 
 -   **Step 1**: Make sure the rmarkdown package is installed in R-studio. Open R-studio, click the packages tab in the lower left hand corner, click install packages, type in rmarkdown, make sure "install dependencies" is clicked on, then press install. Close R-studio.
 
