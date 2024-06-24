@@ -6,10 +6,10 @@
 
 0.  [Introduction](#introduction)
 1.  [Accessing the Quarto Project](#Accessing-the-Quarto-Project)
-2.  Understanding the Project Structure
-3.  Editing Content
-4.  Publishing Updates
-5.  Additional Resources
+2.  [Understanding the Project Structure](#Understanding-the-Project-Structure)
+3.  [Editing Content](#Editing-Content)
+4.  [Publishing Updates](#Publishing-Updates)
+5.  [Additional Resources](#Additional-Resources)
 
 ------------------------------------------------------------------------
 
