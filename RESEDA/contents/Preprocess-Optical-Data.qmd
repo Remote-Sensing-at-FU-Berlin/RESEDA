@@ -13,9 +13,9 @@ Fortunately, both **Landsat 8/9** and **Sentinel 2** Level-1 products are alread
 We want to focus on converting the just-downloaded products into GeoTIFF files. A GeoTIFF file is a standard used in many GIS and RS software solutions and allows georeferencing information to be embedded within the TIFF-file itself. Such information includes the map projection, the coordinate system, the ellipsoid, the geodetic datum, the geospatial extent, and many more.
 
 
-## Landsat 8 Preprocessing {#landsat-8-preprocessing .entry-title}
+## Landsat 8 and 9 Preprocessing {#landsat-8-preprocessing .entry-title}
 
-Landsat 8 ships as a [tar-archived file](https://en.wikipedia.org/wiki/Tar_(computing)){target="_blank"} with the spectral bands as individual georeferenced tif images. We want to stack these images into a single geotiff-file, i.e., into a so-called raster stack. Afterwards, it is much easier to work with such a raster stack. While this could also be done in QGIS, we will use R for this preprocessing, because it is easier to automate things this way. This results in the following intermediate steps we have to check off:
+Landsat 8 as well as Landsat 9 ship as a [tar-archived file](https://en.wikipedia.org/wiki/Tar_(computing)){target="_blank"} with the spectral bands as individual georeferenced tif images. We want to stack these images into a single geotiff-file, i.e., into a so-called raster stack. Afterwards, it is much easier to work with the darta. While this could also be done in QGIS, we will use R for this preprocessing, because it is easier to automate things this way. This results in the following intermediate steps we have to check off:
 
 1.  unzip your downloaded L8 files
 2.  put together the spectral band files of your choice into a rasterstack
@@ -37,8 +37,7 @@ Done? -- Then start [R-Studio](./R-Studio.qmd) now!
 
 **Preprocess a single dataset**
 
-We recommend writing the following code in the script window of R-Studio and executing it from there (see [chapter R-Studio](./R-Studio.qmd)).\
-The example below assumes that you have one or more Landsat 8 or 9 scenes in a "landsatdata"-folder. Otherwise, adjust the folder according to your data!
+We recommend writing the following code in the script window of R-Studio and executing it from there (see [chapter R-Studio](./R-Studio.qmd)).The example below assumes that you have one or more Landsat 8 or 9 scenes in a "landsatdata"-folder.
 
 We will use the [terra library](https://cran.r-project.org/web/packages/terra/terra.pdf){target="_blank"} to write a raster file later. Additional libraries should always be loaded first, using the function `library() `:
 
@@ -47,10 +46,10 @@ library(terra)
 ## Loading required package: sp
 ```
 
-A few libraries make use of other libraries. So does the raster library with the [sp-package](https://cran.r-project.org/web/packages/sp/sp.pdf){target="_blank"}, which will be loaded automatically.
+A few libraries make use of other libraries. So does the terra library with the [sp-package](https://cran.r-project.org/web/packages/sp/sp.pdf){target="_blank"}, which will be loaded automatically.
 
 
-Set the path to your working directory. Please, be aware that the delimeters between subfolders should be either "/" or "\\". Especially, if you working on Windows machines, take care of this. USe the function `getwd()` to see which directory is your working directory.
+Set the path to your working directory. Please, be aware that the delimiters between subfolders should be either "/" or "\\". Especially, if you working on Windows machines, take care of this. Use the function `getwd()` to see which directory is set as your working directory.
 
 ``` r
 setwd("P:/ath/to/your/folder")
@@ -187,19 +186,28 @@ Run the code and you will create a .ovr-file next to your .tif-file. This ovr-fi
 Phew! This was A LOT of (explanatory) text by now. Fortunately, the code is actually much shorter! Here is the complete code for preprocessing one exemplary L8 Level-2 file:
 
 ``` r
+# Load the 'terra' package for raster data manipulation
 library(terra)
+
+# Load the 'sf' package for handling spatial data
 library(sf)
 
-
+# Set the working directory to the specified folder path
 setwd("P:/ath/to/your/folder")
 
+# Define the product filename
 product <- "LC09_L2SP_193023_20240512_20240513_02_T1.tar"
+
+# Create the product name by removing the file extension (.tar) from the product filename
 productname <- substr(product, 1, nchar(product) - 4)
 
+# Extract the contents of the tar file into a directory named after the product name
 untar(product, exdir = productname)
 
+# List all files in the product directory with their full paths
 productfiles <- list.files(productname, full.names = TRUE)
 
+# Select the specific band files (SR_B1 to SR_B7) from the product files
 bands <- c(grep('SR_B1', productfiles, value=TRUE),
            grep('SR_B2', productfiles, value=TRUE),
            grep('SR_B3', productfiles, value=TRUE),
@@ -209,17 +217,20 @@ bands <- c(grep('SR_B1', productfiles, value=TRUE),
            grep('SR_B7', productfiles, value=TRUE)
            ) 
 
-
+# Create a raster stack from the selected band files
 rasterstack <- rast(bands)
 
+# Write the raster stack to a GeoTIFF file, specifying the file type and allowing overwrite
 writeRaster(rasterstack, 
             paste0(productname, ".tif"), 
             filetype = "GTiff",
             overwrite = TRUE
             )
 
+# Remove the product directory and its contents
 unlink(productname, recursive=TRUE)
 
+# Generate overviews (pyramids) for the GeoTIFF file to optimize its performance
 gdal_addo("LC09_L2SP_193023_20240512_20240513_02_T1.tif",  overviews = c(2, 4, 8, 16))
 ```
 
