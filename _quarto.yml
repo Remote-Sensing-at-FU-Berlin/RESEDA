@@ -108,8 +108,6 @@ website:
               file: RESEDA/contents/Preprocess.qmd
             - text: "Preprocess Optical Data"
               file: RESEDA/contents/Preprocess-Optical-Data.qmd
-            - text: "SAR Data"
-              file: RESEDA/contents/SAR-Data.qmd
             - text: "Visualization"
               file: RESEDA/contents/Visualization.qmd
         - section: "Analyse"

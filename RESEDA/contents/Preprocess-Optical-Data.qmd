@@ -5,11 +5,11 @@ Preprocessing optical data in remote sensing (RS) research usually describes the
 
 -   **radiometric correction** due to variations in scene illumination and viewing geometry
 -   **geometric correcting /orthorectification** to improve the positional accuracy of image data
--   **atmospheric correction** to improve the spectral comparability between two scenes
--   **convertion** of data into various units (e.g., TOA radiation to reflectance) or between different data types (e.g., .img to .tiff)
--   **compression or subsetting** data to save disc space
+-   **atmospheric correction** to minimoze atmohspheric effects and to improve the spectral comparability between two scenes
+-   **conversion** of data into various units (e.g., TOA radiation to reflectance) or between different data types (e.g., .img to .tiff)
+-   **compressing or subsetting** data to save disc space
 
-Fortunately, both **Landsat 8** and **Sentinel 2** Level-1 products are already radiometrically and geometrically corrected. If you use Level-2 scenes, the atmosphere correction is already done on both products by the data provider, which is a prerequisite especially for a time series analysis. So there is no need for you to do either of this corrections any more!\
+Fortunately, both **Landsat 8/9** and **Sentinel 2** Level-1 products are already radiometrically and geometrically corrected. If you use Level-2 scenes, the atmosphere correction is already done on both products by the data provider, which is a prerequisite especially for a time series analysis. So there is no need for you to do either of this corrections any more!\
 We want to focus on converting the just-downloaded products into GeoTIFF files. A GeoTIFF file is a standard used in many GIS and RS software solutions and allows georeferencing information to be embedded within the TIFF-file itself. Such information includes the map projection, the coordinate system, the ellipsoid, the geodetic datum, the geospatial extent, and many more.
 
 
@@ -23,13 +23,13 @@ Landsat 8 ships as a [tar-archived file](https://en.wikipedia.org/wiki/Tar_(comp
 4.  (optional) delete all redundant data
 5.  (optional) create pyramid layers for a better visualization in QGIS
 
-We will practice everything exemplary on the basis of a single L8 Level-2 data set. There will be an exhaustive explanation for each line of code. Based on that we will develop a script that will automatically do everything for you in the future.
+We will practice everything exemplary on the basis of a single L9 Level-2 data set. There will be an exhaustive explanation for each line of code. Based on that we will develop a script that will automatically do everything for you in the future.
 
 \
 
 **Prerequisite**
 
-The following content requires that you have either successfully downloaded some Landsat 8 scenes as part of the [Download Section Exercise](./Download.qmd), or that you have acquired some datasets from the USGS EarthExplorer by your own. If this is not the case, look into the [chapter Landsat / Earthexplorer](./Download.qmd#EarthExplorer)!
+The following content requires that you have either successfully downloaded some Landsat 8 or 9 scenes as part of the [Download Section Exercise](./Download.qmd), or that you have acquired some datasets from the USGS EarthExplorer by your own. If this is not the case, look into the [chapter Landsat / Earthexplorer](./Download.qmd#EarthExplorer)!
 
 Done? -- Then start [R-Studio](./R-Studio.qmd) now!
 
@@ -38,39 +38,49 @@ Done? -- Then start [R-Studio](./R-Studio.qmd) now!
 **Preprocess a single dataset**
 
 We recommend writing the following code in the script window of R-Studio and executing it from there (see [chapter R-Studio](./R-Studio.qmd)).\
-The example below assumes that you have one or more Landsat 8 scenes in a "landsatdata"-folder located in the exchange folder of your VM. Otherwise, adjust the folder according to your data!
+The example below assumes that you have one or more Landsat 8 or 9 scenes in a "landsatdata"-folder. Otherwise, adjust the folder according to your data!
 
-We will use the [raster library](https://cran.r-project.org/web/packages/raster/raster.pdf){target="_blank"} to write a raster file later. Additional libraries should always be loaded first, using the function `library() `:
+We will use the [terra library](https://cran.r-project.org/web/packages/terra/terra.pdf){target="_blank"} to write a raster file later. Additional libraries should always be loaded first, using the function `library() `:
 
 ``` theme:amityreseda
-library(raster)
+library(terra)
 ## Loading required package: sp
 ```
 
 A few libraries make use of other libraries. So does the raster library with the [sp-package](https://cran.r-project.org/web/packages/sp/sp.pdf){target="_blank"}, which will be loaded automatically.
 
-Then define the Landsat 8 product of your choice with its entire file path and save it as the string variable `product`:
+
+Set the path to your working directory. Please, be aware that the delimeters between subfolders should be either "/" or "\\". Especially, if you working on Windows machines, take care of this. USe the function `getwd()` to see which directory is your working directory.
 
 ``` r
-product <- "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tar.gz"
+setwd("P:/ath/to/your/folder")
+
+getwd()
+```
+
+Then define the Landsat 9 product of your choice with its entire file path and save it as the string variable `product`:
+
+
+``` r
+product <- "LC09_L2SP_193023_20240512_20240513_02_T1.tar"
 
 file.exists(product)
 ## [1] TRUE
 ```
 
 **NOTE:** this is just an example -- you have to change the file and its path according to your own settings!\
-You can use the function `file.exists() ` to check whether the file can be found on your system or not. If it returns `FALSE `, make sure you did not mess up the file name.
+You can use the function `file.exists()` to check whether the file can be found on your system or not. If it returns `FALSE `, make sure you did not mess up the file name.
 
 We want to unpack the file into a folder with the same name as the file. The character variable `product ` already contains the full name of the Landsat scene. We just have to get rid of the suffix ".tar.gz". Therefore we can use the function `substr() ` to delete the last seven characters (=".tar.gz") of the string:
 
 ``` r
-productname <- substr(product, 1, nchar(product) - 7) 
+productname <- substr(product, 1, nchar(product) - 4)
 
 productname
-## [1] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412"
+## [1] "LC09_L2SP_193023_20240512_20240513_02_T1"
 ```
 
-The substring function `substr() ` accepts three arguments here: a string (the entire file path with the suffix), and two integer values -- one for a start ("1" = start with the first character) and one for a stop position within the given string. In order to define the stop position, we need to count the number of all characters of the file path via `nchar(product) ` (which is 77 in our case) and substract 7.
+The substring function `substr() ` accepts three arguments here: a string (the entire file path with the suffix), and two integer values -- one for a start ("1" = start with the first character) and one for a stop position within the given string. In order to define the stop position, we need to count the number of all characters of the file path via `nchar(product) ` (which is 44 in our case) and substract 4.
 
 Unzip the Landsat product using the `untar()` method and define the directory to which all data will be extracted by setting the argument `exdir = productname `:
 
@@ -85,53 +95,62 @@ After unpacking is complete, we want to have a look in the newly extracted folde
 productfiles <- list.files(productname, full.names = TRUE)
 
 productfiles
-##  [1] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_ANG.txt"       
-##  [2] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_MTL.txt"       
-##  [3] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_pixel_qa.tif"  
-##  [4] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_radsat_qa.tif" 
-##  [5] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_aerosol.tif"
-##  [6] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band1.tif"  
-##  [7] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band2.tif"  
-##  [8] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band3.tif"  
-##  [9] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band4.tif"  
-## [10] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band5.tif"  
-## [11] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band6.tif"  
-## [12] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band7.tif"  
-## [13] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1.xml"
+## [1] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_ANG.txt"          
+## [2] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_MTL.txt"          
+## [3] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_MTL.xml"          
+## [4] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_QA_PIXEL.TIF"     
+## [5] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_QA_RADSAT.TIF"    
+## [6] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B1.TIF"        
+## [7] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B2.TIF"        
+## [8] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B3.TIF"        
+## [9] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B4.TIF"        
+##[10] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B5.TIF"        
+##[11] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B6.TIF"        
+##[12] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B7.TIF"        
+##[13] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_QA_AEROSOL.TIF"
+##[14] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_ST_ATRAN.TIF"     
+##[15] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_ST_B10.TIF"       
+##[16] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_ST_CDIST.TIF"     
+##[17] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_ST_DRAD.TIF"      
+##[18] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_ST_EMIS.TIF"      
+##[19] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_ST_EMSD.TIF"      
+##[20] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_ST_QA.TIF"        
+##[21] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_ST_TRAD.TIF"      
+##[22] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_ST_URAD.TIF"
 ```
 
-These are all 13 files that come with a Level-2 product (see [Landsat 8](https://blogs.fu-berlin.de/reseda/landsat-8/) for more information). As a double check, you can have a look at the identical files in your file explorer:
+These are all 22 files that come with a Level-2 product (see [Landsat 8]((./SensorBasics.qmd##landsat-8)) for more information). As a double check, you can have a look at the identical files in your file explorer:
 
 [![](./img/preproc_01.png)](./img/preproc_01.png)
 
-Now we want to select all the spectral bands that we want to put into our new data stack. Have a deeper look at the files in `productfiles `. The files are named after the corresponding spectral channels at the end of the file name, e.g., "band1", "band2", and so on. We use these terms to extract the bands by utilizing the `grep() ` function. The following code looks a little bloated. Maybe it is. But he gives you the freedom to exclude individual bands that you may not need. **NOTE:** This is an example of level 2 data. Landsat Level-1 scenes potentially have 11 channels. In the case of Level 1 data, you could easily enter the remaining lines here.
+Now we want to select all the spectral bands that we want to put into our new data stack. Have a deeper look at the files in `productfiles `. The files are named after the corresponding spectral channels at the end of the file name, e.g., "SR_B1", "SR_B2", and so on. We use these terms to extract the bands by utilizing the `grep() ` function. The following code looks a little bloated. Maybe it is. But it gives you the freedom to exclude individual bands that you may not need. **NOTE:** This is an example of level 2 data. Landsat Level-1 scenes potentially have 11 channels. In the case of Level 1 data, you could easily enter the remaining lines here.
 
 ``` r
-bands <- c(grep('band1', productfiles, value=TRUE),
-           grep('band2', productfiles, value=TRUE),
-           grep('band3', productfiles, value=TRUE),
-           grep('band4', productfiles, value=TRUE),
-           grep('band5', productfiles, value=TRUE),
-           grep('band6', productfiles, value=TRUE),
-           grep('band7', productfiles, value=TRUE)
+bands <- c(grep('SR_B1', productfiles, value=TRUE),
+           grep('SR_B2', productfiles, value=TRUE),
+           grep('SR_B3', productfiles, value=TRUE),
+           grep('SR_B4', productfiles, value=TRUE),
+           grep('SR_B5', productfiles, value=TRUE),
+           grep('SR_B6', productfiles, value=TRUE),
+           grep('SR_B7', productfiles, value=TRUE)
            ) 
 
 bands
-## [1] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band1.tif"
-## [2] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band2.tif"
-## [3] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band3.tif"
-## [4] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band4.tif"
-## [5] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band5.tif"
-## [6] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band6.tif"
-## [7] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412/LC08_L1TP_193023_20170602_20170615_01_T1_sr_band7.tif"
+## [1] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B1.TIF"
+## [2] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B2.TIF"
+## [3] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B3.TIF"
+## [4] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B4.TIF"
+## [5] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B5.TIF"
+## [6] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B6.TIF"
+## [7] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B7.TIF"
 ```
 
-The `grep() ` function searches for the string, which is given as the first argument, e.g., 'band1', in the vector of strings (2nd argument). Normally, when the function finds a match, it only returns the position of this find in the vector `productfiles `. By setting the argument `value=TRUE ` we can write out the content of the vector at the respective position instead. By doing so, we create an vector `bands ` containing all file paths via the standard combine-function `c() `.
+The `grep() ` function searches for the string, which is given as the first argument, e.g., 'SR_B1', in the vector of strings (2nd argument). Normally, when the function finds a match, it only returns the position of this find in the vector `productfiles `. By setting the argument `value=TRUE ` we can write out the content of the vector at the respective position instead. By doing so, we create an vector `bands ` containing all file paths via the standard combine-function `c() `.
 
-Now we can create a rasterstack based on the vector of bands in the variable `bands `. In order to do so, we use the function `stack() `, which is part of the raster-library we loaded in the beginning! This [rasterstack function](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/stack){target="_blank"} creates a rasterstack object based on a list of filenames. You will learn more about the beauty of rasterstacks in the [chapter Visualization](https://blogs.fu-berlin.de/reseda/visualization/).
+Now we can create a raster stack based on the vector of bands in the variable `bands`. In order to do so, we use the function `rast() `, which is part of the terra-library we loaded in the beginning! This [raster stack function](https://www.rdocumentation.org/packages/terra/versions/0.8-6/topics/rast){target="_blank"} creates a raster stack object based on a list of filenames. You will learn more about the beauty of raster stacks in the [chapter Visualization](./Viusalization.qmd).
 
 ``` r
-rasterstack <- stack( bands )
+rasterstack <- rast(bands)
 ```
 
 We can save this rasterstack and store it on your hard drive via `writeRaster `:
@@ -139,12 +158,12 @@ We can save this rasterstack and store it on your hard drive via `writeRaster `:
 ``` theme:amityreseda
 writeRaster(rasterstack, 
             paste0(productname, ".tif"), 
-            format = "GTiff",
+            filetype = "GTiff",
             overwrite = TRUE
             )
 ```
 
-The [writerRaster fuction](https://www.rdocumentation.org/packages/raster/versions/2.6-7/topics/writeRaster){target="_blank"} is a powerful tool, which is also provided by the [raster package](https://cran.r-project.org/web/packages/raster/raster.pdf){target="_blank"}. In line 1 we set our rasterstack object as the first argument. In line 2 we define the output name of the new file we will create. To do this, just add the suffix ".tif" to our filename using the handy function `paste0 `, which just put all the strings together to one string. Line 3 explicitly defines the output format "GTiff". How should I know this string "GTiff", you ask? These strings are fixed by the function and are also listed for other data formats in the [raster documentation](https://cran.r-project.org/web/packages/raster/raster.pdf){target="_blank"} on page 220. The fourth argument in line 4 only gives the authority to overwrite existing files.
+The [writerRaster fuction](https://www.rdocumentation.org/packages/terra/versions/1.7-39/topics/writeRaster){target="_blank"} is a powerful tool, which is also provided by the [terra package](https://cran.r-project.org/web/packages/terra/terra.pdf){target="_blank"}. In line 1 we set our raster stack object as the first argument. In line 2 we define the output name of the new file we will create. To do this, just add the suffix ".tif" to our filename using the handy function `paste0 `, which just put all the strings together to one string. Line 3 explicitly defines the output format "GTiff". How should I know this string "GTiff", you ask? These strings are fixed by the function and are also listed for other data formats in the documentations. The fourth argument in line 4 only gives the authority to overwrite existing files.
 
 **DONE!** A new file containing all spectral bands is now written directly next to the initial packed file you downloaded!
 
@@ -155,15 +174,12 @@ First, we can now delete the folder we created by uncompressing your Landsat dat
 unlink(productname, recursive=TRUE)
 ```
 
-Second, it is advisable to create so-called [pyramid layers](http://desktop.arcgis.com/en/arcmap/latest/manage-data/raster-and-images/raster-pyramids.htm){target="_blank"} for each Landsat dataset. Pyramid layers are used to improve performance. They are a downsampled version of the original raster and speed up the display of raster data by retrieving only the data at a specified resolution that is required for the display. We can automatically create them by using the [Geospatial Data Abstraction Library](http://www.gdal.org/){target="_blank"} (GDAL). Initially, GDAL has nothing to do with R, but it can be operated via R using [rgdal](https://www.rdocumentation.org/packages/rgdal/versions/1.3-2){target="_blank"}. However, we use the standalone installation of GDAL at this point, or more precisely, the function [gdaladdo](http://www.gdal.org/gdaladdo.html){target="_blank"}. If you do not use our VM, you have to install GDAL on your machine first. We build the appropriate command to run `gdaladdo ` using `paste0() ` and pass that command to the `system() ` function. The `system() ` function executes a command exactly as if you entered it yourself in the command window of Linux. Try it!
+Second, it is advisable to create so-called [pyramid layers](http://desktop.arcgis.com/en/arcmap/latest/manage-data/raster-and-images/raster-pyramids.htm){target="_blank"} for each Landsat dataset. Pyramid layers are used to improve performance. They are a downsampled version of the original raster and speed up the display of raster data by retrieving only the data at a specified resolution that is required for the display. We can automatically create them by using the [Geospatial Data Abstraction Library](http://www.gdal.org/){target="_blank"} (GDAL). Initially, GDAL has nothing to do with R, but it can be operated via R using eg. sf and terra [sf](https://cran.r-project.org/web/packages/sf/sf.pdf){target="_blank"}. Here, we use the function [gdal_addo](https://www.rdocumentation.org/packages/sf/versions/1.0-14/topics/gdal_addo){target="_blank"}.If you want to use this function, remember to intall and load the library `sf`.
 
 ``` r
-makeOVR <- paste0("gdaladdo -ro ", productname, ".tif 2 4 8 16")
+library(sf)
+gdal_addo("LC09_L2SP_193023_20240512_20240513_02_T1.tif",  overviews = c(2, 4, 8, 16))
 
-makeOVR
-## [1] "gdaladdo -ro /media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tif 2 4 8 16"
-
-system( makeOVR )
 ```
 
 Run the code and you will create a .ovr-file next to your .tif-file. This ovr-file holds the pyramid information, which will prove useful later in QGIS.
@@ -171,37 +187,40 @@ Run the code and you will create a .ovr-file next to your .tif-file. This ovr-fi
 Phew! This was A LOT of (explanatory) text by now. Fortunately, the code is actually much shorter! Here is the complete code for preprocessing one exemplary L8 Level-2 file:
 
 ``` r
-library(raster)
+library(terra)
+library(sf)
 
-product <- "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tar.gz"
 
-productname <- substr(product, 1, nchar(product) - 7) 
+setwd("P:/ath/to/your/folder")
+
+product <- "LC09_L2SP_193023_20240512_20240513_02_T1.tar"
+productname <- substr(product, 1, nchar(product) - 4)
 
 untar(product, exdir = productname)
 
 productfiles <- list.files(productname, full.names = TRUE)
 
-bands <- c(grep('band1', productfiles, value=TRUE),
-           grep('band2', productfiles, value=TRUE),
-           grep('band3', productfiles, value=TRUE),
-           grep('band4', productfiles, value=TRUE),
-           grep('band5', productfiles, value=TRUE),
-           grep('band6', productfiles, value=TRUE),
-           grep('band7', productfiles, value=TRUE)
+bands <- c(grep('SR_B1', productfiles, value=TRUE),
+           grep('SR_B2', productfiles, value=TRUE),
+           grep('SR_B3', productfiles, value=TRUE),
+           grep('SR_B4', productfiles, value=TRUE),
+           grep('SR_B5', productfiles, value=TRUE),
+           grep('SR_B6', productfiles, value=TRUE),
+           grep('SR_B7', productfiles, value=TRUE)
            ) 
 
-rasterstack <- stack( bands )
+
+rasterstack <- rast(bands)
 
 writeRaster(rasterstack, 
             paste0(productname, ".tif"), 
-            format = "GTiff",
+            filetype = "GTiff",
             overwrite = TRUE
             )
 
 unlink(productname, recursive=TRUE)
 
-makeOVR <- paste0("gdaladdo -ro ", productname, ".tif 2 4 8 16")
-system( makeOVR )
+gdal_addo("LC09_L2SP_193023_20240512_20240513_02_T1.tif",  overviews = c(2, 4, 8, 16))
 ```
 
 Learn how to automate things for many datasets in the next section!
