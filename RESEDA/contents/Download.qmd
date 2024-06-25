@@ -12,11 +12,11 @@ We show you two platforms which allow users to view and download remote sensing 
 
 **Sentinel Data via ESA Dataspace**
 
-[![](./img/ESAsciHUB.png)](./Download.qmd#SentinelScihub)
+[![](./img/copdata_1.png)](./Download.qmd#SentinelDataspace)
 
 # Landsat Landsat / EarthExplorer {#landsatEarth}
 
-You will get to know an online platform that lets you search and download Landsat 8 data -- the USGS EarthExplorer. You need dozens of images? -- No problem! Have a look at the [section for bulk and BIG DATA downloading](./Download.qmd#Landsat-BD-download) and do not forget to test your knowledge at the end of this section!
+You will get to know an online platform that lets you search and download Landsat 8 data -- the USGS EarthExplorer. You need dozens of images? -- No problem! Have a look here: [BDA](https://eebulk.cr.usgs.gov/){target="_blank"}
 
 ::: {style="background-color:#f1f1f1;padding:18px 30px 1px"}
 In this section, the following content awaits you:
@@ -234,179 +234,11 @@ Click on your Order ID, which brings you to the download site. Simply click on t
 [Finally get your Level-2 data!]{style="color: #686868;font-size: small"}
 :::
 
-# Landsat BIG DATA
 
-The procedures shown in the [previous section](./Download.qmd#EarthExplorer) are sufficient if you want to acquire a few scenes. However, if you need many more scenes, e.g. if you want to do a time series analysis, the manual download becomes a real test of patience.\
-There are several ways to perform a mass, or bulk, download for Landsat 8 data. Let us take a look at an application for Level-1 and a method for Level-2 Landsat 8 scenes.
-
-::: {style="background-color: #f1f1f1;padding: 18px 30px 1px"}
-In this section, the following content awaits you:
-
-**Bulk Download L8 Level-1 data**\
--- use this when you need about 5-20 Level-1 scenes\
-**Bulk Download L8 Level-2 data**\
--- use this when you need about 5-20 Level-2 scenes\
-**BIG DATA Download**\
--- use this when you need a lot more scenes...
-:::
-
-## Bulk Download L8 Level-1 data {#Bulk}
-
-USGS provides an application for bulk-downloading Level-1 Landsat data with a very appropriate name: the Bulk Download Application. The Bulk Download Application is an easy-to-use tool for downloading large quantities of satellite imagery and geospatial data. In order to use it, you have to order your Landsat 8 scenes via the **Add to Bulk Download** option ![](./img/usgs_039.png){.alignnone .size-full .wp-image-1314 width="18" height="18"} as mentioned in the [Download section](./Download.qmd):
-
-[![](./img/usgs_040.png)](./img/usgs_040.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Order imagery by choosing bulk download option]{style="color: #686868;font-size: small"}
-:::
-
-Proceed to checkout and confirm your order as shown in the [Download section](./Download.qmd#EarthExplorer). After that, a specific order number is given to you by email and on the USGS website:
-
-[![](./img/usgs_041.png)](./img/usgs_041.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Order number provided after submission]{style="color: #686868;font-size: small"}
-:::
-
-Now open the application by navigating to *Other* \> *Bulk Download Application* in the start menu. The user interface opens, in which you have to fill in your username and password used for the USGS Earth Explorer orders:
-
-[![](./img/usgs_043.png)](./img/usgs_043.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Log in for bulk downloading]{style="color: #686868;font-size: small"}
-:::
-
-Choose your order by its ID and click Select Order:
-
-[![](./img/usgs_044.png)](./img/usgs_044.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Choose the order ID for your download]{style="color: #686868;font-size: small"}
-:::
-
-Change the target directory to your liking by clicking on the right top icon to your. We recommend to set this path to "/media/sf_exchange" to not unnecessarily enlarge the VirtualBox storage. Begin your download by pressing Begin Download:
-
-[![](./img/usgs_045.png)](./img/usgs_045.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Begin your bulk download]{style="color: #686868;font-size: small"}
-:::
-
-## Bulk Download L8 Level-2 data
-
-Unfortunately, Level-2 data is not supported by the USGS bulk download application as shown in the previous section. Anyway, there is a nice python based script provided by USGS-EROS, which downloads automatically all scenes for you! The source code is open source and can be reviewed on GitHub [via this link](https://github.com/USGS-EROS/espa-bulk-downloader){target="_blank" rel="noopener"} and can also be downloaded [here](https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FPython&files=download_espa_order.py){target="_blank" rel="noopener"}. If you are using our VM, the script is locally stored in your document folder under */home/student/Documents/download_espa_order.py*.
-
-First of all, you should follow the guide for ordering Level-2 scenes ([Download section](./Download.qmd#EarthExplorer)) and receive the second email with the download confirmation.\
-Then open the linux terminal -- it is linked in the taskbar of our VM:
-
-[![](./img/USGS_036.png)](./img/USGS_036.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Linux terminal shortcut in taskbar]{style="color: #686868;font-size: small"}
-:::
-
-To initiate the bulk download, you just need one command. Here is the blueprint of this command, in which you need to replace your email address, your username and password before executing:
-
-``` r
-/usr/bin/python /home/student/Documents/download_espa_order.py -r 10 -c -o ALL -d /media/sf_exchange/ -e john.doe@gmail.com -u user123 -p password123
-```
-
-Explanation: The command needs a python installation to work, so we define the location of python via `/usr/bin/python`. The download script itself is named "download_espa_order.py" and is stored in the documents folder of our VM, so we define its location with `/home/student/Documents/download_espa_order.py`. All individual letters preceded by a minus sign are arguments, which are assigned with the subsequent input. You have to change the email-address `-e [john.doe\@gmail.com](mailto:john.doe@gmail.com){.email}`, the username `-u user123`, and the adequate password `-p password123` to your own settings (USGS login data). For more information on this, have a look at the [readme on GitHub](https://github.com/USGS-EROS/espa-bulk-downloader){target="_blank" rel="noopener"}.\
-Type in the whole command without any linebreaks into the terminal:
-
-[![](./img/USGS_035.png)](./img/USGS_035.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Terminal command for bulk downloading Landsat Level-2 data]{style="color: #686868;font-size: small"}
-:::
-
-Press the enter-key and watch the script downloading and saving all ordered scenes to your exchange folder `-d /media/sf_exchange/` (you can change this destination folder to your liking):
-
-[![](./img/USGS_037.png)](./img/USGS_037.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Terminal command for bulk downloading Landsat Level-2 data]{style="color: #686868;font-size: small"}
-:::
-
-## BIG DATA Download {#Landsat-BD-download}
-
-You can not get enough of data and you have some Terrabyte of disk space available? So, if you just want to download ALL the scenes of a search query (up to 20,000 scenes at once), there is an easy way to do it! When you have completed a search query, as shown in the [Perform a Search section](./Download.qmd#Performe-search), there is an button on top of the scene list which can be used to export your results. This button is only clickable when you are logged in:
-
-[![](./img/usgs_047.png)](./img/usgs_047.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Metadata Export button]{style="color: #686868;font-size: small"}
-:::
-
-A small window opens asking what format the metadata should be exported to. Choose "Non-Limited Results" and "CSV" in order to export the metadata of every single file found to a csv-file (which is a text file):
-
-[![](./img/usgs_048.png){.aligncenter .size-full}](./img/usgs_048.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Metadata Export options]{style="color: #686868;font-size: small"}
-:::
-
-Click **Export** and you will receive an email with a link to the metadata export file. The processing time and thus the waiting time for the email will vary depending on number of search results requested.\
-Click the link in the mail and you will be redirected to a USGS page. Download the zipped csv-file to your harddrive (the exchange folder in our VM is recommended). Unzip the file by right-clicking on it and chose "Extract Here". Next, open the following USGS website:
-
-[https://earthexplorer.usgs.gov/filelist](https://earthexplorer.usgs.gov/filelist){target="_blank" rel="noopener"}
-
-Select **Single Data Set** and choose the type of dataset you want to download via the drop-down menu **Data Set**:
-
--   **Data Set for Level-1**: Landsat Collection 1 Level-1: Landsat 8 OLI/TIRS C1 Level-1
--   **Data Set for Level-2**: Landsat Collection 1 Level-2 (On-Demand): Landsat 8 OLI/TIRS C1 Level-2
-
-Click the button next to **File** and upload the unzipped .csv-file containing the metadata information. Confirm by pressing **Submit File List**:
-
-[![](./img/usgs_049.png)](./img/usgs_049.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Metadata Export options]{style="color: #686868;font-size: small"}
-:::
-
-If you have selected the Level-1 product, select **Bulk Download** on the next page and click on **Submit Order**. Please follow the instructions given in [the bulk download section above](./Download.qmd#Bulk) to complete your download with the bulk download application.
-
-[![](./img/usgs_050.png)](./img/usgs_050.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Level-1 product Bulk Download order]{style="color: #686868;font-size: small"}
-:::
-
-If you have selected the Level-2 product, select **Order** on the next page and click on **Submit Order**, wait for the ESPA confirmation email ([Download section](./Download.qmd#EarthExplorer)) and follow the instructions given in the [Bulk Download section above](./Download.qmd#Bulk):
-
-[![](./img/usgs_051.png)](./img/usgs_051.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Level-2 product Bulk Download order]{style="color: #686868;font-size: small"}
-:::
-
-Follow the search queries in the upcoming exercise to familiarize yourself with how to use the EarthExplorer!
-
-<p>
-
-<a target="_blank" href="https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/EarthExplorer-Exercise"><br> <button style="width:100%;text-align:center;padding: 0;background-color:#6b9e1f;color: white">
-
-<p>
-
-</p>
-
-::: {style="font-family: 'Noto Sans',sans-serif"}
-[<strong>Test Your KNOWLEDGE</strong>]{style="font-size: 30px"}
-:::
-
-<p>
-
-</p>
-
-</button>
-
-</a>
-
-</p>
 
 # Sentinel / Dataspace {#SentinelDataspace}
 
-You will get to know an online platform that lets you search and download Sentinel 1 and 2 data -- the ESA SciHUB portal. Again, there are ways to download a lot of data automatically -- Have a look at the [section for BIG DATA downloading](./Download.qmd#Sentinelbigdata) and test your knowledge of this section with an exercise!
+You will get to know an online platform that lets you search and download Sentinel 1 and 2 data -- the ESA Data Space Ecosystem. Again, there are ways to download a lot of data automatically: [ESA Data Space Ecosytem API](https://dataspace.copernicus.eu/news/2023-9-28-accessing-sentinel-mission-data-new-copernicus-data-space-ecosystem-apis){target="_blank"}!
 
 ::: {style="background-color:#f1f1f1;padding:18px 30px 1px"}
 In this section, the following content awaits you:
@@ -424,38 +256,35 @@ In this section, the following content awaits you:
 
 \
 
-## 1 ESA SciHUB User Interface
+## 1 Copernicus Data Space Ecosystem
 
-ESA's dataspace provides complete, free and open access to Sentinel-1, Sentinel-2 and Sentinel-3 user products. Sentinel products are available at no cost for anybody, provided you accept the [Legal Notice](https://sentinels.copernicus.eu/documents/247904/690755/Sentinel_Data_Legal_Notice){target="_blank"} on the use of Copernicus Sentinel Data and Service Information. You get to the ESA SciHUB via the following URL using any web browser (Firefox in our RESEDA VM):
+Copernicus Data Space Ecosystem provides complete, free and open access to Sentinel-1, Sentinel-2 and Sentinel-3 user products. Sentinel products are available at no cost for anybody, provided you accept the [Legal Notice](https://sentinels.copernicus.eu/documents/247904/690755/Sentinel_Data_Legal_Notice){target="_blank"} on the use of Copernicus Sentinel Data and Service Information. You get to the ESA SciHUB via the following URL using any web browser (Firefox in our RESEDA VM):
 
 [https://dataspace.copernicus.eu/](https://dataspace.copernicus.eu/){target="_blank"}
 
 Once loaded, the main SciHUB graphical user interface (GUI) should be visible, which is composed of several key elements:
 
-[![](./img/ESA_001.png)](./img/ESA_001.png)
+[![](./img/ESA_001.png)](./img/copdata_0.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
-[ESA SciHUB user interface]{style="color: #686868;font-size: small"}
+[Copernicus Data Space Ecosytem Browser]{style="color: #686868;font-size: small"}
 :::
 
--   **1 Search Panel**: provides a full text search, an advanced search option and a save search tool
--   **2 Header Menu Bar**: contains sign up, login and help functionalities
--   **3 Select Map Layer**: choose image data for visualization in the Image View (*Terrain+Overlay*, *Open Street Map* or *Sentinel 2 images*)
--   **4 Image View**: embedded map to visualize search results
--   **5 Drawing Tools and Coordinates**: shows geographical coordinates in longitute and latitute of current coursor position and allows drawing the area of interest (AOI) on the map:
-    -   **Pan**: moving the map layer
-    -   **Box**: defining a rectangle area of interest
-    -   **Polygon**: defining an area of interest enclosed by a polygon shape
-    -   **Clear**: deleting the area of interests active on map
 
 ## 2 Registration
 
-First of all, same as with USGS EarthExplorer, you need to register in order to fully use the services by clicking on the SIGN UP button in the Header Menu Bar (2) and proceed through the user registration. The registration grants access rights for searching and downloading Sentinels products:
+First of all, same as with USGS EarthExplorer, you need to register in order to fully use the services by clicking on the login button in the Header Menu Bar and proceed through the user registration. The registration grants access rights for searching and downloading Sentinels products:
+
+[![](./img/ESA_001.png)](./img/copdata_0.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Create an account using the register option]{style="color: #686868;font-size: small"}
+:::
 
 ::: {.h5p-iframe-wrapper style=""}
 :::
 
-Once you have completed the registration, you should get an email on your given email address to confirm your account. After confirmation you will be redirected to the main ESA Sentinel website. Click on "Open Hub" on this page to be sent to the SciHub portal and log in with your user data. You have successfully logged in if you recognize your username in the upper right area:
+Once you have completed the registration, you should get an email on your given email address to confirm your account. After confirmation you may login with your credentials.
 
 ::: {.h5p-iframe-wrapper style=""}
 :::
@@ -464,153 +293,78 @@ Once you have completed the registration, you should get an email on your given 
 
 ## 3 Perform a Search
 
-Let us use an example to explore the search function of the ESA SciHUB: We are looking for all Sentinel 2 scenes (Level-1) that depict Berlin in summer 2017 (June, July & August) and have a maximum cloud cover of 10 %!
+Let us use an example to explore the search function of the Copernicus Data Space Ecosystem Browser: We are looking for all Sentinel 2 scenes (Level2A L2A) that depict Berlin in the last summer months (June, July & August) and have a maximum cloud cover of 10 %!
 
-Unlike [EarthExplorer](./Download.qmd#landsatEarth){target="_blank"}, SciHub does not support Google Maps search. Therefore, the most straightforward way to define your area of interest is to use the **Polygon Tool** in the **5 Drawing Tools and Coordinates** elements to mark your study area. So zoom to Berlin and click on the Polygon-Tool. You can define a polygon by successively defining the vertices by a single left click. The polygon will not be finalized until you click on the first point again, which fills it yellow, as shown in the picture:
+You can write the name of the area you are interested in in the field or zoom in. 
 
-[![](./img/ESA_009.png){.aligncenter}](./img/ESA_009.png)
+[![](./img/copdata_3.png){.aligncenter}](./img/copdata_3.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Drawing an AOI with the Polygon Tool (bottom)]{style="color: #686868;font-size: small"}
+[Searching and/or zooming to your area of interest using the navigation tools]{style="color: #686868;font-size: small"}
 :::
 
-It makes sense to filter the results using the advanced search settings icon ![](./img/ESA_011.png), which can be found in the left area of the **1 Search Panel**.
+Then draw a polygon covering your area of interest.
 
--   **Sort by**: sort results by sensing date, ingestion date or cloud coverage
--   **Order by**: sort results ascending or descending
--   **Sensing Period**: returns all the products whose sensing dates are included in the defined period
+[![](./img/copdata_4b.png){.aligncenter}](./img/copdata_4b.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Create a polygon for your area of interest]{style="color: #686868;font-size: small"}
+:::
+
+It makes sense to filter the results using the advanced search settings which can be found in the left area of the **1 Search Panel**.
+
+[![](./img/copdata_4b.png){.aligncenter}](./img/copdata_4b.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[Overview of the main filter options]{style="color: #686868;font-size: small"}
+:::
+
+-   **Data sources**: Filter data by data source
+-   **Cloud cover **: filter data by cloud cover
+-   **Time range**: returns all the products whose sensing dates are included in the defined period
 -   **Ingestion Period**: returns all the products whose publication dates on the Data Hub are included in the defined period
 
-Sentinel 2 provides the following settings (for more information have a look at [chapter Sentinel 2](./SensorBasics.qmd#sentinel-2){target="_blank"}:
 
--   **Satellite Platform**: include Sentinel 2-A or Sentinel 2-B; leave blank for both (recommended)
+Press the search button to start the query. The search results list provides all the products matching the submitted search query. Each result consists of thumbnail, the product name, a download-link, the sensing date, the instrument name, the imaging mode, the satellite name and the size of the file in MB. In the upper part of the result window, the current query can be reached by pressing the button "Go to search". 
 
--   **Product Type**: choose S2MSI1C for Level-1 data or S2MSI2Ap for Level-2 data
-
--   **Relative Orbit Number**: specify relative orbit (more information [here](https://sentinel.esa.int/web/sentinel/missions/sentinel-2/satellite-description/orbit){target="_blank"})
-
--   **Cloud Cover %**: specify cloud cover allowed; use brackets for a query, for example allow 0 to 10% cloud cover within scene: "$$0 TO
-    10$$
-
-Take the query for Sentinel 2 Level-1 products as follows:
-
-[![](./img/ESA_010.png){.aligncenter}](./img/ESA_010.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Advanced Search Tools]{style="color: #686868;font-size: small"}
-:::
-
-Press the lens icon ![](./img/ESA_015.png){.alignnone .size-full .wp-image-1384 loading="lazy" width="30" height="32"} to start the query. The Search results list provides all the products matching the submitted search query. Each result consists of thumbnail, the product name, a download-link, the sensing date, the instrument name, the imaging mode, the satellite name and the size of the file in MB. In the upper part of the result window, the current query can be obtained in text form. You can copy this text to the **1 Search Panel** to reproduce the identical query later on.
-
-[![](./img/ESA_012.png){.aligncenter}](./img/ESA_012.png)
+[![](./img/copdata_6.png){.aligncenter}](./img/copdata_6.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Query results]{style="color: #686868;font-size: small"}
 :::
 
-There are the several options for each product when hovering over it with the mouse coursor:
+There are the several options for each product when hovering over it with the mouse cursor:
 
-[![](./img/ESA_013.png){.aligncenter}](./img/ESA_013.png)
+[![](./img/copdata_8.png){.aligncenter}](./img/copdata_8.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Query results]{style="color: #686868;font-size: small"}
 :::
 
--   **1 Select Product**: select items in order to add them to the cart
+-   **1 Product Info**: select items in order to add them to the cart
 -   **2 Zoom to Product**: zoom to product in map view
--   **3 View Product Details**: show detailed metadata for product
--   **4 Add Product to Cart**: adding porducts to cart in order to download products
--   **5 Download Product**: directly download product
+-   **3 Add Product to Workpace**: adding products to workspace in order to download products
+-   **4 Download Product**: directly download product
+-   **5 Visualize**: Furthermore you might visualize the data within the browser
 
 \
 
 ## 4 Download one or several Datasets
 
-In order to download a single Sentinel scene simply click on the download icon ![](./img/ESA_014.png){.alignnone .size-full .wp-image-1383 loading="lazy" width="26" height="25"} and pick a location on your hard drive.
+In order to download a single Sentinel scene simply click on the download icon and pick a location on your hard drive.
 
-If you want to download multiple datasets, choose **Add Product to Cart**. The shopping cart can be viewed in your user profile in the **2 Header Menu Bar**:
+If you want to download multiple datasets, choose **Add Product to workspace**. The workspace can be viewed in your user profile:
 
-[![](./img/ESA_016.png){.aligncenter}](./img/ESA_016.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Open Cart]{style="color: #686868;font-size: small"}
-:::
-
-When you examine your shopping cart, it is possible to select just some of them or to bulk download all of the products in the Cart by clicking on ![](./img/ESA_018.png){.alignnone .size-full .wp-image-1388 width="100"}. A download window will pop up, asking you confirmation to save a ".meta4"-file, containing all the metalinks of the products in the Cart.
-
-[![](./img/ESA_017.png){.aligncenter}](./img/ESA_017.png)
+[![](./img/copdata_11.png){.aligncenter}](./img/copdata_11.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Open Cart]{style="color: #686868;font-size: small"}
+[Open workspace]{style="color: #686868;font-size: small"}
 :::
 
-To make use of such a meta4-file, a [download manager](https://en.wikipedia.org/wiki/Comparison_of_download_managers){target="_blank"} is required. For this purpose, we will use the [aria2](https://aria2.github.io/){target="_blank"} download utility, which is already installed in our VM. First of all, open the linux terminal -- it is linked in the taskbar of our VM:
+When you examine your shopping cart, it is possible to select just some of them or to bulk download all of the products in the workspace.
 
-[![](./img/USGS_036.png){.aligncenter}](./img/USGS_036.png)
+[![](./img/copdata_11.png){.aligncenter}](./img/copdata_11.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Linux terminal shortcut in taskbar]{style="color: #686868;font-size: small"}
+[workspace]{style="color: #686868;font-size: small"}
 :::
-
-Type the following command into the terminal, but you need to replace your `username`, your `password` and the path to your `.meta4-file` before executing. Pay special attention to the quotes containing the username and password, because they must be preserved!
-
-```         
-aria2c – max-concurrent-downloads=2 -d /media/sf_exchange – http-user='user123' – http-passwd='password123' -M /media/sf_exchange/products.meta4
-```
-
-Explanation: The download utility is addressed by `aria2c`. The max concurrent downloads are limited by ESA to two parallel downloads, so we set it to two (because its better than one...) via `--max-concurrent-downloads=2`. The output directory is set to the exchange directory by `-d /media/sf_exchange`. You could change this directory to your liking.
-
-[![](./img/ESA_019.png){.aligncenter}](./img/ESA_019.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Terminal command for bulk downloading Sentinel 1 / 2 data based on meta4-file]{style="color: #686868;font-size: small"}
-:::
-
-# Sentinel BIG DATA {#Sentinelbigdata}
-
-Once again it is time for a BIG DATA download, which is useful when you need dozens or hundreds of scenes. People have come up with some Python (e.g., [sentinelsat](https://pypi.org/project/sentinelsat/){target="_blank"} or [Sentinel_download](https://github.com/olivierhagolle/Sentinel-download){target="_blank"}) and R libraries (e.g., [sentinel2](https://github.com/IVFL-BOKU/sentinel2){target="_blank"}) in recent years to automatically copy Sentinel data from the ESA servers. All of these libraries are based on two Application Program Interfaces (APIs) provided by the ESA Data Hub used for browsing and downloading the data stored in the rolling archives.\
-We will take a closer look at ESA's underlying, [official script](https://github.com/SentinelDataHub/Scripts/blob/master/dhusget_0.3.5.sh){target="_blank"} and we will use it to automatically download ALL records of any of your search queries. The script is named **dhusget.sh** and already deposited in our VM (or [available for download here](https://box.fu-berlin.de/s/e7dGWGKnJPJi47Y){rel="noopener" target="_blank"}). You need to have a Linux Environment with [wget](https://wiki.ubuntuusers.de/wget/){target="_blank"} installed (such as [our VM](https://blogs.fu-berlin.de/reseda/get-your-vm/){target="_blank"}) in order to use the script, which is a Unix shell script (.sh).\
-First of all, let us have a look at a blueprint of the command, we will adapt to your needs in the following:
-
-``` r
-/home/student/Documents/dhusget.sh -d https://scihub.copernicus.eu/dhus -l 100 -P 1 -C /media/sf_exchange/product_list.csv -u user123 -p password123 -o product -O /media/sf_exchange/sentineldata -R /media/sf_exchange/sentinel_data/failed.txt -F 'query'
-```
-
-Explanation: That is a lot of options! Each option is separated from the next by a blank. Anyway, you do not need to modify most of those options:
-
--   `/home/student/Documents/dhusget.sh`: location of shell script in the VM
--   `-d <https://scihub.copernicus.eu/dhus>`: the URL of the Data Hub Service `-l 100`: number of results per page (100 max.)
--   `-P 1`: page number (each page contains a maximum of 100 results)
--   `-C /media/sf_exchange/product_list.csv`: write all products found to a list and save it as a CSV text file
--   `-u user123`: insert your ESA SciHUB username here
--   `-p password123`: insert your ESA SciHUB password here
--   `-o product`: activate download for the Product ZIP files
--   `-O /media/sf_exchange/sentineldata`: folder where downloaded Sentinel data will be stored
--   `-R /media/sf_exchange/sentinel_data/failed.txt`: file listing products which failed to download
--   `-F 'query'`: this is the full text query you can copy/paste from the ESA SciHUB website
-
-If you use our VM, you just need to replace your username `-u user123` and password `-p password123` with your own login information. Actually, you only need to integrate your search query in `-F 'query'` as a last step. Thus, visit the ESA Sci-HUB portal and set your data query to your liking as shown in [Perform a Search section](https://blogs.fu-berlin.de/reseda/esa-scihub/#3). In the upper part of the result window, the query can be obtained in text form. This is an example of a query giving all Sentinel 2 products sensed between the first and second of June 2018 globally:
-
-[![](./img/ESA_020.png){.aligncenter}](./img/ESA_020.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Free text OpenSearch query example and number of products available]{style="color: #686868;font-size: small"}
-:::
-
-You will want to mark and copy the whole query expression and paste it between the simple quotes of the `-F 'query'` option, like so:
-
-``` r
--F ' ( beginPosition:[2018-06-01T00:00:00.000Z TO 2018-06-02T23:59:59.999Z] AND endPosition:[2018-06-01T00:00:00.000Z TO 2018-06-02T23:59:59.999Z] ) AND (platformname:Sentinel-2) '
-```
-
-Open a terminal (taskbar in our VM) and type in the complete query, e.g.:
-
-[![](./img/ESA_021.png){.aligncenter}](./img/ESA_021.png)
-
-::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Terminal with exemplary download command for 100 Sentinel 2 products]{style="color: #686868;font-size: small"}
-:::
-
-By pressing enter it will start downloading up to 100 scenes at once. Previously downloaded scenes will not be downloaded again, and if the internet connection is lost, the download will continue at that point when restarting the script. When a scene is fully loaded, the [MD5 integrity](https://en.wikipedia.org/wiki/MD5){target="_blank"} will be checked, telling you whether the file is complete or not. If not, the scene is written to a text file to notify you `-R/media/sf_exchange/sentinel_data/failed.txt`.
-
-By doing a search query on the ESA SciHUB Website, you can also see the resulting products available (which is the insane amount of 24,360 in our example -- you probably do not need that many). However, for some reason ESA capped the maximum amount of scenes you can query/download at once at 100. Because of that, you will only download the search results 1-100. In order to download search results 101-200 you have to change the result page with the option `-P 2`, for the search results 201-300 set this option to `-P 3`, and so on. If required, this could also be automated, either by a shell script or in R.
