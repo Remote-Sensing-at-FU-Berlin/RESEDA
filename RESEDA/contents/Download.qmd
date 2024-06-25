@@ -313,7 +313,7 @@ Then draw a polygon covering your area of interest.
 
 It makes sense to filter the results using the advanced search settings which can be found in the left area of the **Search Panel**.
 
-[![](./img/copdata_5.png){.aligncenter}](./img/copdata_5.png)
+[![](./img/copdata_5.png){{style="max-width: 50%; height: auto;"}}](./img/copdata_5.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Overview of the main filter options]{style="color: #686868;font-size: small"}
