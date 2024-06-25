@@ -5,7 +5,7 @@
 
 ::: entry-content
 A preprocessing of remote sensing data is a crucial step in every analytical workflow, and can possibly be the most time consuming one.\
-Anyway, we want to focus on converting the just-downloaded Landsat 8 and Sentinel 2 products into GeoTIFF files and the visualization in R and QGIS. The pre-processing of Sentinel 1 is a bit more complex. For this purpose, we derive the intensity images on the basis of GRD scenes.
+Anyway, we want to focus on converting the just-downloaded Landsat 8 and Sentinel 2 products into GeoTIFF files and the visualization in R and QGIS. 
 
 ::: {style="background-color: #f1f1f1;padding: 18px 30px 1px"}
 # Chapter in a Box
@@ -20,9 +20,6 @@ In this chapter, the following content awaits you:\
 -- convert image data from SAFE to tif format\
 -- resample image data to uniform geometrical resolution\
 -- automate everything for BIG DATA analysis using SNAP and GPT/ R\
-[**Preprocess Sentinel 1**](./SAR-Data.qmd)\
--- generate intensity images in different polarizations\
--- expand feature space of S1 intensity images via texture metrics (GLCM)\
 [**Visualization**](./Visualization.qmd)\
 -- use R and QGIS for visualization of Landsat 8 data
 :::
