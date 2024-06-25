@@ -44,7 +44,7 @@ Once clicked, the main EarthExplorer graphical user interface (GUI) should be lo
 
 [![](./img/USGS_001.png){.aligncenter}](./img/USGS_001.png)
 
-::: {style="margin: 0px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [USGS EarthExplorer user interface]{style="color: #686868;font-size: small"}
 :::
 
