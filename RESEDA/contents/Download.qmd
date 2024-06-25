@@ -374,7 +374,7 @@ If you want to know more about the Copernicus Data Space Ecosystem Browser, plea
   
 
 
-[![](./img/copdata_13.png){.aligncenter}](./img/copdata_13.png)(https://dataspace.copernicus.eu/videos)
+[![](./img/copdata_13.png){.aligncenter}](https://dataspace.copernicus.eu/videos)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Video tutorials]{style="color: #686868;font-size: small"}
