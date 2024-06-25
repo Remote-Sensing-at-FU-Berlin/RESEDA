@@ -281,12 +281,6 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../RESEDA/contents/SAR-Data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">SAR Data</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="../../RESEDA/contents/Visualization.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Visualization</span></a>
   </div>
@@ -391,7 +385,7 @@ window.Quarto = {
   <li><a href="#temporal-resolution" id="toc-temporal-resolution" class="nav-link" data-scroll-target="#temporal-resolution">4. Temporal Resolution</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#landsat-8" id="toc-landsat-8" class="nav-link" data-scroll-target="#landsat-8">Landsat-8</a>
+  <li><a href="#landsat-8" id="toc-landsat-8" class="nav-link" data-scroll-target="#landsat-8">Landsat-8 and Landsat-9</a>
   <ul class="collapse">
   <li><a href="#data-products" id="toc-data-products" class="nav-link" data-scroll-target="#data-products">Data Products</a>
   <ul class="collapse">
@@ -444,7 +438,7 @@ Unfortunately, there is one big limitation of passive systems: Due to the fact t
 <p><span style="color: #686868;font-size: small">Active sensor operating mode</span></p>
 </div>
 <p><strong>Active sensors</strong> emit their own electromagnetic radiation to illuminate the object they observe.<br>
-Active sensors send a pulse of energy at the speed of light to the Earth’s surface, that is reflected, refracted or scattered by the objects on the surface and the atmosphere. The recieved backscatter then gives information on land surface characteristics. There are many types of active sensors out there: RADAR (Radio Detection and Ranging), Scatterometer, LiDAR (Light Detection and Ranging), and Laser Altimeter. We will take a closer look at Sentintel 1, a SAR system (<strong>S</strong>ynthetic <strong>A</strong>perture <strong>R</strong>ADAR), which is an imaging RADAR type working with microwaves, in the upcoming <a href="../../RESEDA/contents/SAR-Data.html">SAR chapters</a>.<br>
+Active sensors send a pulse of energy at the speed of light to the Earth’s surface, that is reflected, refracted or scattered by the objects on the surface and the atmosphere. The recieved backscatter then gives information on land surface characteristics. There are many types of active sensors out there: RADAR (Radio Detection and Ranging), Scatterometer, LiDAR (Light Detection and Ranging), and Laser Altimeter. We will take a closer look at Sentintel 1, a SAR system (<strong>S</strong>ynthetic <strong>A</strong>perture <strong>R</strong>ADAR), which is an imaging RADAR type working with microwaves, in the upcoming <a href="./SAR-Data.qmd">SAR chapters</a>.<br>
 Images of active sensors are comparatively difficult to interpret: A SAR signal contains amplitude and phase information. Amplitude is the strength of the RADAR response and phase is the fraction of a full sine curve. In order to generate beautiful images out of these information, a more extensive preprocessing is often necessary, which we will do in SNAP.<br>
 Since no natural light source is required, active sensors are capable to emit and capture their signals regardless of daytime. In addition, many systems operate in the electromagnetic domain of microwaves, so their wavelength is large enough to be unaffected by clouds and other atmospheric distortions.</p>
 <p><br>
@@ -506,13 +500,13 @@ However, weather satellites are capable of acquiring images of the same area eve
 </section>
 </section>
 <section id="landsat-8" class="level1">
-<h1>Landsat-8</h1>
-<p>Landsat 8 is the latest installment of the U.S. Landsat satellite series, operated by National Aeronautics and Space Administration (NASA) and United States Geological Survey (USGS). The Landsat program represents the world’s longest continuously acquired collection of spaceborne data in history and since late 2008, all data were made available to all users free of charge.</p>
+<h1>Landsat-8 and Landsat-9</h1>
+<p>Landsat 8 and 9 are the latest installment of the U.S. Landsat satellite series, operated by National Aeronautics and Space Administration (NASA) and United States Geological Survey (USGS). The Landsat program represents the world’s longest continuously acquired collection of spaceborne data in history and since late 2008, all data were made available to all users free of charge.</p>
 <p><a href="./img/landsat8.png"><img src="./img/landsat8.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Landsat 8 satellite</span></p>
 </div>
-<p>The Landsat 8 satellite was launched on February 11, 2013 by an Atlas-V rocket in California, as part of the long-term Earth Observation Systems (EOS) program. Like its predecessors, Landsat 8 is a passive satellite with a multispectral, optical sensor.<br>
+<p>The Landsat 8 satellite was launched on February 11, 2013 by an Atlas-V rocket in California, as part of the long-term Earth Observation Systems (EOS) program. Like its predecessors, Landsat 8 is a passive satellite with a multispectral, optical sensor. Landsat 9 was launched September 27th, 2021.<br>
 For the first time in the Landsat program, the payload consists of two push-broom instruments onboard – the Operational Land Imager (OLI) and the Thermal Infrared Sensor (TIRS). OLI uses a four-mirror telescope and collects data for visible, near infrared, and short wave infrared spectral bands as well as a panchromatic band. TIRS collects two spectral bands in the thermalinfrared (TIR).<br>
 Together, they scan the electromagnetic spectrum in 11 separate bands in a moderate geometric resolutions of 15-30 m:</p>
 <p><a href="./img/landsat8_channels.png"><img src="./img/landsat8_channels.png" class="img-fluid"></a></p>
@@ -657,12 +651,12 @@ Together, they scan the electromagnetic spectrum in 11 separate bands in a moder
 <p>&nbsp;</p>
 <section id="data-products" class="level2">
 <h2 class="anchored" data-anchor-id="data-products">Data Products</h2>
-<p>Landsat 8 acquires over 500 scenes each day. Most acquired scenes are downlinked to the Landsat Ground Network and made available for download within 24 hours after acquisition. Those scenes are usually uploaded to and stored in the USGS global archive. All Landsat standard data products are processed using the Landsat Product Generation System (LPGS) and come as compressed “.tgz”-files, which can be uncommpressed by using file archiver, such as 7-Zip or WinRAR. Once uncompressed, the image data is in GeoTIFF output format and projected to the Universal Transverse Mercator (UTM) map projection with the World Geodetic System 84 (WGS84) datum.</p>
+<p>Landsat 8 and 9 each acquire over 500 scenes each day. Most acquired scenes are downlinked to the Landsat Ground Network and made available for download within 24 hours after acquisition. Those scenes are usually uploaded to and stored in the USGS global archive. All Landsat standard data products are processed using the Landsat Product Generation System (LPGS) and come as compressed “.tgz”-files, which can be uncommpressed by using file archiver, such as 7-Zip or WinRAR. Once uncompressed, the image data is in GeoTIFF output format and projected to the Universal Transverse Mercator (UTM) map projection with the World Geodetic System 84 (WGS84) datum.</p>
 <p>There are two main data products, which differ in the previous level of preprocessing: one without an atmospheric correction (Level-1) and one with (Level-2). Information on the processing level designations can be found in the metadata file (“.MTL.txt”) that is delivered with the Landsat 8 product.</p>
 <p>&nbsp;</p>
 <section id="level-1-products" class="level3">
 <h3 class="anchored" data-anchor-id="level-1-products">Level-1 products</h3>
-<p>Standard Landsat 8 data products consist of quantized and calibrated scaled Digital Numbers (DN) representing the multispectral image acquired by OLI and TIRS. They can be converted to Top Of Atmosphere (TOA) reflectance and radiance values by using radiometric rescaling coefficients as described in <a href="https://landsat.usgs.gov/using-usgs-landsat-8-product" target="_blank" rel="noopener">this USGS guide</a>.<br>
+<p>Standard Landsat 8 data products consist of quantized and calibrated scaled Digital Numbers (DN) representing the multispectral image acquired by OLI and TIRS. They can be converted to Top Of Atmosphere (TOA) reflectance and radiance values by using radiometric rescaling coefficients as described in <a href="https://www.usgs.gov/landsat-missions/using-usgs-landsat-level-1-data-product" target="_blank" rel="noopener">this USGS guide</a>.<br>
 Level-1 Landsat scenes with the highest available data quality are declared as Tier 1 (L1TP) and are considered suitable for time-series analysis. Tier 1 includes data that have well-characterized radiometry and consistent georegistration and that is inter-calibrated across the different Landsat instruments.</p>
 <ul>
 <li><strong>L1TP (Tier 1)</strong>: This product offers radiometrically calibrated and orthorectified pixels by using auxiliary digital elevation models (DEM) and ground control points (GCP) to correct for relief displacement</li>
@@ -873,7 +867,7 @@ In the following a profile with the most important characteristics of the sensor
 </ul>
 <p>More information on pre-processing is given in the <a href="https://sentinel.esa.int/documents/247904/685211/Sentinel-2_User_Handbook" target="_blank">Sentinel 2 User Handbook</a>.<br>
 Anyway, Level-0, Level-1A and Level-1B products are PDGS-internal products not made available to users! When browsing the <a href="../../RESEDA/contents/Download.html#SentinelScihub" target="_blank">ESA SciHUB archive</a>, you will be able to choose from Level-1C and Level-2A products:</p>
-<p><strong>Level-1C</strong> products are radiometric and geometric corrected top of atmosphere (TOA) data. This corrections include orthorectification and spatial registration on the UTM/WGS84 system with sub-pixel accuracy. Level-1C imagary is delivered in granules of 100×100 km of approximately 600-800 MB each. The individual spectral bands are present in their respective resolution (10, 20 and 60m), which is why resampling to a uniform geometric resolution is often necessary for further processing. A product consists of image data, available as JPEG2000 files, and the associated metadata, all capsuled within a “SAFE” file container. You will need the <a href="../../RESEDA/contents/SAR-Data.html" target="_blank">SNAP</a>-software in order to read those SAFE-container (see chapter Visualize for a guide). The Sentinel-SAFE format wraps image data and product metadata in a specific folder structure. Do not alter this folder structure or any file names to ensure that image data and auxiliary information can be imported correctly.</p>
+<p><strong>Level-1C</strong> products are radiometric and geometric corrected top of atmosphere (TOA) data. This corrections include orthorectification and spatial registration on the UTM/WGS84 system with sub-pixel accuracy. Level-1C imagary is delivered in granules of 100×100 km of approximately 600-800 MB each. The individual spectral bands are present in their respective resolution (10, 20 and 60m), which is why resampling to a uniform geometric resolution is often necessary for further processing. A product consists of image data, available as JPEG2000 files, and the associated metadata, all capsuled within a “SAFE” file container. You will need the <a href="./SAR-Data.qmd" target="_blank">SNAP</a>-software in order to read those SAFE-container (see chapter Visualize for a guide). The Sentinel-SAFE format wraps image data and product metadata in a specific folder structure. Do not alter this folder structure or any file names to ensure that image data and auxiliary information can be imported correctly.</p>
 <p><strong>Level-2A</strong> is the surface reflectance, or Bottom-Of-Atmosphere (BOA), product derived from a associated Level-1C product. This product is corrected by any distortion of atmosphere, terrain and cirrus clouds. Level-2A datasets come with some additional data layers: aerosol optical thickness-, water vapour, and scene classification maps and quality indicators, including cloud and snow probabilities. You can choose a resolution (10 m, 20 m, or 60 m) in which all channels are resampled uniformly.<br>
 Anyway, if you already own a Level-1C scene, the conversion to Level-2A can also be done by yourself via the processor Sen2Cor. A guide on how to do this is given in chapter <a href="../../RESEDA/contents/Classification-in-R.html" target="_blank">Classification in R</a>.</p>
 <p>In general, we recommend you to use the Level-2A products, especially if you work multitemporally, since the radiometry of surface reflectances is more comparable between scenes.</p>
@@ -887,7 +881,7 @@ Anyway, if you already own a Level-1C scene, the conversion to Level-2A can also
 <p><span style="color: #686868;font-size: small">Sentinel 1 satellite</span></p>
 </div>
 <p>After a seven-year development period led by ESA and Airbus DS, the Sentinel-1A radar satellite was launched on April 3, 2014 with a Russian Soyuz launcher from the European Spaceport Kourou in French Guiana. The identical Sentinel-1B satellite arrived in space two years later, on April 25, 2016. Additionally, Sentinel-1C and 1D are in development with launch dates to be determined.</p>
-<p>The main instrument is an imaging C-band SAR (Synthetic Aperture RADAR), consisting of a 12.30 x 0.90 m main antenna composed of 560 single antennas coupled together. Thus, unlike Sentinel 2 ​​or Landsat 8, Sentinel 1 works in the electromagnetic domain of microwaves. It actively emits electromagnetic energy, which has a wavelength of 5.5 cm. The emitted radar rays penetrate through vegetation to the ground. As a result, changes in the surface in the centimeter and even in the millimeter range can be perceived. For a more detailed description of how SAR works generally, read <a href="../../RESEDA/contents/SAR-Data.html">SAR Basics</a></p>
+<p>The main instrument is an imaging C-band SAR (Synthetic Aperture RADAR), consisting of a 12.30 x 0.90 m main antenna composed of 560 single antennas coupled together. Thus, unlike Sentinel 2 ​​or Landsat 8, Sentinel 1 works in the electromagnetic domain of microwaves. It actively emits electromagnetic energy, which has a wavelength of 5.5 cm. The emitted radar rays penetrate through vegetation to the ground. As a result, changes in the surface in the centimeter and even in the millimeter range can be perceived. For a more detailed description of how SAR works generally, read <a href="./SAR-Data.qmd">SAR Basics</a></p>
 <p>Sentinel 1 serves a wide range of environmental, transport, economic and security applications. The focus is on ice observation in polar regions, volcanic activity, earthquakes, landslides, floods, detection of subsidence and elevations as well as the observation of sea surfaces to detect issues caused by sea ice and oil spills at an early stage. Furthermore, the satellites are designed to support disaster management in cases of emergency: Wherever up-to-the-minute information is needed, image data can be made available within 60 minutes.<br>
 Sentinel 1 has four different observation modes, allowing them to respond to those needs:</p>
 <ul>
