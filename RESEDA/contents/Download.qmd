@@ -275,7 +275,7 @@ Once loaded, the main SciHUB graphical user interface (GUI) should be visible, w
 
 First of all, same as with USGS EarthExplorer, you need to register in order to fully use the services by clicking on the login button in the Header Menu Bar and proceed through the user registration. The registration grants access rights for searching and downloading Sentinels products:
 
-[![](./img/(./img/copdata_1.png))](./img/copdata_1.png)
+[![](./img/copdata_2.png)](./img/copdata_2.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Create an account using the register option]{style="color: #686868;font-size: small"}
@@ -311,9 +311,9 @@ Then draw a polygon covering your area of interest.
 [Create a polygon for your area of interest]{style="color: #686868;font-size: small"}
 :::
 
-It makes sense to filter the results using the advanced search settings which can be found in the left area of the **1 Search Panel**.
+It makes sense to filter the results using the advanced search settings which can be found in the left area of the **Search Panel**.
 
-[![](./img/copdata_4b.png){.aligncenter}](./img/copdata_4b.png)
+[![](./img/copdata_5.png){.aligncenter}](./img/copdata_5.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Overview of the main filter options]{style="color: #686868;font-size: small"}
@@ -363,8 +363,18 @@ If you want to download multiple datasets, choose **Add Product to workspace**. 
 
 When you examine your shopping cart, it is possible to select just some of them or to bulk download all of the products in the workspace.
 
-[![](./img/copdata_11.png){.aligncenter}](./img/copdata_11.png)
+[![](./img/copdata_12.png){.aligncenter}](./img/copdata_12.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [workspace]{style="color: #686868;font-size: small"}
 :::
+
+
+If you want to know more about the Copernicus Data Space Ecosystem Browser, please, have a look here: [videos](https://dataspace.copernicus.eu/videos){target="_blank"}
+  
+
+
+[![](./img/copdata_13.png){.aligncenter}](./img/copdata_13.png)
+
+::: {style="margin: -30px 0 20px 0;text-align: center"}
+[workspace]{style="color: #686868;font-size: small"}
