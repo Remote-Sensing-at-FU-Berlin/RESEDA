@@ -264,7 +264,7 @@ Copernicus Data Space Ecosystem provides complete, free and open access to Senti
 
 Once loaded, the main SciHUB graphical user interface (GUI) should be visible, which is composed of several key elements:
 
-[![](./img/copdata_0.png)]
+[![](./img/copdata_0.png)](./img/copdata_0.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Copernicus Data Space Ecosytem Browser]{style="color: #686868;font-size: small"}
@@ -275,7 +275,7 @@ Once loaded, the main SciHUB graphical user interface (GUI) should be visible, w
 
 First of all, same as with USGS EarthExplorer, you need to register in order to fully use the services by clicking on the login button in the Header Menu Bar and proceed through the user registration. The registration grants access rights for searching and downloading Sentinels products:
 
-[![](./img/ESA_001.png)]
+[![](./img/(./img/copdata_1.png))](./img/copdata_1.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Create an account using the register option]{style="color: #686868;font-size: small"}
