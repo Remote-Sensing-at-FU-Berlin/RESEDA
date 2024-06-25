@@ -65,7 +65,7 @@ Once you have completed the registration, you should get an email on your given 
 
 [![](./img/USGS_008.png){.aligncenter}](./img/USGS_008.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [USGS EarthExplorer login formular]{style="color: #686868;font-size: small"}
 :::
 
@@ -73,7 +73,7 @@ After login you will notice your username and your "shopping"/ item basked in th
 
 [![](./img/USGS_009.png){.aligncenter}](./img/USGS_009.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Successful login]{style="color: #686868;font-size: small"}
 :::
 
@@ -87,7 +87,7 @@ EarthExplorer provides four tabs in the search procedure to guide you through yo
 
 [![](./img/USGS_019.png){.aligncenter}](./img/USGS_019.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [EarthExplorer search tabs]{style="color: #686868;font-size: small"}
 :::
 
@@ -95,7 +95,7 @@ EarthExplorer provides four tabs in the search procedure to guide you through yo
 
 [![](./img/USGS_015.png){.aligncenter}](./img/USGS_015.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Defining area of interest (AOI)]{style="color: #686868;font-size: small"}
 :::
 
@@ -103,7 +103,7 @@ Furthermore there is a global notation used for cataloging Landsat data, called 
 
 [![](./img/USGS_016.png){.aligncenter}](./img/USGS_016.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Use Path and Row specifications for queries]{style="color: #686868;font-size: small"}
 :::
 
@@ -112,7 +112,7 @@ Another easy way to define your AOI is to just left click within the map, which 
 
 [![](./img/USGS_018.png){.aligncenter}](./img/USGS_018.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Polygon defined by four coordinates via left clicking in the Google Map interface]{style="color: #686868;font-size: small"}
 :::
 
@@ -122,7 +122,7 @@ To make your query more concrete, you can define the time span within which you 
 
 [![](./img/USGS_020.png){.aligncenter}](./img/USGS_020.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Defining the time span and months of interest]{style="color: #686868;font-size: small"}
 :::
 
@@ -130,7 +130,7 @@ To make your query more concrete, you can define the time span within which you 
 
 [![](./img/USGS_021.png){.aligncenter}](./img/USGS_021.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Landsat Collection 1 Data Level-1 products]{style="color: #686868;font-size: small"}
 :::
 
@@ -140,7 +140,7 @@ Landsat 8 Level-2 data is also available on demand under *Landsat* \> *Landsat C
 
 [![](./img/USGS_022.png){.aligncenter}](./img/USGS_022.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Additional Criteria tab: cloud cover restrictions]{style="color: #686868;font-size: small"}
 :::
 
@@ -148,7 +148,7 @@ Landsat 8 Level-2 data is also available on demand under *Landsat* \> *Landsat C
 
 [![](./img/USGS_024.png){.aligncenter}](./img/USGS_024.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Search results]{style="color: #686868;font-size: small"}
 :::
 
@@ -156,7 +156,7 @@ Four scenes are not much, are they? A cloud cover under 10% is already pretty st
 
 [![](./img/USGS_025.png){.aligncenter}](./img/USGS_025.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Overlay and download controls]{style="color: #686868;font-size: small"}
 :::
 
@@ -177,7 +177,7 @@ In order to download a single Level-1 scene (see [chapter Landsat 8](./SensorsBa
 
 [![](./img/USGS_026.png){.aligncenter}](./img/USGS_026.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Download options for a Landsat 8 Level-1 scene]{style="color: #686868;font-size: small"}
 :::
 
@@ -187,7 +187,7 @@ Anyway, Level-2 products need a preprocessing and are NOT available for immediat
 
 [![](./img/USGS_029.png){.aligncenter}](./img/USGS_029.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Add scenes to Item Basket]{style="color: #686868;font-size: small"}
 :::
 
@@ -195,7 +195,7 @@ When you are done, click on Item Basket in the Header Menu Bar to submit your or
 
 [![](./img/USGS_030.png){.aligncenter}](./img/USGS_030.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Order overview when clicked on Item Basked]{style="color: #686868;font-size: small"}
 :::
 
@@ -203,7 +203,7 @@ On the next screen, press Submit Order:
 
 [![](./img/USGS_031.png){.aligncenter}](./img/USGS_031.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Submit your order]{style="color: #686868;font-size: small"}
 :::
 
@@ -211,7 +211,7 @@ DONE! You will be given a unqiue order ID and a confirmation email will be sent 
 
 [![](./img/USGS_032.png){.aligncenter}](./img/USGS_032.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Order confirmation]{style="color: #686868;font-size: small"}
 :::
 
@@ -222,7 +222,7 @@ Click on the Order status url in your second confirmation email, which redirects
 
 [![](./img/USGS_033.png){.aligncenter}](./img/USGS_033.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Order overview given by the link of the second email]{style="color: #686868;font-size: small"}
 :::
 
@@ -230,7 +230,7 @@ Click on your Order ID, which brings you to the download site. Simply click on t
 
 [![](./img/USGS_034.png){.aligncenter}](./img/USGS_034.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Finally get your Level-2 data!]{style="color: #686868;font-size: small"}
 :::
 
@@ -266,7 +266,7 @@ Once loaded, the main SciHUB graphical user interface (GUI) should be visible, w
 
 [![](./img/copdata_0.png){.aligncenter}](./img/copdata_0.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Copernicus Data Space Ecosytem Browser]{style="color: #686868;font-size: small"}
 :::
 
@@ -277,7 +277,7 @@ First of all, same as with USGS EarthExplorer, you need to register in order to 
 
 [![](./img/copdata_2.png){.aligncenter}](./img/copdata_2.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Create an account using the register option]{style="color: #686868;font-size: small"}
 :::
 
@@ -299,7 +299,7 @@ You can write the name of the area you are interested in in the field or zoom in
 
 [![](./img/copdata_3.png){.aligncenter}](./img/copdata_3.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Searching and/or zooming to your area of interest using the navigation tools]{style="color: #686868;font-size: small"}
 :::
 
@@ -307,7 +307,7 @@ Then draw a polygon covering your area of interest.
 
 [![](./img/copdata_4b.png){.aligncenter}](./img/copdata_4b.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Create a polygon for your area of interest]{style="color: #686868;font-size: small"}
 :::
 
@@ -315,7 +315,7 @@ It makes sense to filter the results using the advanced search settings which ca
 
 [![](./img/copdata_5.png{.aligncenter}){style="max-width: 50%; height: auto;"}](./img/copdata_5.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Overview of the main filter options]{style="color: #686868;font-size: small"}
 :::
 
@@ -329,7 +329,7 @@ Press the search button to start the query. The search results list provides all
 
 [![](./img/copdata_6.png){.aligncenter}](./img/copdata_6.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Query results]{style="color: #686868;font-size: small"}
 :::
 
@@ -337,7 +337,7 @@ There are the several options for each product when hovering over it with the mo
 
 [![](./img/copdata_8.png){.aligncenter}](./img/copdata_8.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Query results]{style="color: #686868;font-size: small"}
 :::
 
@@ -357,7 +357,7 @@ If you want to download multiple datasets, choose **Add Product to workspace**. 
 
 [![](./img/copdata_11.png){.aligncenter}](./img/copdata_11.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Open workspace]{style="color: #686868;font-size: small"}
 :::
 
@@ -365,7 +365,7 @@ When you examine your shopping cart, it is possible to select just some of them 
 
 [![](./img/copdata_12.png){.aligncenter}](./img/copdata_12.png)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [workspace]{style="color: #686868;font-size: small"}
 :::
 
@@ -376,6 +376,6 @@ If you want to know more about the Copernicus Data Space Ecosystem Browser, plea
 
 [![](./img/copdata_13.png){.aligncenter}](https://dataspace.copernicus.eu/videos)
 
-::: {style="margin: -30px 0 20px 0;text-align: center"}
+::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Video tutorials]{style="color: #686868;font-size: small"}
 :::
