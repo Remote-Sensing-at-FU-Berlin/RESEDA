@@ -29,7 +29,7 @@ We will practice everything exemplary on the basis of a single L9 Level-2 data s
 
 **Prerequisite**
 
-The following content requires that you have either successfully downloaded some Landsat 8 or 9 scenes as part of the [Download Section Exercise](./Download.qmd), or that you have acquired some datasets from the USGS EarthExplorer by your own. If this is not the case, look into the [chapter Landsat / Earthexplorer](./Download.qmd#EarthExplorer)!
+The following content requires that you have either successfully downloaded some Landsat 8 or 9 scenes as part of the [Download Section Exercise](./Download.qmd), or that you have acquired some datasets from the USGS EarthExplorer by your own. If this is not the case, look into the [chapter Download - Earthexplorer](./Download.qmd#EarthExplorer)!
 
 Done? -- Then start [R-Studio](./R-Studio.qmd) now!
 
@@ -152,7 +152,7 @@ Now we can create a raster stack based on the vector of bands in the variable `b
 rasterstack <- rast(bands)
 ```
 
-We can save this rasterstack and store it on your hard drive via `writeRaster `:
+We can save this raster stack and store it on your hard drive via `writeRaster `:
 
 ``` theme:amityreseda
 writeRaster(rasterstack, 
