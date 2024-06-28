@@ -118,11 +118,11 @@ productfiles
 ##[22] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_ST_URAD.TIF"
 ```
 
-These are all 22 files that come with a Level-2 product (see [Landsat 8]((./SensorBasics.qmd##landsat-8)) for more information). As a double check, you can have a look at the identical files in your file explorer:
+These are all 22 files that come with a Level-2 product including bands regarding thermal observations (see [Landsat 8]((./SensorBasics.qmd##landsat-8)) for more information). As a double check, you can have a look at the identical files in your file explorer:
 
 [![](./img/preproc_01.png)](./img/preproc_01.png)
 
-Now we want to select all the spectral bands that we want to put into our new data stack. Have a deeper look at the files in `productfiles `. The files are named after the corresponding spectral channels at the end of the file name, e.g., "SR_B1", "SR_B2", and so on. We use these terms to extract the bands by utilizing the `grep() ` function. The following code looks a little bloated. Maybe it is. But it gives you the freedom to exclude individual bands that you may not need. **NOTE:** This is an example of level 2 data. Landsat Level-1 scenes potentially have 11 channels. In the case of Level 1 data, you could easily enter the remaining lines here.
+Now we select all the spectral bands that we want to put into our new data stack. Have a deeper look at the files in `productfiles `. The files are named after the corresponding spectral channels at the end of the file name, e.g., "SR_B1", "SR_B2", and so on. We use these terms to extract the bands by utilizing the `grep() ` function. The following code looks a little bloated. Maybe it is. But it gives you the freedom to exclude individual bands that you may not need. **NOTE:** This is an example of level 2 data. Landsat Level-1 scenes potentially have 11 channels. In the case of Level 1 data, you could easily enter the remaining lines here.
 
 ``` r
 bands <- c(grep('SR_B1', productfiles, value=TRUE),
@@ -173,7 +173,7 @@ First, we can now delete the folder we created by uncompressing your Landsat dat
 unlink(productname, recursive=TRUE)
 ```
 
-Second, it is advisable to create so-called [pyramid layers](http://desktop.arcgis.com/en/arcmap/latest/manage-data/raster-and-images/raster-pyramids.htm){target="_blank"} for each Landsat dataset. Pyramid layers are used to improve performance. They are a downsampled version of the original raster and speed up the display of raster data by retrieving only the data at a specified resolution that is required for the display. We can automatically create them by using the [Geospatial Data Abstraction Library](http://www.gdal.org/){target="_blank"} (GDAL). Initially, GDAL has nothing to do with R, but it can be operated via R using eg. sf and terra [sf](https://cran.r-project.org/web/packages/sf/sf.pdf){target="_blank"}. Here, we use the function [gdal_addo](https://www.rdocumentation.org/packages/sf/versions/1.0-14/topics/gdal_addo){target="_blank"}.If you want to use this function, remember to intall and load the library `sf`.
+Second, it is advisable to create so-called [pyramid layers](http://desktop.arcgis.com/en/arcmap/latest/manage-data/raster-and-images/raster-pyramids.htm){target="_blank"} for each Landsat dataset. Pyramid layers are used to improve performance. They are a downsampled version of the original raster and speed up the display of raster data by retrieving only the data at a specified resolution that is required for the display. We can automatically create them by using the [Geospatial Data Abstraction Library](http://www.gdal.org/){target="_blank"} (GDAL). Initially, GDAL has nothing to do with R, but it can be operated via R using eg. `sf` and `terra` [sf](https://cran.r-project.org/web/packages/sf/sf.pdf){target="_blank"}. Here, we use the function [gdal_addo](https://www.rdocumentation.org/packages/sf/versions/1.0-14/topics/gdal_addo){target="_blank"}.If you want to use this function, remember to install and load the library `sf`.
 
 ``` r
 library(sf)
@@ -183,7 +183,7 @@ gdal_addo("LC09_L2SP_193023_20240512_20240513_02_T1.tif",  overviews = c(2, 4, 8
 
 Run the code and you will create a .ovr-file next to your .tif-file. This ovr-file holds the pyramid information, which will prove useful later in QGIS.
 
-Phew! This was A LOT of (explanatory) text by now. Fortunately, the code is actually much shorter! Here is the complete code for preprocessing one exemplary L8 Level-2 file:
+Phew! This was A LOT of (explanatory) text by now. Fortunately, the code is actually much shorter! Here is the complete code for preprocessing one exemplary L8 Level-2 collection 2 file:
 
 ``` r
 # Load the 'terra' package for raster data manipulation
@@ -240,7 +240,7 @@ Learn how to automate things for many datasets in the next section!
 
 Imagine you have 50 Landsat 8 records. Of course, it would be very tedious to modify and start the script 50 times. That's why there is now an automated solution for any number of data products!
 
-Again, the prerequisite is that you have the L8 Level-2 datasets downloaded to a folder ("/media/sf_exchange/landsatdata" in ourexample), in which only all of your Landsat 8 scenes are stored -- no other files! Of course you should replace the file path according to your storage location and create a character variable:
+Again, the prerequisite is that you have the L8 Level-2 datasets downloaded to a folder, in which all of your Landsat 8 scenes are stored -- please, no other files! Of course you should replace the file path according to your storage location and create a character variable:
 
 ``` r
 pathToFiles <- "/media/sf_exchange/landsatdata"
@@ -326,7 +326,7 @@ Due to the size of the data, we need to subset the important data from the SAFE 
 
 1.  resample all bands to 10 m
 2.  spatial and bands subset
-3.  save image as geotiff/ bigtiff to hard drive
+3.  save image as geotiff to hard drive
 
 We want to perform the preprocessing step by step on the basis of an Sentinel 2 Level-1 scene in SNAP. Based on that we will develop a graph file that will process an arbitrary number of scenes for you!
 
