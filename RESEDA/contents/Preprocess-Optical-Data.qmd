@@ -70,7 +70,7 @@ file.exists(product)
 **NOTE:** this is just an example -- you have to change the file and its path according to your own settings!\
 You can use the function `file.exists()` to check whether the file can be found on your system or not. If it returns `FALSE `, make sure you did not mess up the file name.
 
-We want to unpack the file into a folder with the same name as the file. The character variable `product ` already contains the full name of the Landsat scene. We just have to get rid of the suffix ".tar.gz". Therefore we can use the function `substr() ` to delete the last seven characters (=".tar.gz") of the string:
+We want to unpack the file into a folder with the same name as the file. The character variable `product ` already contains the full name of the Landsat scene. We just have to get rid of the suffix ".tar". Therefore we can use the function `substr() ` to delete the last four characters (=".tar.gz") of the string:
 
 ``` r
 productname <- substr(product, 1, nchar(product) - 4)
@@ -177,11 +177,13 @@ Second, it is advisable to create so-called [pyramid layers](http://desktop.arcg
 
 ``` r
 library(sf)
-gdal_addo("LC09_L2SP_193023_20240512_20240513_02_T1.tif",  overviews = c(2, 4, 8, 16))
+gdal_addo(paste0(productname, ".tif"),  overviews = c(2, 4, 8, 16))
 
 ```
 
-Run the code and you will create a .ovr-file next to your .tif-file. This ovr-file holds the pyramid information, which will prove useful later in QGIS.
+Run the code and you will create a .ovr-file next to your .tif-file. This ovr-file holds the pyramid information, which will prove useful later in QGIS. 
+
+Note: In my case, after using the command gdal_addo() the object rasterstack is not usable anymore. In that case just reopen the save rasterstack file.
 
 Phew! This was A LOT of (explanatory) text by now. Fortunately, the code is actually much shorter! Here is the complete code for preprocessing one exemplary L8 Level-2 collection 2 file:
 
@@ -218,7 +220,7 @@ bands <- c(grep('SR_B1', productfiles, value=TRUE),
            ) 
 
 # Create a raster stack from the selected band files
-rasterstack <- rast(bands)
+rasterstack <- stack(bands)
 
 # Write the raster stack to a GeoTIFF file, specifying the file type and allowing overwrite
 writeRaster(rasterstack, 
@@ -231,11 +233,12 @@ writeRaster(rasterstack,
 unlink(productname, recursive=TRUE)
 
 # Generate overviews (pyramids) for the GeoTIFF file to optimize its performance
-gdal_addo("LC09_L2SP_193023_20240512_20240513_02_T1.tif",  overviews = c(2, 4, 8, 16))
+gdal_addo(paste0(productname, ".tif"),  overviews = c(2, 4, 8, 16))
 ```
 
 Learn how to automate things for many datasets in the next section!
 
+####
 ### Landsat 8 Bulk Preprocessing {#landsat-8-bulk-preprocessing .entry-title}
 
 Imagine you have 50 Landsat 8 records. Of course, it would be very tedious to modify and start the script 50 times. That's why there is now an automated solution for any number of data products!
@@ -280,9 +283,9 @@ The remaining steps are then identical to those described above.
 Here is the complete code. Just adjust your `pathToFiles ` and run it in R-Studio to preprocess all of your Landsat 8 Level-2 files!
 
 ``` r
-library(raster)
+library(terra)
 
-pathToFiles <- "/media/sf_exchange/landsatdata"
+pathToFiles <- "./landsatdata"
 
 products <- list.files(pathToFiles, full.names = TRUE)
 

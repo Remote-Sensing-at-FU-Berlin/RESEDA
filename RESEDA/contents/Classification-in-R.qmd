@@ -1,10 +1,11 @@
 # Classification in R {#classification-in-r .entry-title}
 
+#### vorab zuschneiden und dann aus dem code später herausnehmen
 We want to utilize a Random Forest (RF) and a Support Vector Classifier (SVM) algorithm in order to classify the Berlin land cover in six elementary categories: *bare soil*, *water*, *grassland*, *forest*, *urban low density*, and *urban high density*. Therefore, we need an image dataset and a shapefile containing points or polygons to which the respective class is attributed.
 
-The workflow will be exemplified by a L8 scene (ID: LC08_L1TP_193023_20170602_20170615_01_T1), which you may already have acquired during the [L8 Download Exercise](./Download.qmd#EarthExplorer){rel="noopener" target="_blank"}. You need to preprocess the scene as shown in chapter [Preprocess](./Download.qmd#landsat-8-preprocessing). In addition, we narrowed our research area to Berlin to keep the data small (as shown in chapter [Visualize in R](./Visualization.qmd)).
+The workflow will be exemplified by a L9 scene (ID: LC09_L2SP_193023_20240512_20240513_02_T1), which you may already have acquired during the [L8/L9 Download Exercise](./Download.qmd#EarthExplorer){rel="noopener" target="_blank"}. You need to preprocess the scene as shown in chapter [Preprocess](./Preprocess-Optical_Data.qmd#landsat-8-preprocessing). In addition, we narrowed our research area to Berlin to keep the data small (as shown in chapter [Visualize in R](./Visualization.qmd)).
 
-You can download both the preprocessed image and the shapefile for testing purposes [here](http://+/).
+You can download both the preprocessed image and the shapefile for testing purposes [here](http://####/).
 
 ::: {style="background-color:#f1f1f1;padding:18px 30px 1px"}
 This section guides you through a complete classification process for satellite imagery. The resulting classification maps will be validated in the [next chapter](./validate.qmd).
@@ -26,7 +27,7 @@ This section guides you through a complete classification process for satellite 
 
 # Sample in QGIS {#sample-in-qgis .entry-title}
 
-This section provide a guide on how to create training areas in the form of polygons, which we save in a shapefile in QGIS. The process is very similar to collecting samples in ArcGIS/SNAP, which you already know from our GIS seminars.
+This section provides a guide on how to create training areas in the form of polygons, which we save in a shapefile in QGIS. If you prefer you can likewise create a geopackage- file. The process is very similar to collecting samples in ArcGIS/SNAP, which you already know from our GIS seminars.
 
 Collecting training areas is essential when working with supervised classifiers and significantly influences the classification outputs. You should make some preliminary considerations and approach the sampling very carefully! In the following, we will focus on the most important basics to consider.
 
@@ -40,18 +41,18 @@ Unfortunately, those just can not be answered directly. The amount of training d
 -   complexity of your classification problem (number and similarity of  target classes, ...) &
 -   complexity of your classification algorithm (number of parameters or weights, RF, SVM, ANN, ML, ...).
 
-Sampling data in machine learning is a science in itself, which is why there is a wealth of scientific publications about it ([Curran & Williamson 1986](https://www.sciencedirect.com/science/article/pii/003442578690012X){rel="noopener" target="_blank"}, [Figueroa et al. 2012](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3307431/pdf/1472-6947-12-8.pdf){rel="noopener" target="_blank"}) and even entire books ([Marchetti et al. 2006](https://books.google.de/books?id=uspzLjVWNgMC&printsec=frontcover&hl=de&source=gbs_ge_summary_r&cad=0#v=onepage&q&f=false){rel="noopener" target="_blank"}, [Hastie et al. 2017](https://books.google.de/books?id=tVIjmNS3Ob8C&printsec=frontcover&dq=The+Elements+of+Statistical+Learning:+Data+Mining,+Inference,+and+Prediction,+Second+Edition&hl=de&sa=X&ved=0ahUKEwiylJDL76XcAhWDZVAKHdG1CLAQ6AEIKDAA#v=onepage&q=The%20Elements%20of%20Statistical%20Learning%3A%20Data%20Mining%2C%20Inference%2C%20and%20Prediction%2C%20Second%20Edition&f=false){rel="noopener" target="_blank"}).
+####Examine links! Sampling data in machine learning is a science in itself, which is why there is a wealth of scientific publications about it ([Curran & Williamson 1986](https://www.sciencedirect.com/science/article/pii/003442578690012X){rel="noopener" target="_blank"}, [Figueroa et al. 2012](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3307431/pdf/1472-6947-12-8.pdf){rel="noopener" target="_blank"}) and even entire books ([Marchetti et al. 2006](https://books.google.de/books?id=uspzLjVWNgMC&printsec=frontcover&hl=de&source=gbs_ge_summary_r&cad=0#v=onepage&q&f=false){rel="noopener" target="_blank"}, [Hastie et al. 2017](https://books.google.de/books?id=tVIjmNS3Ob8C&printsec=frontcover&dq=The+Elements+of+Statistical+Learning:+Data+Mining,+Inference,+and+Prediction,+Second+Edition&hl=de&sa=X&ved=0ahUKEwiylJDL76XcAhWDZVAKHdG1CLAQ6AEIKDAA#v=onepage&q=The%20Elements%20of%20Statistical%20Learning%3A%20Data%20Mining%2C%20Inference%2C%20and%20Prediction%2C%20Second%20Edition&f=false){rel="noopener" target="_blank"}).
 
 Fine, so far that is not much of a help...
 
 To keep it very simple: You need a sample of your data that represents the problem you want to solve. Keep in mind, a classifier learns a mathematical function, which maps input data (e.g., spectral bands) to output data (e.g., class labels). In order to achieve this, you should provide enough training data to capture the
 relationships between input and output. **Training data** will optimally meet the following requirements:
 
--   **independent of test data:**\
- A training dataset must be independent of the test dataset used for  a validation, but can follow the same probability distribution. No training sample may be used to test (validate) the performance of the classifier! In the context of remote sensing data, it is also important that train and test data are spatially maximally distant   to avoid spatial autocorrelation ([Morans I](https://en.wikipedia.org/wiki/Moran%27s_I){rel="noopener"  target="_blank"}).
+-   **independence of test data:**\
+ A training dataset must be independent of the test dataset used for  a validation, but can follow the same probability distribution. No training sample may be used to test (validate) the performance of the classifier! In the context of remote sensing data, it is also important that train and test data are spatially maximally distant avoid spatial autocorrelation ([Morans I](https://en.wikipedia.org/wiki/Moran%27s_I){rel="noopener"  target="_blank"}).
 -   **mostly identical distributed:**\
- Each target class should be equally represented in the training data set. Most datasets do not have an exactly equal number of instances in each class. Small differences often does not matter. However, if there is a strong imbalance, e.g., 90% of all training data represent class 1 and only 10% class 2, most algorithms very quickly
- overclassify the more-prevalent classes. Some simple options here: Collect more samples of the low-represented classes, use data augmentation to synthetically create new samples for under-represented classes, or use a under sampling method. The simplest under sampling method is to delete samples from the over-represented classes during classifier training. We will use this latter method for the [RF](./Classification-in-R.qmd#rf-classification) and [SVM](./Classification-in-R.qmd#svm-classification/) implementations later on.
+ Each target class should be equally represented in the training data set. Most datasets do not have an exactly equal number of instances in each class. Small differences often do not matter. However, if there is a strong imbalance, e.g., 90% of all training data represent class 1 and only 10% class 2, most algorithms very quickly
+ "overclassify" the more-prevalent classes. Some simple options to avoid this effect: Collect more samples of the low-represented classes, use data augmentation to synthetically create new samples for under-represented classes, or use a under sampling method. The simplest under sampling method is to delete samples from the over-represented classes during classifier training. We will use this latter method for the [RF](./Classification-in-R.qmd#rf-classification) and [SVM](./Classification-in-R.qmd#svm-classification/) implementations later on.
 -   **representative for target classes:**\
  Training data should cover as many intra-class variations as possible, e.g., all spectral classes of a thematic target class, such as deciduous trees and conifers for the target class "forest". Especially with more complex, non-linear classifiers, such as RF and SVM, it is important to include near-border training samples to map the class transitions more accurately. For example, water bodies should also be sampled in the shore area rather than just creating polygons in deep water areas.
 -   **available in sufficient quantity:**\
@@ -79,15 +80,15 @@ There are several ways to open a raster dataset here: Either navigate via the ma
 
 [![Location of Add Raster Layer-function in QGIS](./img/vis_007.png){.aligncenter}](./img/vis_007.png)
 
-In the file explorer window, navigate to the data folder which holds your L8 data and import a raster dataset. We will use a L8 scene showing Berlin (ID: LC08_L1TP_193023_20170602_20170615_01_T1) from the [L8 Download Exercise](./EarthExplorer-Exercise.qmd){rel="noopener" target="_blank"}. The spatial subset can be downloaded [here](XXX){rel="noopener" target="_blank"} directly:
+In the file explorer window, navigate to the data folder which holds your L9 data and import a raster dataset. We will use a L9 scene showing Berlin (ID: LC09_L2SP_193023_20240512_20240513_02_T1) from the [L9 Download Exercise](./EarthExplorer-Exercise.qmd){rel="noopener" target="_blank"}. The spatial subset can be downloaded [here](XXX){rel="noopener" target="_blank"} directly:
 
 [![](./img/cla_009.png){.aligncenter}](./img/cla_009.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Landsat 8 spatial subset imported into QGIS]{style="color: #686868;font-size: small"}
+[Landsat 9 spatial subset imported into QGIS]{style="color: #686868;font-size: small"}
 :::
 
-If you have started a new QGIS project (or just opened QGIS), the projection of the entire project will be based on the first dataset you load -- in this case the raster file. You can see the current projection of the project in the lower right corner of QGIS. If you use our example data set, you should now see ![](./img/cla_010.png){.alignnone .size-full .wp-image-2071 loading="lazy" width="110" height="29"} there. Click on this entry to get more detailed information about coordinate system of our raster dataset ("WGS84 / UTM ZONE 33 N"). Alternatively you can double-click the dataset in the Layer Panel and view the Coordinate Reference System (CRS) in the General-tab. We want to generate a new shapefile, which shares exactly this georeference system. This is the best way to ensure that the polygons are geographically correctly located in the end.
+If you have started a new QGIS project (or just opened QGIS), the projection of the entire project will be based on the first dataset you load -- in this case the raster file. You can see the current projection of the project in the lower right corner of QGIS. If you use our example data set, you should now see ![](./img/cla_010.png){.alignnone .size-full .wp-image-2071 loading="lazy" width="110" height="29"} there. Click on this entry to get more detailed information about coordinate system of our raster dataset ("WGS84 / UTM ZONE 33 N"). Alternatively, you can double-click the dataset in the Layer Panel and view the Coordinate Reference System (CRS) in the General-tab. We want to generate a new shapefile, which shares exactly this georeference system. This is the best way to ensure that the polygons are geographically correctly located in the end.
 
 ## Create a New Polygon Shapefile
 
@@ -97,9 +98,8 @@ Finally, this should look like this:
 
 [![New Shapefile dialog settings](./img/cla_014.png){.aligncenter}](./img/cla_014.png)
 
-If everything is set up, click OK. You will be prompted to the "Save layer as..." dialog. Type the file name ("training_data.shp"), choose a file path and click Save. You will be able to see the new shapefile in
-the Layers Panel of QGIS. Select it and press the Toggle Editing ![](./img/cla_015.png){.alignnone .size-full
-.wp-image-2078 width="22"} icon in order to activate editing functionalities. Note that a little pencil symbol will show up on top of the layer, indicating that the layer is now editable. Now click on the Add Feature ![](./img/cla_016.png){.alignnone .size-full .wp-image-2079 loading="lazy" width="22" height="30"} icon. The mouse cursor will now look like a crosshairs. Left-click on the map in the Map View to create the first point of your new feature. Keep on left-clicking for each additional point you wish to include in your polygon. When you have finished adding your points, right-click anywhere on the map area to confirm your polygon geometry. An attribute window
+If everything is set up, click OK. You will be prompted to the "Save layer as..." dialog. Type the file name ("training_data.shp"), choose a file path and click Save. You will be able to see the new shapefile in the Layers Panel of QGIS. Select it and press the Toggle Editing ![](./img/cla_015.png){.alignnone .size-full
+.wp-image-2078 width="22"} icon in order to activate editing functionalities. Note that a little pencil symbol will show up on top of the layer, indicating that the layer is now editable. Now click on the Add Feature ![](./img/cla_016.png){.alignnone .size-full .wp-image-2079 loading="lazy" width="22" height="30"} icon. The mouse cursor will now look like a crosshair. Left-click on the map in the Map View to create the first point of your new feature. Keep on left-clicking for each additional point you wish to include in your polygon. When you have finished adding your points, right-click anywhere on the map area to confirm your polygon geometry. An attribute window
 will appear immediately, asking for your class label. Input the appropriate class label for your polygon and click OK. Click on the Toggle Editing ![](./img/cla_015.png){.alignnone} icon again in order to end editing and to save your changes by choosing Save.
 
 You can edit the shape of a polygon with the Node tool ![](./img/cla_018.png){.alignnone .size-full .wp-image-2084 loading="lazy" width="28" height="28"}. Delete any unwanted polygons by clicking on the tool called "Select Features by Area or Single Click" ![](./img/cla_019.png){.alignnone .size-full .wp-image-2085 loading="lazy" width="28" height="27"}. Once activated you can left-click on polygons you want to delete, causing them to turn yellow. Then, press the delete key on your keyboard to remove the polygons (only in editing mode). Choose "Categorized" in the uppermost drop-down menu.
@@ -117,27 +117,32 @@ We do not need QGIS anymore, so close it.
 
 # Prepare Samples in R {#prepare-samples-in-r .entry-title}
 
-We want to put the training samples created in the previous section in the form of a data frame -- which most classifiers in R can handle easily (especially our RF and SVM algorithms). You can [download the training_data shapefile here](XXX){target="_blank" rel="noopener"}. For this task, we again take advantage of the powerful [terra](https://cran.r-project.org/web/packages/terra/terra.pdf){target="_blank" rel="noopener"} package. The complete code is shown below and a more detailed description is given afterwards.
+We want to put the training samples created in the previous section in the form of a data frame -- which most classifiers in R can handle easily (especially our RF and SVM algorithms). You can [download the training_data shapefile here]####{target="_blank" rel="noopener"}. For this task, we again take advantage of the powerful [terra](https://cran.r-project.org/web/packages/terra/terra.pdf){target="_blank" rel="noopener"} package. The complete code is shown below and a more detailed description is given afterwards.
 
 ``` theme:amityreseda
 # Load the terra package
 library(terra)
 
 # Set the working directory
-setwd("/media/sf_exchange/landsatdata/")
+setwd("./data")
 
 # Import the raster image and shapefile
-img <- rast("LC081930232017060201T1-SC20180613160412_subset.tif")
-shp <- vect("training_data.shp")
+img <- rast("./landsatdata/LC09_L2SP_193023_20240512_20240513_02_T1.tif")
+shp <- vect("./vector/training_data.shp")
+
+#### Shapefile Berlin
+# Let's subset the data according to our shapefile and save it.
+img <- crop(img, shp, filename=paste0(substr(product, 1, nchar(product) - 4), "_subset.tif"))
+
 
 # Rename the raster bands
 names(img) <- c("b1", "b2", "b3", "b4", "b5", "b6", "b7")
 
 # Extract samples with class labels and put them all together in a dataframe
-smp <- extract(img, shp, df = TRUE)
+smp <- extract(img, shp)
 
 # Match the extracted samples with class labels
-smp$cl <- as.factor(shp$classes[match(smp$ID, shp$ID)])
+smp$cl <- as.factor(shp$classes[smp$ID])
 
 # Remove the ID column (the first column) if not needed
 smp <- smp[-1]
@@ -150,20 +155,21 @@ print(smp)
 
 ## In-depth Guide
 
-In order to use functionalities of the raster package, load it into your current session via `library()`. If you do not use our VM, you must first download and install the packages with `install.packages()`:
+In order to use functionalities of the terra package, load it into your current session via `library()`. If you did not yet install terra, please do so using `install.packages()`:
 
 ``` theme:amityreseda
-#install.packages("raster")
-library(raster)
+#install.packages("terra")
+library(terra)
 ```
 
 Next: set your working directory, in which all your image and shapefile data is stored by giving a character (do not forget the quotation marks `" "`) variable to `setwd()`. Check your path with `getwd()` and the stored files in it via `dir()`:
 
+#### data folders
 ``` theme:amityreseda
-setwd("/media/sf_exchange/landsatdata/")
+setwd("./data")
 
 getwd()
-## [1] "/media/sf_exchange/landsatdata"
+## [1] "/reseda/data/landsatdata"
 
 dir()        
 ## [1] "LC081930232017060201T1-SC20180613160412_subset.tif"                                                               
@@ -178,35 +184,33 @@ If you do not get your files listed, you have made a mistake in your work path -
 them:
 
 ``` theme:amityreseda
-img <- brick("LC081930232017060201T1-SC20180613160412_subset.tif")
+img <- rast("LC081930232017060201T1-SC20180613160412_subset.tif")
 img
-## class       : RasterBrick 
-## dimensions  : 504, 1030, 519120, 7  (nrow, ncol, ncell, nlayers)
-## resolution  : 30, 30  (x, y)
-## extent      : 369795, 400695, 5812395, 5827515  (xmin, xmax, ymin, ymax)
-## coord. ref. : +proj=utm +zone=33 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
-## data source : /media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412_subset.tif 
-## names       : LC0819302//2_subset.1, LC0819302//2_subset.2, LC0819302//2_subset.3, LC0819302//2_subset.4, LC0819302//2_subset.5, LC0819302//2_subset.6, LC0819302//2_subset.7 
-## min values  :                 -2000,                 -2000,                 -1502,                 -1384,                  -107,                   -72,                   -27 
-## max values  :                 13240,                 13539,                 14574,                 14549,                 14243,                 14896,                 15388
+#### 
+
 
 shp <- shapefile("training_data.shp")
 shp
-## class       : SpatialPolygonsDataFrame 
-## features    : 72 
-## extent      : 369802.9, 400028.9, 5812457, 5827504  (xmin, xmax, ymin, ymax)
-## coord. ref. : +proj=utm +zone=33 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
-## variables   : 1
-## names       :  classes 
-## min values  : baresoil 
-## max values  :    water
 
-compareCRS(shp, img)
+## class       : SpatVector 
+## geometry    : polygons 
+## dimensions  : 72, 1  (geometries, attributes)
+## extent      : 369802.9, 400028.9, 5812457, 5827504  (xmin, xmax, ymin, ymax)
+## source      : training_data.shp
+## coord. ref. : WGS 84 / UTM zone 33N (EPSG:32633) 
+## names       : classes
+## type        :   <chr>
+## values      :   water
+##                 water
+##                 water
+                 
+####
+same.crs(shp, img)
 ## [1] TRUE
 ```
 
-Both the `rast`()` and `vect()` functions are provided by the terra package. As shown above, they create objects of the class RasterBrick and SpatialPolygonsDataFrame respectively. The L8 raster provides 7 bands, and our example shapefile 72 features, i.e., polygons. You can check whether the projections of the two datasets are identical or not by executing `compareCRS(shp, img)`. If this is not the case (output equals *FALSE*),
-the raster package will automatically re-project your data on the fly later on. However, we recommend to adjust the projections manually in advance to prevent any future inaccuracies.\
+Both the `rast`()` and `vect()` functions are provided by the terra package. As shown above, they create objects of the class SpatRaster and SpatVector respectively. The L9 raster provides 7 bands, and our example shapefile 72 features, i.e., polygons. You can check whether the projections of the two datasets are identical or not by executing `same.crs(shp, img)`. If this is not the case (output equals *FALSE*),
+the terra package will automatically re-project your data on the fly later on. However, we recommend to adjust the projections manually in advance to prevent any future inaccuracies using `project()`.\
 Plot your data to make sure everything is imported properly (check [Visualize in R](./Visualization.qmd) for an intro to plotting). With the argument `add = TRUE` in line 2 several data layers can be displayed one above the other:
 
 ``` theme:amityreseda
@@ -258,13 +262,12 @@ Our goal is to extract the raster values (x), i.e., all input feature values, an
 smp <- extract(img, shp, df = TRUE)
 ```
 
-It may take some (long) time for this function to complete depending on the spatial resolution of your raster data and the spatial area covered by your polygons. If you have your data stored on an SSD, the process is completed much faster. It may be advisable to save the resulting object to the hard drive `save(smp , file = "smp .rda")` and load it from the hard disk if necessary `load(file = "smp.rda")`. On this way, the extract function does not have to be repeated again and again...\
-The data frame has as many rows as pixels could be extracted and as many columns as input features are given (in this example the spectral channels). In addition, `smp` also provides a column named "ID", which holds the IDs of the former polygon for each pixel (each polygon is automatically assigned an ID).
-Furthermore, we also know which polygon, i.e., each ID, belongs to which class. Because of this, we can establish a relationship between the deposited ID of each pixel and the class using the `match()` function. We use this to add another column to our data query describing each class. Then we
-delete the ID column because we do not need it anymore:
+It may take some time for this function to complete depending on the spatial resolution of your raster data and the spatial area covered by your polygons. If you have your data stored on an SSD, the process is completed much faster. It may be advisable to save the resulting object to the hard drive `save(smp , file = "smp .rda")` and load it from the hard disk if necessary `load(file = "smp.rda")`. On this way, the extract function does not have to be repeated again and again...\
+The data frame has as many rows as pixels are to be extracted and as many columns as input features are given (in this example the spectral channels). In addition, `smp` also provides a column named "ID", which holds the IDs of the former polygon for each pixel (each polygon is automatically assigned an ID).
+Furthermore, we also know which polygon, i.e., each ID, belongs to which class. Because of this, we can establish a relationship between the deposited ID of each pixel and the class given in the shapefile. We use this to add another column to our data query describing each class. Then we delete the ID column because we do not need it anymore:
 
 ``` theme:amityreseda
-smp$cl <- as.factor(shp$classes[match(smp$ID, seq(nrow(shp)))])
+smp$cl <- as.factor(shp$classes[smp$ID])
 smp <- smp[-1]
 
 summary(smp$cl)
@@ -327,6 +330,8 @@ legend(as.character(sp$cl),
 
 Note that the values represent only the arithmetic mean of the classes and do not allow any statement about the underlying distribution. However, such a z-profile plot helps to visually assess the separability of classes at the beginning.
 
+
+#### ab hier weiter
 # RF Classification {#rf-classification .entry-title}
 
 There are some packages available containing the possibility to perform the standard RF algorthm described by [Breiman (2001)](https://www.stat.berkeley.edu/~breiman/randomforest2001.pdf){rel="noopener" target="_blank"}, e.g., in the [caret](https://cran.r-project.org/web/packages/caret/caret.pdf){rel="noopener" target="_blank"}, [randomForest](https://cran.r-project.org/web/packages/randomForest/randomForest.pdf){rel="noopener" target="_blank"}, [ranger](https://github.com/imbs-hl/ranger){rel="noopener" target="_blank"}, [xgboost](https://cran.r-project.org/web/packages/xgboost/xgboost.pdf){rel="noopener" target="_blank"}, or [randomForestSRC](https://cran.r-project.org/web/packages/randomForestSRC/randomForestSRC.pdf){rel="noopener" target="_blank"} packages. However, we will use the package called "randomForest" because it is the most common and therefore best supported.
