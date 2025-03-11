@@ -624,7 +624,7 @@ However, the complete range of theoretically possible digital numbers is rarely 
 <p>Also for this chapter it is a requirement that you own at least one Landsat 8 scene. We will visualize the Landsat 8 Level-2 scene (ID: LC08_L1TP_193023_20170602_20170615_01_T1) in R in this section, which you may have already downloaded in our <a href="../../RESEDA/contents/Download.html#EarthExplorer">EarthExplorer download exercise</a>. You can download <a href="https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FLandsat_Data&amp;files=LC081930232017060201T1-SC20180613160412.tif" target="_blank" rel="noopener">the preprocessed file here</a>.</p>
 <p>When you are ready, open R-Studio.</p>
 <p>We need the raster package again, so import it into your current working session first:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Loading required package: sp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The raster package offers various structures for importing data, depending on how the image data precedes:</p>
 <ul>
@@ -635,61 +635,64 @@ However, the complete range of theoretically possible digital numbers is rarely 
 <p>During preprocessing (chapter <a href="../../RESEDA/contents/Preprocess.html">Preprocess</a>), we saved the individual bands of the Landsat 8 scenes in a single geotiff-container. So we created one file with several bands, so we need the <code>brick()</code> function for an import into R:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">"/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tif"</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">brick</span>(path)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">rast</span>(path)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>img</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="do">## class       : RasterBrick </span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 8141, 8051, 65543191, 7  (nrow, ncol, ncell, nlayers)</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="do">## resolution  : 30, 30  (x, y)</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : 278085, 519615, 5762085, 6006315  (xmin, xmax, ymin, ymax)</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="do">## coord. ref. : +proj=utm +zone=33 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 </span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="do">## data source : /media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tif </span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="do">## names       : LC0819302//13160412.1, LC0819302//13160412.2, LC0819302//13160412.3, LC0819302//13160412.4, LC0819302//13160412.5, LC0819302//13160412.6, LC0819302//13160412.7 </span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="do">## min values  :            -3.400e+38,            -2.000e+03,            -1.685e+03,            -1.384e+03,            -2.720e+02,            -1.060e+02,            -6.500e+01 </span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="do">## max values  :                 13333,                 13643,                 14703,                 14674,                 14331,                 15137,                 15638</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="do">##class       : SpatRaster </span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="do">##dimensions  : 8141, 8051, 7  (nrow, ncol, nlyr)</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="do">##resolution  : 30, 30  (x, y)</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="do">##extent      : 278085, 519615, 5762085, 6006315  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="do">##coord. ref. : WGS 84 / UTM zone 33N (EPSG:32633) </span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="do">##source      : LC081930232017060201T1-SC20180613160412.tif </span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="do">##names       : LC081~412_1, LC081~412_2, LC081~412_3, LC081~412_4, LC081~412_5, LC081~412_6, </span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="do">##min values  :       -2000,       -2000,       -1685,       -1384,        -272,        -106, </span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#max values  :       13333,       13643,       14703,       14674,       14331,       15137, ... </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>By calling the object <code>img</code> in line 5, the most important metadata can be viewed, e.g., raster dimensions, geometric resolution, geographical extent, coordinate system, file path, as well as minimum and maximum digital numbers per band. This completes the import of the L8 image as a RasterBrick object into R.</p>
 <p>We can now plot the image data. The <code>plotRGB()</code> function is a convenient way to visualize different RGB composites. Check out the help for this feature in R-Studio by running <code>?plotRGB</code>! The function has three arguments called <code>r =</code>, <code>g =</code>, and <code>b =</code>, which define the three layers to be used for the RGB slots in a RasterBrick or Rasterstack.<br>
 If we just want to visualize one band (singleband visualization), we will fill all three slots with the same band, e.g.&nbsp;the green band:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(img,</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">3</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">stretch =</span> <span class="st">"lin"</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><a href="./img/vis_024.png"><img src="./img/vis_024.png" class="aligncenter img-fluid"></a></p>
 <p>The stretch argument in line 3 was set to “lin” in order to perform a minimum-maximum contrast stretching to increase the contrast of the image, as described <a href="../../RESEDA/contents/Visualization.html">here</a>.<br>
 We can also do a spatial subsetting here by specifying an “Extent”-object using the <code>ext =</code> argument:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(img,</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">3</span>,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">stretch =</span> <span class="st">"lin"</span>,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">ext =</span> <span class="fu">extent</span>(<span class="dv">369800</span>, <span class="dv">400700</span>, <span class="dv">5812400</span>, <span class="dv">5827500</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>new_extent <span class="ot">&lt;-</span> <span class="fu">ext</span>(<span class="dv">369800</span>, <span class="dv">400700</span>, <span class="dv">5812400</span>, <span class="dv">5827500</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(img,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">3</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">stretch =</span> <span class="st">"lin"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">ext =</span> new_extent</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><a href="./img/vis_023.png"><img src="./img/vis_023.png" class="aligncenter img-fluid"></a></p>
 <p>Objects of class “Extent” are used to define the spatial extent. The four specified arguments are UTM coordinates for (min x, max x, min y, max y). You can set those UTM coordinates arbitrarily and get them, for example, by reading them from QGIS or Google Maps.</p>
 <p>By defining different bands for the RGB slots, we can, just as in QGIS, create all imaginable RGB composites:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(img,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">r =</span> <span class="dv">4</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">stretch =</span> <span class="st">"lin"</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">ext =</span> <span class="fu">extent</span>(<span class="dv">369800</span>, <span class="dv">400700</span>, <span class="dv">5812400</span>, <span class="dv">5827500</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>new_extent <span class="ot">&lt;-</span> <span class="fu">ext</span>(<span class="dv">369800</span>, <span class="dv">400700</span>, <span class="dv">5812400</span>, <span class="dv">5827500</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(img,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">r =</span> <span class="dv">4</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">stretch =</span> <span class="st">"lin"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">ext =</span> new_extent</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><a href="./img/vis_022.png"><img src="./img/vis_022.png" class="aligncenter img-fluid"></a></p>
 <p>Make your spatial subset permament by writing the trimmed image as a new file to your hard drive with <code>writeRaster</code>. This is especially useful if you want to test a classification workflow: small data sets will cheer up your work in QGIS, in R, as well as in all other software solutions.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>img.subset <span class="ot">&lt;-</span> <span class="fu">crop</span>(img, <span class="fu">extent</span>(<span class="dv">369800</span>, <span class="dv">400700</span>, <span class="dv">5812400</span>, <span class="dv">5827500</span>) )</span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tif"</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(img.subset,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">filename =</span> <span class="st">"/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412_subset.tif"</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">format =</span> <span class="st">"GTiff"</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">overwrite =</span> <span class="cn">TRUE</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>            )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>img_subset <span class="ot">&lt;-</span> <span class="fu">crop</span>(img, <span class="fu">ext</span>(<span class="dv">369800</span>, <span class="dv">400700</span>, <span class="dv">5812400</span>, <span class="dv">5827500</span>))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(img_subset,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">filename =</span> <span class="st">"/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412_subset.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Of course, it is also possible to examine the underlying data distribution in more detail. Therefore, we can look at a histogram of a specific band with the function <code>hist()</code>:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>green <span class="ot">&lt;-</span> img.subset[[<span class="dv">3</span>]]</span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>green <span class="ot">&lt;-</span> img_subset[[<span class="dv">3</span>]]</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(green,</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="dv">200</span>,</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">2000</span>),</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">120000</span>),</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"band 3 reflectance value [DN * 0.01]"</span>,</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"frequency"</span>,</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"histogram L8 band 3 (green)"</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>     )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Band 3 Reflectance Value [DN * 0.01]"</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Frequency"</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Histogram L8 Band 3 (Green)"</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><a href="./img/vis_026.png"><img src="./img/vis_026.png" class="aligncenter img-fluid"></a></p>
 <p>The <code>breaksargument</code> in line is assigned with a single number giving the number of cells for the histogram. So with more breaks, the bars in the histogram become narrower. With <code>xlim =</code> and <code>ylim =</code> you can narrow the x axis and y axis to a certain range.</p>
 
