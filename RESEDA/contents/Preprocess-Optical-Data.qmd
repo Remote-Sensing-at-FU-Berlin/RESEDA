@@ -617,9 +617,9 @@ setwd("D:\\elearning\\exchange\\R")
 Open and plot the image:
 
 ``` r
-sen2 <- stack("subset_0_of_S2A_MSIL2A_20190626T102031_N0212_R065_T32UQD_20190626T125319_resampled.tif")
+sen2 <- rast("E:\\subset_0_of_S2A_MSIL2A_20190626T102031_N0212_R065_T32UQD_20190626T125319_resampled.tif")
 plot(sen2)
-plotRGB(sen2, 4,3,2, stretch="lin")
+plotRGB(sen2, r = 4, g = 3, b = 2, stretch = "lin")
 ```
 
 Separate spectral bands and classification (band 1 to 12 is the mulispectral Sentinel- 2 scene, band 13 is the quality classification band):
