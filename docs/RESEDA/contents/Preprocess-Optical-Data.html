@@ -823,19 +823,20 @@ Search for the <strong>Read</strong> node. Within that node, a line should list 
 <p>Which pixels do we want to mask?</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2_mask)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>sen2_mask_combi <span class="ot">&lt;-</span> sen2_mask</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>sen2_mask_combi[sen2_mask <span class="sc">==</span> <span class="dv">3</span> <span class="sc">|</span>sen2_mask <span class="sc">==</span> <span class="dv">7</span> <span class="sc">|</span>sen2_mask <span class="sc">==</span> <span class="dv">8</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">9</span> <span class="sc">|</span>sen2_mask <span class="sc">==</span> <span class="dv">10</span> <span class="sc">|</span>sen2_mask <span class="sc">==</span> <span class="dv">11</span> ] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2_mask_combi)</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_mask_combi, <span class="st">"sen2_mask.tif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>sen2_mask_combi[sen2_mask <span class="sc">==</span> <span class="dv">3</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">7</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">8</span> <span class="sc">|</span> </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                  sen2_mask <span class="sc">==</span> <span class="dv">9</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">10</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2_mask_combi)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_mask_combi, <span class="st">"sen2_mask.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><a href="./img/Maske.png"><img src="./img/Maske.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Mask without the classes: 3,7,8,9,10,11<br>
 </span></p>
 </div>
 <p>Apply mask:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>sen2_bands_masked <span class="ot">&lt;-</span> raster<span class="sc">::</span><span class="fu">mask</span>(sen2_bands,sen2_mask_combi)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2_bands_masked, <span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="at">stretch=</span><span class="st">"lin"</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_bands_masked, <span class="st">"sen2_masked.tif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>sen2_bands_masked <span class="ot">&lt;-</span> <span class="fu">mask</span>(sen2_bands, sen2_mask_combi)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2_bands_masked, <span class="at">r =</span> <span class="dv">4</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_bands_masked, <span class="st">"sen2_masked.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><a href="./img/Maske_applied.png"><img src="./img/Maske_applied.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Applied mask<br>
@@ -843,8 +844,9 @@ Search for the <strong>Read</strong> node. Within that node, a line should list 
 </div>
 <p>…or the whole part in short:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>sen2_bands_masked_a <span class="ot">&lt;-</span> sen2_bands</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>sen2_bands_masked_a [sen2_mask <span class="sc">==</span> <span class="dv">3</span> <span class="sc">|</span>sen2_mask <span class="sc">==</span> <span class="dv">7</span> <span class="sc">|</span>sen2_mask <span class="sc">==</span> <span class="dv">8</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">9</span> <span class="sc">|</span>sen2_mask <span class="sc">==</span> <span class="dv">10</span> <span class="sc">|</span>sen2_mask <span class="sc">==</span> <span class="dv">11</span> ] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_bands_masked_a, <span class="st">"sen2_masked_alternativ.tif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>sen2_bands_masked_a[sen2_mask <span class="sc">==</span> <span class="dv">3</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">7</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">8</span> <span class="sc">|</span> </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                      sen2_mask <span class="sc">==</span> <span class="dv">9</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">10</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_bands_masked_a, <span class="st">"sen2_masked_alternativ.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
