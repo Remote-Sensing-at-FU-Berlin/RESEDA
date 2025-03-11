@@ -609,7 +609,7 @@ Open R-Studio and install, open the required packages and set your working direc
 ``` r
 install.packages("terra")
 
-library(raster)
+library(terra)
 
 setwd("D:\\elearning\\exchange\\R")
 ```
