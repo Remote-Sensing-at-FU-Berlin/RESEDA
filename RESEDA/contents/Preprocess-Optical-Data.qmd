@@ -607,11 +607,9 @@ Image quality band and the classes we want to delete for our mask (Values): 3 (c
 Open R-Studio and install, open the required packages and set your working directory:
 
 ``` r
-install.packages("raster")
-install.packages("rgdal")
+install.packages("terra")
 
 library(raster)
-library(rgdal)
 
 setwd("D:\\elearning\\exchange\\R")
 ```
