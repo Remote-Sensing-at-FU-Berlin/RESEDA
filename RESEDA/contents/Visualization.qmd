@@ -156,7 +156,7 @@ When you are ready, open R-Studio.
 We need the raster package again, so import it into your current working session first:
 
 ``` r
-library(raster)
+library(terra)
 ## Loading required package: sp
 ```
 
@@ -171,18 +171,19 @@ During preprocessing (chapter [Preprocess](./Preprocess.qmd)), we saved the indi
 ``` r
 path <- "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tif"
 
-img <- brick(path)
+img <- rast(path)
 
 img
-## class       : RasterBrick 
-## dimensions  : 8141, 8051, 65543191, 7  (nrow, ncol, ncell, nlayers)
-## resolution  : 30, 30  (x, y)
-## extent      : 278085, 519615, 5762085, 6006315  (xmin, xmax, ymin, ymax)
-## coord. ref. : +proj=utm +zone=33 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
-## data source : /media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tif 
-## names       : LC0819302//13160412.1, LC0819302//13160412.2, LC0819302//13160412.3, LC0819302//13160412.4, LC0819302//13160412.5, LC0819302//13160412.6, LC0819302//13160412.7 
-## min values  :            -3.400e+38,            -2.000e+03,            -1.685e+03,            -1.384e+03,            -2.720e+02,            -1.060e+02,            -6.500e+01 
-## max values  :                 13333,                 13643,                 14703,                 14674,                 14331,                 15137,                 15638
+##class       : SpatRaster 
+##dimensions  : 8141, 8051, 7  (nrow, ncol, nlyr)
+##resolution  : 30, 30  (x, y)
+##extent      : 278085, 519615, 5762085, 6006315  (xmin, xmax, ymin, ymax)
+##coord. ref. : WGS 84 / UTM zone 33N (EPSG:32633) 
+##source      : LC081930232017060201T1-SC20180613160412.tif 
+##names       : LC081~412_1, LC081~412_2, LC081~412_3, LC081~412_4, LC081~412_5, LC081~412_6, 
+##min values  :       -2000,       -2000,       -1685,       -1384,        -272,        -106, 
+#max values  :       13333,       13643,       14703,       14674,       14331,       15137, ... 
+
 ```
 
 By calling the object `img` in line 5, the most important metadata can be viewed, e.g., raster dimensions, geometric resolution, geographical extent, coordinate system, file path, as well as minimum and maximum digital numbers per band. This completes the import of the L8 image as a RasterBrick object into R.
@@ -194,7 +195,7 @@ If we just want to visualize one band (singleband visualization), we will fill a
 plotRGB(img,
         r = 3, g = 3, b = 3,
         stretch = "lin"
-        )
+)
 ```
 
 [![](./img/vis_024.png){.aligncenter}](./img/vis_024.png)
@@ -203,11 +204,13 @@ The stretch argument in line 3 was set to "lin" in order to perform a minimum-ma
 We can also do a spatial subsetting here by specifying an "Extent"-object using the `ext =` argument:
 
 ``` r
+new_extent <- ext(369800, 400700, 5812400, 5827500)
+
 plotRGB(img,
         r = 3, g = 3, b = 3,
         stretch = "lin",
-        ext = extent(369800, 400700, 5812400, 5827500)
-        )
+        ext = new_extent
+)
 ```
 
 [![](./img/vis_023.png){.aligncenter}](./img/vis_023.png)
@@ -217,11 +220,13 @@ Objects of class "Extent" are used to define the spatial extent. The four specif
 By defining different bands for the RGB slots, we can, just as in QGIS, create all imaginable RGB composites:
 
 ``` r
+new_extent <- ext(369800, 400700, 5812400, 5827500)
+
 plotRGB(img,
         r = 4, g = 3, b = 2,
         stretch = "lin",
-        ext = extent(369800, 400700, 5812400, 5827500)
-        )
+        ext = new_extent
+)
 ```
 
 [![](./img/vis_022.png){.aligncenter}](./img/vis_022.png)
@@ -229,28 +234,28 @@ plotRGB(img,
 Make your spatial subset permament by writing the trimmed image as a new file to your hard drive with `writeRaster`. This is especially useful if you want to test a classification workflow: small data sets will cheer up your work in QGIS, in R, as well as in all other software solutions.
 
 ``` r
-img.subset <- crop(img, extent(369800, 400700, 5812400, 5827500) )
+img <- rast("/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tif")
 
-writeRaster(img.subset,
-            filename = "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412_subset.tif",
-            format = "GTiff",
-            overwrite = TRUE
-            )
+img_subset <- crop(img, ext(369800, 400700, 5812400, 5827500))
+
+writeRaster(img_subset,
+            filename = "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412_subset.tif", overwrite = TRUE)
+
 ```
 
 Of course, it is also possible to examine the underlying data distribution in more detail. Therefore, we can look at a histogram of a specific band with the function `hist()`:
 
 ``` r
-green <- img.subset[[3]]
+green <- img_subset[[3]]
 
 hist(green,
      breaks = 200,
      xlim = c(0, 2000),
      ylim = c(0, 120000),
-     xlab = "band 3 reflectance value [DN * 0.01]",
-     ylab = "frequency",
-     main = "histogram L8 band 3 (green)"
-     )
+     xlab = "Band 3 Reflectance Value [DN * 0.01]",
+     ylab = "Frequency",
+     main = "Histogram L8 Band 3 (Green)"
+)
 ```
 
 [![](./img/vis_026.png){.aligncenter}](./img/vis_026.png)
