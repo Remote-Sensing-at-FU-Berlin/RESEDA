@@ -635,10 +635,11 @@ Which pixels do we want to mask?
 ``` r
 plot(sen2_mask)
 sen2_mask_combi <- sen2_mask
-sen2_mask_combi[sen2_mask == 3 |sen2_mask == 7 |sen2_mask == 8 | sen2_mask == 9 |sen2_mask == 10 |sen2_mask == 11 ] <- NA
+sen2_mask_combi[sen2_mask == 3 | sen2_mask == 7 | sen2_mask == 8 | 
+                  sen2_mask == 9 | sen2_mask == 10 | sen2_mask == 11] <- NA
 
 plot(sen2_mask_combi)
-writeRaster(sen2_mask_combi, "sen2_mask.tif")
+writeRaster(sen2_mask_combi, "sen2_mask.tif", overwrite = TRUE)
 ```
 
 [![](./img/Maske.png)](./img/Maske.png)
@@ -651,9 +652,9 @@ writeRaster(sen2_mask_combi, "sen2_mask.tif")
 Apply mask:
 
 ``` r
-sen2_bands_masked <- raster::mask(sen2_bands,sen2_mask_combi)
-plotRGB(sen2_bands_masked, 4,3,2,stretch="lin")
-writeRaster(sen2_bands_masked, "sen2_masked.tif")
+sen2_bands_masked <- mask(sen2_bands, sen2_mask_combi)
+plotRGB(sen2_bands_masked, r = 4, g = 3, b = 2, stretch = "lin")
+writeRaster(sen2_bands_masked, "sen2_masked.tif", overwrite = TRUE)
 ```
 
 [![](./img/Maske_applied.png)](./img/Maske_applied.png)
@@ -667,6 +668,7 @@ writeRaster(sen2_bands_masked, "sen2_masked.tif")
 
 ``` r
 sen2_bands_masked_a <- sen2_bands
-sen2_bands_masked_a [sen2_mask == 3 |sen2_mask == 7 |sen2_mask == 8 | sen2_mask == 9 |sen2_mask == 10 |sen2_mask == 11 ] <- NA
-writeRaster(sen2_bands_masked_a, "sen2_masked_alternativ.tif")
+sen2_bands_masked_a[sen2_mask == 3 | sen2_mask == 7 | sen2_mask == 8 | 
+                      sen2_mask == 9 | sen2_mask == 10 | sen2_mask == 11] <- NA
+writeRaster(sen2_bands_masked_a, "sen2_masked_alternativ.tif", overwrite = TRUE)
 ```
