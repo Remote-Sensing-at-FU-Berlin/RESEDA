@@ -54,7 +54,7 @@ refresh basics of the programming language R (if needed)
 We wish you a lot of creative ideas, much findings and great results!
 
 Best regards,
-your FU Berlin Remote Sensing and Geoinformatics staff
+your FU Berlin Remote Sensing and Geoinformatics staff.
 
 :::
 
