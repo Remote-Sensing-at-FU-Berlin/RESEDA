@@ -395,7 +395,7 @@ First, it is necessary to process the training samples in the form of a data fra
 ``` r
 names(img) <- c("b1", "b2", "b3", "b4", "b5", "b6", "b7")
 smp <- extract(img, shp, df = TRUE)
-smp$cl <- as.factor( shp$classes[ match(smp$ID, seq(nrow(shp)) ) ] )
+smp$cl <- as.factor(shp$classes[match(smp$ID, seq_len(nrow(shp)))])
 smp <- smp[-1]
 ```
 
@@ -411,22 +411,42 @@ This often leads to the problem that classifiers favor and overclass strongly-re
 In our example this is the class *baresoil* with 719 samples. With the `rep()` function we form a vector where the length corresponds to the number of target classes. We will use this vector to tell the classifier how many samples it should randomly draw per class for each decision tree during training:
 
 ``` r
-smp.size <- rep(min(summary(smp$cl)), nlevels(smp$cl))
-smp.size
+table(smp$cl)  # Get class frequencies
+##  baresoil    forest grassland  urban_hd  urban_ld     water 
+##       719      2074      1226      1284       969       763
+
+smp_freq <- as.data.frame(table(smp$cl))  # ✅ Convert freq to a usable format
+min_count <- min(smp_freq$Freq)  # ✅ Use column 'Freq' for the frequency count
+num_levels <- nrow(smp_freq)
+# Number of unique classes
+
+smp_size <- rep(min_count, num_levels)
+
+smp_size
 ## [1] 719 719 719 719 719 719
 ```
 
 The complete training takes place via just one function call of `tuneRF()`! This function automatically searches for the best parameter setting for *mtry* -- the number of variables available for each tree node. So we just have to worry about `ntree`, i.e., the number of trees to grow. 250-1000 trees are usually sufficient. Basically, the more the better, but many trees will increase the calculation time. When `tuneRF()` is called, we need to specify the training samples as `x`, i.e., all columns of our `smp` dataframe except the last one, and the corresponding class labels as `y`, i.e. the last column of our `smp` dataframe called "cl":
 
 ``` r
-rfmodel <- tuneRF(x = smp[-ncol(smp)],
-                  y = smp$cl,
-                  sampsize = smp.size,
-                  strata = smp$cl,
-                  ntree = 250,
-                  importance = TRUE,
-                  doBest = TRUE
-                  )
+smp_df <- as.data.frame(smp, xy = FALSE)  # Extract values without coordinates
+
+smp_df$cl <- as.factor(smp_df$cl)
+smp_freq <- as.data.frame(table(smp_df$cl))
+min_count <- min(smp_freq$Freq)
+
+smp_size <- rep(min_count, nrow(smp_freq))
+
+rfmodel <- tuneRF(
+  x = smp_df[, -ncol(smp_df)],
+  y = smp_df$cl,
+  sampsize = smp_size,
+  strata = smp_df$cl,  
+  ntree = 250,
+  importance = TRUE,
+  doBest = TRUE
+)
+
 ## mtry = 2  OOB error = 2.5% 
 ## Searching left ...
 ## mtry = 1     OOB error = 2.54% 
@@ -495,28 +515,32 @@ save(rfmodel, file = "rfmodel.RData")
 Since your model is now fully trained, you can use it to predict all the pixels in your image. The command method `predict()` takes a lot of work from you: It is recognized that there is an image which then passes through your Random Forest pixel by pixel. As with the training pixels, each image pixel is now individually classified and finally reassembled into your final classification image. Use the argument `filename =` to specify the name of your output map:
 
 ``` r
-result <- predict(img,
-                  rfmodel,
-                  filename = "classification.tif",
-                  overwrite = TRUE
-                  )
+result <- predict(
+  img, 
+  rfmodel, 
+  filename = "classification.tif", 
+  overwrite = TRUE
+)
+
+print(result)
+
 ```
 
 Random Forest classification completed!\
 If you store the result of the `predict()` function in an object, e.g., `result`, you can plot the map using the standard plot command and passing this object:
 
 ``` r
-plot(result, 
-     axes = FALSE, 
-     box = FALSE,
-     col = c("#fbf793", # baresoil
-             "#006601", # forest
-             "#bfe578", # grassland
-             "#d00000", # urban_hd
-             "#fa6700", # urban_ld
-             "#6569ff"  # water
-             )
-     )
+result <- classify(result, data.frame(unique(values(result)), 1:length(unique(values(result)))))  # Ensure proper factor levels
+
+coltab(result) <- c("#fbf793", # baresoil
+                    "#006601", # forest
+                    "#bfe578", # grassland
+                    "#d00000", # urban_hd
+                    "#fa6700", # urban_ld
+                    "#6569ff"  # water
+)
+
+plot(result, axes = FALSE, box = FALSE)
 ```
 
 [![](./img/cla_004-1.png)](./img/cla_004-1.png)
