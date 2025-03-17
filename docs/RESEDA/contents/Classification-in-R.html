@@ -1064,92 +1064,107 @@ Plotting those results will (hopefully) show a decreasing error rate with increa
 <p>In the following, a complete script has been developed, which performs the <a href="../../RESEDA/contents/Classification-in-R.html##rf-classification">RF classification from the previous section</a> <span class="math inline">\(\{2, 4, 8, 16, …, 2048\}\)</span> samples per class ([steps<code>). In order to minimize any random effects and specify a confidence interval, all classifications were repeated 20 times each ([nrepeat</code>).</p>
 <p>In order not to unnecessarily inflate the code, we use for loops to iterate over the individual sample sizes and iterations and write the respective results into a matrix <code>r</code>. The following code is comprehensively documented.</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import libraries</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co"># import image (img) and shapefile (shp)</span></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/media/sf_exchange/landsatdata/"</span>)</span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">brick</span>(<span class="st">"LC081930232017060201T1-SC20180613160412_subset.tif"</span>)</span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">shapefile</span>(<span class="st">"training_data.shp"</span>)</span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="co"># extract samples with class labels and put them all together in a dataframe</span></span>
-<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(img) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b1"</span>, <span class="st">"b2"</span>, <span class="st">"b3"</span>, <span class="st">"b4"</span>, <span class="st">"b5"</span>, <span class="st">"b6"</span>, <span class="st">"b7"</span>)</span>
-<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> <span class="fu">extract</span>(img, shp, <span class="at">df =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>smp<span class="sc">$</span>cl <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(shp<span class="sc">$</span>classes[<span class="fu">match</span>(smp<span class="sc">$</span>ID, <span class="fu">seq</span>(<span class="fu">nrow</span>(shp)))])</span>
-<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> smp[<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a><span class="co"># number of samples per class chosen for each run</span></span>
-<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>steps <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">^</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>)</span>
-<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a><span class="co"># number of repetitions of each run</span></span>
-<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>nrepeat <span class="ot">=</span> <span class="dv">20</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co"># set working directory</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work"</span>)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="co"># import image (img) and shapefile (shp)</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">LC081930232017060201T1-SC20180613160412_subset.tif"</span>)</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">"training_data.shp"</span>)</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a><span class="co"># extract samples with class labels and put them all together in a dataframe</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(img) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b1"</span>, <span class="st">"b2"</span>, <span class="st">"b3"</span>, <span class="st">"b4"</span>, <span class="st">"b5"</span>, <span class="st">"b6"</span>, <span class="st">"b7"</span>)</span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> <span class="fu">extract</span>(img, shp, <span class="at">df =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>smp<span class="sc">$</span>cl <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(shp<span class="sc">$</span>classes[<span class="fu">match</span>(smp<span class="sc">$</span>ID, <span class="fu">seq_len</span>(<span class="fu">nrow</span>(shp)))])</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> smp[, <span class="sc">-</span><span class="dv">1</span>]</span>
 <span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a><span class="co"># create empty matrix for final results</span></span>
-<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="fu">length</span>(steps))</span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a><span class="co"># number of samples per class chosen for each run</span></span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>steps <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">^</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">11</span>)</span>
 <span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(steps)) {</span>
-<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create empty vector for OOB error from each repetition</span></span>
-<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>  rtmp <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, nrepeat)</span>
-<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>nrepeat) {</span>
-<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># shuffle all samples and subset according to size defined in "steps"</span></span>
-<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a>    sub <span class="ot">&lt;-</span> smp[<span class="fu">sample</span>(<span class="fu">nrow</span>(smp)),]</span>
-<span id="cb36-31"><a href="#cb36-31" aria-hidden="true" tabindex="-1"></a>    sub <span class="ot">&lt;-</span> sub[<span class="fu">ave</span>(<span class="dv">1</span><span class="sc">:</span>(<span class="fu">nrow</span>(sub)), sub<span class="sc">$</span>cl, <span class="at">FUN =</span> seq) <span class="sc">&lt;=</span> steps[i], ]</span>
-<span id="cb36-32"><a href="#cb36-32" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb36-33"><a href="#cb36-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># RF classify as usual</span></span>
-<span id="cb36-34"><a href="#cb36-34" aria-hidden="true" tabindex="-1"></a>    sub.size <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">min</span>(<span class="fu">summary</span>(sub<span class="sc">$</span>cl)), <span class="fu">nlevels</span>(sub<span class="sc">$</span>cl))</span>
-<span id="cb36-35"><a href="#cb36-35" aria-hidden="true" tabindex="-1"></a>    rfmodel <span class="ot">&lt;-</span> <span class="fu">tuneRF</span>(<span class="at">x =</span> sub[<span class="sc">-</span><span class="fu">ncol</span>(sub)],</span>
-<span id="cb36-36"><a href="#cb36-36" aria-hidden="true" tabindex="-1"></a>                      <span class="at">y =</span> sub<span class="sc">$</span>cl,</span>
-<span id="cb36-37"><a href="#cb36-37" aria-hidden="true" tabindex="-1"></a>                      <span class="at">sampsize =</span> sub.size,</span>
-<span id="cb36-38"><a href="#cb36-38" aria-hidden="true" tabindex="-1"></a>                      <span class="at">strata =</span> sub<span class="sc">$</span>cl,</span>
-<span id="cb36-39"><a href="#cb36-39" aria-hidden="true" tabindex="-1"></a>                      <span class="at">ntree =</span> <span class="dv">250</span>,</span>
-<span id="cb36-40"><a href="#cb36-40" aria-hidden="true" tabindex="-1"></a>                      <span class="at">doBest =</span> <span class="cn">TRUE</span>,<span class="at">plot =</span> <span class="cn">FALSE</span></span>
-<span id="cb36-41"><a href="#cb36-41" aria-hidden="true" tabindex="-1"></a>                      )</span>
-<span id="cb36-42"><a href="#cb36-42" aria-hidden="true" tabindex="-1"></a>    <span class="co"># extract OOB error rate of last tree (the longest trained) and save to rtmp</span></span>
-<span id="cb36-43"><a href="#cb36-43" aria-hidden="true" tabindex="-1"></a>    ooberrors <span class="ot">&lt;-</span> rfmodel<span class="sc">$</span>err.rate[ , <span class="dv">1</span>]</span>
-<span id="cb36-44"><a href="#cb36-44" aria-hidden="true" tabindex="-1"></a>    rtmp[j] <span class="ot">&lt;-</span> ooberrors[<span class="fu">length</span>(ooberrors)]</span>
-<span id="cb36-45"><a href="#cb36-45" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb36-46"><a href="#cb36-46" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb36-47"><a href="#cb36-47" aria-hidden="true" tabindex="-1"></a>  <span class="co"># use repetitions to calc statistics (mean, min, max, CI) &amp; save it to final results matrix</span></span>
-<span id="cb36-48"><a href="#cb36-48" aria-hidden="true" tabindex="-1"></a>  ttest <span class="ot">&lt;-</span> <span class="fu">t.test</span>(rtmp, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
-<span id="cb36-49"><a href="#cb36-49" aria-hidden="true" tabindex="-1"></a>  r[ , i] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">mean</span>(rtmp), ttest<span class="sc">$</span>conf.int[<span class="dv">2</span>], ttest<span class="sc">$</span>conf.int[<span class="dv">1</span>], <span class="fu">max</span>(rtmp), <span class="fu">min</span>(rtmp))</span>
-<span id="cb36-50"><a href="#cb36-50" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a>nrepeat <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a><span class="co"># create empty matrix for final result</span></span>
+<span id="cb36-27"><a href="#cb36-27" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="fu">length</span>(steps))</span>
+<span id="cb36-28"><a href="#cb36-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-29"><a href="#cb36-29" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq_along</span>(steps)) {</span>
+<span id="cb36-30"><a href="#cb36-30" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create empty vector for OOB error from each repetition</span></span>
+<span id="cb36-31"><a href="#cb36-31" aria-hidden="true" tabindex="-1"></a>  rtmp <span class="ot">&lt;-</span> <span class="fu">numeric</span>(nrepeat)</span>
+<span id="cb36-32"><a href="#cb36-32" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb36-33"><a href="#cb36-33" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (j <span class="cf">in</span> <span class="fu">seq_len</span>(nrepeat)) {</span>
+<span id="cb36-34"><a href="#cb36-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># shuffle all samples and subset according to size defined in "steps"</span></span>
+<span id="cb36-35"><a href="#cb36-35" aria-hidden="true" tabindex="-1"></a>    sub <span class="ot">&lt;-</span> smp[<span class="fu">sample</span>(<span class="fu">nrow</span>(smp)), ]</span>
+<span id="cb36-36"><a href="#cb36-36" aria-hidden="true" tabindex="-1"></a>    sub <span class="ot">&lt;-</span> sub[<span class="fu">ave</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(sub)), sub<span class="sc">$</span>cl, <span class="at">FUN =</span> seq) <span class="sc">&lt;=</span> steps[i], ]</span>
+<span id="cb36-37"><a href="#cb36-37" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb36-38"><a href="#cb36-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># RF classify as usual</span></span>
+<span id="cb36-39"><a href="#cb36-39" aria-hidden="true" tabindex="-1"></a>    sub.size <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">min</span>(<span class="fu">summary</span>(sub<span class="sc">$</span>cl)), <span class="fu">nlevels</span>(sub<span class="sc">$</span>cl))</span>
+<span id="cb36-40"><a href="#cb36-40" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb36-41"><a href="#cb36-41" aria-hidden="true" tabindex="-1"></a>    rfmodel <span class="ot">&lt;-</span> <span class="fu">tuneRF</span>(</span>
+<span id="cb36-42"><a href="#cb36-42" aria-hidden="true" tabindex="-1"></a>      <span class="at">x =</span> sub[, <span class="sc">-</span><span class="fu">ncol</span>(sub)],  <span class="co"># Features</span></span>
+<span id="cb36-43"><a href="#cb36-43" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> sub<span class="sc">$</span>cl,  <span class="co"># Target variable</span></span>
+<span id="cb36-44"><a href="#cb36-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">sampsize =</span> sub.size,</span>
+<span id="cb36-45"><a href="#cb36-45" aria-hidden="true" tabindex="-1"></a>      <span class="at">strata =</span> sub<span class="sc">$</span>cl,</span>
+<span id="cb36-46"><a href="#cb36-46" aria-hidden="true" tabindex="-1"></a>      <span class="at">ntree =</span> <span class="dv">250</span>,</span>
+<span id="cb36-47"><a href="#cb36-47" aria-hidden="true" tabindex="-1"></a>      <span class="at">doBest =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb36-48"><a href="#cb36-48" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot =</span> <span class="cn">FALSE</span></span>
+<span id="cb36-49"><a href="#cb36-49" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb36-50"><a href="#cb36-50" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb36-51"><a href="#cb36-51" aria-hidden="true" tabindex="-1"></a>     <span class="co"># extract OOB error rate of last tree (the longest trained) and save to rtmp</span></span>
+<span id="cb36-52"><a href="#cb36-52" aria-hidden="true" tabindex="-1"></a>    ooberrors <span class="ot">&lt;-</span> rfmodel<span class="sc">$</span>err.rate[, <span class="dv">1</span>]</span>
+<span id="cb36-53"><a href="#cb36-53" aria-hidden="true" tabindex="-1"></a>    rtmp[j] <span class="ot">&lt;-</span> ooberrors[<span class="fu">length</span>(ooberrors)]</span>
+<span id="cb36-54"><a href="#cb36-54" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb36-55"><a href="#cb36-55" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb36-56"><a href="#cb36-56" aria-hidden="true" tabindex="-1"></a>  <span class="co"># use repetitions to calc statistics (mean, min, max, CI) &amp; save it to final results matrix</span></span>
+<span id="cb36-57"><a href="#cb36-57" aria-hidden="true" tabindex="-1"></a>  ttest <span class="ot">&lt;-</span> <span class="fu">t.test</span>(rtmp, <span class="at">conf.level =</span> <span class="fl">0.95</span>)</span>
+<span id="cb36-58"><a href="#cb36-58" aria-hidden="true" tabindex="-1"></a>  r[, i] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">mean</span>(rtmp), ttest<span class="sc">$</span>conf.int[<span class="dv">2</span>], ttest<span class="sc">$</span>conf.int[<span class="dv">1</span>], <span class="fu">max</span>(rtmp), <span class="fu">min</span>(rtmp))</span>
+<span id="cb36-59"><a href="#cb36-59" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>When the individual experiments have been processed, we can create a nice plot that summarizes the findings:</p>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># conversion in percent</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> r <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot empty plot without x-axis</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(steps),</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> r[<span class="dv">1</span>,],</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fu">min</span>(r), <span class="fu">max</span>(r)),</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"n"</span>,</span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xaxt =</span> <span class="st">"n"</span>,</span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"number of samples per class"</span>,</span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"OOB error [%]"</span></span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>     )</span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a><span class="co"># complete the x-axis </span></span>
-<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(steps), <span class="at">labels=</span>steps)</span>
-<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="co"># add a grid</span></span>
-<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>()</span>
-<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a><span class="co"># draw min-max range of OOB errors</span></span>
-<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(steps), <span class="fu">rev</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(steps))), </span>
-<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(r[<span class="dv">5</span>, ], <span class="fu">rev</span>(r[<span class="dv">4</span>, ])),</span>
-<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"grey80"</span>, </span>
-<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">border =</span> <span class="cn">FALSE</span></span>
-<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a><span class="co"># draw confidence interval 95%</span></span>
-<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(steps), <span class="fu">rev</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(steps))), </span>
-<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(r[<span class="dv">3</span>, ], <span class="fu">rev</span>(r[<span class="dv">2</span>, ])),</span>
-<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"grey60"</span>, </span>
-<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">border =</span> <span class="cn">FALSE</span></span>
-<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a><span class="co"># draw line of mean OOB </span></span>
-<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(steps), r[<span class="dv">1</span>, ], <span class="at">lwd =</span> <span class="dv">3</span>)</span>
-<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a><span class="co"># add a legend</span></span>
-<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
-<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a>       <span class="fu">c</span>(<span class="st">"mean"</span>, <span class="st">"t-test CI 95%"</span>, <span class="st">"min-max range"</span>),</span>
-<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"black"</span>, <span class="st">"grey80"</span>, <span class="st">"grey60"</span>),</span>
-<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">3</span>,</span>
-<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">"n"</span></span>
-<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a>       )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="co"># plot empty plot without x-axis</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(steps),</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> r[<span class="dv">1</span>, ],</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fu">min</span>(r), <span class="fu">max</span>(r)),</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"n"</span>,</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">xaxt =</span> <span class="st">"n"</span>,</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Number of samples per class"</span>,</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"OOB error [%]"</span></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a><span class="co"># complete the x-axis</span></span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(steps), <span class="at">labels =</span> steps)</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a><span class="co"># add a grid</span></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>()</span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a><span class="co"># draw min-max range of OOB errors</span></span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(steps), <span class="fu">rev</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(steps))), </span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(r[<span class="dv">5</span>, ], <span class="fu">rev</span>(r[<span class="dv">4</span>, ])),</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"grey80"</span>, </span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">border =</span> <span class="cn">FALSE</span></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>,</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a><span class="co"># draw confidence interval 95%</span></span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a><span class="fu">polygon</span>(<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(steps), <span class="fu">rev</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(steps))), </span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a>        <span class="fu">c</span>(r[<span class="dv">3</span>, ], <span class="fu">rev</span>(r[<span class="dv">2</span>, ])),</span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"grey60"</span>, </span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">border =</span> <span class="cn">FALSE</span></span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a><span class="co"># draw line of mean OOB </span></span>
+<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(steps), r[<span class="dv">1</span>, ], <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-37"><a href="#cb37-37" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
+<span id="cb37-38"><a href="#cb37-38" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Mean"</span>, <span class="st">"T-test CI 95%"</span>, <span class="st">"Min-Max Range"</span>),</span>
+<span id="cb37-39"><a href="#cb37-39" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"black"</span>, <span class="st">"grey60"</span>, <span class="st">"grey80"</span>),</span>
+<span id="cb37-40"><a href="#cb37-40" aria-hidden="true" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">3</span>,</span>
+<span id="cb37-41"><a href="#cb37-41" aria-hidden="true" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">"n"</span></span>
+<span id="cb37-42"><a href="#cb37-42" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><a href="./img/cla_021.png"><img src="./img/cla_021.png" class="img-fluid"></a></p>
 <p>Conclusion for this example: From 512 samples per class the achieved improvement is negligible. So 512 samples per class should be enough to get a robust classification.</p>
 
