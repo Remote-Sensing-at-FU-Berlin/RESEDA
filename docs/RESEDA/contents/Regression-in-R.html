@@ -450,48 +450,67 @@ window.Quarto = {
 <p>We want to create training samples in the form of a data frame – which most regressors in R can handle easily. For this we will have to use a few GIS operations. Fortunately, these can also be done automatically in R, so that the entire workflow do not have to be performed manually again and again for other datasets. Finally, we will utilize the <a href="https://cran.r-project.org/web/packages/raster/raster.pdf" rel="noopener" target="_blank">raster</a> and the <a href="https://cran.rstudio.com/web/packages/rgeos/rgeos.pdf" rel="noopener" target="_blank">rgeos</a> packages for this.</p>
 <p>The complete code is shown below. The shapefile <em>reg_train_data.shp</em> and the imagery <em>LC081930232017060201T1-SC20180613160412_subset.tif</em> can be downloaded <a href="./Regresion-in-R.qmd#prepare-samples-for-regression" rel="noopener" target="_blank">here</a>.<br>
 However, we strongly advise you to have a look at the detailed description in the following.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgeos)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># import low resolution image and digitized polygon training areas</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/media/sf_exchange/regression/"</span>)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">brick</span>(<span class="st">"LC081930232017060201T1-SC20180613160412_subset.tif"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">shapefile</span>(<span class="st">"reg_train_data.shp"</span>)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># rename bands if needed</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(img) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b1"</span>, <span class="st">"b2"</span>, <span class="st">"b3"</span>, <span class="st">"b4"</span>, <span class="st">"b5"</span>, <span class="st">"b6"</span>, <span class="st">"b7"</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># create buffer with no width to avoid topology problems</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">gBuffer</span>(shp, <span class="at">byid=</span><span class="cn">TRUE</span>, <span class="at">width=</span><span class="dv">0</span>)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># crop image to extent of training polygons</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>img.subset <span class="ot">&lt;-</span> <span class="fu">crop</span>(img, shp)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># extract pixel completely covered by training polygons</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>img.mask <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(shp, img.subset, <span class="at">getCover =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>img.mask[img.mask <span class="sc">&lt;</span> <span class="dv">100</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>img.subset <span class="ot">&lt;-</span> <span class="fu">mask</span>(img.subset, img.mask)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># transform those pixels to polygons</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">rasterToPolygons</span>(img.subset)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># create a new ID attribute for addressing</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">seq.int</span>(<span class="fu">nrow</span>(grid))</span>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Set working directory</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the image (Landsat raster) and shapefile</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">LC081930232017060201T1-SC20180613160412_subset.tif"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">reg_train_data</span><span class="sc">\\</span><span class="st">reg_train_data.shp"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Assign names to raster bands</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(img) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b1"</span>, <span class="st">"b2"</span>, <span class="st">"b3"</span>, <span class="st">"b4"</span>, <span class="st">"b5"</span>, <span class="st">"b6"</span>, <span class="st">"b7"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the shapefile valid (in case it has invalid geometries)</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">makeValid</span>(shp)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Crop image to shapefile extent</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>img.subset <span class="ot">&lt;-</span> <span class="fu">crop</span>(img, shp)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Rasterize the shapefile (covering areas)</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>img.mask <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(shp, img.subset, <span class="at">field =</span> <span class="dv">1</span>, <span class="at">cover =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Set all values in img.mask less than 100 to NA</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>img.mask[img.mask <span class="sc">&lt;</span> <span class="dv">100</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># create new dataframe for final samples</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># do for each cell in grid:</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(grid)) {</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># intersect grid and shapefile for cell i</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  cell <span class="ot">&lt;-</span> <span class="fu">intersect</span>(grid[i, ], shp)</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="co"># extract all target class polygons</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  cell <span class="ot">&lt;-</span> cell[cell<span class="sc">$</span>Class_name <span class="sc">==</span> <span class="st">"building"</span> <span class="sc">|</span> cell<span class="sc">$</span>Class_name <span class="sc">==</span> <span class="st">"impervious"</span>, ]</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="co"># if target class is in cell: calculate area, otherwise area is zero</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(cell) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    areaPercent <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">area</span>(cell) <span class="sc">/</span> <span class="fu">area</span>(grid)[<span class="dv">1</span>])</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    areaPercent <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create new sample and append to training samples</span></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  newsmp <span class="ot">&lt;-</span> <span class="fu">cbind</span>(grid<span class="sc">@</span>data[i, <span class="dv">1</span><span class="sc">:</span><span class="fu">nlayers</span>(img)], areaPercent)</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  smp <span class="ot">&lt;-</span> <span class="fu">rbind</span>(smp, newsmp)</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Mask the image using the created mask</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>img.subset <span class="ot">&lt;-</span> <span class="fu">mask</span>(img.subset, img.mask)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the image to polygons (grid cells)</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">as.polygons</span>(img.subset, <span class="at">dissolve =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Add an ID column to grid cells</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">seq.int</span>(<span class="fu">nrow</span>(grid))</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an empty dataframe for storing the results</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Loop over each grid cell</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(grid)) {</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Get the intersection of the grid cell and the shapefile</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  cell <span class="ot">&lt;-</span> <span class="fu">intersect</span>(grid[i, ], shp)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Filter for specific classes (e.g., "building" and "impervious")</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  cell <span class="ot">&lt;-</span> cell[cell<span class="sc">$</span>Class_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"building"</span>, <span class="st">"impervious"</span>), ]</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">nrow</span>(cell) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the area percentage if there are valid cells</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    areaPercent <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">expanse</span>(cell) <span class="sc">/</span> <span class="fu">expanse</span>(grid[i, ]))</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create the newsmp data frame by combining grid info and area percentage</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    newsmp <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="fu">as.data.frame</span>(grid[i, <span class="dv">1</span><span class="sc">:</span><span class="fu">nlyr</span>(img)]), areaPercent)</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Check if newsmp has rows before appending to smp</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">nrow</span>(newsmp) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>      smp <span class="ot">&lt;-</span> <span class="fu">rbind</span>(smp, newsmp)</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the first few rows of the final dataframe</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(smp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br>
 </p>
 <section id="in-depth-guide" class="level2">
