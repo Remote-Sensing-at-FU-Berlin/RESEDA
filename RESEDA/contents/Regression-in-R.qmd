@@ -29,48 +29,67 @@ The complete code is shown below. The shapefile *reg_train_data.shp* and the ima
 However, we strongly advise you to have a look at the detailed description in the following.
 
 ``` r
-library(raster)
-library(rgeos)
+library(terra)
 
-# import low resolution image and digitized polygon training areas
-setwd("/media/sf_exchange/regression/")
-img <- brick("LC081930232017060201T1-SC20180613160412_subset.tif")
-shp <- shapefile("reg_train_data.shp")
+# Set working directory
+setwd("E:\\Work")
 
-# rename bands if needed
+# Load the image (Landsat raster) and shapefile
+img <- rast("E:\\Work\\LC081930232017060201T1-SC20180613160412_subset.tif")
+shp <- vect("E:\\Work\\reg_train_data\\reg_train_data.shp")
+
+# Assign names to raster bands
 names(img) <- c("b1", "b2", "b3", "b4", "b5", "b6", "b7")
-# create buffer with no width to avoid topology problems
-shp <- gBuffer(shp, byid=TRUE, width=0)
 
-# crop image to extent of training polygons
+# Make the shapefile valid (in case it has invalid geometries)
+shp <- makeValid(shp)
+
+# Crop image to shapefile extent
 img.subset <- crop(img, shp)
-# extract pixel completely covered by training polygons
-img.mask <- rasterize(shp, img.subset, getCover = TRUE)
+
+# Rasterize the shapefile (covering areas)
+img.mask <- rasterize(shp, img.subset, field = 1, cover = TRUE)
+
+# Set all values in img.mask less than 100 to NA
 img.mask[img.mask < 100] <- NA
+
+# Mask the image using the created mask
 img.subset <- mask(img.subset, img.mask)
-# transform those pixels to polygons
-grid <- rasterToPolygons(img.subset)
-# create a new ID attribute for addressing
+
+# Convert the image to polygons (grid cells)
+grid <- as.polygons(img.subset, dissolve = FALSE)
+
+# Add an ID column to grid cells
 grid$ID <- seq.int(nrow(grid))
 
-# create new dataframe for final samples
+# Create an empty dataframe for storing the results
 smp <- data.frame()
-# do for each cell in grid:
-for (i in 1:length(grid)) {
-  # intersect grid and shapefile for cell i
+
+# Loop over each grid cell
+for (i in 1:nrow(grid)) {
+  
+  # Get the intersection of the grid cell and the shapefile
   cell <- intersect(grid[i, ], shp)
-  # extract all target class polygons
-  cell <- cell[cell$Class_name == "building" | cell$Class_name == "impervious", ]
-  # if target class is in cell: calculate area, otherwise area is zero
-  if (length(cell) > 0) {
-    areaPercent <- sum(area(cell) / area(grid)[1])
-  } else {
-    areaPercent <- 0
+  
+  # Filter for specific classes (e.g., "building" and "impervious")
+  cell <- cell[cell$Class_name %in% c("building", "impervious"), ]
+  
+  if (nrow(cell) > 0) {
+    # Calculate the area percentage if there are valid cells
+    areaPercent <- sum(expanse(cell) / expanse(grid[i, ]))
+    
+    # Create the newsmp data frame by combining grid info and area percentage
+    newsmp <- cbind(as.data.frame(grid[i, 1:nlyr(img)]), areaPercent)
+    
+    # Check if newsmp has rows before appending to smp
+    if (nrow(newsmp) > 0) {
+      smp <- rbind(smp, newsmp)
+    }
   }
-  # create new sample and append to training samples
-  newsmp <- cbind(grid@data[i, 1:nlayers(img)], areaPercent)
-  smp <- rbind(smp, newsmp)
 }
+
+# Display the first few rows of the final dataframe
+head(smp)
 ```
 
 \
