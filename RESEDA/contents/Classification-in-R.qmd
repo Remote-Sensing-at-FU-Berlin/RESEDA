@@ -557,48 +557,54 @@ Below you can see a complete code implementation. While this is already executab
 
 ``` r
 # import packages
-library(raster)
+library(terra)
 library(e1071)
- 
+
+#set working directory
+setwd("E:\\Work")
+
 # import image (img) and shapefile (shp)
-setwd("/media/sf_exchange/landsatdata/")
-img <- brick("LC081930232017060201T1-SC20180613160412_subset.tif")
-shp <- shapefile("training_data.shp")
- 
+img <- rast("E:\\Work\\LC081930232017060201T1-SC20180613160412_subset.tif")
+
+shp <- vect("E:\\Work\\training_data\\training_data.shp")
+
 # extract samples with class labels and put them all together in a dataframe
 names(img) <- c("b1", "b2", "b3", "b4", "b5", "b6", "b7")
 smp <- extract(img, shp, df = TRUE)
-smp$cl <- as.factor( shp$classes[ match(smp$ID, seq(nrow(shp)) ) ] )
-smp <- smp[-1]
- 
-# optional: shuffle samples and undersample if necessary
-smp <- smp[sample(nrow(smp)),]
-smp <- smp[ave(1:(nrow(smp)), smp$cl, FUN = seq) <= min(summary(smp$cl)), ]
- 
-# tune and train model via gridsearch (gamma & cost)
-gammas = 2^(-8:5)
-costs = 2^(-5:8)
-svmgs <- tune(svm,
-              train.x = smp[-ncol(smp)],
-              train.y = smp$cl,
-              scale = TRUE,
-              kernel = "radial", 
-              type = "C-classification",
-              ranges = list(gamma = gammas,
-                            cost = costs),
-              tunecontrol = tune.control(cross = 5)
-              )
 
-# save svmmodel
+smp$cl <- as.factor(shp$classes[match(smp$ID, 1:nrow(shp))])
+
+smp <- smp[, -1]
+
+# optional: shuffle samples and undersample if necessary
+set.seed(123)  
+smp <- smp[sample(nrow(smp)), ]
+smp <- smp[ave(1:nrow(smp), smp$cl, FUN = seq) <= min(summary(smp$cl)), ]
+
+# tune and train model via gridsearch (gamma & cost)
+gammas <- 2^(-8:5)
+costs <- 2^(-5:8)
+
+svmgs <- tune(
+  svm,
+  train.x = smp[, -ncol(smp)],  
+  train.y = smp$cl,  
+  scale = TRUE,
+  kernel = "radial",
+  type = "C-classification",
+  ranges = list(gamma = gammas, cost = costs),
+  tunecontrol = tune.control(cross = 5)
+)
+
+# save svm model
 svmmodel <- svmgs$best.model
 save(svmmodel, file = "svmmodel.RData")
- 
+
 # predict image data with svm model
-result <- predict(img,
-                  svmmodel,
-                  filename = "classification_svm.tif",
-                  overwrite = TRUE
-                  )
+result <- predict(img, svmmodel, filename = "classification_svm.tif", overwrite = TRUE)
+
+# plot predicted data
+plot(result)
 ```
 
 \
