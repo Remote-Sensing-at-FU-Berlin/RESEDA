@@ -339,41 +339,44 @@ There are some packages available containing the possibility to perform the stan
 Below you can see a complete code implementation. While this is already executable with your input data, you should read the following comprehensive in-depth guide to understand the code in detail. Even better: You will learn how to generate numerous useful plots, which do great in each thesis!
 
 ``` r
-# import packages
-library(raster)
+#import packages
+library(terra)
 library(randomForest)
- 
-# import image (img) and shapefile (shp)
-setwd("/media/sf_exchange/landsatdata/")
-img <- brick("LC081930232017060201T1-SC20180613160412_subset.tif")
-shp <- shapefile("training_data.shp")
- 
-# extract samples with class labels and put them all together in a dataframe
+
+#set working directory
+setwd("E:\\Work")
+
+
+#import image (img) and shapefile (shp)
+img <- rast("E:\\Work\\LC081930232017060201T1-SC20180613160412_subset.tif")
+shp <- vect("E:\\Work\\training_data\\training_data.shp")
+
+#extract samples with class labels and put them all together in a dataframe
 names(img) <- c("b1", "b2", "b3", "b4", "b5", "b6", "b7")
 smp <- extract(img, shp, df = TRUE)
-smp$cl <- as.factor( shp$classes[ match(smp$ID, seq(nrow(shp)) ) ] )
-smp <- smp[-1]
+smp$cl <- as.factor(shp$classes[ match(smp$ID, seq_len(nrow(shp))) ])
+smp <- smp[-1] # Remove the first column (ID)
 
-# tune and train rf model
+#tune and train rf model
 smp.size <- rep(min(summary(smp$cl)), nlevels(smp$cl))
-rfmodel <- tuneRF(x = smp[-ncol(smp)],
-                  y = smp$cl,
-                  sampsize = smp.size,
-                  strata = smp$cl,
-                  ntree = 250,
-                  importance = TRUE,
+rfmodel <- tuneRF(x = smp[, -ncol(smp)],  
+                  y = smp$cl,           
+                  sampsize = smp.size, 
+                  strata = smp$cl, 
+                  ntree = 250, 
+                  importance = TRUE, 
                   doBest = TRUE
-                  )
+)
 
-# save rf model 
+#save the rf model
 save(rfmodel, file = "rfmodel.RData")
 
-# predict image data with rf model
+#predict image data with rf model
 result <- predict(img,
                   rfmodel,
                   filename = "classification_RF.tif",
                   overwrite = TRUE
-                  )
+)
 ```
 
 ## In-depth Guide
