@@ -625,8 +625,9 @@ First, it is necessary to process the training samples in the form of a data fra
 ``` r
 names(img) <- c("b1", "b2", "b3", "b4", "b5", "b6", "b7")
 smp <- extract(img, shp, df = TRUE)
-smp$cl <- as.factor( shp$classes[ match(smp$ID, seq(nrow(shp)) ) ] )
+smp$cl <- as.factor(shp$classes[match(smp$ID, 1:nrow(shp))])
 smp <- smp[-1]
+
 ```
 
 After that, you can identify the number of available training samples per class with `summary()`. There is often an imbalance in the number of those training pixels, i.e., one class is represented by a large number of pixels, while another class has very few samples:
@@ -708,7 +709,7 @@ svmgs <- tune(svm,
               scale = TRUE,
               ranges = list(gamma = gammas, cost = costs),
               tunecontrol = tune.control(cross = 5)
-              )
+)
 ```
 
 We have to set the `type` of the SVM to `"C-classification"` in line 4 in order to perform a classification task. Furthermore, we set the kernel used in training and predicting to a [RBF kernel](./Machine-Learning-Basics.qmd#support-vector-machine){rel="noopener" target="_blank"} via `"radial"`. We set the argument `scale` to `TRUE` in order to initiate the [z-transformation of our data](./Machine-Learning-Basics.qmd#support-vector-machine){rel="noopener" target="_blank"}. The argument `ranges` in line 7 takes a named list of parameter vectors spanning the sampling range. We put our `gammas` and `costs` vectors in this list. By using the `tunecontrol` argument in line 8, you can set k for [the k-fold cross validation on the training data](./Machine-Learning-Basics.qmd#support-vector-machine){rel="noopener" target="_blank"}, which is necessary to assess the model performance.
@@ -770,23 +771,20 @@ save(svmmodel, file = "svmmodel.RData")
 Since your SVM model is now completely trained, you can use it to predict all the pixels in your image. The command method `predict()` takes a lot of work from you: It is recognized that there is an image which will be processed pixel by pixel. As with the training pixels, each image pixel is now individually classified and finally reassembled into your final classification image. Use the argument `filename =` to specify the name of your output map:
 
 ``` r
-result <- predict(img,
-                  svmmodel,
-                  filename = "classification_svm.tif",
-                  overwrite = TRUE
-                  )
+result <- predict(img, svmmodel, filename = "classification_svm.tif", overwrite = TRUE)
 
 plot(result, 
-     axes = FALSE, 
-     box = FALSE,
+     type = "classes",  # Ensures categorical visualization
      col = c("#fbf793", # baresoil
              "#006601", # forest
              "#bfe578", # grassland
              "#d00000", # urban_hd
              "#fa6700", # urban_ld
              "#6569ff"  # water
-             )
-     )
+     ),
+     axes = FALSE, 
+     box = FALSE
+)
 ```
 
 Support Vector Machine classification completed!\
