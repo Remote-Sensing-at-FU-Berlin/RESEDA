@@ -873,48 +873,54 @@ If you store the result of the <code>predict()</code> function in an object, e.g
 <p>Just as with the Random Forest, there are quite a few R packages that provide SVM, e.g., <a href="https://cran.r-project.org/web/packages/caret/caret.pdf" rel="noopener" target="_blank">caret</a>, <a href="https://cran.r-project.org/web/packages/e1071/e1071.pdf" rel="noopener" target="_blank">e1071</a>, or <a href="https://cran.r-project.org/web/packages/kernlab/kernlab.pdf" rel="noopener" target="_blank">kernLab</a>. We will use the e1071 package, as it offers <a href="https://cran.r-project.org/web/packages/e1071/vignettes/svmdoc.pdf" rel="noopener" target="_blank">an interface to the well-known libsvm</a> implementation.</p>
 <p>Below you can see a complete code implementation. While this is already executable with your input data, you should read the comprehensive in-depth guide in the following to understand the code in detail.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import packages</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(e1071)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co"># import image (img) and shapefile (shp)</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/media/sf_exchange/landsatdata/"</span>)</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">brick</span>(<span class="st">"LC081930232017060201T1-SC20180613160412_subset.tif"</span>)</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">shapefile</span>(<span class="st">"training_data.shp"</span>)</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co"># extract samples with class labels and put them all together in a dataframe</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(img) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b1"</span>, <span class="st">"b2"</span>, <span class="st">"b3"</span>, <span class="st">"b4"</span>, <span class="st">"b5"</span>, <span class="st">"b6"</span>, <span class="st">"b7"</span>)</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> <span class="fu">extract</span>(img, shp, <span class="at">df =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>smp<span class="sc">$</span>cl <span class="ot">&lt;-</span> <span class="fu">as.factor</span>( shp<span class="sc">$</span>classes[ <span class="fu">match</span>(smp<span class="sc">$</span>ID, <span class="fu">seq</span>(<span class="fu">nrow</span>(shp)) ) ] )</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> smp[<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a><span class="co"># optional: shuffle samples and undersample if necessary</span></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> smp[<span class="fu">sample</span>(<span class="fu">nrow</span>(smp)),]</span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> smp[<span class="fu">ave</span>(<span class="dv">1</span><span class="sc">:</span>(<span class="fu">nrow</span>(smp)), smp<span class="sc">$</span>cl, <span class="at">FUN =</span> seq) <span class="sc">&lt;=</span> <span class="fu">min</span>(<span class="fu">summary</span>(smp<span class="sc">$</span>cl)), ]</span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="co"># tune and train model via gridsearch (gamma &amp; cost)</span></span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>gammas <span class="ot">=</span> <span class="dv">2</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">8</span><span class="sc">:</span><span class="dv">5</span>)</span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>costs <span class="ot">=</span> <span class="dv">2</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>)</span>
-<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>svmgs <span class="ot">&lt;-</span> <span class="fu">tune</span>(svm,</span>
-<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>              <span class="at">train.x =</span> smp[<span class="sc">-</span><span class="fu">ncol</span>(smp)],</span>
-<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>              <span class="at">train.y =</span> smp<span class="sc">$</span>cl,</span>
-<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>              <span class="at">scale =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>              <span class="at">kernel =</span> <span class="st">"radial"</span>, </span>
-<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>              <span class="at">type =</span> <span class="st">"C-classification"</span>,</span>
-<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>              <span class="at">ranges =</span> <span class="fu">list</span>(<span class="at">gamma =</span> gammas,</span>
-<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>                            <span class="at">cost =</span> costs),</span>
-<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>              <span class="at">tunecontrol =</span> <span class="fu">tune.control</span>(<span class="at">cross =</span> <span class="dv">5</span>)</span>
-<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>              )</span>
-<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a><span class="co"># save svmmodel</span></span>
-<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>svmmodel <span class="ot">&lt;-</span> svmgs<span class="sc">$</span>best.model</span>
-<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(svmmodel, <span class="at">file =</span> <span class="st">"svmmodel.RData"</span>)</span>
-<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a><span class="co"># predict image data with svm model</span></span>
-<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">predict</span>(img,</span>
-<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a>                  svmmodel,</span>
-<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a>                  <span class="at">filename =</span> <span class="st">"classification_svm.tif"</span>,</span>
-<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>                  <span class="at">overwrite =</span> <span class="cn">TRUE</span></span>
-<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a>                  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">#set working directory</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work"</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co"># import image (img) and shapefile (shp)</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">LC081930232017060201T1-SC20180613160412_subset.tif"</span>)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">training_data</span><span class="sc">\\</span><span class="st">training_data.shp"</span>)</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co"># extract samples with class labels and put them all together in a dataframe</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(img) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b1"</span>, <span class="st">"b2"</span>, <span class="st">"b3"</span>, <span class="st">"b4"</span>, <span class="st">"b5"</span>, <span class="st">"b6"</span>, <span class="st">"b7"</span>)</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> <span class="fu">extract</span>(img, shp, <span class="at">df =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>smp<span class="sc">$</span>cl <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(shp<span class="sc">$</span>classes[<span class="fu">match</span>(smp<span class="sc">$</span>ID, <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(shp))])</span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> smp[, <span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a><span class="co"># optional: shuffle samples and undersample if necessary</span></span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)  </span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> smp[<span class="fu">sample</span>(<span class="fu">nrow</span>(smp)), ]</span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> smp[<span class="fu">ave</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(smp), smp<span class="sc">$</span>cl, <span class="at">FUN =</span> seq) <span class="sc">&lt;=</span> <span class="fu">min</span>(<span class="fu">summary</span>(smp<span class="sc">$</span>cl)), ]</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a><span class="co"># tune and train model via gridsearch (gamma &amp; cost)</span></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>gammas <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">8</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>costs <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>)</span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>svmgs <span class="ot">&lt;-</span> <span class="fu">tune</span>(</span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>  svm,</span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">train.x =</span> smp[, <span class="sc">-</span><span class="fu">ncol</span>(smp)],  </span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">train.y =</span> smp<span class="sc">$</span>cl,  </span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">kernel =</span> <span class="st">"radial"</span>,</span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"C-classification"</span>,</span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">ranges =</span> <span class="fu">list</span>(<span class="at">gamma =</span> gammas, <span class="at">cost =</span> costs),</span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">tunecontrol =</span> <span class="fu">tune.control</span>(<span class="at">cross =</span> <span class="dv">5</span>)</span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a><span class="co"># save svm model</span></span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>svmmodel <span class="ot">&lt;-</span> svmgs<span class="sc">$</span>best.model</span>
+<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(svmmodel, <span class="at">file =</span> <span class="st">"svmmodel.RData"</span>)</span>
+<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a><span class="co"># predict image data with svm model</span></span>
+<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">predict</span>(img, svmmodel, <span class="at">filename =</span> <span class="st">"classification_svm.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-48"><a href="#cb23-48" aria-hidden="true" tabindex="-1"></a><span class="co"># plot predicted data</span></span>
+<span id="cb23-49"><a href="#cb23-49" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br>
 </p>
 <section id="in-depth-guide-2" class="level2">
