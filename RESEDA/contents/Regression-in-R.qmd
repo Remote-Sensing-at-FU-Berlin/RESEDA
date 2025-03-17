@@ -96,22 +96,20 @@ head(smp)
 
 ## In-depth Guide
 
-In order to use functionalities of the raster and rgeos packages, load them into your current session via `library()`. If you do not use our VM, you must first download and install the packages with `install.packages()`:
+In order to use functionalities of the terra package, load it into your current session via `library()`. If you do not use our VM, you must first download and install the packages with `install.packages()`:
 
 ``` r
-#install.packages("raster")
-#install.packages("rgeos")
-library(raster)
-library(rgeos)
+#install.packages("terra")
+library(terra)
 ```
 
 Next: set your working directory, in which all your image and shapefile data is stored by giving a character (do not forget the quotation marks `" "`) variable to `setwd()`. Check your path with `getwd()` and the stored files in it via `dir()`:
 
 ``` r
-setwd("/media/sf_exchange/regression/")
- 
+setwd("E:\\Work")
+
 getwd()
-## [1] "/media/sf_exchange/regression"
+## [1] "E:\\Work"
 
 dir()  
 ##  [1] "LC081930232017060201T1-SC20180613160412_subset.tif"                                                
@@ -119,37 +117,30 @@ dir()
 ##  [3] "reg_train_data.prj"
 ##  [4] "reg_train_data.qpj"
 ##  [5] "reg_train_data.shp" 
-##  [6] "reg_train_data.shx"   
+##  [6] "reg_train_data.shx" 
 ```
 
 If you do not get your files listed, there is an error in your working path -- check again! Everything ready to go? Fine, then import your raster file as `img` and your shapefile as `shp` and have a look at them:
 
 ``` r
-img <- brick("LC081930232017060201T1-SC20180613160412_subset.tif")
+img <- rast("E:\\Work\\LC081930232017060201T1-SC20180613160412_subset.tif")
 img
-## class       : RasterBrick 
-## dimensions  : 504, 1030, 519120, 7  (nrow, ncol, ncell, nlayers)
+## class       : SpatRaster 
+## dimensions  : 504, 1030, 7  (nrow, ncol, nlyr)
 ## resolution  : 30, 30  (x, y)
 ## extent      : 369795, 400695, 5812395, 5827515  (xmin, xmax, ymin, ymax)
-## coord. ref. : +proj=utm +zone=33 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
-## data source : /media/sf_exchange/regression/LC081930232017060201T1-SC20180613160412_subset.tif 
-## names       : LC0819302//2_subset.1, LC0819302//2_subset.2, LC0819302//2_subset.3, LC0819302//2_subset.4, LC0819302//2_subset.5, LC0819302//2_subset.6, LC0819302//2_subset.7 
-## min values  :                 -2000,                 -2000,                 -1502,                 -1384,                  -107,                   -72,                   -27 
-## max values  :                 13240,                 13539,                 14574,                 14549,                 14243,                 14896,                 15388
+## coord. ref. : EPSG:32633  (UTM Zone 33N, WGS84)
 
-shp <- shapefile("reg_train_data.shp")
+shp <- vect("E:\\Work\\reg_train_data\\reg_train_data.shp")
 shp
-## class       : SpatialPolygonsDataFrame 
+## class       : SpatVector 
+## geometry    : polygons 
 ## features    : 286 
 ## extent      : 390233.4, 390698.4, 5817147, 5817720  (xmin, xmax, ymin, ymax)
-## coord. ref. : +proj=utm +zone=33 +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0 
-## variables   : 1
-## names       : Class_name 
-## min values  :  bare_soil 
-## max values  :      water
+## coord. ref. : EPSG:32633 
 
-compareCRS(shp, img)
-## [1] TRUE
+same.crs <- crs(shp) == crs(img)
+print(same.crs) # Should return TRUE if both CRS match
 ```
 
 Both the `brick()` and `shapefile()` functions are provided by the raster package. As shown above, they create objects of the class RasterBrick and SpatialPolygonsDataFrame respectively. The L8 raster provides 7 bands, and our example shapefile 286 features, i.e., polygons. You can check whether the projections of the two datasets are identical or not by executing `compareCRS(shp, img)`. If this is not the case (output equals *FALSE*), the raster package will automatically re-project your data on the fly later on. However, we recommend to adjust the projections manually in advance to prevent any future inaccuracies.\
@@ -164,8 +155,8 @@ plot(shp)
 With the argument `add = TRUE` in line 2 several data layers can be displayed one above the other:
 
 ``` r
-plot(img[[4]], col=gray.colors(100))
-plot(shp, add=TRUE)
+plot(img[[4]], col = gray.colors(100))
+plot(shp, add = TRUE, border = "red", lwd = 2)
 ```
 
 [![](./img/reg_003.png)](./img/reg_003.png)
@@ -183,9 +174,9 @@ names(img)
 ## [5] "LC081930232017060201T1.SC20180613160412_subset.5"
 ## [6] "LC081930232017060201T1.SC20180613160412_subset.6"
 ## [7] "LC081930232017060201T1.SC20180613160412_subset.7"
- 
+
 names(img) <- c("b1", "b2", "b3", "b4", "b5", "b6", "b7")
- 
+
 names(img)
 ## [1] "b1" "b2" "b3" "b4" "b5" "b6" "b7"
 ```
@@ -193,15 +184,14 @@ names(img)
 In order to accelerate all computation processes in the following, we first trim the image to the extent of the shapefile using the `crop()` function. It is often recommended to use a buffer of zero width wrapped around the polygons to avoid any topological errors in the upcoming process using `gbuffer()` as shown in line 1:
 
 ``` r
-shp <- gBuffer(shp, byid=TRUE, width=0)
-
+shp <- buffer(shp, width = 0)
 img.subset <- crop(img, shp)
 ```
 
 Now we just want to extract the pixels that are 100% covered by the polygons. Full coverage is important to be able to extract reliable predictions about the ratio of an target class. In order to assess this coverage, we use the `rasterize()` function with the argument `getCover = TRUE` to generate a mask. In line 2, we set all pixels which have less than 100% coverage to `NA`. In the end, we use the mask to subset our image data again using the `mask()` function:
 
 ``` r
-img.mask <- rasterize(shp, img.subset, getCover = TRUE)
+img.mask <- rasterize(shp, img.subset, field = NULL, touches = TRUE, cover = TRUE)
 img.mask[img.mask < 100] <- NA
 img.subset <- mask(img.subset, img.mask)
 ```
@@ -209,8 +199,8 @@ img.subset <- mask(img.subset, img.mask)
 Plot the image data again with the polygons in order to see our achievements:
 
 ``` r
-plot(shp)
-plot(img.subset[[4]], add=T)
+plot(shp, col = NA, border = "red", lwd = 2)  
+plot(img.subset[[4]], add = TRUE)
 ```
 
 [![](./img/reg_008.png){width="560"}](./img/reg_008.png)
@@ -219,10 +209,11 @@ Only the raster cells within our polygons are left -- great!\
 In a next step, we transform those pixels to polygons, forming a grid with the information of the Landsat 8 bands maintained by using the `rasterToPolygons()` function. In addition, we want to assign each of these cells in the grid with an ID in order to address them (line 2):
 
 ``` r
-grid <- rasterToPolygons(img.subset)
-grid$ID <- seq.int(nrow(grid))
+grid <- as.polygons(img.subset)
+grid$ID <- 1:nrow(grid)
 
-grid 
+print(grid)
+
 ## class       : SpatialPolygonsDataFrame 
 ## features    : 93 
 ## extent      : 390255, 390675, 5817165, 5817705  (xmin, xmax, ymin, ymax)
@@ -232,7 +223,7 @@ grid
 ## min values  :  144,  198,  339,  279,  678,  563,  398,  1 
 ## max values  : 1175, 1245, 1452, 1422, 3686, 2382, 2193, 93
 
-plot(grid)
+plot(grid, border = "black", lwd = 0.5)
 ```
 
 [![](./img/reg_006.png){width="480"}](./img/reg_006.png)
@@ -242,15 +233,21 @@ For this, we generate a new, empty data frame in which we write the training sam
 
 ``` r
 smp <- data.frame()
-for (i in 1:length(grid)) {
+
+for (i in 1:nrow(grid)) {
+  
   cell <- intersect(grid[i, ], shp)
+  
   cell <- cell[cell$Class_name == "building" | cell$Class_name == "impervious", ]
-  if (length(cell) > 0) {
-    areaPercent <- sum(area(cell) / area(grid)[1])
+  
+  if (nrow(cell) > 0) {
+    areaPercent <- sum(terra::expanse(cell) / terra::expanse(grid[i, ]))
   } else {
     areaPercent <- 0
   }
-  newsmp <- cbind(grid@data[i, 1:nlayers(img)], areaPercent)
+  
+  newsmp <- cbind(as.data.frame(grid[i, 1:nlyr(img)]), areaPercent)
+  
   smp <- rbind(smp, newsmp)
 }
 
