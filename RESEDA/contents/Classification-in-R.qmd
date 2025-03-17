@@ -384,9 +384,9 @@ result <- predict(img,
 In order to be able to use the functions of the randomForest package, we must additionally load the library into the current session via `library()`. If you do not use our VM, you must first download and install the packages with `install.packages()`:
 
 ``` r
-#install.packages("raster")
+#install.packages("terra")
 #install.packages("randomForest")
-library(raster)
+library(terra)
 library(randomForest)
 ```
 
