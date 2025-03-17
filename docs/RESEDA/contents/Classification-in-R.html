@@ -926,9 +926,9 @@ If you store the result of the <code>predict()</code> function in an object, e.g
 <section id="in-depth-guide-2" class="level2">
 <h2 class="anchored" data-anchor-id="in-depth-guide-2">In-depth Guide</h2>
 <p>In order to be able to use the functions of the e1071 package, we must additionally load the library into the current session via [library()<code>. If you do not use our VM, you must first download and install the packages with</code>install.packages()`:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("raster")</span></span>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("terra")</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("e1071")</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(e1071)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>First, it is necessary to process the training samples in the form of a data frame. The necessary steps are described in detail in the <a href="./Classification.qmd#prepare-samples-in-r">previous section</a>.</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(img) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b1"</span>, <span class="st">"b2"</span>, <span class="st">"b3"</span>, <span class="st">"b4"</span>, <span class="st">"b5"</span>, <span class="st">"b6"</span>, <span class="st">"b7"</span>)</span>
