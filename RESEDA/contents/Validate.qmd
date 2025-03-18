@@ -56,28 +56,47 @@ In general, there are several random sampling strategies commonly found in remot
 We will use **equalized stratified random** sampling for this example. This is a complete R script you need in order to automatically generate exactly 50 samples per class within your study extent:
 
 ``` r
-# import package
-library(raster)
- 
-# import classification image (last chapter)
-setwd("/media/sf_exchange/landsatdata/")
-img.classified <- raster("classification_RF.tif")
- 
-# create 50 test samples per class
-samplesperclass <- 50
-smp.test <- sampleStratified(classification, size = samplesperclass, na.rm = TRUE, sp = TRUE)
-# shuffle test samples
-smp.test <- smp.test[sample(nrow(smp.test)), ]
-# delete attributes
-smp.test <- smp.test[ , -c(1, 2)]
-# create standard ID attribute
-smp.test$ID <- 1:nrow(smp.test)
- 
-# save test samples as point shapefile
-shapefile(smp.test,
-          filename = "validation_RFnew.shp",
-          overwrite = TRUE
-          )
+# Load necessary library
+library(terra)
+
+# Set working directory
+setwd("E:\\Work")
+
+# Load the classified raster
+classification <- rast("E:\\Work\\classification_RF.tif")
+
+# Define the number of samples per class
+samples_per_class <- 50
+
+# Perform stratified sampling from the classified raster and return points as SpatVector
+smp_test <- spatSample(classification, 
+                       size = samples_per_class, 
+                       method = "stratified", 
+                       na.rm = TRUE, 
+                       as.points = TRUE)  # Ensures output is a SpatVector
+
+# Shuffle the sampled points randomly
+smp_test <- smp_test[sample(nrow(smp_test)), ]
+
+# Add an ID column
+smp_test$ID <- seq_len(nrow(smp_test))
+
+# Save the sampled points as a shapefile
+writeVector(smp_test, filename = "validation_RFnew.shp", overwrite = TRUE)
+
+# Plot the classification raster with custom colors
+plot(classification, 
+     axes = FALSE, 
+     box = FALSE,
+     col = c("#fbf793", "#006601", "#bfe578", "#d00000", "#fa6700", "#6569ff")
+)
+
+# Overlay the sampled points on the plot
+points(smp_test, col = "black", pch = 20)
+
+# Save the sampled points as a shapefile
+writeVector(smp_test, filename = "validation_RF.shp", overwrite = TRUE)
+
 ```
 
 \
