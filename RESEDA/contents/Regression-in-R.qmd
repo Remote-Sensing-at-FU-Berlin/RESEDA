@@ -352,11 +352,9 @@ result[result < 0] <- 0
 In order to be able to use the regression functions of the e1071 package, we must additionally load the library into the current session via `library()`. If you do not use our VM, you must first download and install the packages with `install.packages()`:
 
 ``` r
-#install.packages("raster")
-#install.packages("rgeos")
+#install.packages("terra")
 #install.packages("e1071")
-library(raster)
-library(rgeos)
+library(terra)
 library(e1071)
 ```
 
@@ -365,9 +363,9 @@ First, it is necessary to process the training samples in the form of a data fra
 After the preprocessing, we can train our Support Vector Regression with the training dataset `smp`. We will utilize an epsilon Support Vector Regressions, which requires three parameters: one gamma $\gamma$ value, one cost $C$ value as well as a epsilon $\varepsilon$ value (for more details refer to the [SVM section](./Machine-Learning-Basics.qmd#support-vector-machine){rel="noopener" target="_blank"}). These hyperparameters significantly determine the performance of the model. Finding the best hyparameters is not trivial and the best combination can not be determined in advance. Thus, we try to find the best combination iteratively by trial and error. Therefore, we create three vectors comprising all values that should be tested:
 
 ``` r
-gammas = 2^(-8:3)
-costs = 2^(-5:8)
-epsilons = c(0.1, 0.01, 0.001)
+gammas <- 2^(-8:3)
+costs <- 2^(-5:8)
+epsilons <- c(0.1, 0.01, 0.001)
 ```
 
 So we have 14 different values for $\gamma$, 14 different values for $C$ and three different values for $\varepsilon$. Thus, the whole training process is tested for 588 (14 \* 14 \* 3) models. Conversely, this means that the more parameters we check, the longer the training process takes.\
@@ -380,9 +378,9 @@ svmgs <- tune(svm,
               type = "eps-regression",
               kernel = "radial", 
               scale = TRUE,
-              ranges = list(gamma = gammas, cost = costs, epsolon = epsilons),
+              ranges = list(gamma = gammas, cost = costs, epsilon = epsilons),
               tunecontrol = tune.control(cross = 5)
-              )
+)
 ```
 
 We have to set the `type` of the SVM to `"eps-regression"` in line 4 in order to perform a regression task. Furthermore, we set the kernel used in training and predicting to a [RBF kernel](./Machine-Learning-Basics.qmd#support-vector-machine/){rel="noopener" target="_blank"} via `"radial"` (have a look at the [SVM section](./Machine-Learning-Basics.qmd#support-vector-machine){rel="noopener" target="_blank"} for more details). We set the argument `scale` to `TRUE` in order to initiate the [z-transformation of our data](./Machine-Learning-Basics.qmd#support-vector-machine){rel="noopener" target="_blank"}. The argument `ranges` in line 7 takes a named list of parameter vectors spanning the sampling range. We put our vectors `gammas`, `costs` and `epsilons` in this list. By using the `tunecontrol` argument in line 8, you can set k for [the k-fold cross validation on the training data](./Machine-Learning-Basics.qmd#support-vector-machine){rel="noopener" target="_blank"}, which is necessary to assess the model performance.
@@ -453,14 +451,17 @@ result
 You may will notice some "super-positive" (values above 1.0 or 100%) and/ or some negative (values below 0.0 or 0%) values. Such values are not uncommon, since the SVR implementation of the e1071 package is not subject to any non-negative constraints. You could simply fix this issue by overriding all adequate entries with meaningful minimum and maximum values (0 for 0% and 1 for 100%) by adding the following two lines:
 
 ``` r
-result[result > 1] = 1
-result[result < 0] = 0
+result[result > 1] <- 1
+result[result < 0] <- 0
+
+result <- ifel(result > 1, 1, result)
+result <- ifel(result < 0, 0, result)
 ```
 
 Finally, save your regression raster output using the `writeRaster()` function and plot your result in R:
 
 ``` r
-writeRaster(result, filename="regression.tif")
+writeRaster(result, filename="regression.tif", overwrite=TRUE)
 
 plot(result, col=gray.colors(100))
 ```
