@@ -280,59 +280,69 @@ Below you can see a complete code implementation. Read the [previous section](./
 
 ``` r
 # import
-library(raster)
-library(rgeos)
+library(terra)
 library(e1071)
 
+# Set working directory
 setwd("/media/sf_exchange/regression/")
-img <- brick("LC081930232017060201T1-SC20180613160412_subset.tif")
-shp <- shapefile("reg_train_data.shp")
 
-# training sample preprocessing (see last section for details)
+# Load raster and vector data
+img <- rast("LC081930232017060201T1-SC20180613160412_subset.tif")
+shp <- vect("reg_train_data.shp")
+
+# Rename raster bands
 names(img) <- c("b1", "b2", "b3", "b4", "b5", "b6", "b7")
-shp <- gBuffer(shp, byid=TRUE, width=0)
+
+# Crop and mask the raster using the shapefile
 img.subset <- crop(img, shp)
-img.mask <- rasterize(shp, img.subset, getCover = TRUE)
+img.mask <- rasterize(shp, img.subset, field=1, cover=TRUE)
 img.mask[img.mask < 100] <- NA
 img.subset <- mask(img.subset, img.mask)
-grid <- rasterToPolygons(img.subset)
+
+# Convert raster to polygons
+grid <- as.polygons(img.subset, dissolve=FALSE)
 grid$ID <- seq.int(nrow(grid))
 
+# Prepare training samples
 smp <- data.frame()
 for (i in 1:length(grid)) {
   cell <- intersect(grid[i, ], shp)
-  cell <- cell[cell$Class_name == "building" | cell$Class_name == "impervious", ]
-  if (length(cell) > 0) {
-    areaPercent <- sum(area(cell) / area(grid)[1])
+  cell <- subset(cell, Class_name %in% c("building", "impervious"))
+  
+  if (nrow(cell) > 0) {
+    areaPercent <- sum(expanse(cell) / expanse(grid[i, ]))
   } else {
     areaPercent <- 0
   }
-  newsmp <- cbind(grid@data[i, 1:nlayers(img)], areaPercent)
+  
+  newsmp <- cbind(grid[i, 1:nlyr(img)], areaPercent)
   smp <- rbind(smp, newsmp)
 }
 
-# model training
-# define search ranges
-gammas = 2^(-8:3)
-costs = 2^(-5:8)
-epsilons = c(0.1, 0.01, 0.001)
-# start training via gridsearch
+# Model training
+# Define search ranges
+gammas <- 2^(-8:3)
+costs <- 2^(-5:8)
+epsilons <- c(0.1, 0.01, 0.001)
+
+# Start training via grid search
 svmgs <- tune(svm,
               train.x = smp[-ncol(smp)],
               train.y = smp[ncol(smp)],
               type = "eps-regression",
-              kernel = "radial", 
+              kernel = "radial",
               scale = TRUE,
-              ranges = list(gamma = gammas, cost = costs, epsolon = epsilons),
+              ranges = list(gamma = gammas, cost = costs, epsilon = epsilons),
               tunecontrol = tune.control(cross = 5)
-              )
+)
 
-# pick best model
+# Pick best model
 svrmodel <- svmgs$best.model
 
-# use best model for prediciton
-result[result < 0] = 1
-result[result < 0] = 0
+# Use best model for prediction
+result <- predict(svrmodel, smp[-ncol(smp)])
+result[result < 0] <- 1
+result[result < 0] <- 0
 ```
 
 \
