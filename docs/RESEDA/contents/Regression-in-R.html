@@ -646,59 +646,69 @@ Line 10: use row bind ([rbind()<code>) to add the new sample</code>newsmp<code>t
 <p>There are several R packages that provide SVM regression, or Support Vector Regression (SVR), support, e.g., <a href="https://cran.r-project.org/web/packages/caret/caret.pdf" rel="noopener" target="_blank">caret</a>, <a href="https://cran.r-project.org/web/packages/e1071/e1071.pdf" rel="noopener" target="_blank">e1071</a>, or <a href="https://cran.r-project.org/web/packages/kernlab/kernlab.pdf" rel="noopener" target="_blank">kernLab</a>. We will use the e1071 package, as it offers <a href="https://cran.r-project.org/web/packages/e1071/vignettes/svmdoc.pdf" rel="noopener" target="_blank">an interface to the well-known libsvm</a> implementation.</p>
 <p>Below you can see a complete code implementation. Read the <a href="./Regresion-in-R.qmd#prepare-samples-for-regression" rel="noopener" target="_blank">previous section</a> to learn about pre-processing the training data. While this is already executable with the given input data, you should read the in-depth guide in the following to understand the code in detail.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgeos)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(e1071)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(e1071)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Set working directory</span></span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/media/sf_exchange/regression/"</span>)</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">brick</span>(<span class="st">"LC081930232017060201T1-SC20180613160412_subset.tif"</span>)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">shapefile</span>(<span class="st">"reg_train_data.shp"</span>)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># training sample preprocessing (see last section for details)</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(img) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b1"</span>, <span class="st">"b2"</span>, <span class="st">"b3"</span>, <span class="st">"b4"</span>, <span class="st">"b5"</span>, <span class="st">"b6"</span>, <span class="st">"b7"</span>)</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">gBuffer</span>(shp, <span class="at">byid=</span><span class="cn">TRUE</span>, <span class="at">width=</span><span class="dv">0</span>)</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>img.subset <span class="ot">&lt;-</span> <span class="fu">crop</span>(img, shp)</span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>img.mask <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(shp, img.subset, <span class="at">getCover =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>img.mask[img.mask <span class="sc">&lt;</span> <span class="dv">100</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>img.subset <span class="ot">&lt;-</span> <span class="fu">mask</span>(img.subset, img.mask)</span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">rasterToPolygons</span>(img.subset)</span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">seq.int</span>(<span class="fu">nrow</span>(grid))</span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(grid)) {</span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  cell <span class="ot">&lt;-</span> <span class="fu">intersect</span>(grid[i, ], shp)</span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  cell <span class="ot">&lt;-</span> cell[cell<span class="sc">$</span>Class_name <span class="sc">==</span> <span class="st">"building"</span> <span class="sc">|</span> cell<span class="sc">$</span>Class_name <span class="sc">==</span> <span class="st">"impervious"</span>, ]</span>
-<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(cell) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    areaPercent <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">area</span>(cell) <span class="sc">/</span> <span class="fu">area</span>(grid)[<span class="dv">1</span>])</span>
-<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
-<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    areaPercent <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  newsmp <span class="ot">&lt;-</span> <span class="fu">cbind</span>(grid<span class="sc">@</span>data[i, <span class="dv">1</span><span class="sc">:</span><span class="fu">nlayers</span>(img)], areaPercent)</span>
-<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>  smp <span class="ot">&lt;-</span> <span class="fu">rbind</span>(smp, newsmp)</span>
-<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="co"># model training</span></span>
-<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="co"># define search ranges</span></span>
-<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>gammas <span class="ot">=</span> <span class="dv">2</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">8</span><span class="sc">:</span><span class="dv">3</span>)</span>
-<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>costs <span class="ot">=</span> <span class="dv">2</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>)</span>
-<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>epsilons <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.01</span>, <span class="fl">0.001</span>)</span>
-<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a><span class="co"># start training via gridsearch</span></span>
-<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>svmgs <span class="ot">&lt;-</span> <span class="fu">tune</span>(svm,</span>
-<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>              <span class="at">train.x =</span> smp[<span class="sc">-</span><span class="fu">ncol</span>(smp)],</span>
-<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>              <span class="at">train.y =</span> smp[<span class="fu">ncol</span>(smp)],</span>
-<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>              <span class="at">type =</span> <span class="st">"eps-regression"</span>,</span>
-<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>              <span class="at">kernel =</span> <span class="st">"radial"</span>, </span>
-<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>              <span class="at">scale =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>              <span class="at">ranges =</span> <span class="fu">list</span>(<span class="at">gamma =</span> gammas, <span class="at">cost =</span> costs, <span class="at">epsolon =</span> epsilons),</span>
-<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>              <span class="at">tunecontrol =</span> <span class="fu">tune.control</span>(<span class="at">cross =</span> <span class="dv">5</span>)</span>
-<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>              )</span>
-<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a><span class="co"># pick best model</span></span>
-<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>svrmodel <span class="ot">&lt;-</span> svmgs<span class="sc">$</span>best.model</span>
-<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a><span class="co"># use best model for prediciton</span></span>
-<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>result[result <span class="sc">&lt;</span> <span class="dv">0</span>] <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>result[result <span class="sc">&lt;</span> <span class="dv">0</span>] <span class="ot">=</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Load raster and vector data</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"LC081930232017060201T1-SC20180613160412_subset.tif"</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">"reg_train_data.shp"</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename raster bands</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(img) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b1"</span>, <span class="st">"b2"</span>, <span class="st">"b3"</span>, <span class="st">"b4"</span>, <span class="st">"b5"</span>, <span class="st">"b6"</span>, <span class="st">"b7"</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Crop and mask the raster using the shapefile</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>img.subset <span class="ot">&lt;-</span> <span class="fu">crop</span>(img, shp)</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>img.mask <span class="ot">&lt;-</span> <span class="fu">rasterize</span>(shp, img.subset, <span class="at">field=</span><span class="dv">1</span>, <span class="at">cover=</span><span class="cn">TRUE</span>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>img.mask[img.mask <span class="sc">&lt;</span> <span class="dv">100</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>img.subset <span class="ot">&lt;-</span> <span class="fu">mask</span>(img.subset, img.mask)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert raster to polygons</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">as.polygons</span>(img.subset, <span class="at">dissolve=</span><span class="cn">FALSE</span>)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="fu">seq.int</span>(<span class="fu">nrow</span>(grid))</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare training samples</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(grid)) {</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  cell <span class="ot">&lt;-</span> <span class="fu">intersect</span>(grid[i, ], shp)</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  cell <span class="ot">&lt;-</span> <span class="fu">subset</span>(cell, Class_name <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"building"</span>, <span class="st">"impervious"</span>))</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">nrow</span>(cell) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    areaPercent <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">expanse</span>(cell) <span class="sc">/</span> <span class="fu">expanse</span>(grid[i, ]))</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    areaPercent <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>  newsmp <span class="ot">&lt;-</span> <span class="fu">cbind</span>(grid[i, <span class="dv">1</span><span class="sc">:</span><span class="fu">nlyr</span>(img)], areaPercent)</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>  smp <span class="ot">&lt;-</span> <span class="fu">rbind</span>(smp, newsmp)</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Model training</span></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Define search ranges</span></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>gammas <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">8</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>costs <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>)</span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>epsilons <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.01</span>, <span class="fl">0.001</span>)</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Start training via grid search</span></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>svmgs <span class="ot">&lt;-</span> <span class="fu">tune</span>(svm,</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>              <span class="at">train.x =</span> smp[<span class="sc">-</span><span class="fu">ncol</span>(smp)],</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a>              <span class="at">train.y =</span> smp[<span class="fu">ncol</span>(smp)],</span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>              <span class="at">type =</span> <span class="st">"eps-regression"</span>,</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>              <span class="at">kernel =</span> <span class="st">"radial"</span>,</span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>              <span class="at">scale =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>              <span class="at">ranges =</span> <span class="fu">list</span>(<span class="at">gamma =</span> gammas, <span class="at">cost =</span> costs, <span class="at">epsilon =</span> epsilons),</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>              <span class="at">tunecontrol =</span> <span class="fu">tune.control</span>(<span class="at">cross =</span> <span class="dv">5</span>)</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Pick best model</span></span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>svrmodel <span class="ot">&lt;-</span> svmgs<span class="sc">$</span>best.model</span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Use best model for prediction</span></span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">predict</span>(svrmodel, smp[<span class="sc">-</span><span class="fu">ncol</span>(smp)])</span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>result[result <span class="sc">&lt;</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a>result[result <span class="sc">&lt;</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><br>
 </p>
 <section id="in-depth-guide-1" class="level2">
