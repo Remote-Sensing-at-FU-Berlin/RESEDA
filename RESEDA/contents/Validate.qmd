@@ -279,10 +279,10 @@ Then import your classification image `classification_RF.tif`, your training sha
 ``` r
 setwd("E:\\Work")
 
-img.classified <- rast("classification_RF.tif")
+img.classified <- rast("E:\\Work\\classification_RF.tif")
 
-shp.train <- vect("training_data.shp")
-shp.valid <- vect("validation_RF.shp")
+shp.train <- vect("E:\\Work\\training_data\\training_data.shp")
+shp.valid <- vect("E:\\Work\\validation_RF.shp")
 ```
 
 Our goal is first to generate two factor vectors, which we then compare in our confusion matrix:
