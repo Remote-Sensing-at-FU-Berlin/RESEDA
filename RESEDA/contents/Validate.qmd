@@ -485,76 +485,70 @@ The script is commented comprehensively and the equations from the paper are mar
 # area adjusted accuracy assessment 
 # calculated as in Olofsson et al. 2014
 
-library(raster)
+library(terra)
 
-# import classification image and train and validation shapefiles
-setwd("/media/sf_exchange/landsatdata/")
-img.class <- raster("classification_RF.tif")
-shp.train <- shapefile("training_data.shp")
-shp.valid <- shapefile("validation_RF.shp")
+setwd("E:\\Work")
 
-# create regular accuracy matrix 
+img.class <- rast("E:\\Work\\classification_RF.tif")
+shp.train <- vect("E:\\Work\\training_data\\training_data.shp")
+shp.valid <- vect("E:\\Work\\validation_RF.shp")
+
 confmat <- table(as.factor(extract(img.class, shp.valid)), as.factor(shp.valid$validclass))
-# get number of pixels per class and convert in km²
-imgVal <- as.factor(getValues(img.class))
-nclass <- length(unique(shp.train$classes))
-maparea <- sapply(1:nclass, function(x) sum(imgVal == x))
-maparea <- maparea * res(img.class)[1] ^ 2 / 1000000
 
-# set confidence interval
+imgVal <- as.factor(values(img.class))
+nclass <- length(unique(shp.train$classes))
+maparea <- sapply(1:nclass, function(x) sum(imgVal == x, na.rm = TRUE))
+maparea <- maparea * res(img.class)[1] ^ 2 / 1000000  # Convert to km²
+
 conf <- 1.96
 
-# total  map area
 A <- sum(maparea)
-# proportion of area mapped as class i
+
 W_i <- maparea / A
-# number of reference points per class
-n_i <- rowSums(confmat) 
-# population error matrix (Eq.4)
+
+n_i <- rowSums(confmat)
+
 p <- W_i * confmat / n_i
-p[is.na(p)] <- 0
+p[is.na(p)] <- 0  # Handle division by zero
 
-# area estimation
 p_area <- colSums(p) * A
-# area estimation confidence interval (Eq.10)
-p_area_CI <- conf * A * sqrt(colSums((W_i * p - p ^ 2) / (n_i - 1))) 
 
-# overall accuracy (Eq.1)
+p_area_CI <- conf * A * sqrt(colSums((W_i * p - p ^ 2) / (n_i - 1)))
+
 OA <- sum(diag(p))
-# producers accuracy (Eq.2)
+
 PA <- diag(p) / colSums(p)
-# users accuracy (Eq.3)
+
 UA <- diag(p) / rowSums(p)
 
-# overall accuracy confidence interval (Eq.5)
 OA_CI <- conf * sqrt(sum(W_i ^ 2 * UA * (1 - UA) / (n_i - 1)))
-# user accuracy confidence interval (Eq.6)
-UA_CI <- conf * sqrt(UA * (1 - UA) / (n_i - 1)) 
-# producer accuracy confidence interval (Eq.7)
-N_j <- sapply(1:nclass, function(x) sum(maparea / n_i * confmat[ , x]) )
-tmp <- sapply(1:nclass, function(x) sum(maparea[-x] ^ 2 * confmat[-x, x] / n_i[-x] * ( 1 - confmat[-x, x] / n_i[-x]) / (n_i[-x] - 1)) )
-PA_CI <- conf * sqrt(1 / N_j ^ 2 * (maparea ^ 2 * ( 1 - PA ) ^ 2 * UA * (1 - UA) / (n_i - 1) + PA ^ 2 * tmp))
 
-# gather results
+UA_CI <- conf * sqrt(UA * (1 - UA) / (n_i - 1))
+
+N_j <- sapply(1:nclass, function(x) sum(maparea / n_i * confmat[ , x]) )
+tmp <- sapply(1:nclass, function(x) sum(maparea[-x] ^ 2 * confmat[-x, x] / n_i[-x] * (1 - confmat[-x, x] / n_i[-x]) / (n_i[-x] - 1)))
+PA_CI <- conf * sqrt(1 / N_j ^ 2 * (maparea ^ 2 * (1 - PA) ^ 2 * UA * (1 - UA) / (n_i - 1) + PA ^ 2 * tmp))
+
 result <- matrix(c(p_area, p_area_CI, PA * 100, PA_CI * 100, UA * 100, UA_CI * 100, c(OA * 100, rep(NA, nclass-1)), c(OA_CI * 100, rep(NA, nclass-1))), nrow = nclass)
-result <- round(result, digits = 2) 
+result <- round(result, digits = 2)
 rownames(result) <- levels(as.factor(shp.train$classes))
 colnames(result) <- c("km²", "km²±", "PA", "PA±", "UA", "UA±", "OA", "OA±")
 class(result) <- "table"
+
 result
 ```
 
 ``` r
-library(raster)
+library(terra)
 
-setwd("/media/sf_exchange/landsatdata/")
-img.class <- raster("classification_RF.tif")
-shp.train <- shapefile("training_data.shp")
-shp.valid <- shapefile("validation_RF.shp")
+setwd("E:\\Work")
+
+img.class <- rast("E:\\Work\\classification_RF.tif")
+shp.train <- vect("E:\\Work\\training_data\\training_data.shp")
+shp.valid <- vect("E:\\Work\\validation_RF.shp")
 
 confmat <- table(as.factor(extract(img.class, shp.valid)), as.factor(shp.valid$validclass))
-confmat
-##    
+print(confmat)
 ##      1  2  3  4  5  6
 ##   1 31  0  7  2  5  0
 ##   2  0 47  2  0  0  1
@@ -563,42 +557,44 @@ confmat
 ##   5  0  0  1  2 47  0
 ##   6  0  0  0  0  0 49
 
-imgVal <- as.factor(getValues(img.class))
-head(imgVal)
+
+imgVal <- as.factor(values(img.class))
+print(imgVal)
 ## [1] 5 5 5 5 5 5
 ## Levels: 1 2 3 4 5 6
 
 nclass <- length(unique(shp.train$classes))
-nclass
+print(nclass)
 ## [1] 6
 
-maparea <- sapply(1:nclass, function(x) sum(imgVal == x))
-maparea
+maparea <- sapply(1:nclass, function(x) sum(imgVal == x, na.rm = TRUE))
+print(maparea)
 ## [1]  26741 121740  36345 129130 185222  19942
 
-maparea <- maparea * res(img.class)[1] ^ 2 / 1000000
-maparea
+maparea <- maparea * res(img.class)[1] ^ 2 / 1000000  # Convert to km²
+print(maparea)
 ## [1]  24.0669 109.5660  32.7105 116.2170 166.6998  17.9478
+
 
 conf <- 1.96
 
+
 A <- sum(maparea)
-A
+print(A)
 ## [1] 467.208
 
 W_i <- maparea / A
-W_i
+print(W_i)
 ## [1] 0.05151217 0.23451225 0.07001271 0.24874788 0.35679997 0.03841501
 
-n_i <- rowSums(confmat) 
-n_i
+n_i <- rowSums(confmat)
+print(n_i)
 ##  1  2  3  4  5  6 
 ## 45 50 50 49 50 49
 
 p <- W_i * confmat / n_i
-p[is.na(p)] <- 0
-round(p, digits = 4)
-##    
+p[is.na(p)] <- 0  # Handle division by zero
+print(round(p, digits = 4))
 ##          1      2      3      4      5      6
 ##   1 0.0355 0.0000 0.0080 0.0023 0.0057 0.0000
 ##   2 0.0000 0.2204 0.0094 0.0000 0.0000 0.0047
@@ -608,51 +604,55 @@ round(p, digits = 4)
 ##   6 0.0000 0.0000 0.0000 0.0000 0.0000 0.0384
 
 p_area <- colSums(p) * A
-p_area
+print(p_area)
 ##         1         2         3         4         5         6 
 ##  16.57942 107.57151  36.97457 102.60865 183.33473  20.13912
 
 p_area_CI <- conf * A * sqrt(colSums((W_i * p - p ^ 2) / (n_i - 1))) 
-p_area_CI
+print(p_area_CI)
 ##         1         2         3         4         5         6 
 ##  3.292170  7.948700  9.994001 15.744342 17.208163  4.294987
 
 OA <- sum(diag(p))
-OA
+print(OA)
 ## [1] 0.8874041
 
 PA <- diag(p) / colSums(p)
-PA
+print(PA)
 ##         1         2         3         4         5         6 
 ## 1.0000000 0.9574286 0.6900470 0.9245908 0.8547088 0.8911909
 
 UA <- diag(p) / rowSums(p)
-UA
+print(UA)
 ##         1         2         3         4         5         6 
 ## 0.6888889 0.9400000 0.7800000 0.8163265 0.9400000 1.0000000
 
+
 OA_CI <- conf * sqrt(sum(W_i ^ 2 * UA * (1 - UA) / (n_i - 1)))
-OA_CI
+print(OA_CI)
 ## [1] 0.04079462
 
-UA_CI <- conf * sqrt(UA * (1 - UA) / (n_i - 1)) 
-UA_CI
+UA_CI <- conf * sqrt(UA * (1 - UA) / (n_i - 1))
+print(UA_CI)
 ##          1          2          3          4          5          6 
 ## 0.13679244 0.06649632 0.11598896 0.10954451 0.06649632 0.00000000
 
 N_j <- sapply(1:nclass, function(x) sum(maparea / n_i * confmat[ , x]) )
-tmp <- sapply(1:nclass, function(x) sum(maparea[-x] ^ 2 * confmat[-x, x] / n_i[-x] * ( 1 - confmat[-x, x] / n_i[-x]) / (n_i[-x] - 1)) )
-PA_CI <- conf * sqrt(1 / N_j ^ 2 * (maparea ^ 2 * ( 1 - PA ) ^ 2 * UA * (1 - UA) / (n_i - 1) + PA ^ 2 * tmp))
-PA_CI
+tmp <- sapply(1:nclass, function(x) sum(maparea[-x] ^ 2 * confmat[-x, x] / n_i[-x] * (1 - confmat[-x, x] / n_i[-x]) / (n_i[-x] - 1)))
+PA_CI <- conf * sqrt(1 / N_j ^ 2 * (maparea ^ 2 * (1 - PA) ^ 2 * UA * (1 - UA) / (n_i - 1) + PA ^ 2 * tmp))
+print(PA_CI)
 ##          1          2          3          4          5          6 
 ## 0.00000000 0.02843232 0.17545912 0.08399238 0.06198829 0.19006061
 
+
 result <- matrix(c(p_area, p_area_CI, PA * 100, PA_CI * 100, UA * 100, UA_CI * 100, c(OA * 100, rep(NA, nclass-1)), c(OA_CI * 100, rep(NA, nclass-1))), nrow = nclass)
-result <- round(result, digits = 2) 
+result <- round(result, digits = 2)
 rownames(result) <- levels(as.factor(shp.train$classes))
 colnames(result) <- c("km²", "km²±", "PA", "PA±", "UA", "UA±", "OA", "OA±")
 class(result) <- "table"
-result
+
+
+print(result)
 ##              km²   km²±     PA    PA±     UA    UA±     OA    OA±
 ## baresoil   16.58   3.29 100.00   0.00  68.89  13.68  88.74   4.08
 ## forest    107.57   7.95  95.74   2.84  94.00   6.65              
@@ -660,5 +660,6 @@ result
 ## urban_hd  102.61  15.74  92.46   8.40  81.63  10.95              
 ## urban_ld  183.33  17.21  85.47   6.20  94.00   6.65              
 ## water      20.14   4.29  89.12  19.01 100.00   0.00
+
 ```
 
