@@ -661,13 +661,15 @@ Zoom to a scale level that allows you to differentiate your target classes in Go
 You need your final classification map, as well as both the training and validation shapefiles created in the course of the <a href="../../RESEDA/contents/Analyse.html" rel="noopener" target="_blank">Classification in R section</a>.<br>
 Good to go?</p>
 <p>Fine, then import your <code>raster</code> library in R as usual:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("raster")</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(raster)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("terra")</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then import your classification image <code>classification_RF.tif</code>, your training shapefile <code>training_data.shp</code> and your validation shapefile <code>validation_RF.shp</code>. In this example we use the output of the RF classification. However, the workflow is applicable to every classifier!</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"/media/sf_exchange/landsatdata/"</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>img.classified <span class="ot">&lt;-</span> <span class="fu">raster</span>(<span class="st">"classification_RF.tif"</span>)</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>shp.train <span class="ot">&lt;-</span> <span class="fu">shapefile</span>(<span class="st">"training_data.shp"</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>shp.valid <span class="ot">&lt;-</span> <span class="fu">shapefile</span>(<span class="st">"validation_RF.shp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>img.classified <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"classification_RF.tif"</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>shp.train <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">"training_data.shp"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>shp.valid <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">"validation_RF.shp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Our goal is first to generate two factor vectors, which we then compare in our confusion matrix:</p>
 <ol type="1">
 <li><strong>reference</strong> : class labels you assigned manually in the previous section</li>
@@ -675,7 +677,7 @@ Good to go?</p>
 </ol>
 <p>For the reference vector, we need to address the <em>validclass</em> column of our shapefile (we created this column in <a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis/" rel="noopener" target="_blank">this section in QGIS</a>). As already mentioned, we need to transform the vectors into factors using <code>as.factor()</code> (it becomes clear why in a second):</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>reference <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(shp.valid<span class="sc">$</span>validclass)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>reference</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(reference)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="do">##   [1] 3    1    4    4    6    4    5    3    6    2    1    5    4    2   </span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  [15] 2    4    4    5    4    5    1    3    &lt;NA&gt; 2    6    3    3    6   </span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  [29] 1    4    6    6    5    6    2    3    1    1    3    2    4    2   </span></span>
@@ -702,7 +704,7 @@ Good to go?</p>
 <p>You may notice some entries in your reference values. These arise, for example, if you have skipped some validation points during the <a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis/" rel="noopener" target="_blank">labeling in QGIS</a> because you could not make a clear classification based on the available image data. We simply ignore them later on in the statistics – no problem!</p>
 <p>For the predicted vector, we need to extract the classification values at the validation coordinates. Here again, we want a factor object via <code>as.factor()</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>predicted <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">extract</span>(img.classified, shp.valid))</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>predicted</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(predicted)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="do">##   [1] 3 1 4 4 6 4 5 3 6 2 1 5 4 2 2 4 4 3 4 5 1 3 4 2 6 3 3 6 1 4 6 6 5 6 2</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  [36] 3 1 1 3 3 1 2 5 4 3 4 2 4 1 5 1 1 4 1 3 5 2 1 5 4 5 2 3 6 2 1 5 3 5 2</span></span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  [71] 2 6 4 1 5 1 6 4 6 6 6 6 1 1 1 2 4 5 6 4 5 3 5 4 2 2 1 2 2 3 5 6 6 1 1</span></span>
@@ -715,7 +717,7 @@ Good to go?</p>
 <span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Levels: 1 2 3 4 5 6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Once we prepared both factor vectors, we can utilize the <code>table</code> function in an elegant way to build a contingency table of the counts at each combination of factor levels. We can additionally name the vectors so that they are also displayed in the table accordingly:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>accmat <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="st">"pred"</span> <span class="ot">=</span> predicted, <span class="st">"ref"</span> <span class="ot">=</span> reference)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>accmat</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(accmat)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="do">##     ref</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="do">## pred  1  2  3  4  5  6</span></span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="do">##    1 31  0  7  2  5  0</span></span>
@@ -728,17 +730,17 @@ Good to go?</p>
 Excellent! This output already visualize if and where there are misclassifications in our map: all pixels located on the diagonale are correctly classified, all pixels off the diagonal are not.</p>
 <p>We can now calculate the user’s accuracies, producer’s accuracies, and the overall accuracy:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>UA <span class="ot">&lt;-</span> <span class="fu">diag</span>(accmat) <span class="sc">/</span> <span class="fu">rowSums</span>(accmat) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>UA</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(UA)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="do">##         1         2         3         4         5         6 </span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  68.88889  94.00000  78.00000  81.63265  94.00000 100.00000</span></span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>PA <span class="ot">&lt;-</span> <span class="fu">diag</span>(accmat) <span class="sc">/</span> <span class="fu">colSums</span>(accmat) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>PA</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(PA)</span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="do">##         1         2         3         4         5         6 </span></span>
 <span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 100.00000  87.03704  79.59184  90.90909  72.30769  98.00000</span></span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>OA <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">diag</span>(accmat)) <span class="sc">/</span> <span class="fu">sum</span>(accmat) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>OA</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(OA)</span>
 <span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 86.34812</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Actually we already extracted all information needed for a confusion matrix, so let us form a nicely formatted matrix in R:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>accmat.ext <span class="ot">&lt;-</span> <span class="fu">addmargins</span>(accmat)</span>
