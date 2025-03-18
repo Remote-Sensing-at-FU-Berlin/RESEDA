@@ -106,24 +106,25 @@ writeVector(smp_test, filename = "validation_RF.shp", overwrite = TRUE)
 All we need is the [raster` package, so make sure you've imported it.
 
 ``` r
-#install.packages("raster")
-library(raster)
+#install.packages("terra")
+library(terra)
 ```
 
 Furthermore, you should have your classification map ready ([Chapter Analysis](./Analyse.qmd){rel="noopener" target="_blank"}), lying in your working directory. Import it with the `raster()` function:
 
 ``` r
-setwd("/media/sf_exchange/landsatdata/")
-img.classified <- raster("classification_RF.tif")
+setwd("E:\\Work")
+img.classified <- rast("classification_RF.tif")
 ```
 
 The `raster` provides a function called `sampleStratified()`, which does all the work for us:
 
 ``` r
-smp.test <- sampleStratified(x = classification,
-                             size = 50,
-                             na.rm = TRUE,
-                             sp = TRUE)
+smp.test <- spatSample(x = classification, 
+                       size = 50, 
+                       method = "stratified", 
+                       na.rm = TRUE, 
+                       as.points = TRUE)
 ```
 
 This function needs an Raster-Object as `x` argument and a positive integer value as `size` argument. Latter is the number of sample points per class. Additionally we can exclude all `NA` values, by setting `na.rm = TRUE`. `NA` Values can arise if your scene lies diagonally in space and points are placed in the border areas. Line 4 ensures, that the returned object is a SpatialPointDataFrame (which is easier to handle).
@@ -148,7 +149,7 @@ Note: the name of the column within `smp.test` depends on the file name of your 
 Due to the subsequent manual labeling in the [next section](./Validate.qmdlabel-samples-in-qgis){rel="noopener" target="_blank"}, it makes sense to mix the samples so that the order is random. Again, we use the `sample()` function for this:
 
 ``` r
-smp.test <- smp.test[sample(nrow(smp.test)), ]
+smp.test <- smp.test[sample(1:nrow(smp.test)), ]
 ```
 
 By looking at the class labels again, we see that the order is now random:
@@ -169,10 +170,10 @@ smp.test$classification_RF
 In addition, we can delete all variables in our dataframe `smp.test` and append a consecutive ID variable called `ID`, which will then be displayed to us in QGIS:
 
 ``` r
-smp.test <- smp.test[, -c(1, 2)]
+smp.test <- smp.test[, -(1:2)]
 smp.test$ID <- 1:nrow(smp.test)
 
-smp.test
+print(smp.test)
 ## class       : SpatialPointsDataFrame 
 ## features    : 300 
 ## extent      : 369870, 400650, 5812410, 5827500  (xmin, xmax, ymin, ymax)
@@ -190,9 +191,10 @@ plot(classification,
      axes = FALSE, 
      box = FALSE,
      col = c("#fbf793", "#006601", "#bfe578", "#d00000", "#fa6700", "#6569ff")
-     )
+)
 
 points(smp.test)
+
 ```
 
 [![](./img/valid_009.png)](./img/valid_009.png)
@@ -200,10 +202,7 @@ points(smp.test)
 Last but not least, it is still necessary to save the SpatialPointDataFrame `smp.test` as a shapefile to your hard drive. This is also very easy with the `shapefile()` function from the raster package. Choose an appropriate `filename =` for the new shapefile created.
 
 ``` r
-shapefile(smp.test,
-          filename = "validation_RF.shp",
-          overwrite = TRUE
-          )
+writeVector(smp.test, "validation_RF.shp", overwrite = TRUE)
 ```
 
 # Label Samples in QGIS {#label-samples-in-qgis .entry-title}
