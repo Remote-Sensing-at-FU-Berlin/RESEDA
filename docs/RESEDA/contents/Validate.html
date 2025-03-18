@@ -660,7 +660,7 @@ Zoom to a scale level that allows you to differentiate your target classes in Go
 <p><strong>Implementation in R:</strong>:<br>
 You need your final classification map, as well as both the training and validation shapefiles created in the course of the <a href="../../RESEDA/contents/Analyse.html" rel="noopener" target="_blank">Classification in R section</a>.<br>
 Good to go?</p>
-<p>Fine, then import your <code>raster</code> library in R as usual:</p>
+<p>Fine, then import your <code>terra</code> library in R as usual:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("terra")</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then import your classification image <code>classification_RF.tif</code>, your training shapefile <code>training_data.shp</code> and your validation shapefile <code>validation_RF.shp</code>. In this example we use the output of the RF classification. However, the workflow is applicable to every classifier!</p>
