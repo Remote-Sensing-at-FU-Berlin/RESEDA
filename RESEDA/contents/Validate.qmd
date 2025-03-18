@@ -267,7 +267,7 @@ Several metrics can be derived from the table:
 You need your final classification map, as well as both the training and validation shapefiles created in the course of the [Classification in R section](./Analyse.qmd){rel="noopener" target="_blank"}.\
 Good to go?
 
-Fine, then import your `raster` library in R as usual:
+Fine, then import your `terra` library in R as usual:
 
 ``` r
 #install.packages("terra")
