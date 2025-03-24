@@ -478,6 +478,16 @@ image_dir <- "E:\\Work\\S2_15_05_2024\\S2B_MSIL1C_20240515T101559_N0510_R065_T32
 jp2_files <- list.files(image_dir, pattern = "\\.jp2$", full.names = TRUE)
 ```
 
+We now use band 2 (Blue band), to serve as a reference band to resample all other bands to a spatial resolution of 10m.
+
+``` r
+ref_band_file <- "E:\\Work\\S2_15_05_2024\\S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE\\S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE\\GRANULE\\L1C_T32UQD_A037557_20240515T101556\\IMG_DATA\\T32UQD_20240515T101559_B02.jp2"
+ref_band <- rast(ref_band_file)
+```
+
+Generally any band with a 10m resolution in Sentinel 2, such as Blue(B02), Green(B03), Red(B04), NIR|(B08) can be used, however in this case Blue band is used due to its shorter wavelength and a high sensitivity to atmospheric conditions.
+
+
 
 ### Sentinel 2 Bulk Preprocessing {#sentinel-2-bulk-preprocessing .entry-title}
 
