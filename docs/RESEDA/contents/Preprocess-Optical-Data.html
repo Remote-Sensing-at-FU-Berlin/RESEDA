@@ -386,7 +386,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#sentinel-2-preprocessing" id="toc-sentinel-2-preprocessing" class="nav-link" data-scroll-target="#sentinel-2-preprocessing">Sentinel 2 Preprocessing</a>
   <ul class="collapse">
-  <li><a href="#sentinel-2-bulk-preprocessing" id="toc-sentinel-2-bulk-preprocessing" class="nav-link" data-scroll-target="#sentinel-2-bulk-preprocessing">Sentinel 2 Bulk Preprocessing</a></li>
   <li><a href="#cloud-masking-for-sentinel-2-images" id="toc-cloud-masking-for-sentinel-2-images" class="nav-link" data-scroll-target="#cloud-masking-for-sentinel-2-images">Cloud Masking for Sentinel-2 images</a></li>
   </ul></li>
   </ul></li>
@@ -764,48 +763,93 @@ Watch this video on YouTube</a></p>
 <span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">✅ All Sentinel-2 bands have been resampled to 10m and saved in:"</span>, output_dir, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="sentinel-2-bulk-preprocessing" class="level3 entry-title">
-<h3 class="entry-title anchored" data-anchor-id="sentinel-2-bulk-preprocessing">Sentinel 2 Bulk Preprocessing</h3>
-<p>This section contains advanced techniques. Understanding these techniques is particularly relevant if you want to pre-process dozens of Sentinel 2 data in an identical way.<br>
-We will create a graph in SNAP and then modify it to process all data automatically via the Graph Processing Tool (GPT)!</p>
-<p>Open SNAP and click on the graph builder icon <img src="./img/SNAP_buttons_05.png" class="alignnone size-full wp-image-899" width="28" height="32"> in the Toolbar. You will see a new window pop up, which shows a standard graph (containing one <strong>Read</strong> and one <strong>Write</strong> node) in the upper area and some options in the lower area. Right click somewhere in the white area at upper window to add new nodes, i.e., processing steps, to the graph. Navigate to <em>Add</em> &gt; <em>Raster</em> &gt; <em>Geometric</em> &gt; <em>Resample</em> to add an <strong>Resample</strong> and a <strong>Subset</strong> node (those are the steps we used in the above section):</p>
-<p><a href="./img/preproc_13.png"><img src="./img/preproc_13.png" class="img-fluid"></a></p>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Add new nodes to the graph via a right click</span></p>
-</div>
-<p>Each processing step is visualized by a rectangle in the graph. You can drag those rectangles, or nodes, to whichever position you want with pressed left mouse button. Your graph should now look something like this:</p>
-<p><a href="./img/preproc_14.png"><img src="./img/preproc_14.png" class="img-fluid"></a></p>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Unconnected graph</span></p>
-</div>
-<p>The individual nodes are not yet linked. If you rest the mouse pointer over the right edge of a rectangle, you will see a red arrow. Drag this arrow with pressed left mouse button to the next node in the following order:</p>
-<p><a href="./img/preproc_15.png"><img src="./img/preproc_15.png" class="img-fluid"></a></p>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Connected graph</span></p>
-</div>
-<p>Next, click on the <strong>Read</strong> Node and load one of your ZIP-compressed Sentinel 2 scenes into the Source Product setting. This could take a short moment. <strong>Attention:</strong> From now on, it will always take a little while to switch back and forth between the processing nodes, as SNAP will process and read your data as virtual products in the background!</p>
-<p>Now either click through the tabs at the bottom of the Graph Builder window or through the rectangles at the top to set the following options for the <strong>Resampling</strong>, the <strong>Subset</strong> and the <strong>Write</strong> node (according to the settings made in the previous section):</p>
-<div class="h5p-iframe-wrapper" style="">
-
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Graph settings</span></p>
-</div>
-<p>The spatial section in the Subset node should be made using the geographic coordinates. However, the linked map is quite blurred and therefore not much help. However, under the map you can define any spatial subset using the Well-Known Text (WKT) format. There are a number of <a href="http://arthur-e.github.io/Wicket/sandbox-gmaps3.html" target="_blank" rel="noopener">simple online tools</a> for creating such WKTs. Copy the entire “Polygon(())” expression into the line below the map within the subset Node:</p>
-<p>POLYGON((13.11 52.65, 13.70 52.65, 13.70 52.35, 13.11 52.35, 13.11 52.65))</p>
-<p>Of course, you can add more processing steps later for your own analysis. When you are done click Save on the bottom of the Graph Builder window and save your graph as “myGraph.xml” to your hard drive (exchange folder recommended):</p>
-<p><a href="./img/preproc_20.png"><img src="./img/preproc_20.png" class="img-fluid"></a></p>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Save graph as .xml-file</span></p>
-</div>
-<p><strong>Automate Things Using GPT</strong></p>
-<p>Close SNAP, as we do not need it anymore. Now, open a terminal, which is linked in the taskbar of our VM:</p>
-<p><a href="./img/USGS_036.png"><img src="./img/USGS_036.png" class="img-fluid"></a></p>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Linux terminal shortcut in taskbar</span></p>
-</div>
-<p>It is possible to run the graph using the GPT now. The GPT can be found in our VM in the file path “/home/student/snap/bin/gpt”. Consequently, we can execute the graph with the following command (change the file path corresponding to the location of your graph file!):</p>
-<pre class="theme:amityresedaterminal nums:false"><code>/home/student/snap/bin/gpt /media/sf_exchange/sentineldata/myGraph.xml</code></pre>
+<p>Stacking the resampled data and plot an image in True Color Composite (RGB)</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Define the directory containing the .tif files</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>image_dir <span class="ot">&lt;-</span> <span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">S2_15_05_2024</span><span class="sc">\\</span><span class="st">S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE</span><span class="sc">\\</span><span class="st">S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE</span><span class="sc">\\</span><span class="st">GRANULE</span><span class="sc">\\</span><span class="st">L1C_T32UQD_A037557_20240515T101556</span><span class="sc">\\</span><span class="st">Resampled"</span>  <span class="co"># Replace with your folder path</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># List all .tif files in the directory</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>tif_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(image_dir, <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.tif$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#stack the .tif files</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>stacked_raster <span class="ot">&lt;-</span> <span class="fu">rast</span>(tif_files)</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Save .tif file</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>output_tif <span class="ot">&lt;-</span> <span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">S2_15_05_2024</span><span class="sc">\\</span><span class="st">S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE</span><span class="sc">\\</span><span class="st">S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE</span><span class="sc">\\</span><span class="st">GRANULE</span><span class="sc">\\</span><span class="st">L1C_T32UQD_A037557_20240515T101556</span><span class="sc">\\</span><span class="st">Stacked_Resampled.tif"</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(stacked_raster, output_tif, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(stacked_raster, <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)  <span class="do">##To display full extent of the stacked image</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a><span class="do">### Sentinel 2 Bulk Preprocessing {#sentinel-2-bulk-preprocessing .entry-title}</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>This section contains advanced techniques. Understanding these techniques is particularly relevant <span class="cf">if</span> you want to pre<span class="sc">-</span>process dozens of Sentinel <span class="dv">2</span> data <span class="cf">in</span> an identical way.\</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>We will create a graph <span class="cf">in</span> SNAP and then modify it to process all data automatically via the Graph Processing <span class="fu">Tool</span> (GPT)<span class="sc">!</span></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>Open SNAP and click on the graph builder icon <span class="sc">!</span>[](.<span class="sc">/</span>img<span class="sc">/</span>SNAP_buttons_05.png){.alignnone .size<span class="sc">-</span>full .wp<span class="sc">-</span>image<span class="dv">-899</span> width<span class="ot">=</span><span class="st">"28"</span> height<span class="ot">=</span><span class="st">"32"</span>} <span class="cf">in</span> the Toolbar. You will see a new window pop up, which shows a standard <span class="fu">graph</span> (containing one <span class="sc">**</span>Read<span class="sc">**</span> and one <span class="sc">**</span>Write<span class="sc">**</span> node) <span class="cf">in</span> the upper area and some options <span class="cf">in</span> the lower area. Right click somewhere <span class="cf">in</span> the white area at upper window to add new nodes, i.e., processing steps, to the graph. Navigate to <span class="sc">*</span>Add<span class="sc">*</span> \<span class="sc">&gt;</span> <span class="er">*</span>Raster<span class="sc">*</span> \<span class="sc">&gt;</span> <span class="er">*</span>Geometric<span class="sc">*</span> \<span class="sc">&gt;</span> <span class="er">*</span>Resample<span class="sc">*</span> to add an <span class="sc">**</span>Resample<span class="sc">**</span> and a <span class="sc">**</span>Subset<span class="sc">**</span> <span class="fu">node</span> (those are the steps we used <span class="cf">in</span> the above section)<span class="sc">:</span></span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>[<span class="sc">!</span>[](.<span class="sc">/</span>img<span class="sc">/</span>preproc_13.png)](.<span class="sc">/</span>img<span class="sc">/</span>preproc_13.png)</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span> {style<span class="ot">=</span><span class="st">"margin: -30px 0 20px 0;text-align: center"</span>}</span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>[Add new nodes to the graph via a right</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>click]{style<span class="ot">=</span><span class="st">"color: #686868;font-size: small"</span>}</span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a>Each processing step is visualized by a rectangle <span class="cf">in</span> the graph. You can drag those rectangles, or nodes, to whichever position you want with pressed left mouse button. Your graph should now look something like this<span class="sc">:</span></span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>[<span class="sc">!</span>[](.<span class="sc">/</span>img<span class="sc">/</span>preproc_14.png)](.<span class="sc">/</span>img<span class="sc">/</span>preproc_14.png)</span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span> {style<span class="ot">=</span><span class="st">"margin: -30px 0 20px 0;text-align: center"</span>}</span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>[Unconnected graph]{style<span class="ot">=</span><span class="st">"color: #686868;font-size: small"</span>}</span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span></span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a>The individual nodes are not yet linked. If you rest the mouse pointer over the right edge of a rectangle, you will see a red arrow. Drag this arrow with pressed left mouse button to the <span class="cf">next</span> node <span class="cf">in</span> the following order<span class="sc">:</span></span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a>[<span class="sc">!</span>[](.<span class="sc">/</span>img<span class="sc">/</span>preproc_15.png)](.<span class="sc">/</span>img<span class="sc">/</span>preproc_15.png)</span>
+<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span> {style<span class="ot">=</span><span class="st">"margin: -30px 0 20px 0;text-align: center"</span>}</span>
+<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a>[Connected graph]{style<span class="ot">=</span><span class="st">"color: #686868;font-size: small"</span>}</span>
+<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span></span>
+<span id="cb23-48"><a href="#cb23-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-49"><a href="#cb23-49" aria-hidden="true" tabindex="-1"></a>Next, click on the <span class="sc">**</span>Read<span class="sc">**</span> Node and load one of your ZIP<span class="sc">-</span>compressed Sentinel <span class="dv">2</span> scenes into the Source Product setting. This could take a short moment. <span class="sc">**</span>Attention<span class="sc">:</span><span class="er">**</span> From now on, it will always take a little <span class="cf">while</span> to <span class="cf">switch</span> back and forth between the processing nodes, as SNAP will process and read your data as virtual products <span class="cf">in</span> the background<span class="sc">!</span></span>
+<span id="cb23-50"><a href="#cb23-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-51"><a href="#cb23-51" aria-hidden="true" tabindex="-1"></a>Now either click through the tabs at the bottom of the Graph Builder window or through the rectangles at the top to set the following options <span class="cf">for</span> the <span class="sc">**</span>Resampling<span class="sc">**</span>, the <span class="sc">**</span>Subset<span class="sc">**</span> and the <span class="sc">**</span>Write<span class="sc">**</span> <span class="fu">node</span> (according to the settings made <span class="cf">in</span> the previous section)<span class="sc">:</span></span>
+<span id="cb23-52"><a href="#cb23-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-53"><a href="#cb23-53" aria-hidden="true" tabindex="-1"></a><span class="er">:::</span> {.h5p<span class="sc">-</span>iframe<span class="sc">-</span>wrapper style<span class="ot">=</span><span class="st">""</span>}</span>
+<span id="cb23-54"><a href="#cb23-54" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span></span>
+<span id="cb23-55"><a href="#cb23-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-56"><a href="#cb23-56" aria-hidden="true" tabindex="-1"></a><span class="er">:::</span> {style<span class="ot">=</span><span class="st">"margin: -30px 0 20px 0;text-align: center"</span>}</span>
+<span id="cb23-57"><a href="#cb23-57" aria-hidden="true" tabindex="-1"></a>[Graph settings]{style<span class="ot">=</span><span class="st">"color: #686868;font-size: small"</span>}</span>
+<span id="cb23-58"><a href="#cb23-58" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span></span>
+<span id="cb23-59"><a href="#cb23-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-60"><a href="#cb23-60" aria-hidden="true" tabindex="-1"></a>The spatial section <span class="cf">in</span> the Subset node should be made using the geographic coordinates. However, the linked map is quite blurred and therefore not much help. However, under the map you can define any spatial subset using the Well<span class="sc">-</span>Known <span class="fu">Text</span> (WKT) format. There are a number of [simple online tools](http<span class="sc">:</span><span class="er">//</span>arthur<span class="sc">-</span>e.github.io<span class="sc">/</span>Wicket<span class="sc">/</span>sandbox<span class="sc">-</span>gmaps3.html){target<span class="ot">=</span><span class="st">"_blank"</span> rel<span class="ot">=</span><span class="st">"noopener"</span>} <span class="cf">for</span> creating such WKTs. Copy the entire <span class="st">"Polygon(())"</span> expression into the line below the map within the subset Node<span class="sc">:</span></span>
+<span id="cb23-61"><a href="#cb23-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-62"><a href="#cb23-62" aria-hidden="true" tabindex="-1"></a><span class="fu">POLYGON</span>((<span class="fl">13.11</span> <span class="fl">52.65</span>, <span class="fl">13.70</span> <span class="fl">52.65</span>, <span class="fl">13.70</span> <span class="fl">52.35</span>, <span class="fl">13.11</span> <span class="fl">52.35</span>, <span class="fl">13.11</span> <span class="fl">52.65</span>))</span>
+<span id="cb23-63"><a href="#cb23-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-64"><a href="#cb23-64" aria-hidden="true" tabindex="-1"></a>Of course, you can add more processing steps later <span class="cf">for</span> your own analysis. When you are done click Save on the bottom of the Graph Builder window and save your graph as <span class="st">"myGraph.xml"</span> to your hard <span class="fu">drive</span> (exchange folder recommended)<span class="sc">:</span></span>
+<span id="cb23-65"><a href="#cb23-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-66"><a href="#cb23-66" aria-hidden="true" tabindex="-1"></a>[<span class="sc">!</span>[](.<span class="sc">/</span>img<span class="sc">/</span>preproc_20.png)](.<span class="sc">/</span>img<span class="sc">/</span>preproc_20.png)</span>
+<span id="cb23-67"><a href="#cb23-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-68"><a href="#cb23-68" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span> {style<span class="ot">=</span><span class="st">"margin: -30px 0 20px 0;text-align: center"</span>}</span>
+<span id="cb23-69"><a href="#cb23-69" aria-hidden="true" tabindex="-1"></a>[Save graph as .xml<span class="sc">-</span>file]{style<span class="ot">=</span><span class="st">"color: #686868;font-size: small"</span>}</span>
+<span id="cb23-70"><a href="#cb23-70" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span></span>
+<span id="cb23-71"><a href="#cb23-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-72"><a href="#cb23-72" aria-hidden="true" tabindex="-1"></a><span class="er">**</span>Automate Things Using GPT<span class="sc">**</span></span>
+<span id="cb23-73"><a href="#cb23-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-74"><a href="#cb23-74" aria-hidden="true" tabindex="-1"></a>Close SNAP, as we do not need it anymore. Now, open a terminal, which is linked <span class="cf">in</span> the taskbar of our VM<span class="sc">:</span></span>
+<span id="cb23-75"><a href="#cb23-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-76"><a href="#cb23-76" aria-hidden="true" tabindex="-1"></a>[<span class="sc">!</span>[](.<span class="sc">/</span>img<span class="sc">/</span>USGS_036.png)](.<span class="sc">/</span>img<span class="sc">/</span>USGS_036.png)</span>
+<span id="cb23-77"><a href="#cb23-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-78"><a href="#cb23-78" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span> {style<span class="ot">=</span><span class="st">"margin: -30px 0 20px 0;text-align: center"</span>}</span>
+<span id="cb23-79"><a href="#cb23-79" aria-hidden="true" tabindex="-1"></a>[Linux terminal shortcut <span class="cf">in</span></span>
+<span id="cb23-80"><a href="#cb23-80" aria-hidden="true" tabindex="-1"></a>taskbar]{style<span class="ot">=</span><span class="st">"color: #686868;font-size: small"</span>}</span>
+<span id="cb23-81"><a href="#cb23-81" aria-hidden="true" tabindex="-1"></a><span class="sc">:::</span></span>
+<span id="cb23-82"><a href="#cb23-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-83"><a href="#cb23-83" aria-hidden="true" tabindex="-1"></a>It is possible to run the graph using the GPT now. The GPT can be found <span class="cf">in</span> our VM <span class="cf">in</span> the file path <span class="st">"/home/student/snap/bin/gpt"</span>. Consequently, we can execute the graph with the following <span class="fu">command</span> (change the file path corresponding to the location of your graph file<span class="sc">!</span>)<span class="sc">:</span></span>
+<span id="cb23-84"><a href="#cb23-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-85"><a href="#cb23-85" aria-hidden="true" tabindex="-1"></a><span class="st">```</span><span class="at"> {.theme:amityresedaterminal .nums:false}</span></span>
+<span id="cb23-86"><a href="#cb23-86" aria-hidden="true" tabindex="-1"></a><span class="at">/home/student/snap/bin/gpt /media/sf_exchange/sentineldata/myGraph.xml</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Replace the path with the path of your file, copy it to the terminal and press Enter!</p>
 <p><a href="./img/preproc_21.png"><img src="./img/preproc_21.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
@@ -840,7 +884,6 @@ Search for the <strong>Read</strong> node. Within that node, a line should list 
 <p>The script starts as soon as you press enter and writes the output to a new folder called “Processed”, which will be created next to your S2 zip files.</p>
 <p><a href="./img/preproc_26.png"><img src="./img/preproc_26.png" class="img-fluid"></a></p>
 <p>&nbsp;</p>
-</section>
 <section id="cloud-masking-for-sentinel-2-images" class="level3 entry-title">
 <h3 class="entry-title anchored" data-anchor-id="cloud-masking-for-sentinel-2-images">Cloud Masking for Sentinel-2 images</h3>
 <p><span title="">If there are clouds or cloud shadows on your sentinel-2 scene, they can be mask out using the <em>quality scene classification band</em> of your scene.<br>
