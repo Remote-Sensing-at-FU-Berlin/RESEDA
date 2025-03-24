@@ -468,6 +468,16 @@ library(terra)
 setwd("E:\\Work\\S2_15_05_2024")
 ```
 
+Define the folder containing the Sentinel 2 data and list the .tif file (Raster Data).
+
+``` r
+#Folder containing .tif files
+image_dir <- "E:\\Work\\S2_15_05_2024\\S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE\\S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE\\GRANULE\\L1C_T32UQD_A037557_20240515T101556\\IMG_DATA"
+
+# list all .tif files
+jp2_files <- list.files(image_dir, pattern = "\\.jp2$", full.names = TRUE)
+```
+
 
 ### Sentinel 2 Bulk Preprocessing {#sentinel-2-bulk-preprocessing .entry-title}
 
