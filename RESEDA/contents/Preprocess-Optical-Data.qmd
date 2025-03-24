@@ -494,6 +494,18 @@ output_dir <- "E:\\Work\\S2_15_05_2024\\S2B_MSIL1C_20240515T101559_N0510_R065_T3
 dir.create(output_dir, showWarnings = FALSE)
 ```
 
+Insert the function for Bilinear Interpolation : is a resampling method that uses the distance-weighted average of the four nearest pixel values to estimate a new pixel value.
+This applies to each raster file.
+
+``` r
+resample_raster <- function(file, ref) {
+  r <- rast(file)
+  r_resampled <- resample(r, ref, method = "bilinear")  # Bilinear for continuous data
+  return(r_resampled)
+}
+
+```
+
 
 
 ### Sentinel 2 Bulk Preprocessing {#sentinel-2-bulk-preprocessing .entry-title}
