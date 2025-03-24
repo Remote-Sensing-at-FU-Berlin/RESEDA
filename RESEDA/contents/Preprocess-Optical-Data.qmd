@@ -466,7 +466,6 @@ install.packages(terra)
 library(terra)
 
 setwd("E:\\Work\\S2_15_05_2024")
-
 ```
 
 
