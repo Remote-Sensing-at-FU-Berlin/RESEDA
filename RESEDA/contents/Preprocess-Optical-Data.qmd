@@ -458,6 +458,17 @@ We will now use RStudio to pre-process our Sentinel 2 data.The processing steps 
 2. Stack the resampled bands.
 3. Create a subset of choice.
 
+Open R-Studio and install, open the required packages and set your working directory:
+
+```
+install.packages(terra)
+
+library(terra)
+
+setwd("E:\\Work\\S2_15_05_2024")
+
+```
+
 
 ### Sentinel 2 Bulk Preprocessing {#sentinel-2-bulk-preprocessing .entry-title}
 
