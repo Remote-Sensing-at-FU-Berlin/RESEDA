@@ -544,7 +544,7 @@ output_tif <- "E:\\Work\\S2_15_05_2024\\S2B_MSIL1C_20240515T101559_N0510_R065_T3
 writeRaster(stacked_raster, output_tif, overwrite = TRUE)
 
 plotRGB(stacked_raster, r = 3, g = 2, b = 1, stretch = "lin")  ##To display full extent of the stacked image
-
+```
 
 
 
