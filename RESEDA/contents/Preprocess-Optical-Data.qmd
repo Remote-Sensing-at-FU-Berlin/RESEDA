@@ -503,7 +503,28 @@ resample_raster <- function(file, ref) {
   r_resampled <- resample(r, ref, method = "bilinear")  # Bilinear for continuous data
   return(r_resampled)
 }
+```
 
+Applying resampling to all bands.
+
+``` r
+#Apply resampling to all bands
+for (file in jp2_files) {
+  band_name <- basename(file)  # Extract filename
+  output_file <- file.path(output_dir, gsub(".jp2$", "_resampled.tif", band_name))  # Rename output file
+  
+  #Resample
+  r_resampled <- resample_raster(file, ref_band)
+  
+  #Save the resampled raster
+  writeRaster(r_resampled, output_file, overwrite = TRUE)
+  
+  
+  
+  cat("Resampled:", band_name, "->", output_file, "\n")
+}
+
+cat("\n✅ All Sentinel-2 bands have been resampled to 10m and saved in:", output_dir, "\n")
 ```
 
 
