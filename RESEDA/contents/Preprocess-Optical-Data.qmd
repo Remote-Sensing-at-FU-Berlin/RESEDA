@@ -527,7 +527,8 @@ for (file in jp2_files) {
 cat("\n✅ All Sentinel-2 bands have been resampled to 10m and saved in:", output_dir, "\n")
 ```
 
-Stacking the resampled data and plot an image in True Color Composite (RGB)
+Stacking the resampled data and plot an image in True Color Composite (RGB).
+This displayed the whole stacked image.
 
 ``` r
 #Define the directory containing the .tif files
@@ -544,6 +545,23 @@ output_tif <- "E:\\Work\\S2_15_05_2024\\S2B_MSIL1C_20240515T101559_N0510_R065_T3
 writeRaster(stacked_raster, output_tif, overwrite = TRUE)
 
 plotRGB(stacked_raster, r = 3, g = 2, b = 1, stretch = "lin")  ##To display full extent of the stacked image
+```
+
+Create a subset of your choice by defining the extent with which you want to work with, and save the image.
+
+``` r
+# Load stacked raster
+stacked_raster <- rast("E:\\Work\\S2_15_05_2024\\S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE\\S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE\\GRANULE\\L1C_T32UQD_A037557_20240515T101556\\Stacked_Resampled.tif")
+
+#Define the boundary (xmin, xmax, ymin, ymax)
+subset_extent <- ext(c(500000, 510000, 4500000, 4510000))  # Modify with actual coordinates
+
+subset_raster <- crop(stacked_raster, subset_extent)
+
+output_subset_tif <- "E:\\Work\\S2_15_05_2024\\S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE\\S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE\\GRANULE\\L1C_T32UQD_A037557_20240515T101556\\Subset_Stacked_Resampled.tif"
+writeRaster(subset_raster, output_subset_tif, overwrite = TRUE)
+
+plotRGB(subset_raster, r = 3, g = 2, b = 1, stretch = "lin")  ##To display cropped/selected area
 ```
 
 
