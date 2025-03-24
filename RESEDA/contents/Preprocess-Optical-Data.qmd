@@ -450,6 +450,13 @@ Watch this video on YouTube](https://youtu.be/cXbXHgELbjQ)
 :::
 :::
 
+**Pre-Processing steps in RStudio:**
+
+We will now use RStudio to pre-process our Sentinel 2 data.The processing steps will be as follows:
+1. Resample bands to a spatial resolution of 10m.
+2. Stack the resampled bands.
+3. Create a subset of choice.
+
 
 ### Sentinel 2 Bulk Preprocessing {#sentinel-2-bulk-preprocessing .entry-title}
 
