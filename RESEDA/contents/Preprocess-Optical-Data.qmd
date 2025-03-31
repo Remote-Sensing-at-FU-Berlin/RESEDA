@@ -361,7 +361,7 @@ If SNAP is started, you can open the zip file of an image directly by
 Use SNAP's toolbar to navigate to *Raster* \> *Geometric Operations* and
 open the *Resample* operation:
 
-[![](E:/Work/Github_Repository/RESEDA/RESEDA/contents/img/2.png)](E:/Work/Github_Repository/RESEDA/RESEDA/contents/img/2.png)
+[![](E:/Work/Github_Repository/RESEDA/RESEDA/contents/img/preproc_02.png)](E:/Work/Github_Repository/RESEDA/RESEDA/contents/img/2.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Navigation to Resample]{style="color: #686868;font-size: small"}
