@@ -350,7 +350,7 @@ Done? -- Then start [SNAP](https://blogs.fu-berlin.de/reseda/snap/) now!
 If SNAP is started, you can open the zip file of an image directly by
 *File* \> *Open Product*.
 
-[![](E:/Work/Sentinel 2 Data/1.jpg)](./img/Product_RGB_KF_2-1.png)
+[![](E:/Work/Sentinel 2 Data/1.jpg)](E:/Work/Sentinel 2 Data/1.jpg)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Open File SNAP]{style="color: #686868;font-size: small"}
