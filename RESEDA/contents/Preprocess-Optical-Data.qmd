@@ -703,7 +703,7 @@ The script starts as soon as you press enter and writes the output to a new fold
 
 [If there are clouds or cloud shadows on your sentinel-2 scene, they can be mask out using the *quality scene classification band* of your scene.\
 ]{title=""}\
-[![](./img/Quality_scene_1_KF.png)](./img/Quality_scene_1_KF.png){.fancybox .image}
+[![](./img/S2_cloudmask_1.png)](./img/S2_cloudmask_1.png){.fancybox .image}
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Sentinel-2 scene (true color) with clouds and cloud shadows]{style="color: #686868;font-size: small"}
@@ -711,7 +711,7 @@ The script starts as soon as you press enter and writes the output to a new fold
 
 Image quality band and the classes we want to delete for our mask (Values): 3 (cloud shadows), 7 (unclassified), 8 (cloud medium probability), 9 (cloud high probability), 10 (thin cirrus) and 11 (snow or ice). For other scenes, you have to adjust the classes if necessary.
 
-[![](./img/Quality_scene_KF.png)](./img/Quality_scene_KF.png)
+[![](./img/S2_cloudmask_2.png)](./img/S2_cloudmask_2.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Sentinel-2 scene with quality scene classification]{style="color: #686868;font-size: small"}
