@@ -426,7 +426,7 @@ The subset function allows you to perform both spatial and spectral resampling. 
 
 By pressing OK, another data product with the prefix "subset" is generated within a second and should be visible in the Product Explorer in SNAP. Select the newly created data product in the Product Explorer by a simple left-click on it and navigate through the toolbar to *File* \> *Export* \> GeoTIFF, as shown in the next screenshot. If you notice that your file is larger than 4 GB, you can also choose BIGTIFF as the target file format. BigTIFF describes a GeoTIFF file that is over 4 GB in size. However, saving a BiTIFF file in SNAP is very slow, especially for machines with only 8 GB of RAM. Therefore try to use the GeoTIFF file format first:
 
-[![](./img/export_2.png)](./img/export_2.png)
+[![](./img/S2_preproc_9.png)](./img/S2_preproc_9.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Export function]{style="color: #686868;font-size: small"}
@@ -434,7 +434,7 @@ By pressing OK, another data product with the prefix "subset" is generated withi
 
 In the window of the export function you can then define the file path and the name of the exported file. Then press **Export Product** to start the processing:
 
-[![](./img/export_3.png)](https://blogs.fu-berlin.de/reseda/files/2019/07/export_3.png)
+[![](./img/S2_preproc_10.png)](./img/S2_preproc_10.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Export function settings]{style="color: #686868;font-size: small"}
