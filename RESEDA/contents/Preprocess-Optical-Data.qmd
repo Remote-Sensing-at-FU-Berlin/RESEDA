@@ -377,7 +377,8 @@ A window will pop up with two tabs. In the first tab, define a downloaded, zippe
 
 Click on the second tab "Resampling Parameters". Select spectral band 2 here to define the geometric resolution of the final product (band 2 has a resolution of 10 m) and press ![](./img/preproc_06.png){.alignnone .size-full .wp-image-1716 loading="lazy" width="55" height="24"}:
 
-[![](./img/preproc_04.png)](./img/preproc_04.png)
+[![](./img/S2_preproc_4.png)](./img/S2_preproc_4.png)
+
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Resampling settings tab 2]{style="color: #686868;font-size: small"}
