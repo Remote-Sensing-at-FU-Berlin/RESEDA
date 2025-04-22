@@ -575,7 +575,7 @@ We will create a graph in SNAP and then modify it to process all data automatica
 
 Open SNAP and click on the graph builder icon ![](./img/SNAP_buttons_05.png){.alignnone .size-full .wp-image-899 width="28" height="32"} in the Toolbar. You will see a new window pop up, which shows a standard graph (containing one **Read** and one **Write** node) in the upper area and some options in the lower area. Right click somewhere in the white area at upper window to add new nodes, i.e., processing steps, to the graph. Navigate to *Add* \> *Raster* \> *Geometric* \> *Resample* to add an **Resample** and a **Subset** node (those are the steps we used in the above section):
 
-[![](./img/preproc_13.png)](./img/preproc_13.png)
+[![](./img/S2_bulkproc_1.png)](./img/S2_bulkproc_1.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Add new nodes to the graph via a right
