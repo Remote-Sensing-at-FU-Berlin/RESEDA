@@ -358,7 +358,7 @@ If SNAP is started, you can open the zip file of an image directly by
 
  
 
-Use SNAP's toolbar to navigate to *Raster* \> *Geometric Operations* and
+Use SNAP's toolbar to navigate to *Raster* \> *Geometric* and
 open the *Resample* operation:
 
 [![](./img/2.png)](./img/2.png)
@@ -369,7 +369,7 @@ open the *Resample* operation:
 
 A window will pop up with two tabs. In the first tab, define a downloaded, zipped Sentinel 2 file as the source product. You do NOT need to unzip it in advance! In the example shown below, the file is located in the exchange folder of our VM.
 
-[![](./img/Resamplin_KF.png)](./img/Resamplin_KF.png)
+[![](./img/S2_preproc_3.jpg)](./img/S2_preproc_3.jpg)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Resampling settings tab 1]{style="color: #686868;font-size: small"}
