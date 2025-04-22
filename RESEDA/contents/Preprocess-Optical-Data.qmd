@@ -388,7 +388,6 @@ This should create a "virtual file" with the suffix "\_resampled", which is not 
 
 [![](./img/S2_preproc_5.png)](./img/S2_preproc_5.png)
 
-[![](./img/S2_preproc_5-2.png)](./img/S2_preproc_5-2.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Virtual product notification]{style="color: #686868;font-size: small"}
@@ -399,7 +398,7 @@ Close the Resampling tool.
 With a right click on the processed image (product) \> *Open RGB Image*
 Window you can open differnet band combinations:
 
-[![](./img/Opern_RGB_SNAP_KF.png)](./img/Opern_RGB_SNAP_KF.png)
+[![](./img/S2_preproc_5-2.png)](./img/S2_preproc_5-2.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Open as RGB Image]{style="color: #686868;font-size: small"}
@@ -409,7 +408,7 @@ Window you can open differnet band combinations:
 
 Navigate to the Subset function:
 
-[![](./img/preproc_08.png)](./img/preproc_08.png)
+[![](./img/S2_preproc_6.png)](./img/S2_preproc_6.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Subset function in Toolbar]{style="color: #bfbfbf;font-size: small"}
@@ -417,9 +416,9 @@ Navigate to the Subset function:
 
 The subset function allows you to perform both spatial and spectral resampling. By excluding irrelevant data, you can reduce the volume of data by several orders of magnitude. In the example shown below, we do a spatial subset based on geographic coordinates and only select specific bands:
 
-[![](./img/preproc_09.png)](./img/preproc_09.png)
+[![](./img/S2_preproc_7.png)](./img/S2_preproc_7.png)
 
-[![](./img/Band_selection_KF.png)](./img/Band_selection_KF.png)
+[![](./img/S2_preproc_8.png)](./img/S2_preproc_8.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Subset function settings]{style="color: #686868;font-size: small"}
