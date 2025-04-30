@@ -91,7 +91,7 @@ QGIS is very similar to ArcGIS/ ArcMap, which you already know from the second s
 As with all operations, there are several ways to open a raster dataset here: Either navigate via the main menu to *Layer* \> *Add Layer* \> *Add Raster Layer...*, or press the corresponding icon ![](./img/vis_008.png){.alignnone .size-full
 .wp-image-1909 width="24" height="24"} in the toolbar or press the shortcut **Ctrl + Shift + R** to open a file explorer window.
 
-[![Location of Add Raster Layer-function in QGIS](./img/vis_007.png){.aligncenter}](./img/vis_007.png)
+[![Location of Add Raster Layer-function in QGIS][![](./img/L08_QGIS_1.png.png)]{.aligncenter}](./img/L08_QGIS_1.png))
 
 In the file explorer window, navigate to the data folder which holds your L8 data. In the meantime, due to preprocessing, you may already have quite a few files in this folder. Click on a tif-container (extension ".tif") and then on **Open**.
 
