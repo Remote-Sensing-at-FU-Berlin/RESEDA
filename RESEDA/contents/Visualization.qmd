@@ -113,11 +113,11 @@ Open the Layer Properties dialog for the image layer by right-clicking on it in 
 
 
 Whoops! You will now see a totally gray rectangle which has no use at all. That is because we did not do any contrast stretching yet. We have to tell QGIS to scale the digital numbers to the whole bitspace (16 bit). In a grayscale visualization, this is black, white and all shades of gray in between. So open the Layer Properties dialog again, choose
-**Stretch to MinMax** as the contrast enhancement method. Unfold the **Load min/max values** section directly below. The **Cumulative count cut** setting helps to eliminate very low and very high digital numbers, e.g., as a result of clouds. The standard data range is set from 2% to 98% of the DNs and can be adapted manually. Now click on the **Load** button and you will notice that values for minimum and maximum values are generated in the fields above:
+**Stretch to MinMax** as the contrast enhancement method. Unfold the **Load min/max values** section directly below. The **Cumulative count cut** setting helps to eliminate very low and very high digital numbers, e.g., as a result of clouds. The standard data range is set from 2% to 98% of the DNs and can be adapted manually. Now click on the **Apply** button and you will notice that values for minimum and maximum values are generated in the fields above:
 
-[![](./img/vis_013.png){.aligncenter}](./img/vis_013.png)
+[![](./img/L08_QGIS_5.png){.aligncenter}](./img/L08_QGIS_5.png)
 
-Confirm everything by clicking on **Apply** or **OK** after that. For the following picture we zoomed closer to the West of Berlin and its surrounding countryside:
+Confirm everything by clicking on **OK** after that. For the following picture we zoomed closer to the West of Berlin and its surrounding countryside:
 
 [![Landsat 8 band 1, West of Berlin, stretched based on global statistics](./img/vis_014.png){.aligncenter}](./img/vis_014.png)
 
