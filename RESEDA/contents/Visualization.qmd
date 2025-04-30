@@ -119,7 +119,7 @@ Whoops! You will now see a totally gray rectangle which has no use at all. That 
 
 Confirm everything by clicking on **OK** after that. For the following picture we zoomed closer to the West of Berlin and its surrounding countryside:
 
-[![Landsat 8 band 1, West of Berlin, stretched based on global statistics](./img/vis_014.png){.aligncenter}](./img/vis_014.png)
+[![Landsat 8 band 1, West of Berlin, stretched based on global statistics](./img/L08_QGIS_6.png){.aligncenter}](./img/L08_QGIS_6.png)
 
 The city looks a bit oversaturated and offers little contrast. So far, we have used the information of the entire scene for contrast stretching. Since possible cloud fields and other edge areas of the scene are included in the calculation of the min/max values, it is advisable to zoom in on a cloud-free area and recalculate the values
 based on the currently visible canvas.
