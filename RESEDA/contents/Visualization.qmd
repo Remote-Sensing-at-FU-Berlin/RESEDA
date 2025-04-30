@@ -95,7 +95,7 @@ As with all operations, there are several ways to open a raster dataset here: Ei
 
 In the file explorer window, navigate to the data folder which holds your L8 data. In the meantime, due to preprocessing, you may already have quite a few files in this folder. Click on a tif-container (extension ".tif") and then on **Open**.
 
-[![Choose a .tif-file for import in the file explorer](./img/vis_009.png){.aligncenter}](./img/vis_009.png)
+[![Choose a .tif-file for import in the file explorer](./img/L08_QGIS_2.png){.aligncenter}](./img/L08_QGIS_2.png)
 
 If you have clicked **Open**, your data shine in full glory for the first time in QGIS! The file name will automatically appear in the Layers panel and the image data will be visible in the Map View:
 
