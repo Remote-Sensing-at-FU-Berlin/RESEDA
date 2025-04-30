@@ -107,7 +107,7 @@ Navigate through your data with the mouse buttons and the mouse wheel, or with t
 ## Singleband Visualization
 
 By default, QGIS maps the first three bands of a given rasterstack to the red, green and blue "slots" to create a color image. But we can also look at all the bands in the L8 layer stack individually.
-Open the Layer Properties dialog for the image layer by right-clicking on it in the Layer Panel and selecting Properties option or simply double-click the image layer. Switch to the Symbology tab and set **Singleband gray** in the drop down menu for the **Render type** option. You can choose the spectral channel you want to visualize by setting **Gray band** directly below. Confirm by clicking OK:
+Open the Layer Properties dialog for the image layer by right-clicking on it in the Layer Panel and selecting Properties option or simply double-click the image layer. Switch to the Symbology tab and set **Singleband gray** in the drop down menu for the **Render type** option. You can choose the spectral channel you want to visualize by setting **Gray band** directly below. Save by clicking Apply and then OK:
 
 [![Choose Singleband gray for the Render type option and press OK](./img/L08_QGIS_4.png){.aligncenter}](./img/L08_QGIS_4.png)
 
