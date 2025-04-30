@@ -99,7 +99,7 @@ In the file explorer window, navigate to the data folder which holds your L8 dat
 
 If you have clicked **Open**, your data shine in full glory for the first time in QGIS! The file name will automatically appear in the Layers panel and the image data will be visible in the Map View:
 
-[![Imported L8 dataset](./img/vis_010.png){.aligncenter}](./img/vis_010.png)
+[![Imported L8 dataset](./img/L08_QGIS_3.png){.aligncenter}](./img/L08_QGIS_3.png)
 
 Navigate through your data with the mouse buttons and the mouse wheel, or with the navigation tools
 ![](./img/vis_011.png){.alignnone} in the toolbar.
