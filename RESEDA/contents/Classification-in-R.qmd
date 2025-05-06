@@ -78,7 +78,7 @@ First of all, open [QGIS](./QGIS.qmd).
 
 There are several ways to open a raster dataset here: Either navigate via the main menu to *Layer* \> *Add Layer* \> *Add Raster Layer...*, or press the corresponding icon ![](./img/vis_008.png){.alignnone .size-full .wp-image-1909 width="24" height="24"} in the toolbar or press the shortcut **Ctrl + Shift + R** to open a file explorer window.
 
-[![Location of Add Raster Layer-function in QGIS](./img/vis_007.png){.aligncenter}](./img/vis_007.png)
+[![Location of Add Raster Layer-function in QGIS](./img/class_01.png){.aligncenter}](./img/class_01.png)
 
 In the file explorer window, navigate to the data folder which holds your L9 data and import a raster dataset. We will use a L9 scene showing Berlin (ID: LC09_L2SP_193023_20240512_20240513_02_T1) from the [L9 Download Exercise](./EarthExplorer-Exercise.qmd){rel="noopener" target="_blank"}. The spatial subset can be downloaded [here](XXX){rel="noopener" target="_blank"} directly:
 
