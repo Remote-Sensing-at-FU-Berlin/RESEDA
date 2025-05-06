@@ -449,7 +449,7 @@ window.Quarto = {
 </section>
 <section id="prepare-samples-for-regression" class="level1 entry-title">
 <h1 class="entry-title">Prepare Samples for Regression</h1>
-<p>We want to create training samples in the form of a data frame – which most regressors in R can handle easily. For this we will have to use a few GIS operations. Fortunately, these can also be done automatically in R, so that the entire workflow do not have to be performed manually again and again for other datasets. Finally, we will utilize the <a href="https://cran.r-project.org/web/packages/raster/raster.pdf" rel="noopener" target="_blank">raster</a> and the <a href="https://cran.rstudio.com/web/packages/rgeos/rgeos.pdf" rel="noopener" target="_blank">rgeos</a> packages for this.</p>
+<p>We want to create training samples in the form of a data frame – which most regressors in R can handle easily. For this we will have to use a few GIS operations. Fortunately, these can also be done automatically in R, so that the entire workflow do not have to be performed manually again and again for other datasets. Finally, we will utilize the terra package for this.</p>
 <p>The complete code is shown below. The shapefile <em>reg_train_data.shp</em> and the imagery <em>LC081930232017060201T1-SC20180613160412_subset.tif</em> can be downloaded <a href="./Regresion-in-R.qmd#prepare-samples-for-regression" rel="noopener" target="_blank">here</a>.<br>
 However, we strongly advise you to have a look at the detailed description in the following.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
