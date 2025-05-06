@@ -209,11 +209,11 @@ writeVector(smp.test, "validation_RF.shp", overwrite = TRUE)
 
 Open QGIS and import your initial image dataset (Landsat 8 scene) and the newly created point shapefile [validation_RF.shp` containing the test samples from the [previous section](./Validate.qmd#create-samples-in-r){rel="noopener" target="_blank"}. Display the image data using a RGB composite of your choice (see section [Visualization in QGIS](./Visualization.qmd)). A good, high-contrast presentation makes it easier to interpret the scene during validation:
 
-[![Landsat 8 scene (RGB 543) and point shapefile containing the test samples](./img/valid_01.png)](./img/valid_01.png)
+[![Landsat 8 scene (RGB 543) and point shapefile containing the test samples](./img/valid_001.png)](./img/valid_001.png)
 
 For visual support, we also want to look at the high-resolution information provided by Google Maps. Starting from the main menu of QGIS, navigate via *Web* \> *OpenLayers Plugin* \> *Google Maps* \> *Google Satellite* to the satellite data from Google:
 
-[![Use the OpenLayers Plugin to import Google Maps imagery to your QGIS projec](./img/valid_02.png){.aligncenter}](./img/valid_02.png)
+[![Use the OpenLayers Plugin to import Google Maps imagery to your QGIS projec](./img/valid_002.png){.aligncenter}](./img/valid_002.png)
 
 If you do not use our VM, you must first install the OpenLayers Plugin manually. See [this guide](http://www.qgistutorials.com/en/docs/using_plugins.html){rel="noopener" target="_blank"} to learn how to install a plugin.\
 Your data may look slightly rotated after the import of external Google Maps imagery. This is because the Google Maps data are subject to a different projection and they can not be reprojected on-the-fly. Because of this, your data will be temporarily adjusted so that everything is on top of each other.\
