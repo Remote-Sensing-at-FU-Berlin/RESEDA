@@ -23,7 +23,7 @@ We want to perform a Support Vector Regression in order to regress proportions o
 
 # Prepare Samples for Regression {#prepare-samples-for-regression .entry-title}
 
-We want to create training samples in the form of a data frame -- which most regressors in R can handle easily. For this we will have to use a few GIS operations. Fortunately, these can also be done automatically in R, so that the entire workflow do not have to be performed manually again and again for other datasets. Finally, we will utilize the terra package for this.
+We want to create training samples in the form of a data frame -- which most regressors in R can handle easily. For this we will have to use a few GIS operations. Fortunately, these can also be done automatically in R, so that the entire workflow do not have to be performed manually again and again for other datasets. Finally, we will utilize the [terra](https://cran.r-project.org/web/packages/terra/terra.pdf) package for this.
 
 The complete code is shown below. The shapefile *reg_train_data.shp* and the imagery *LC081930232017060201T1-SC20180613160412_subset.tif* can be downloaded [here](./Regresion-in-R.qmd#prepare-samples-for-regression){rel="noopener" target="_blank"}.\
 However, we strongly advise you to have a look at the detailed description in the following.
