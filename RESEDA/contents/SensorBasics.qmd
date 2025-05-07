@@ -95,12 +95,12 @@ However, weather satellites are capable of acquiring images of the same area eve
 
 
 
-<div style="text-align: center;">
-  <img src="img/orbit_geostat.png" style="width: 100%; max-width: 600px; height: auto;" />
-  <div style="color: #686868; font-size: small; margin-top: -10px;">
-    Geostationary orbiting satellite
-  </div>
-</div>
+![](./img/orbit_geostat.png){style="display: block; margin: auto; width: 100%; max-width: 600px; height: auto;"}
+
+::: {style="margin: -10px 0 20px 0; text-align: center"}
+<span style="color: #686868; font-size: small;">Geostationary orbiting satellite</span>
+:::
+
 
 
 
