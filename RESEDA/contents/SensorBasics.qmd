@@ -94,7 +94,7 @@ Most satellite sensors have a temporal resolution of about 14 days. Anyway, by u
 However, weather satellites are capable of acquiring images of the same area every 15 minutes. This can be explained by the different orbits of the satellites: geostationary and polar orbiting satellite systems.
 
 <a href="./img/orbit_geostat.png" target="_blank">
-  <img src="./img/orbit_geostat.png" style="display: block; margin: auto; width: 100%; max-width: 600px; height: auto;" />
+  <img src="./img/orbit_geostat.png" style="display: block; margin: auto; width: 70%; max-width: 600px; height: auto;" />
 </a>
 
 ::: {style="margin: -10px 0 20px 0; text-align: center"}
