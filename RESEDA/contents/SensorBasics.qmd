@@ -93,10 +93,10 @@ The temporal resolution of a sensor is simply the distance of time (usually in d
 Most satellite sensors have a temporal resolution of about 14 days. Anyway, by using a satellite constellation of multiple sensors identical in construction the time between two acquisitions can be shortened. For example Planet Labs operates five [RapidEye](https://www.planet.com/products/satellite-imagery/rapid-eye-basic-product/){target="_blank"} satellites, which are synchronized so that they overlap in coverage.\
 However, weather satellites are capable of acquiring images of the same area every 15 minutes. This can be explained by the different orbits of the satellites: geostationary and polar orbiting satellite systems.
 
-[![](./img/orbit_polar.png){.aligncenter width="50%"}](./img/orbit_polar.png){target="_blank"}
+[![](./img/orbit_geostat.png){.aligncenterwidth= "50%"}](./img/orbit_geostat.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
-[Polar orbiting satellite (50% width)]{style="color: #686868;font-size: small"}
+[Geostationary orbiting satellite]{style="color: #686868;font-size: small"}
 :::
 
 
