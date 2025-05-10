@@ -9,7 +9,21 @@
   {
     "listing": "/staff/index.html",
     "items": [
-      "/staff/people2/AnikaSieber.html"
+      "/staff/people/AnikaSieber.html",
+      "/staff/people/ChristopherSchiller.html",
+      "/staff/people/FabianFassnach.html",
+      "/staff/people/FlorianArendholz.html",
+      "/staff/people/FlorianKaterndahl.html",
+      "/staff/people/FlorianPlewnia.html",
+      "/staff/people/HannesBluhm.html",
+      "/staff/people/JonasErnst.html",
+      "/staff/people/JonathanKoltzow.html",
+      "/staff/people/LinaPerez.html",
+      "/staff/people/MarcoBobinger.html",
+      "/staff/people/MarionStellmes.html",
+      "/staff/people/MariusDerenthal.html",
+      "/staff/people/MiriamHerrmann.html",
+      "/staff/people/TamalikaChakraborty.html"
     ]
   }
 ]
