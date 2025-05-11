@@ -2,7 +2,7 @@
 title: "Staff"
 listing:
   contents: people/*.qmd
-  sort: "date desc"
+  sort: "order asc"
   type: grid
   categories: true
   sort-ui: false
