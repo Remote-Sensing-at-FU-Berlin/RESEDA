@@ -1,7 +1,7 @@
 ---
 title: "Marion Stellmes"
 author: "Remote sensing & geoinformatics group"
-date: "12-05-2025"
+date: "2025-12-05"
 categories: [RESEDA]
 image: "Marion1.jpg"
 sidebar: false
@@ -20,7 +20,7 @@ Researcher and lecturer
 **Email:** marion.stellmes\[at\]fu-berlin.de\
 **Office hours:**\
 **Sprechstunde:** wird noch bekanntgegeben\
-**Office hour:**  By appointment via e-mail.
+**Office hour:**  By appointment via e-mail. \
 
 #### Personal Profile
 

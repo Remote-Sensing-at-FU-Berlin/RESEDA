@@ -1,7 +1,7 @@
 ---
 title: "Fabian Fassnach"
 author: "Remote sensing & geoinformatics group"
-date: "12-05-2025"
+date: "2025-12-05"
 categories: [RESEDA]
 image: "Fabian1.png"
 sidebar: false
