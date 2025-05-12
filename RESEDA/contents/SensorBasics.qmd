@@ -234,7 +234,7 @@ The official [product guide](https://www.usgs.gov/land-resources/nli/landsat/lan
 
 Sentinel 2 is a multi-spectral mission consisting of a pair of optical Earth observation satellites: Sentinel-2A and Sentinel-2B, operated by the European Space Agency (ESA) within the framework of the Copernicus program. Sentinel 2 is the European counterpart on Landsat and provides freely available data to study climate change processes.
 
-[![](./img/sentinel2.png){style="display: block; margin-left: auto; margin-right: auto; width="50%"}](./img/sentinel2.png)
+[![](./img/sentinel2.png){.aligncenter width="50%"}](./img/sentinel2.png)
 
 ::: {style="margin: -30px 0 20px 0;text-align: center"}
 [Sentinel 2 satellite]{style="color: #686868;font-size: small"}
