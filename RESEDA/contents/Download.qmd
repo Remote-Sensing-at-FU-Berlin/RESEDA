@@ -107,9 +107,9 @@ EarthExplorer provides four tabs in the search procedure to guide you through yo
 [EarthExplorer search tabs]{style="color: #686868;font-size: small"}
 :::
 
-**1. Enter Search Criteria**: This one helps defining an area of interest (AOI) and a time span in which data will be found. The most straightforward way to define the AOI is to use the integrated Google Maps by typing in an address or place name, e.g., "Berlin, Alexanderplatz", click ![](./img/USGS_showbutton.png){.alignnone .size-full .wp-image-1245 loading="lazy" width="46" height="25"} and choose one of the prompted suggestions. Designations for geographical longitude and latitude of the desired position are also possible, e.g., "52.5194, 13.4067".
+**1. Enter Search Criteria**: This one helps defining an area of interest (AOI) and a time span in which data will be found. The most straightforward way to define the AOI is to use the integrated Google Maps by typing in an address or place name, e.g., "Berlin, Alexanderplatz", click ![](./img/USGS_showbutton.png){.alignnone .size-full .wp-image-1245 loading="lazy" width="46" height="25"} and choose one of the prompted suggestions. Designations for geographical longitude and latitude of the desired position are also possible, e.g., "52.5223, 13.4067".
 
-[![](./img/USGS_015.png){.aligncenter}](./img/USGS_015.png)
+[![](./img/Download_USGS_1.png){.aligncenter}](./img/Download_USGS_1.png)
 
 ::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Defining area of interest (AOI)]{style="color: #686868;font-size: small"}
@@ -117,7 +117,7 @@ EarthExplorer provides four tabs in the search procedure to guide you through yo
 
 Furthermore there is a global notation used for cataloging Landsat data, called Worldwide Reference System (WRS), whereby Landsat 8 follows the WRS-2. This system divides the Earth's surface into the recording geometries of the Landsat acquisitions. There are a [WRS-2 overview map](https://landsat.usgs.gov/sites/default/files/images/tools_wrs2_pr_UTM.gif){target="_blank"} and a [WRS-2 Path/Row to Latitude/Longitude converter](https://landsat.usgs.gov/landsat_acq#convertPathRow){target="_blank"} provided by the USGS. Especially the converter helps to find all possible Path-Row combinations for your AOI, which is 192/024 and 193/23 in our case for Berlin. Entering one of those Path/Row pairs and click ![](./img/USGS_showbutton.png){.alignnone .size-full .wp-image-1245 loading="lazy" width="46" height="25"} to add the adequate center of the Landsat acquisition as a coordinate to your Google Map interface:
 
-[![](./img/USGS_016.png){.aligncenter}](./img/USGS_016.png)
+[![](./img/Download_USGS_2.png){.aligncenter}](./img/Download_USGS_2.png)
 
 ::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Use Path and Row specifications for queries]{style="color: #686868;font-size: small"}
@@ -136,21 +136,21 @@ There are several other ways to define the subject area more precisely, e.g., by
 
 To make your query more concrete, you can define the time span within which you want to get data at the bottom of the Search Criteria tab. Simply set the start date and end date as well as all desired months, in our case june, july and august:
 
-[![](./img/USGS_020.png){.aligncenter}](./img/USGS_020.png)
+[![](./img/Download_USGS_3.png){.aligncenter}](./img/Download_USGS_3.png)
 
 ::: {style="margin: -15px 0 20px 0;text-align: center"}
 [Defining the time span and months of interest]{style="color: #686868;font-size: small"}
 :::
 
-**2. Select Your Data Set(s)**: The Data Set tab categorizes datasets into similar data collections. There is a dynamic tree structure, which allows you to expand/ collapse products by pressing on the plus and minus signs next to it. As you can see, there is a huge amount of data to choose from. Landsat 8 Level-1 data can be found at *Landsat* \> *Landsat Collection 1 Level-1* \> *Landsat 8 OLI/TIRS C1 Level-1*:
+**2. Select Your Data Set(s)**: The Data Set tab categorizes datasets into similar data collections. There is a dynamic tree structure, which allows you to expand/ collapse products by pressing on the plus and minus signs next to it. As you can see, there is a huge amount of data to choose from. Landsat 8 Level-1 data can be found at *Landsat* \> *Landsat Collection 2 Level-1* \> *Landsat 8 OLI/TIRS C2 Level-1*:
 
-[![](./img/USGS_021.png){.aligncenter}](./img/USGS_021.png)
+[![](./img/Download_USGS_4.png){.aligncenter}](./img/Download_USGS_4.png)
 
 ::: {style="margin: -15px 0 20px 0;text-align: center"}
-[Landsat Collection 1 Data Level-1 products]{style="color: #686868;font-size: small"}
+[Landsat Collection 2 Data Level-1 products]{style="color: #686868;font-size: small"}
 :::
 
-Landsat 8 Level-2 data is also available on demand under *Landsat* \> *Landsat Collection 1 Level-2 (On-Demand)* \> *Landsat 8 OLI/TIRS C1 Level-2* (see chapter [Landsat 8](./SensorsBasics.qmd#landsat-8){target="_blank"} for more information).
+Landsat 8 Level-2 data is also available on demand under *Landsat* \> *Landsat Collection 2 Level-2 (On-Demand)* \> *Landsat 8 OLI/TIRS C2Level-2* (see chapter [Landsat 8](./SensorsBasics.qmd#landsat-8){target="_blank"} for more information).
 
 **3. Additional Criteria (Optional)**: This tab helps to further narrow the results of your search query by defining additional search criteria, e.g., the allowed proportion of cloud cover over land, absolute cloud cover, day or night as well as Path/Row restrictions. In addition, you can use the unique product ID (e.g., LC08_L1TP_192023_20170830_20170914_01_T1) to find specific individual scenes. Restrict the Land Cloud Cover to "Less than 10%" for our query:
 
