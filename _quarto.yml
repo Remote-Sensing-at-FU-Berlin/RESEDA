@@ -16,8 +16,8 @@ website:
     
     # your sub-pages
     left:
-      - text: "Projects"
-        href: projects/index.qmd
+      ## text: "Projects"
+        ##href: projects/index.qmd
       - text: "Staff"
         href: staff/index.qmd
       - text: "R Crash Course"
