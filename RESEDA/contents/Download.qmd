@@ -142,7 +142,7 @@ To make your query more concrete, you can define the time span within which you 
 [Defining the time span and months of interest]{style="color: #686868;font-size: small"}
 :::
 
-**Cloud Cover**: After selecting the date range, you can further define your search by providing restricting to a percentage for cloud cover, e.g., 10%:
+**Cloud Cover**: After selecting the date range, you can further define your search by restricting to a percentage for cloud cover, e.g., 10%:
 
 [![](./img/Download_USGS_5.png){.aligncenter}](./img/Download_USGS_5.png)
 
@@ -193,15 +193,23 @@ Three scenes are not much, are they? A cloud cover under 10% is already pretty s
 
 ## 4 Download a Dataset {#Down-sec}
 
-In order to download a single Level-1 scene (see [chapter Landsat 8](./SensorsBasics.qmd#landsat-8){target="_blank"}), click on **Download Options** ![](./img/USGS_027.png) and choose the last item, which should be the largest file (approximately 700-900 MB for Landsat 8):
+In order to download the bundle Level-1 scene (see [chapter Landsat 9](./SensorsBasics.qmd#landsat-8){target="_blank"}), click on **Download Options** ![](./img/USGS_027.png) and choose the **Product Option** dropdown option:
 
-[![](./img/USGS_026.png){.aligncenter}](./img/USGS_026.png)
+[![](./img/Download_USGS_8.png){.aligncenter}](./img/Download_USGS_8.png)
 
 ::: {style="margin: -15px 0 20px 0;text-align: center"}
-[Download options for a Landsat 8 Level-1 scene]{style="color: #686868;font-size: small"}
+[Download options for a Landsat 9 Level-1 scene]{style="color: #686868;font-size: small"}
 :::
 
-You will recieve a zipped file, which contains all spectral bands as georeferenced geotiff-files.
+After clicking on the dropdown option, the **Product Download Options** tab would appear, where the top most option is selected to download the whole bundle:
+
+[![](./img/Download_USGS_9.png){.aligncentre}](./img/Download_USGS_9.png)
+
+::: {style="margin: -15px 0 20px 0;text-align: center"}
+[Product Download options for a Landsat 9 Level-1 scene]{style="color: #686868;font-size: small"}
+:::
+
+You will receive a zipped file, which contains all spectral bands as georeferenced geotiff-files.
 
 Anyway, Level-2 products need a preprocessing and are NOT available for immediate download. In order to acquire Level-2 data, pick Landsat Collection 1 Level-2 in the Data Sets tab (as shown in **2. Select Your Data Set(s)**). In the Result tab you have to use **Order Scene** ![](./img/USGS_028.png){.alignnone .size-full .wp-image-1279 loading="lazy" width="20" height="19"} to put all the wanted scenes in your Item Basket. A number next to your Item Basket shows how many scenes you have chosen:
 
