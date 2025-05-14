@@ -132,8 +132,6 @@ website:
               file: RESEDA/contents/Validate.qmd#Accuracy-Matrix
             - text: "Area Adjusted Accuracies"
               file: RESEDA/contents/Validate.qmd#area-adjusted-accuracies
-            - text: "Completed"
-              file: RESEDA/contents/Regression-in-R.qmd
             
 
 # Don't touch unless you know what you are doing :) ------------
