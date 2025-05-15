@@ -107,7 +107,7 @@ EarthExplorer provides four tabs in the search procedure to guide you through yo
 [EarthExplorer search tabs]{style="color: #686868;font-size: small"}
 :::
 
-**1. Enter Search Criteria**: This one helps defining an area of interest (AOI) and a time span in which data will be found. The most straightforward way to define the AOI is to use the integrated Google Maps by typing in an address or place name, e.g., "Berlin, Alexanderplatz", click ![](./img/USGS_showbutton.png){.alignnone .size-full .wp-image-1245 loading="lazy" width="46" height="25"} and choose one of the prompted suggestions. Designations for geographical longitude and latitude of the desired position are also possible, e.g., "52.5223, 13.4067".
+**1. Enter Search Criteria**: This one helps defining an area of interest (AOI) and a time span in which data will be found. The most straightforward way to define the AOI is to use the integrated Google Maps by typing in an address or place name, e.g., "Berlin, Alexanderplatz", click ![](./img/USGS_showbutton.png){.alignnone .size-full .wp-image-1245 loading="lazy" width="46" height="25"} and choose one of the prompted suggestions. Designations for geographical longitude and latitude of the desired position are also possible, e.g., "52.5223, 13.4132".
 
 [![](./img/Download_USGS_1.png){.aligncenter}](./img/Download_USGS_1.png)
 
@@ -132,7 +132,7 @@ Another easy way to define your AOI is to just left click within the map, which 
 [Polygon defined by four coordinates via left clicking in the Google Map interface]{style="color: #686868;font-size: small"}
 :::
 
-There are several other ways to define the subject area more precisely, e.g., by shapefiles, features, predefined areas, or kmls, but the methods described are effective and usually sufficient. For more detailed descriptions please have a look at the [online help](https://earthexplorer.usgs.gov/documents/helptutorial.pdf){target="_blank"}.
+There are several other ways to define the subject area more precisely, e.g., by shapefiles, features, predefined areas, or kmls, but the methods described are effective and usually sufficient. For more detailed descriptions please have a look at the [online help](https://www.usgs.gov/media/files/earthexplorer-user-interface-help-document){target="_blank"}.
 
 To make your query more concrete, you can define the time span within which you want to get data at the bottom of the Search Criteria tab. Simply set the start date and end date as well as all desired months, in our case june, july and august:
 
