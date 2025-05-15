@@ -17,7 +17,7 @@ In this chapter, the following content awaits you:
 [**Landsat Earthexplorer**](./Download.qmd#landsatEarth) & [**BIG DATA Download**](./Download.qmd#Landsatbigdata)\
 - use USGS EarthExplorer for browsing and downloading Landsat imagery\
 - learn how to download an impressive amount of Landsat data\
-[**Sentinel SciHUB**](./Download.qmd#SentinelScihub) & [**BIG DATA Download**](./Download.qmd#Sentinelbigdata)\
+[**Sentinel SciHUB**](./Download.qmd##SentinelDataspace) & [**BIG DATA Download**](./Download.qmd##SentinelDataspace)\
 - use ESA SciHUB for browsing and downloading Sentinel 1 and 2 imagery\
 - learn how to download an impressive amount of Sentinel data
 :::
