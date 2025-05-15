@@ -407,4 +407,4 @@ For most applications, you should focus on Level-1 data. Additionally, Level-1 p
 -   **Single Look Complex (SLC)** products are represented by a complex (I and Q) magnitude value and therefore contains both amplitude and phase information
 -   **Ground Range Detected (GRD)** products consist of focused SAR data that has been detected, multi-looked and projected to ground range using an Earth ellipsoid model
 
-A more comprehensive explanation of data product is given in the [Sentinel 1 user guide](chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://ftp.itc.nl/pub/Dragon4_Lecturer_2018/ESA%20EEs%20and%20Sentinels%20Brochures%20pdf/Copernicus%20Sentinels%201,2,3/Sentinel-1%20User%20Handbook.pdf){target="_blank"}.
+A more comprehensive explanation of data product is given in the [Sentinel 1 user guide](https://ftp.itc.nl/pub/Dragon4_Lecturer_2018/ESA%20EEs%20and%20Sentinels%20Brochures%20pdf/Copernicus%20Sentinels%201,2,3/Sentinel-1%20User%20Handbook.pdf){target="_blank"}.
