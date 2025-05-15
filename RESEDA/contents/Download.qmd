@@ -193,7 +193,7 @@ Three scenes are not much, are they? A cloud cover under 10% is already pretty s
 
 ## 4 Download a Dataset {#Down-sec}
 
-In order to download the bundle Level-1 scene (see [chapter Landsat 9](./SensorsBasics.qmd#landsat-8){target="_blank"}), click on **Download Options** ![](./img/USGS_027.png) and choose the **Product Option** dropdown option:
+In order to download the bundle Level-1 scene (see [chapter Landsat 8 and Landsat 9](./SensorBasics.qmd#landsat-8){target="_blank"}), click on **Download Options** ![](./img/USGS_027.png) and choose the **Product Option** dropdown option:
 
 [![](./img/Download_USGS_8.png){.aligncenter}](./img/Download_USGS_8.png)
 
