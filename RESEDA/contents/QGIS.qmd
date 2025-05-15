@@ -19,6 +19,6 @@ The layout and appearance of QGIS is highly modifiable. The panels are arranged 
 
 So why do we use QGIS over other geographic information systems? At first it does not cost a penny and supports all types of operating systems. This is why the community is big and there are lots of help and tutorials available online, e.g., the [Official User Manual](https://docs.qgis.org/3.40/en/docs/index.html){target="_blank" rel="noopener"} or internet forums, such as [Stack Exchange](https://gis.stackexchange.com/questions/tagged/qgis){target="_blank" rel="noopener"}. Furthermore it is actively developed by the QGIS Development Team and volunteer developers who regularly release updates and bug fixes.
 
-We will mainly use QGIS in this online course to prepare classification maps accordingly in sections [Visualization](./Visualization.qmd) and [Visualize in QGIS](#visualize-in-qgis)
+We will mainly use QGIS in this online course to prepare classification maps accordingly in sections [Visualization](./Visualization.qmd) and [Visualize in QGIS](./Visualization.qmd#visualize-in-qgis)
 .
 
