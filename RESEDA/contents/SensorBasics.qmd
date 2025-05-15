@@ -319,7 +319,7 @@ And again, Sentinel 2 data goes through multiples processing levels:
 -   Level-1B: resampling, conversion to reflectances and cloud/water/land mask generation
 
 More information on pre-processing is given in the [Sentinel 2 User Handbook](https://sentinel.esa.int/documents/247904/685211/Sentinel-2_User_Handbook){target="_blank"}.\
-Anyway, Level-0, Level-1A and Level-1B products are PDGS-internal products not made available to users! When browsing the [ESA SciHUB archive](./Download.qmd#SentinelScihub){target="_blank"}, you will be able to choose from Level-1C and Level-2A products:
+Anyway, Level-0, Level-1A and Level-1B products are PDGS-internal products not made available to users! When browsing the [ESA SciHUB archive](./Download.qmd##SentinelDataspace){target="_blank"}, you will be able to choose from Level-1C and Level-2A products:
 
 **Level-1C** products are radiometric and geometric corrected top of atmosphere (TOA) data. This corrections include orthorectification and spatial registration on the UTM/WGS84 system with sub-pixel accuracy.
 Level-1C imagary is delivered in granules of 100×100 km of approximately 600-800 MB each. The individual spectral bands are present in their respective resolution (10, 20 and 60m), which is why resampling to a uniform geometric resolution is often necessary for further processing.
