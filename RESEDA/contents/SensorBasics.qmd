@@ -35,7 +35,7 @@ Unfortunately, there is one big limitation of passive systems: Due to the fact t
 :::
 
 **Active sensors** emit their own electromagnetic radiation to illuminate the object they observe.\
-Active sensors send a pulse of energy at the speed of light to the Earth's surface, that is reflected, refracted or scattered by the objects on the surface and the atmosphere. The recieved backscatter then gives information on land surface characteristics. There are many types of active sensors out there: RADAR (Radio Detection and Ranging), Scatterometer, LiDAR (Light Detection and Ranging), and Laser Altimeter. We will take a closer look at Sentintel 1, a SAR system (**S**ynthetic **A**perture **R**ADAR), which is an imaging RADAR type working with microwaves, in the upcoming [SAR chapters](./SAR-Data.qmd).\
+Active sensors send a pulse of energy at the speed of light to the Earth's surface, that is reflected, refracted or scattered by the objects on the surface and the atmosphere. The recieved backscatter then gives information on land surface characteristics. There are many types of active sensors out there: RADAR (Radio Detection and Ranging), Scatterometer, LiDAR (Light Detection and Ranging), and Laser Altimeter. We will take a closer look at Sentintel 1, a SAR system (**S**ynthetic **A**perture **R**ADAR), which is an imaging RADAR type working with microwaves.
 Images of active sensors are comparatively difficult to interpret: A SAR signal contains amplitude and phase information. Amplitude is the strength of the RADAR response and phase is the fraction of a full sine curve. In order to generate beautiful images out of these information, a more extensive preprocessing is often necessary, which we will do in SNAP.\
 Since no natural light source is required, active sensors are capable to emit and capture their signals regardless of daytime. In addition, many systems operate in the electromagnetic domain of microwaves, so their wavelength is large enough to be unaffected by clouds and other atmospheric distortions.
 
@@ -72,7 +72,7 @@ Multispectral systems generally refers to 3 to 15 bands, which are usually locat
 [Sentinel 2 image, airport Schönefeld, Berlin; left: true color composite (RGB 4,3,2), right: pseudo-color composite (RGB 8,4,3)]{style="color: #686868;font-size: small"}
 :::
 
-Hyperspectral systems (spectrometer) offer hundreds or thousands of bands with narrow bandwidths. A spectral resolution this high gives ability to distinguish minor differences of land cover characteristics, which in turn provides ability to address issues that could not be solved with multispectral data, e.g., mineral or building material classifications. There are some airborne spectrometers (AVIRIS, HySPEX, HyMAP) and to date only one operational satellite: [Hyperion](https://eo1.usgs.gov/sensors/hyperion){target="_blank"}. Anyway, more spaceborne systems are already in the starting blocks, e.g., [EnMAP](https://www.dlr.de/dlr/desktopdefault.aspx/tabid-10379/567_read-421/#/gallery/2671){target="_blank"} and [HyspIRI](https://hyspiri.jpl.nasa.gov/){target="_blank"}.
+Hyperspectral systems (spectrometer) offer hundreds or thousands of bands with narrow bandwidths. A spectral resolution this high gives ability to distinguish minor differences of land cover characteristics, which in turn provides ability to address issues that could not be solved with multispectral data, e.g., mineral or building material classifications. There are some airborne spectrometers (AVIRIS, HySPEX, HyMAP) and to date only one operational satellite: [Hyperion](https://www.usgs.gov/centers/eros/science/usgs-eros-archive-earth-observing-one-eo-1-hyperion){target="_blank"}. Anyway, more spaceborne systems are already in the starting blocks, e.g., [EnMAP]https://www.dlr.de/de/forschung-und-transfer/projekte-und-missionen/enmap){target="_blank"} and [HyspIRI](https://hyspiri.jpl.nasa.gov/){target="_blank"}.
 
 ### 3. Radiometric Resolution
 
@@ -90,7 +90,7 @@ Human perception is barely sufficient to detect gray-scale differences beyond 8 
 ### 4. Temporal Resolution
 
 The temporal resolution of a sensor is simply the distance of time (usually in days) between two image acquisitions of the same area. A high temporal resolution thus indicates a smaller time window between two images, which allows a better observation of temporally highly dynamic processes on the Earth's surface, e.g., weather or active fire monitoring.\
-Most satellite sensors have a temporal resolution of about 14 days. Anyway, by using a satellite constellation of multiple sensors identical in construction the time between two acquisitions can be shortened. For example Planet Labs operates five [RapidEye](https://www.planet.com/products/satellite-imagery/rapid-eye-basic-product/){target="_blank"} satellites, which are synchronized so that they overlap in coverage.\
+Most satellite sensors have a temporal resolution of about 14 days. Anyway, by using a satellite constellation of multiple sensors identical in construction the time between two acquisitions can be shortened. For example Planet Labs operates five [RapidEye](https://www.planet.com/products/rapideye/){target="_blank"} satellites, which are synchronized so that they overlap in coverage.\
 However, weather satellites are capable of acquiring images of the same area every 15 minutes. This can be explained by the different orbits of the satellites: geostationary and polar orbiting satellite systems.
 
 [![](./img/orbit_geostat.png){.aligncenter width="50%"}](./img/orbit_geostat.png)
@@ -158,7 +158,7 @@ Each of these channels has been designed to perform certain tasks, e.g., retriev
 | [11]{style="color: white"} | TIR-2        | 11.500 -- 12.510    | 100             | TIRS       |
 +----------------------------+--------------+---------------------+-----------------+------------+
 
-In the following a profile with the most important characteristics of the sensor is given. For much more detailed information, please refer to the [Landsat 8 User Guide](https://landsat.usgs.gov/sites/default/files/documents/Landsat8DataUsersHandbook.pdf){target="_blank" rel="noopener"}!
+In the following a profile with the most important characteristics of the sensor is given. For much more detailed information, please refer to the [Landsat 8 User Guide](https://www.usgs.gov/landsat-missions/landsat-8-data-users-handbook){target="_blank" rel="noopener"}!
 
 +:----------------+:------------------------------------------------------------------------------------------------------+
 | **geometric**   | -   OLI multispectral bands 1-7,9: 30 meters                                                          |
