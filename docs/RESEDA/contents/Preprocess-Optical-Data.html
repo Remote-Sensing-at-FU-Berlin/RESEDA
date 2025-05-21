@@ -380,7 +380,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#landsat-8-preprocessing" id="toc-landsat-8-preprocessing" class="nav-link" data-scroll-target="#landsat-8-preprocessing">Landsat 8 and 9 Preprocessing</a>
   <ul class="collapse">
-  <li><a href="#landsat-8-bulk-preprocessing" id="toc-landsat-8-bulk-preprocessing" class="nav-link" data-scroll-target="#landsat-8-bulk-preprocessing">Landsat 8 Bulk Preprocessing</a></li>
+  <li><a href="#landsat-8-bulk-preprocessing" id="toc-landsat-8-bulk-preprocessing" class="nav-link" data-scroll-target="#landsat-8-bulk-preprocessing">Landsat 8 &amp; Landsat 9 Bulk Preprocessing</a></li>
   </ul></li>
   <li><a href="#sentinel-2-preprocessing" id="toc-sentinel-2-preprocessing" class="nav-link" data-scroll-target="#sentinel-2-preprocessing">Sentinel 2 Preprocessing</a>
   <ul class="collapse">
@@ -526,10 +526,10 @@ First, we can now delete the folder we created by uncompressing your Landsat dat
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the working directory to the specified folder path</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"P:/ath/to/your/folder"</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:/Path/to/your/folder"</span>)</span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the product filename</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>product <span class="ot">&lt;-</span> <span class="st">"LC09_L2SP_193023_20240512_20240513_02_T1.tar"</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>product <span class="ot">&lt;-</span> <span class="st">"LC09_L2SP_193023_20250328_20250329_02_T1.tar"</span></span>
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the product name by removing the file extension (.tar) from the product filename</span></span>
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>productname <span class="ot">&lt;-</span> <span class="fu">substr</span>(product, <span class="dv">1</span>, <span class="fu">nchar</span>(product) <span class="sc">-</span> <span class="dv">4</span>)</span>
@@ -570,29 +570,29 @@ First, we can now delete the folder we created by uncompressing your Landsat dat
 <h4 class="anchored" data-anchor-id="section"></h4>
 </section>
 <section id="landsat-8-bulk-preprocessing" class="level3 entry-title">
-<h3 class="entry-title anchored" data-anchor-id="landsat-8-bulk-preprocessing">Landsat 8 Bulk Preprocessing</h3>
+<h3 class="entry-title anchored" data-anchor-id="landsat-8-bulk-preprocessing">Landsat 8 &amp; Landsat 9 Bulk Preprocessing</h3>
 <p>Imagine you have 50 Landsat 8 records. Of course, it would be very tedious to modify and start the script 50 times. That’s why there is now an automated solution for any number of data products!</p>
 <p>Again, the prerequisite is that you have the L8 Level-2 datasets downloaded to a folder, in which all of your Landsat 8 scenes are stored – please, no other files! Of course you should replace the file path according to your storage location and create a character variable:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pathToFiles <span class="ot">&lt;-</span> <span class="st">"/media/sf_exchange/landsatdata"</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(pathToFiles)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "LC081920232017083001T1-SC20180613163601.tar.gz"</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [2] "LC081930232017060201T1-SC20180613160412.tar.gz"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [2] "LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>You can check the files inside <code>pathToFiles</code> with the <code>dir()</code> function. It should list all your Landsat 8 files. If that is not the case, make sure you did not mess up the file path name.<br>
 We can write all the products that exist in the folder in a vector <code>products</code> using the <code>list.files()</code> function:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>products <span class="ot">&lt;-</span> <span class="fu">list.files</span>(pathToFiles, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>products</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "/media/sf_exchange/landsatdata/LC081920232017083001T1-SC20180613163601.tar.gz"</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [2] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tar.gz"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [2] "/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>To go through all the steps we saw in the previous section above for each of the scenes in <code>products</code>, we use a for-loop. Conceptually, the for-loop does the following:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> products) {</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">"do all the preprocessing stuff"</span>)</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "/media/sf_exchange/landsatdata/LC081920232017083001T1-SC20180613163601.tar.gz"</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"</span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "do all the preprocessing stuff"</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tar.gz"</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"</span></span>
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "do all the preprocessing stuff"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>For all landsat scenes <code>i</code> in <code>products</code>, it will do all the preprocessing stuff. The variable, or iterator, <code>i</code> is just a placeholder, which is sequentially occupied with the file names of the Landsat products.<br>
 Thus, you can just imagine any filename (as a string) every time you see the iterator i.<br>
