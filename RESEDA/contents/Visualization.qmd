@@ -149,7 +149,7 @@ Look at the forest areas in the southwest of the clipping (Berlin, Grunewald). T
 
 # Visualize in R {#visualize-in-r}
 
-Also for this chapter it is a requirement that you own at least one Landsat 8 scene. We will visualize the Landsat 8 Level-2 scene (ID: LC09_L2SP_193023_20250328_20250329_02_T1) in R in this section, which you may have already downloaded in our [EarthExplorer download exercise](./Download.qmd#EarthExplorer). You can download [the preprocessed file here](https://box.fu-berlin.de/s/Jm5TrAj3QzRTp8n){target="_blank" rel="noopener"}.
+Also for this chapter it is a requirement that you own at least one Landsat 9 scene. We will visualize the Landsat 8 Level-2 scene (ID: LC09_L2SP_193023_20250328_20250329_02_T1) in R in this section, which you may have already downloaded in our [EarthExplorer download exercise](./Download.qmd#EarthExplorer). You can download [the preprocessed file here](https://box.fu-berlin.de/s/Jm5TrAj3QzRTp8n){target="_blank" rel="noopener"}.
 
 When you are ready, open R-Studio.
 
@@ -169,7 +169,7 @@ The raster package offers various structures for importing data, depending on ho
 During preprocessing (chapter [Preprocess](./Preprocess.qmd)), we saved the individual bands of the Landsat 8 scenes in a single geotiff-container. So we created one file with several bands, so we need the `brick()` function for an import into R:
 
 ``` r
-path <- "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tif"
+path <- "/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1.tif"
 
 img <- rast(path)
 
@@ -234,12 +234,12 @@ plotRGB(img,
 Make your spatial subset permament by writing the trimmed image as a new file to your hard drive with `writeRaster`. This is especially useful if you want to test a classification workflow: small data sets will cheer up your work in QGIS, in R, as well as in all other software solutions.
 
 ``` r
-img <- rast("/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tif")
+img <- rast("/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1.tif")
 
 img_subset <- crop(img, ext(369800, 400700, 5812400, 5827500))
 
 writeRaster(img_subset,
-            filename = "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412_subset.tif", overwrite = TRUE)
+            filename = "/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1_subset.tif", overwrite = TRUE)
 
 ```
 
