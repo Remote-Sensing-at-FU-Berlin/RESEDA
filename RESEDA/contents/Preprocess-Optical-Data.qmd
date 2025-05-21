@@ -135,18 +135,18 @@ bands <- c(grep('SR_B1', productfiles, value=TRUE),
            ) 
 
 bands
-## [1] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B1.TIF"
-## [2] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B2.TIF"
-## [3] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B3.TIF"
-## [4] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B4.TIF"
-## [5] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B5.TIF"
-## [6] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B6.TIF"
-## [7] "LC09_L2SP_193023_20240512_20240513_02_T1/LC09_L2SP_193023_20240512_20240513_02_T1_SR_B7.TIF"
+## [1] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_SR_B1.TIF"
+## [2] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_SR_B2.TIF"
+## [3] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_SR_B3.TIF"
+## [4] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_SR_B4.TIF"
+## [5] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_SR_B5.TIF"
+## [6] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_SR_B6.TIF"
+## [7] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_SR_B7.TIF"
 ```
 
 The `grep() ` function searches for the string, which is given as the first argument, e.g., 'SR_B1', in the vector of strings (2nd argument). Normally, when the function finds a match, it only returns the position of this find in the vector `productfiles `. By setting the argument `value=TRUE ` we can write out the content of the vector at the respective position instead. By doing so, we create an vector `bands ` containing all file paths via the standard combine-function `c() `.
 
-Now we can create a raster stack based on the vector of bands in the variable `bands`. In order to do so, we use the function `rast() `, which is part of the terra-library we loaded in the beginning! This [raster stack function](https://www.rdocumentation.org/packages/terra/versions/0.8-6/topics/rast){target="_blank"} creates a raster stack object based on a list of filenames. You will learn more about the beauty of raster stacks in the [chapter Visualization](./Viusalization.qmd).
+Now we can create a raster stack based on the vector of bands in the variable `bands`. In order to do so, we use the function `rast() `, which is part of the terra-library we loaded in the beginning! This [raster stack function](https://www.rdocumentation.org/packages/terra/versions/0.8-6/topics/rast){target="_blank"} creates a raster stack object based on a list of filenames. You will learn more about the beauty of raster stacks in the [chapter Visualization](./Viusalization.qmd##visualization).
 
 ``` r
 rasterstack <- rast(bands)
