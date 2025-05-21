@@ -118,7 +118,7 @@ productfiles
 ##[22] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_ST_URAD.TIF"
 ```
 
-These are all 22 files that come with a Level-2 product including bands regarding thermal observations (see [Landsat 8 and Landsat-9]((./SensorBasics.qmd##landsat-8)) for more information). As a double check, you can have a look at the identical files in your file explorer:
+These are all 22 files that come with a Level-2 product including bands regarding thermal observations (see [Landsat 8 and Landsat-9]((./SensorBasics.qmd#landsat-8)) for more information). As a double check, you can have a look at the identical files in your file explorer:
 
 [![](./img/preproc_01.png)](./img/preproc_01.png)
 
