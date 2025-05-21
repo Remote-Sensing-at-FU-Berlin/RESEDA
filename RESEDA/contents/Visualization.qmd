@@ -137,19 +137,19 @@ And again, open Layer Properties dialog for the L8 image layer by right-clicking
 
 The resulting image is quite appealing, isn't it? Feel free to play around with other band combinations!
 
-[![Landsat 8 true color composite (RGB: 4,3,2)](./img/vis_017.png){.aligncenter}](./img/vis_017.png)
+[![Landsat 9 true color composite (RGB: 4,3,2)](./img/vis_017.png){.aligncenter}](./img/vis_017.png)
 
-[![Landsat 8 pseudocolor composite (RGB: 5,4,3)](./img/vis_018.png){.aligncenter}](./img/vis_018.png)
+[![Landsat 9 pseudocolor composite (RGB: 5,4,3)](./img/vis_018.png){.aligncenter}](./img/vis_018.png)
 
-[![Landsat 8 pseudocolor composite (RGB: 6,5,3)](./img/vis_019.png){.aligncenter}](./img/vis_019.png)
+[![Landsat 9 pseudocolor composite (RGB: 6,5,3)](./img/vis_019.png){.aligncenter}](./img/vis_019.png)
 
-[![Landsat 8 pseudocolor composite (RGB: 5,7,2)](./img/vis_020.png){.aligncenter}](./img/vis_020.png)
+[![Landsat 9 pseudocolor composite (RGB: 5,7,2)](./img/vis_020.png){.aligncenter}](./img/vis_020.png)
 
 Look at the forest areas in the southwest of the clipping (Berlin, Grunewald). The trees look so much more differentiated in the NIR and MIR bands -- what an information gain!
 
 # Visualize in R {#visualize-in-r}
 
-Also for this chapter it is a requirement that you own at least one Landsat 8 scene. We will visualize the Landsat 8 Level-2 scene (ID: LC08_L1TP_193023_20170602_20170615_01_T1) in R in this section, which you may have already downloaded in our [EarthExplorer download exercise](./Download.qmd#EarthExplorer). You can download [the preprocessed file here](https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FLandsat_Data&files=LC081930232017060201T1-SC20180613160412.tif){target="_blank" rel="noopener"}.
+Also for this chapter it is a requirement that you own at least one Landsat 8 scene. We will visualize the Landsat 8 Level-2 scene (ID: LC09_L2SP_193023_20250328_20250329_02_T1) in R in this section, which you may have already downloaded in our [EarthExplorer download exercise](./Download.qmd#EarthExplorer). You can download [the preprocessed file here](https://box.fu-berlin.de/s/Jm5TrAj3QzRTp8n){target="_blank" rel="noopener"}.
 
 When you are ready, open R-Studio.
 
