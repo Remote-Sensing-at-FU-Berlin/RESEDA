@@ -195,10 +195,10 @@ library(terra)
 library(sf)
 
 # Set the working directory to the specified folder path
-setwd("P:/ath/to/your/folder")
+setwd("E:/Path/to/your/folder")
 
 # Define the product filename
-product <- "LC09_L2SP_193023_20240512_20240513_02_T1.tar"
+product <- "LC09_L2SP_193023_20250328_20250329_02_T1.tar"
 
 # Create the product name by removing the file extension (.tar) from the product filename
 productname <- substr(product, 1, nchar(product) - 4)
@@ -239,7 +239,7 @@ gdal_addo(paste0(productname, ".tif"),  overviews = c(2, 4, 8, 16))
 Learn how to automate things for many datasets in the next section!
 
 ####
-### Landsat 8 Bulk Preprocessing {#landsat-8-bulk-preprocessing .entry-title}
+### Landsat 8 & Landsat 9 Bulk Preprocessing {#landsat-8-bulk-preprocessing .entry-title}
 
 Imagine you have 50 Landsat 8 records. Of course, it would be very tedious to modify and start the script 50 times. That's why there is now an automated solution for any number of data products!
 
@@ -249,8 +249,8 @@ Again, the prerequisite is that you have the L8 Level-2 datasets downloaded to a
 pathToFiles <- "/media/sf_exchange/landsatdata"
 
 dir(pathToFiles)
-## [1] "LC081920232017083001T1-SC20180613163601.tar.gz"
-## [2] "LC081930232017060201T1-SC20180613160412.tar.gz"
+## [1] "LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"
+## [2] "LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"
 ```
 
 You can check the files inside `pathToFiles ` with the `dir() ` function. It should list all your Landsat 8 files. If that is not the case, make sure you did not mess up the file path name.\
@@ -260,8 +260,8 @@ We can write all the products that exist in the folder in a vector `products ` u
 products <- list.files(pathToFiles, full.names = TRUE)
 
 products
-## [1] "/media/sf_exchange/landsatdata/LC081920232017083001T1-SC20180613163601.tar.gz"
-## [2] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tar.gz"
+## [1] "/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"
+## [2] "/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"
 ```
 
 To go through all the steps we saw in the previous section above for each of the scenes in `products `, we use a for-loop. Conceptually, the for-loop does the following:
@@ -271,9 +271,9 @@ for (i in products) {
   print(i)
   print("do all the preprocessing stuff")
 }
-## [1] "/media/sf_exchange/landsatdata/LC081920232017083001T1-SC20180613163601.tar.gz"
+## [1] "/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"
 ## [1] "do all the preprocessing stuff"
-## [1] "/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tar.gz"
+## [1] "/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"
 ## [1] "do all the preprocessing stuff"
 ```
 
