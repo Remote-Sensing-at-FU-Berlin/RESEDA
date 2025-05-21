@@ -619,7 +619,7 @@ However, the complete range of theoretically possible digital numbers is rarely 
 </section>
 <section id="visualize-in-r" class="level1">
 <h1>Visualize in R</h1>
-<p>Also for this chapter it is a requirement that you own at least one Landsat 8 scene. We will visualize the Landsat 8 Level-2 scene (ID: LC09_L2SP_193023_20250328_20250329_02_T1) in R in this section, which you may have already downloaded in our <a href="../../RESEDA/contents/Download.html#EarthExplorer">EarthExplorer download exercise</a>. You can download <a href="https://box.fu-berlin.de/s/Jm5TrAj3QzRTp8n" target="_blank" rel="noopener">the preprocessed file here</a>.</p>
+<p>Also for this chapter it is a requirement that you own at least one Landsat 9 scene. We will visualize the Landsat 8 Level-2 scene (ID: LC09_L2SP_193023_20250328_20250329_02_T1) in R in this section, which you may have already downloaded in our <a href="../../RESEDA/contents/Download.html#EarthExplorer">EarthExplorer download exercise</a>. You can download <a href="https://box.fu-berlin.de/s/Jm5TrAj3QzRTp8n" target="_blank" rel="noopener">the preprocessed file here</a>.</p>
 <p>When you are ready, open R-Studio.</p>
 <p>We need the raster package again, so import it into your current working session first:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
@@ -631,7 +631,7 @@ However, the complete range of theoretically possible digital numbers is rarely 
 <li><code>brick()</code> – one file, multiple bands</li>
 </ul>
 <p>During preprocessing (chapter <a href="../../RESEDA/contents/Preprocess.html">Preprocess</a>), we saved the individual bands of the Landsat 8 scenes in a single geotiff-container. So we created one file with several bands, so we need the <code>brick()</code> function for an import into R:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">"/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tif"</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">"/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1.tif"</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">rast</span>(path)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -674,12 +674,12 @@ We can also do a spatial subsetting here by specifying an “Extent”-object us
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><a href="./img/vis_022.png"><img src="./img/vis_022.png" class="aligncenter img-fluid"></a></p>
 <p>Make your spatial subset permament by writing the trimmed image as a new file to your hard drive with <code>writeRaster</code>. This is especially useful if you want to test a classification workflow: small data sets will cheer up your work in QGIS, in R, as well as in all other software solutions.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412.tif"</span>)</span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1.tif"</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>img_subset <span class="ot">&lt;-</span> <span class="fu">crop</span>(img, <span class="fu">ext</span>(<span class="dv">369800</span>, <span class="dv">400700</span>, <span class="dv">5812400</span>, <span class="dv">5827500</span>))</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(img_subset,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">filename =</span> <span class="st">"/media/sf_exchange/landsatdata/LC081930232017060201T1-SC20180613160412_subset.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">filename =</span> <span class="st">"/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1_subset.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Of course, it is also possible to examine the underlying data distribution in more detail. Therefore, we can look at a histogram of a specific band with the function <code>hist()</code>:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>green <span class="ot">&lt;-</span> img_subset[[<span class="dv">3</span>]]</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
