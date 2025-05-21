@@ -82,7 +82,7 @@ The image now takes on the full dynamic range and subjectively looks better to t
 
 # Visualize in QGIS {#visualize-in-qgis}
 
-The prerequisite for this chapter is that you have [downloaded](./Download.qmd#EarthExplorer) and [preprocessed](./Preprocess.qmd) at least one Landsat 8 scene. If you completed the [EarthExplorer exercise](./Download.qmd#EarthExplorer) successfully, you should already own the Landsat 9 Level-2 scene of March 28, 2025 (ID: LC09_L2SP_193023_20250328_20250329_02_T1). You can download [the preprocessed scene here](https://box.fu-berlin.de/s/A8QJEq59J33WDko). We will use this image to explain the basic visualization tools in QGIS.
+The prerequisite for this chapter is that you have [downloaded](./Download.qmd#EarthExplorer) and [preprocessed](./Preprocess.qmd) at least one Landsat 8 scene. If you completed the [EarthExplorer exercise](./Download.qmd#EarthExplorer) successfully, you should already own the Landsat 9 Level-2 scene of March 28, 2025 (ID: LC09_L2SP_193023_20250328_20250329_02_T1). You can download [the preprocessed scene here](https://box.fu-berlin.de/s/Jm5TrAj3QzRTp8n). We will use this image to explain the basic visualization tools in QGIS.
 
 ## Import a Dataset
 
