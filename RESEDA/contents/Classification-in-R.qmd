@@ -493,7 +493,7 @@ varImpPlot(rfmodel)
 
 [![](./img/cla_002.png)](./img/cla_002.png)
 
-The [variable importance](./Machine-Learning-Basics.qmd#random-forest){rel="noopener" target="_blank"} shows the most significant or important features for the classification, which are band 5 and 6 in this case. For details of those metrics, please refer to the [Random Forest Section](./Machine-Learning-Basics.qmd#random-forest){rel="noopener" target="_blank"}. However, it is interesting to note that the most important bands also provide the largest spectral differences between the classes [in the previous section](./Classification.qmd#prepare-samples){rel="noopener" target="_blank"}.
+The [variable importance](./Machine-Learning-Basics.qmd#random-forest){rel="noopener" target="_blank"} shows the most significant or important features for the classification, which are band 5 and 6 in this case. For details of those metrics, please refer to the [Random Forest Section](./Machine-Learning-Basics.qmd#random-forest){rel="noopener" target="_blank"}. However, it is interesting to note that the most important bands also provide the largest spectral differences between the classes [in the previous section](./Classification-in-R.qmd#prepare-samples-in-r){rel="noopener" target="_blank"}.
 
 Additionally, you can plot the RF model itself, which shows you the relationship between [OOB Error](./Machine-Learning-Basics.qmd#random-forest){rel="noopener" target="_blank"} and the number of trees used. We can color the lines by passing a vector of [hex-colors](https://en.wikipedia.org/wiki/Web_colors){rel="noopener" target="_blank"} whose length equals the number of classes + 1 -- the first color is the average OOB line, which is also plotted automatically:
 
