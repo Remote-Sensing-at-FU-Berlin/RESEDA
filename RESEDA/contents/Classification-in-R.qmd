@@ -80,7 +80,7 @@ There are several ways to open a raster dataset here: Either navigate via the ma
 
 [![Location of Add Raster Layer-function in QGIS](./img/class_01.png){.aligncenter}](./img/class_01.png)
 
-In the file explorer window, navigate to the data folder which holds your L9 data and import a raster dataset. We will use a L9 scene showing Berlin (ID: LC09_L2SP_193023_20240512_20240513_02_T1) from the [L9 Download Exercise](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Download.html#EarthExplorer){rel="noopener" target="_blank"}. The spatial subset can be downloaded [here](XXX){rel="noopener" target="_blank"} directly:
+In the file explorer window, navigate to the data folder which holds your L9 data and import a raster dataset. We will use a L9 scene showing Berlin (ID: LC09_L2SP_193023_20250328_20250329_02_T1) from the [L9 Download Exercise](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Download.html#EarthExplorer){rel="noopener" target="_blank"}. The spatial subset can be downloaded [here](https://box.fu-berlin.de/s/jKgt89pXJEmx2LE){ target="_blank"} directly:
 
 [![](./img/cla_009.png){.aligncenter}](./img/cla_009.png)
 
