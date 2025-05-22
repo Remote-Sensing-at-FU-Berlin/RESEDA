@@ -218,7 +218,7 @@ plotRGB(img, r = 4, g = 3, b = 2, stretch = "lin")
 plot(shp, col="red", add=TRUE)
 ```
 
-[![](./img/cla_001.png){.aligncenter}(./img/cla_001.png){.fancybox .image}
+[![](./img/cla_001.png){.aligncenter}](./img/cla_001.png)
 
 If you followed this course in the [previous section](./Classification-in-R.qmd#sample-in-qgis), your shapefile should provide an attribute called "classes", which includes your target classes as strings, e.g., "water" or "urban". We will later turn this column into the [factor](../../R-Crash-Course/index.qmd) data type because classifiers can only work with integer values instead of words like "water" or "urban". When converting to factors, strings are sorted alphabetically and numbered consecutively. In order to be able to read the classification image at the end, you should make a note of your classification key:
 
