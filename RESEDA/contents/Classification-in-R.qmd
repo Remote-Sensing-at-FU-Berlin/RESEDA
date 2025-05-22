@@ -41,7 +41,7 @@ Unfortunately, those just can not be answered directly. The amount of training d
 -   complexity of your classification problem (number and similarity of  target classes, ...) &
 -   complexity of your classification algorithm (number of parameters or weights, RF, SVM, ANN, ML, ...).
 
-####Examine links! Sampling data in machine learning is a science in itself, which is why there is a wealth of scientific publications about it ([Curran & Williamson 1986](https://www.sciencedirect.com/science/article/pii/003442578690012X){rel="noopener" target="_blank"}, [Figueroa et al. 2012](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3307431/pdf/1472-6947-12-8.pdf){rel="noopener" target="_blank"}) and even entire books ([Marchetti et al. 2006](https://books.google.de/books?id=uspzLjVWNgMC&printsec=frontcover&hl=de&source=gbs_ge_summary_r&cad=0#v=onepage&q&f=false){rel="noopener" target="_blank"}, [Hastie et al. 2017](https://books.google.de/books?id=tVIjmNS3Ob8C&printsec=frontcover&dq=The+Elements+of+Statistical+Learning:+Data+Mining,+Inference,+and+Prediction,+Second+Edition&hl=de&sa=X&ved=0ahUKEwiylJDL76XcAhWDZVAKHdG1CLAQ6AEIKDAA#v=onepage&q=The%20Elements%20of%20Statistical%20Learning%3A%20Data%20Mining%2C%20Inference%2C%20and%20Prediction%2C%20Second%20Edition&f=false){rel="noopener" target="_blank"}).
+Examine links! Sampling data in machine learning is a science in itself, which is why there is a wealth of scientific publications about it ([Curran & Williamson 1986](https://www.sciencedirect.com/science/article/pii/003442578690012X){rel="noopener" target="_blank"}, [Figueroa et al. 2012](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3307431/pdf/1472-6947-12-8.pdf){rel="noopener" target="_blank"}) and even entire books ([Marchetti et al. 2006](https://books.google.de/books?id=uspzLjVWNgMC&printsec=frontcover&hl=de&source=gbs_ge_summary_r&cad=0#v=onepage&q&f=false){rel="noopener" target="_blank"}, [Hastie et al. 2017](https://books.google.de/books?id=tVIjmNS3Ob8C&printsec=frontcover&dq=The+Elements+of+Statistical+Learning:+Data+Mining,+Inference,+and+Prediction,+Second+Edition&hl=de&sa=X&ved=0ahUKEwiylJDL76XcAhWDZVAKHdG1CLAQ6AEIKDAA#v=onepage&q=The%20Elements%20of%20Statistical%20Learning%3A%20Data%20Mining%2C%20Inference%2C%20and%20Prediction%2C%20Second%20Edition&f=false){rel="noopener" target="_blank"}).
 
 Fine, so far that is not much of a help...
 
@@ -80,7 +80,7 @@ There are several ways to open a raster dataset here: Either navigate via the ma
 
 [![Location of Add Raster Layer-function in QGIS](./img/class_01.png){.aligncenter}](./img/class_01.png)
 
-In the file explorer window, navigate to the data folder which holds your L9 data and import a raster dataset. We will use a L9 scene showing Berlin (ID: LC09_L2SP_193023_20240512_20240513_02_T1) from the [L9 Download Exercise](./EarthExplorer-Exercise.qmd){rel="noopener" target="_blank"}. The spatial subset can be downloaded [here](XXX){rel="noopener" target="_blank"} directly:
+In the file explorer window, navigate to the data folder which holds your L9 data and import a raster dataset. We will use a L9 scene showing Berlin (ID: LC09_L2SP_193023_20240512_20240513_02_T1) from the [L9 Download Exercise](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Download.html#EarthExplorer){rel="noopener" target="_blank"}. The spatial subset can be downloaded [here](XXX){rel="noopener" target="_blank"} directly:
 
 [![](./img/cla_009.png){.aligncenter}](./img/cla_009.png)
 
