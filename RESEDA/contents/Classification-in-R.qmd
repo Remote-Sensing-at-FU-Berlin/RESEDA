@@ -390,7 +390,7 @@ library(terra)
 library(randomForest)
 ```
 
-First, it is necessary to process the training samples in the form of a data frame. The necessary steps are described in detail in the [previous section](./Classification.qmd#prepare-samples-in-r).
+First, it is necessary to process the training samples in the form of a data frame. The necessary steps are described in detail in the [previous section](./Classification-in-R.qmd#prepare-samples-in-r).
 
 ``` r
 names(img) <- c("b1", "b2", "b3", "b4", "b5", "b6", "b7")
