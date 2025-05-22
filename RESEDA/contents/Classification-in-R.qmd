@@ -348,7 +348,7 @@ setwd("E:\\Work")
 
 
 #import image (img) and shapefile (shp)
-img <- rast("E:\\Work\\LC081930232017060201T1-SC20180613160412_subset.tif")
+img <- rast("E:\\Work\\LC09_L2SP_193023_20250328_20250329_02_T1_subset.tif")
 shp <- vect("E:\\Work\\training_data\\training_data.shp")
 
 #extract samples with class labels and put them all together in a dataframe
@@ -564,7 +564,7 @@ library(e1071)
 setwd("E:\\Work")
 
 # import image (img) and shapefile (shp)
-img <- rast("E:\\Work\\LC081930232017060201T1-SC20180613160412_subset.tif")
+img <- rast("E:\\Work\\LC09_L2SP_193023_20250328_20250329_02_T1_subset.tif")
 
 shp <- vect("E:\\Work\\training_data\\training_data.shp")
 
@@ -812,7 +812,7 @@ library(randomForest)
 setwd("E:\\Work")
 
 # import image (img) and shapefile (shp)
-img <- rast("E:\\Work\\LC081930232017060201T1-SC20180613160412_subset.tif")
+img <- rast("E:\\Work\\LC09_L2SP_193023_20250328_20250329_02_T1_subset.tif")
 
 shp <- vect("training_data.shp")
 
