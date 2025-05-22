@@ -548,7 +548,7 @@ We do not need QGIS anymore, so close it.</p>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"./data"</span>)</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Import the raster image and shapefile</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"./landsatdata/LC09_L2SP_193023_20240512_20240513_02_T1.tif"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"./landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1.tif"</span>)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">"./vector/training_data.shp"</span>)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="do">#### Shapefile Berlin</span></span>
@@ -574,133 +574,133 @@ We do not need QGIS anymore, so close it.</p>
 <section id="in-depth-guide" class="level2">
 <h2 class="anchored" data-anchor-id="in-depth-guide">In-depth Guide</h2>
 <p>In order to use functionalities of the terra package, load it into your current session via <code>library()</code>. If you did not yet install terra, please do so using <code>install.packages()</code>:</p>
-<pre class="theme:amityreseda"><code>#install.packages("terra")
-library(terra)</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("terra")</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Next: set your working directory, in which all your image and shapefile data is stored by giving a character (do not forget the quotation marks <code>" "</code>) variable to <code>setwd()</code>. Check your path with <code>getwd()</code> and the stored files in it via <code>dir()</code>:</p>
 <section id="data-folders" class="level4">
 <h4 class="anchored" data-anchor-id="data-folders">data folders</h4>
-<pre class="theme:amityreseda"><code>setwd("./data")
-
-getwd()
-## [1] "/reseda/data/landsatdata"
-
-dir()        
-## [1] "LC081930232017060201T1-SC20180613160412_subset.tif"                                                               
-## [2] "polygons_training.dbf"                                              
-## [3] "polygons_training.prj"                                              
-## [4] "polygons_training.qpj"                                              
-## [5] "polygons_training.shp"                                              
-## [6] "polygons_training.shx"                                              </code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"./data"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "/reseda/data/landsatdata"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>()        </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "LC09_L2SP_193023_20250328_20250329_02_T1_subset.tif"                                                              </span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [2] "polygons_training.dbf"                                              </span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="do">## [3] "polygons_training.prj"                                              </span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="do">## [4] "polygons_training.qpj"                                              </span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="do">## [5] "polygons_training.shp"                                              </span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="do">## [6] "polygons_training.shx"                                              </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>If you do not get your files listed, you have made a mistake in your work path – check again! Everything ready to go? Fine, then import your raster file as <code>img</code> and your shapefile as <code>shp</code> and have a look at them:</p>
-<pre class="theme:amityreseda"><code>img &lt;- rast("LC081930232017060201T1-SC20180613160412_subset.tif")
-img
-#### 
-
-
-shp &lt;- shapefile("training_data.shp")
-shp
-
-## class       : SpatVector 
-## geometry    : polygons 
-## dimensions  : 72, 1  (geometries, attributes)
-## extent      : 369802.9, 400028.9, 5812457, 5827504  (xmin, xmax, ymin, ymax)
-## source      : training_data.shp
-## coord. ref. : WGS 84 / UTM zone 33N (EPSG:32633) 
-## names       : classes
-## type        :   &lt;chr&gt;
-## values      :   water
-##                 water
-##                 water
-                 
-####
-same.crs(shp, img)
-## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>img <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"LC09_L2SP_193023_20250328_20250329_02_T1_subset.tif"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>img</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="do">#### </span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>shp <span class="ot">&lt;-</span> <span class="fu">shapefile</span>(<span class="st">"training_data.shp"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>shp</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="do">## class       : SpatVector </span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="do">## geometry    : polygons </span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="do">## dimensions  : 72, 1  (geometries, attributes)</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="do">## extent      : 369802.9, 400028.9, 5812457, 5827504  (xmin, xmax, ymin, ymax)</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="do">## source      : training_data.shp</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="do">## coord. ref. : WGS 84 / UTM zone 33N (EPSG:32633) </span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="do">## names       : classes</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="do">## type        :   &lt;chr&gt;</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="do">## values      :   water</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="do">##                 water</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="do">##                 water</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                 </span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="do">####</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="fu">same.crs</span>(shp, img)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] TRUE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Both the <code>rast</code>()<code>and</code>vect()<code>functions are provided by the terra package. As shown above, they create objects of the class SpatRaster and SpatVector respectively. The L9 raster provides 7 bands, and our example shapefile 72 features, i.e., polygons. You can check whether the projections of the two datasets are identical or not by executing</code>same.crs(shp, img)<code>. If this is not the case (output equals *FALSE*), the terra package will automatically re-project your data on the fly later on. However, we recommend to adjust the projections manually in advance to prevent any future inaccuracies using</code>project()<code>.\ Plot your data to make sure everything is imported properly (check [Visualize in R](./Visualization.qmd) for an intro to plotting). With the argument</code>add = TRUE` in line 2 several data layers can be displayed one above the other:</p>
-<pre class="theme:amityreseda"><code>plotRGB(img, r = 4, g = 3, b = 2, stretch = "lin")
-plot(shp, col="red", add=TRUE)</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(img, <span class="at">r =</span> <span class="dv">4</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(shp, <span class="at">col=</span><span class="st">"red"</span>, <span class="at">add=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>[<img src="./img/cla_001.png" class="aligncenter img-fluid">(./img/cla_001.png){.fancybox .image}</p>
 <p>If you followed this course in the <a href="../../RESEDA/contents/Classification-in-R.html#sample-in-qgis">previous section</a>, your shapefile should provide an attribute called “classes”, which includes your target classes as strings, e.g., “water” or “urban”. We will later turn this column into the <a href="../../R-Crash-Course/index.html">factor</a> data type because classifiers can only work with integer values instead of words like “water” or “urban”. When converting to factors, strings are sorted alphabetically and numbered consecutively. In order to be able to read the classification image at the end, you should make a note of your classification key:</p>
-<pre class="theme:amityreseda"><code>levels(as.factor(shp$classes))
-## [1] "baresoil"  "forest"    "grassland" "urban_hd"  "urban_ld"  "water"
-
-for (i in 1:length(unique(shp$classes))) {cat(paste0(i, " ", levels(as.factor(shp$classes))[i]), sep="\n")}
-## 1 baresoil
-## 2 forest
-## 3 grassland
-## 4 urban_hd
-## 5 urban_ld
-## 6 water</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(<span class="fu">as.factor</span>(shp<span class="sc">$</span>classes))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "baresoil"  "forest"    "grassland" "urban_hd"  "urban_ld"  "water"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(<span class="fu">unique</span>(shp<span class="sc">$</span>classes))) {<span class="fu">cat</span>(<span class="fu">paste0</span>(i, <span class="st">" "</span>, <span class="fu">levels</span>(<span class="fu">as.factor</span>(shp<span class="sc">$</span>classes))[i]), <span class="at">sep=</span><span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)}</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="do">## 1 baresoil</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="do">## 2 forest</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 grassland</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 4 urban_hd</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 5 urban_ld</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 6 water</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The <code>levels()</code> function combines all occurrences in a factor-formatted vector. In the example shown above, value 1 in our classification image will correspond to the <em>baresoil</em> class, value 2 to <em>forest</em>, value 3 to <em>grassland</em>, etc.<br>
 <strong>Optional</strong>: Let us take a look at the naming of the raster bands via the <code>names()</code> function. Those names can be quite bulky and cause problems in some illustrations when used as axis labels. You can easily rename it to something more concise by overriding the names with any string vector of the same length:</p>
-<pre class="theme:amityreseda"><code>names(img)
-## [1] "LC081930232017060201T1.SC20180613160412_subset.1"
-## [2] "LC081930232017060201T1.SC20180613160412_subset.2"
-## [3] "LC081930232017060201T1.SC20180613160412_subset.3"
-## [4] "LC081930232017060201T1.SC20180613160412_subset.4"
-## [5] "LC081930232017060201T1.SC20180613160412_subset.5"
-## [6] "LC081930232017060201T1.SC20180613160412_subset.6"
-## [7] "LC081930232017060201T1.SC20180613160412_subset.7"
-
-names(img) &lt;- c("b1", "b2", "b3", "b4", "b5", "b6", "b7")
-
-names(img)
-## [1] "b1" "b2" "b3" "b4" "b5" "b6" "b7"</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(img)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "LC09_L2SP_193023_20250328_20250329_02_T1_subset.1"</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [2] "LC09_L2SP_193023_20250328_20250329_02_T1_subset.2"</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [3] "LC09_L2SP_193023_20250328_20250329_02_T1_subset.3"</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [4] "LC09_L2SP_193023_20250328_20250329_02_T1_subset.4"</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [5] "LC09_L2SP_193023_20250328_20250329_02_T1_subset.5"</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [6] "LC09_L2SP_193023_20250328_20250329_02_T1_subset.6"</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [7] "LC09_L2SP_193023_20250328_20250329_02_T1_subset.7"</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(img) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"b1"</span>, <span class="st">"b2"</span>, <span class="st">"b3"</span>, <span class="st">"b4"</span>, <span class="st">"b5"</span>, <span class="st">"b6"</span>, <span class="st">"b7"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(img)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "b1" "b2" "b3" "b4" "b5" "b6" "b7"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Appropriate names for the input features are very helpful for orientation and readability. Of course you need to change the vector in line 10 according to your own input features.</p>
 <p>Our goal is to extract the raster values (x), i.e., all input feature values, and the class values (y) of every single pixel within our training polygons and put all together in a data frame. This data frame can then be read by our classifier. We extract the raster values using the command <code>extract()</code> from the raster package. The argument <code>df = TRUE</code> guarantees that the output is a data frame:</p>
-<pre class="theme:amityreseda"><code>smp &lt;- extract(img, shp, df = TRUE)</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> <span class="fu">extract</span>(img, shp, <span class="at">df =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>It may take some time for this function to complete depending on the spatial resolution of your raster data and the spatial area covered by your polygons. If you have your data stored on an SSD, the process is completed much faster. It may be advisable to save the resulting object to the hard drive <code>save(smp , file = "smp .rda")</code> and load it from the hard disk if necessary <code>load(file = "smp.rda")</code>. On this way, the extract function does not have to be repeated again and again…<br>
 The data frame has as many rows as pixels are to be extracted and as many columns as input features are given (in this example the spectral channels). In addition, <code>smp</code> also provides a column named “ID”, which holds the IDs of the former polygon for each pixel (each polygon is automatically assigned an ID). Furthermore, we also know which polygon, i.e., each ID, belongs to which class. Because of this, we can establish a relationship between the deposited ID of each pixel and the class given in the shapefile. We use this to add another column to our data query describing each class. Then we delete the ID column because we do not need it anymore:</p>
-<pre class="theme:amityreseda"><code>smp$cl &lt;- as.factor(shp$classes[smp$ID])
-smp &lt;- smp[-1]
-
-summary(smp$cl)
-##  baresoil    forest grassland  urban_hd  urban_ld     water 
-##       719      2074      1226      1284       969       763
-
-str(smp)
-## 'data.frame':    7035 obs. of  8 variables:
-##  $ b1: num  192 179 189 159 171 164 173 184 144 150 ...
-##  $ b2: num  229 203 221 179 194 188 192 208 166 165 ...
-##  $ b3: num  321 233 272 188 203 196 208 254 178 177 ...
-##  $ b4: num  204 130 164 97 116 108 119 150 83 80 ...
-##  $ b5: num  161 156 173 125 146 138 146 166 107 104 ...
-##  $ b6: num  100 93 109 63 82 71 82 104 51 46 ...
-##  $ b7: num  72 68 81 40 56 51 59 74 32 30 ...
-##  $ cl: Factor w/ 6 levels "baresoil","forest",..: 6 6 6 6 6 6 6 6 6 6 ...</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>smp<span class="sc">$</span>cl <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(shp<span class="sc">$</span>classes[smp<span class="sc">$</span>ID])</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>smp <span class="ot">&lt;-</span> smp[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(smp<span class="sc">$</span>cl)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="do">##  baresoil    forest grassland  urban_hd  urban_ld     water </span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="do">##       719      2074      1226      1284       969       763</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(smp)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 'data.frame':    7035 obs. of  8 variables:</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ b1: num  192 179 189 159 171 164 173 184 144 150 ...</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ b2: num  229 203 221 179 194 188 192 208 166 165 ...</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ b3: num  321 233 272 188 203 196 208 254 178 177 ...</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ b4: num  204 130 164 97 116 108 119 150 83 80 ...</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ b5: num  161 156 173 125 146 138 146 166 107 104 ...</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ b6: num  100 93 109 63 82 71 82 104 51 46 ...</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ b7: num  72 68 81 40 56 51 59 74 32 30 ...</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="do">##  $ cl: Factor w/ 6 levels "baresoil","forest",..: 6 6 6 6 6 6 6 6 6 6 ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Now you are ready to start training your classifier as described in the <a href="./Classification.qmd#rf-classification">next sections</a>!</p>
 <p><strong>Optional</strong>: If you only include spectral information in your classifier, as in our example, it is often helpful to plot the so-called spectral profiles, or z-profiles. Those represent the mean values of each class for the individual spectral bands. You can also represent other features, e.g., terrain height or precipitation, however, you must then pay attention to the value range in the presentation and possibly normalize the data at first. The magic here happens in the <code>aggregate()</code> command, which combines all the rows of the same class <code>. \~ cl</code> and calculates the arithmetic mean of those groups <code>FUN = mean</code>. This happens for all classes, in the <code>cl</code> column, where NA values are to be ignored via <code>na.rm = TRUE</code>. The rest of the functions in the following script are for visualization purposes only and include standard functions such as <code>plot()</code>, <code>lines()</code>, <code>grid()</code> and <code>legend()</code>. Use the help function for a detailed description of the arguments!</p>
-<pre class="theme:amityreseda"><code>sp &lt;- aggregate( . ~ cl, data = smp, FUN = mean, na.rm = TRUE )
-
-# plot empty plot of a defined size
-plot(0,
-     ylim = c(min(sp[2:ncol(sp)]), max(sp[2:ncol(sp)])), 
-     xlim = c(1, ncol(smp)-1), 
-     type = 'n', 
-     xlab = "L8 bands", 
-     ylab = "reflectance [% * 100]"
-     )
-
-# define colors for class representation - one color per class necessary!
-mycolors &lt;- c("#fbf793", "#006601", "#bfe578", "#d00000", "#fa6700", "#6569ff")
-
-# draw one line for each class
-for (i in 1:nrow(sp)){
-  lines(as.numeric(sp[i, -1]), 
-        lwd = 4, 
-        col = mycolors[i]
-        )
-  }
-
-# add a grid
-grid()
-
-# add a legend
-legend(as.character(sp$cl),
-       x = "topleft",
-       col = mycolors,
-       lwd = 5,
-       bty = "n"
-       )</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sp <span class="ot">&lt;-</span> <span class="fu">aggregate</span>( . <span class="sc">~</span> cl, <span class="at">data =</span> smp, <span class="at">FUN =</span> mean, <span class="at">na.rm =</span> <span class="cn">TRUE</span> )</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot empty plot of a defined size</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="dv">0</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fu">min</span>(sp[<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(sp)]), <span class="fu">max</span>(sp[<span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(sp)])), </span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">ncol</span>(smp)<span class="sc">-</span><span class="dv">1</span>), </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">'n'</span>, </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"L8 bands"</span>, </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"reflectance [% * 100]"</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>     )</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># define colors for class representation - one color per class necessary!</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>mycolors <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#fbf793"</span>, <span class="st">"#006601"</span>, <span class="st">"#bfe578"</span>, <span class="st">"#d00000"</span>, <span class="st">"#fa6700"</span>, <span class="st">"#6569ff"</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co"># draw one line for each class</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(sp)){</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="fu">as.numeric</span>(sp[i, <span class="sc">-</span><span class="dv">1</span>]), </span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">lwd =</span> <span class="dv">4</span>, </span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> mycolors[i]</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="co"># add a grid</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="fu">grid</span>()</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="co"># add a legend</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="fu">as.character</span>(sp<span class="sc">$</span>cl),</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"topleft"</span>,</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> mycolors,</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">5</span>,</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">"n"</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>       )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><span id="plot"></span><a href="./img/cla_005.png" class="fancybox image"><img src="./img/cla_005.png" class="aligncenter img-fluid"></a></p>
 <p>Note that the values represent only the arithmetic mean of the classes and do not allow any statement about the underlying distribution. However, such a z-profile plot helps to visually assess the separability of classes at the beginning.</p>
 </section>
