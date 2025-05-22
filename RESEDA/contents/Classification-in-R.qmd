@@ -8,7 +8,7 @@ The workflow will be exemplified by a L9 scene (ID: LC09_L2SP_193023_20250328_20
 You can download both the preprocessed image and the shapefile for testing purposes [here](https://box.fu-berlin.de/s/Jm5TrAj3QzRTp8n).
 
 ::: {style="background-color:#f1f1f1;padding:18px 30px 1px"}
-This section guides you through a complete classification process for satellite imagery. The resulting classification maps will be validated in the [next chapter](./validate.qmd).
+This section guides you through a complete classification process for satellite imagery. The resulting classification maps will be validated in the [next chapter](./Validate.qmd).
 
 **Sample in QGIS**
 -- some basic considerations and tips for sampling\
