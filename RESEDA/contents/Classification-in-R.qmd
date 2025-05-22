@@ -799,7 +799,7 @@ However, there is an ideal analysis method to assess this problem for certain: c
 Simply repeat your training procedure multiple times with different train sample sizes and compare the performance differences!\
 Plotting those results will (hopefully) show a decreasing error rate with increasing amounts of train data.
 
-In the following, a complete script has been developed, which performs the [RF classification from the previous section](./Classification-in-R.qmd##rf-classification) $\{2, 4, 8, 16, …, 2048\}$ samples per class ([steps`). In order to minimize any random effects and specify a confidence interval, all classifications were repeated 20 times each ([nrepeat`).
+In the following, a complete script has been developed, which performs the [RF classification from the previous section](./Classification-in-R.qmd#rf-classification) $\{2, 4, 8, 16, …, 2048\}$ samples per class ([steps`). In order to minimize any random effects and specify a confidence interval, all classifications were repeated 20 times each ([nrepeat`).
 
 In order not to unnecessarily inflate the code, we use for loops to iterate over the individual sample sizes and iterations and write the respective results into a matrix `r`. The following code is comprehensively documented.
 
