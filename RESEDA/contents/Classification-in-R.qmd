@@ -3,9 +3,9 @@
 #### vorab zuschneiden und dann aus dem code später herausnehmen
 We want to utilize a Random Forest (RF) and a Support Vector Classifier (SVM) algorithm in order to classify the Berlin land cover in six elementary categories: *bare soil*, *water*, *grassland*, *forest*, *urban low density*, and *urban high density*. Therefore, we need an image dataset and a shapefile containing points or polygons to which the respective class is attributed.
 
-The workflow will be exemplified by a L9 scene (ID: LC09_L2SP_193023_20240512_20240513_02_T1), which you may already have acquired during the [L8/L9 Download Exercise](./Download.qmd#EarthExplorer){rel="noopener" target="_blank"}. You need to preprocess the scene as shown in chapter [Preprocess](./Preprocess-Optical_Data.qmd#landsat-8-preprocessing). In addition, we narrowed our research area to Berlin to keep the data small (as shown in chapter [Visualize in R](./Visualization.qmd)).
+The workflow will be exemplified by a L9 scene (ID: LC09_L2SP_193023_20250328_20250329_02_T1), which you may already have acquired during the [L8/L9 Download Exercise](./Download.qmd#EarthExplorer){rel="noopener" target="_blank"}. You need to preprocess the scene as shown in chapter [Preprocess](./Preprocess-Optical-Data.qmd#landsat-8-preprocessing). In addition, we narrowed our research area to Berlin to keep the data small (as shown in chapter [Visualize in R](./Visualization.qmd)).
 
-You can download both the preprocessed image and the shapefile for testing purposes [here](http://####/).
+You can download both the preprocessed image and the shapefile for testing purposes [here](https://box.fu-berlin.de/s/Jm5TrAj3QzRTp8n).
 
 ::: {style="background-color:#f1f1f1;padding:18px 30px 1px"}
 This section guides you through a complete classification process for satellite imagery. The resulting classification maps will be validated in the [next chapter](./validate.qmd).
