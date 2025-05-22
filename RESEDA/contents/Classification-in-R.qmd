@@ -119,7 +119,7 @@ We do not need QGIS anymore, so close it.
 
 We want to put the training samples created in the previous section in the form of a data frame -- which most classifiers in R can handle easily (especially our RF and SVM algorithms). You can [download the training_data shapefile here]####{target="_blank" rel="noopener"}. For this task, we again take advantage of the powerful [terra](https://cran.r-project.org/web/packages/terra/terra.pdf){target="_blank" rel="noopener"} package. The complete code is shown below and a more detailed description is given afterwards.
 
-``` theme:amityreseda
+``` r
 # Load the terra package
 library(terra)
 
