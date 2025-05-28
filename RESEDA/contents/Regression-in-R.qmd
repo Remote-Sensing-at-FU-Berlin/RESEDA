@@ -1,6 +1,6 @@
 # Regression in R {#regression-in-r .entry-title}
 
-Very high-resolution reference data are usually difficult to obtain or only available for small areas of the study area. However, low-resolution data, such as Landsat 8 and Landsat 9 (30 m), are available in a high spatio-temporal resolution. Using a regression method, we can create sub-pixel information by relating the high-resolution information to very low-resolution Landsat 8 pixels.
+Very high-resolution reference data are usually difficult to obtain or only available for small areas of the study area. However, low-resolution data, such as Landsat 8 and Landsat 9 (30 m), are available in a high spatio-temporal resolution. Using a regression method, we can create sub-pixel information by relating the high-resolution information to very low-resolution Landsat 9 pixels.
 
 We want to perform a Support Vector Regression in order to regress proportions of imperviousness for each Landsat 9 pixel in Berlin. For this we will use two data sets in this section:
 
