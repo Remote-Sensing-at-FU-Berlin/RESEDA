@@ -144,7 +144,7 @@ print(same.crs) # Should return TRUE if both CRS match
 ```
 
 Both the `brick()` and `shapefile()` functions are provided by the raster package. As shown above, they create objects of the class RasterBrick and SpatialPolygonsDataFrame respectively. The L8 raster provides 7 bands, and our example shapefile 286 features, i.e., polygons. You can check whether the projections of the two datasets are identical or not by executing `compareCRS(shp, img)`. If this is not the case (output equals *FALSE*), the raster package will automatically re-project your data on the fly later on. However, we recommend to adjust the projections manually in advance to prevent any future inaccuracies.\
-Plot your data to make sure everything is imported properly (check [Visualize in R](./Visualization.qmd) for an intro to plotting):
+Plot your data to make sure everything is imported properly (check [Visualize in R](./Visualization.qmd#visualize-in-r) for an intro to plotting):
 
 ``` r
 plot(shp)
