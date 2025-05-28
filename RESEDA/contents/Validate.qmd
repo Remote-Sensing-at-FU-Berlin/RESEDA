@@ -146,7 +146,7 @@ smp.test$classification_RF
 
 Note: the name of the column within `smp.test` depends on the file name of your classification map.
 
-Due to the subsequent manual labeling in the [next section](./Validate.qmdlabel-samples-in-qgis){rel="noopener" target="_blank"}, it makes sense to mix the samples so that the order is random. Again, we use the `sample()` function for this:
+Due to the subsequent manual labeling in the [next section](./Validate.qmd#label-samples-in-qgis){rel="noopener" target="_blank"}, it makes sense to mix the samples so that the order is random. Again, we use the `sample()` function for this:
 
 ``` r
 smp.test <- smp.test[sample(1:nrow(smp.test)), ]
