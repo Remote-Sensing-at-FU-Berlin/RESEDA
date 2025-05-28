@@ -287,7 +287,7 @@ library(e1071)
 setwd("/media/sf_exchange/regression/")
 
 # Load raster and vector data
-img <- rast("LC081930232017060201T1-SC20180613160412_subset.tif")
+img <- rast("LC09_L2SP_193023_20250328_20250329_02_T1_subset.tif")
 shp <- vect("reg_train_data.shp")
 
 # Rename raster bands
@@ -358,7 +358,7 @@ library(terra)
 library(e1071)
 ```
 
-First, it is necessary to process the training samples in the form of a data frame. The necessary steps are shown in line 10-31 and described in detail in the [previous section](./Regresion-in-R.qmd#prepare-samples-for-regression){rel="noopener" target="_blank"}.
+First, it is necessary to process the training samples in the form of a data frame. The necessary steps are shown in line 10-31 and described in detail in the [previous section](./Regression-in-R.qmd#prepare-samples-for-regression){rel="noopener" target="_blank"}.
 
 After the preprocessing, we can train our Support Vector Regression with the training dataset `smp`. We will utilize an epsilon Support Vector Regressions, which requires three parameters: one gamma $\gamma$ value, one cost $C$ value as well as a epsilon $\varepsilon$ value (for more details refer to the [SVM section](./Machine-Learning-Basics.qmd#support-vector-machine){rel="noopener" target="_blank"}). These hyperparameters significantly determine the performance of the model. Finding the best hyparameters is not trivial and the best combination can not be determined in advance. Thus, we try to find the best combination iteratively by trial and error. Therefore, we create three vectors comprising all values that should be tested:
 
