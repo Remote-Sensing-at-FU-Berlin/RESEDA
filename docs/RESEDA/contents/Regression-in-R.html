@@ -425,11 +425,11 @@ window.Quarto = {
 
 <section id="regression-in-r" class="level1 entry-title">
 <h1 class="entry-title">Regression in R</h1>
-<p>Very high-resolution reference data are usually difficult to obtain or only available for small areas of the study area. However, low-resolution data, such as Landsat 8 (30 m), are available in a high spatio-temporal resolution. Using a regression method, we can create sub-pixel information by relating the high-resolution information to very low-resolution Landsat 8 pixels.</p>
-<p>We want to perform a Support Vector Regression in order to regress proportions of imperviousness for each Landsat 8 pixel in Berlin. For this we will use two data sets in this section:</p>
+<p>Very high-resolution reference data are usually difficult to obtain or only available for small areas of the study area. However, low-resolution data, such as Landsat 8 and Landsat 9 (30 m), are available in a high spatio-temporal resolution. Using a regression method, we can create sub-pixel information by relating the high-resolution information to very low-resolution Landsat 8 pixels.</p>
+<p>We want to perform a Support Vector Regression in order to regress proportions of imperviousness for each Landsat 9 pixel in Berlin. For this we will use two data sets in this section:</p>
 <ol type="1">
 <li>a <a href="https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FShapfiles&amp;files=reg_train_data.zip"><strong>shapefile containing very high-resolution land cover information</strong></a> (including imperviousness), based on a digitized digital orthophoto of 2016 (<a href="https://www.stadtentwicklung.berlin.de/umwelt/umweltatlas/edua_index.shtml" target="_blank" rel="noopener">Berlin Environmental Atlas</a>)</li>
-<li>a <a href="https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FLandsat_Data&amp;files=LC081930232017060201T1-SC20180613160412.tif"><strong>Landsat 8 acquisition</strong></a> (ID: LC08_L1TP_193023_20170602_20170615_01_T1), which you may already have acquired during the <a href="../../RESEDA/contents/Download.html#EarthExplorer" target="_blank" rel="noopener">L8 Download Exercise</a></li>
+<li>a <a href="https://box.fu-berlin.de/s/Jm5TrAj3QzRTp8n"><strong>Landsat 9 acquisition</strong></a> (ID: LC09_L2SP_193023_20250328_20250329_02_T1), which you may already have acquired during the <a href="../../RESEDA/contents/Download.html#EarthExplorer" target="_blank" rel="noopener">L89 Download Exercise</a></li>
 </ol>
 <p><a href="./img/reg_002.png"><img src="./img/reg_002.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
