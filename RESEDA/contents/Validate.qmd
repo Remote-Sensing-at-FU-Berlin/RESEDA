@@ -320,7 +320,7 @@ print(reference)
 ## Levels: 1 2 3 4 5 6
 ```
 
-You may notice some entries in your reference values. These arise, for example, if you have skipped some validation points during the [labeling in QGIS](./Validate.qmd#label-samples-in-qgis/){rel="noopener" target="_blank"} because you could not make a clear classification based on the available image data. We simply ignore them later on in the statistics -- no problem!
+You may notice some entries in your reference values. These arise, for example, if you have skipped some validation points during the [labeling in QGIS](./Validate.qmd#label-samples-in-qgis){rel="noopener" target="_blank"} because you could not make a clear classification based on the available image data. We simply ignore them later on in the statistics -- no problem!
 
 For the predicted vector, we need to extract the classification values at the validation coordinates. Here again, we want a factor object via `as.factor()`:
 
