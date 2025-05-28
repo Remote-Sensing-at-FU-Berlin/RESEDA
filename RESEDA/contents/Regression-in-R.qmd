@@ -35,7 +35,7 @@ library(terra)
 setwd("E:\\Work")
 
 # Load the image (Landsat raster) and shapefile
-img <- rast("E:\\Work\\LC081930232017060201T1-SC20180613160412_subset.tif")
+img <- rast("E:\\Work\\LC09_L2SP_193023_20250328_20250329_02_T1_subset.tif")
 shp <- vect("E:\\Work\\reg_train_data\\reg_train_data.shp")
 
 # Assign names to raster bands
@@ -112,7 +112,7 @@ getwd()
 ## [1] "E:\\Work"
 
 dir()  
-##  [1] "LC081930232017060201T1-SC20180613160412_subset.tif"                                                
+##  [1] "LC09_L2SP_193023_20250328_20250329_02_T1_subset.tif"                                                
 ##  [2] "reg_train_data.dbf"     
 ##  [3] "reg_train_data.prj"
 ##  [4] "reg_train_data.qpj"
@@ -123,7 +123,7 @@ dir()
 If you do not get your files listed, there is an error in your working path -- check again! Everything ready to go? Fine, then import your raster file as `img` and your shapefile as `shp` and have a look at them:
 
 ``` r
-img <- rast("E:\\Work\\LC081930232017060201T1-SC20180613160412_subset.tif")
+img <- rast("E:\\Work\\LC09_L2SP_193023_20250328_20250329_02_T1_subset.tif")
 img
 ## class       : SpatRaster 
 ## dimensions  : 504, 1030, 7  (nrow, ncol, nlyr)
@@ -167,13 +167,13 @@ In Line 1, initially only the fourth channel of the image `img[[4]` was displaye
 
 ``` r
 names(img)
-## [1] "LC081930232017060201T1.SC20180613160412_subset.1"
-## [2] "LC081930232017060201T1.SC20180613160412_subset.2"
-## [3] "LC081930232017060201T1.SC20180613160412_subset.3"
-## [4] "LC081930232017060201T1.SC20180613160412_subset.4"
-## [5] "LC081930232017060201T1.SC20180613160412_subset.5"
-## [6] "LC081930232017060201T1.SC20180613160412_subset.6"
-## [7] "LC081930232017060201T1.SC20180613160412_subset.7"
+## [1] "LC09_L2SP_193023_20250328_20250329_02_T1_subset.1"
+## [2] "LC09_L2SP_193023_20250328_20250329_02_T1_subset.2"
+## [3] "LC09_L2SP_193023_20250328_20250329_02_T1_subset.3"
+## [4] "LC09_L2SP_193023_20250328_20250329_02_T1_subset.4"
+## [5] "LC09_L2SP_193023_20250328_20250329_02_T1_subset.5"
+## [6] "LC09_L2SP_193023_20250328_20250329_02_T1_subset.6"
+## [7] "LC09_L2SP_193023_20250328_20250329_02_T1_subset.7"
 
 names(img) <- c("b1", "b2", "b3", "b4", "b5", "b6", "b7")
 
