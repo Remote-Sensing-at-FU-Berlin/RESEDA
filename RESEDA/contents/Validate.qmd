@@ -207,7 +207,7 @@ writeVector(smp.test, "validation_RF.shp", overwrite = TRUE)
 
 # Label Samples in QGIS {#label-samples-in-qgis .entry-title}
 
-Open QGIS and import your initial image dataset (Landsat 8 scene) and the newly created point shapefile [validation_RF.shp` containing the test samples from the [previous section](./Validate.qmd#create-samples-in-r){rel="noopener" target="_blank"}. Display the image data using a RGB composite of your choice (see section [Visualization in QGIS](./Visualization.qmd)). A good, high-contrast presentation makes it easier to interpret the scene during validation:
+Open QGIS and import your initial image dataset (Landsat 9 scene) and the newly created point shapefile validation_RF.shp containing the test samples from the [previous section](./Validate.qmd#create-samples-in-r){rel="noopener" target="_blank"}. Display the image data using a RGB composite of your choice (see section [Visualization in QGIS](./Visualization.qmd)). A good, high-contrast presentation makes it easier to interpret the scene during validation:
 
 [![Landsat 8 scene (RGB 543) and point shapefile containing the test samples](./img/valid_001.png)](./img/valid_001.png)
 
