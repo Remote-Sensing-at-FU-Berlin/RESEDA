@@ -448,7 +448,7 @@ The validation of remote sensing data is the last step in our workflow. The purp
 – calculate confidence intervalls for overall accuracies<br>
 – calculate kappa statistics<br>
 <a href="../../RESEDA/contents/Validate.html#area-adjusted-accuracies"><strong>Area Adjusted Accuracies</strong></a><br>
-– calculate area weighted accuracy statistics according to <a href="https://box.fu-berlin.de/s/d4Z6B29kpjF7THs" rel="noopener" target="_blank">Olofsson et al.&nbsp;2014</a></p>
+– calculate area weighted accuracy statistics according to <a href="https://www.sciencedirect.com/science/article/pii/S0034425714000704" rel="noopener" target="_blank">Olofsson et al.&nbsp;2014</a></p>
 </div>
 <p>.</p>
 <p><strong>Training dataset</strong>: A model is initially fit on a training sample dataset. The model iteratively learn from those training samples and tries to map data <span class="math inline">\(x\)</span> to output response <span class="math inline">\(y\)</span>.</p>
@@ -464,7 +464,7 @@ The validation of remote sensing data is the last step in our workflow. The purp
 </section>
 <section id="create-samples-in-r" class="level1 entry-title">
 <h1 class="entry-title">Create Samples in R</h1>
-<p>Creating validation samples is a crucial step in validation workflows. Certainly, sampling is not a trivial task. Many publications deal with the optimal sampling method, trying to maintain heterogeneity and avoid autcorrelations within validation samples, e.g., <a href="https://www.springer.com/de/book/9783540325710" rel="noopener" target="_blank">Köhl et al.&nbsp;2006</a>, <a href="http://www.mdpi.com/2072-4292/7/12/15817/htm" rel="noopener" target="_blank">Mu et al.&nbsp;2015</a>, <a href="http://reddcr.go.cr/sites/default/files/centro-de-documentacion/olofsson_et_al._2014_-_good_practices_for_estimating_area_and_assessing_accuracy_of_land_change.pdf" rel="noopener" target="_blank">Oloffson et al.&nbsp;2014</a>.</p>
+<p>Creating validation samples is a crucial step in validation workflows. Certainly, sampling is not a trivial task. Many publications deal with the optimal sampling method, trying to maintain heterogeneity and avoid autcorrelations within validation samples, e.g., <a href="https://www.springer.com/de/book/9783540325710" rel="noopener" target="_blank">Köhl et al.&nbsp;2006</a>, <a href="http://www.mdpi.com/2072-4292/7/12/15817/htm" rel="noopener" target="_blank">Mu et al.&nbsp;2015</a>, <a href="https://www.sciencedirect.com/science/article/pii/S0034425714000704" rel="noopener" target="_blank">Oloffson et al.&nbsp;2014</a>.</p>
 <p>In general, there are several random sampling strategies commonly found in remote sensing studies and software solutions:</p>
 <ul>
 <li><strong>random</strong>: Validation samples were picked completely random. Each pixel within the study area has the same probability of being picked.</li>
