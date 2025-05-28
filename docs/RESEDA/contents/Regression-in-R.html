@@ -636,7 +636,7 @@ Line 5: if a polygon of a target class exists in the cell, do everything inside 
 Line 6: calculate the proportion of the area of each polygon and sum the proportions ([area(grid)<span class="math display">\[1\]</span><code>equals 900 m² in our example due to the geometric resolution).\ Line 7: if there is no polygon of class *building* or *impervious*, set</code>areaPercent<code>to zero.\ Line 10: use the column bind ([cbind()</code>) function to combine the feature values (reflectances of Landsat image) and the <code>areaPercent</code> value to form a new sample <code>newsmp</code>.<br>
 Line 10: use row bind ([rbind()<code>) to add the new sample</code>newsmp<code>to our training dataset</code>smp`.</p>
 <p>We now prepared a training data set <code>smp</code> with all input features (Landsat 8 bands 1 to 7) and the percentage value of our target class (<em>imperviousness</em>).</p>
-<p>Time to train a Support Vector Machine <a href="./Machine-Lerning-Basics.qmd#support-vector-machine">in the next section</a>!</p>
+<p>Time to train a Support Vector Machine <a href="./Regression-in-R#svm-regression">in the next section</a>!</p>
 </section>
 </section>
 <section id="svm-regression" class="level1 entry-title">
