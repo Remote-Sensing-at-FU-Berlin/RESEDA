@@ -1,11 +1,11 @@
 # Regression in R {#regression-in-r .entry-title}
 
-Very high-resolution reference data are usually difficult to obtain or only available for small areas of the study area. However, low-resolution data, such as Landsat 8 (30 m), are available in a high spatio-temporal resolution. Using a regression method, we can create sub-pixel information by relating the high-resolution information to very low-resolution Landsat 8 pixels.
+Very high-resolution reference data are usually difficult to obtain or only available for small areas of the study area. However, low-resolution data, such as Landsat 8 and Landsat 9 (30 m), are available in a high spatio-temporal resolution. Using a regression method, we can create sub-pixel information by relating the high-resolution information to very low-resolution Landsat 8 pixels.
 
-We want to perform a Support Vector Regression in order to regress proportions of imperviousness for each Landsat 8 pixel in Berlin. For this we will use two data sets in this section:
+We want to perform a Support Vector Regression in order to regress proportions of imperviousness for each Landsat 9 pixel in Berlin. For this we will use two data sets in this section:
 
 1.  a [**shapefile containing very high-resolution land cover information**](https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FShapfiles&files=reg_train_data.zip) (including imperviousness), based on a digitized digital orthophoto of 2016 ([Berlin Environmental Atlas](https://www.stadtentwicklung.berlin.de/umwelt/umweltatlas/edua_index.shtml){target="_blank" rel="noopener"})
-2.  a [**Landsat 8 acquisition**](https://box.fu-berlin.de/s/ztHcGQtXMKJbcXN/download?path=%2FLandsat_Data&files=LC081930232017060201T1-SC20180613160412.tif) (ID: LC08_L1TP_193023_20170602_20170615_01_T1), which you may already have acquired during the [L8 Download Exercise](./Download.qmd#EarthExplorer){target="_blank" rel="noopener"}
+2.  a [**Landsat 9 acquisition**](https://box.fu-berlin.de/s/Jm5TrAj3QzRTp8n) (ID: LC09_L2SP_193023_20250328_20250329_02_T1), which you may already have acquired during the [L8\L9 Download Exercise](./Download.qmd#EarthExplorer){target="_blank" rel="noopener"}
 
 [![](./img/reg_002.png)](./img/reg_002.png)
 
