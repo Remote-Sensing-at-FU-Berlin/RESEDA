@@ -268,7 +268,7 @@ Line 5: if a polygon of a target class exists in the cell, do everything inside 
 Line 6: calculate the proportion of the area of each polygon and sum the proportions (\[area(grid)$$1$$`equals 900 m² in our example due to the geometric resolution).\ Line 7: if there is no polygon of class *building* or *impervious*, set`areaPercent`to zero.\ Line 10: use the column bind ([cbind()`) function to combine the feature values (reflectances of Landsat image) and the `areaPercent` value to form a new sample `newsmp`.\
 Line 10: use row bind (\[rbind()`) to add the new sample`newsmp`to our training dataset`smp\`.
 
-We now prepared a training data set `smp` with all input features (Landsat 8 bands 1 to 7) and the percentage value of our target class (*imperviousness*).
+We now prepared a training data set `smp` with all input features (Landsat 9 bands 1 to 7) and the percentage value of our target class (*imperviousness*).
 
 Time to train a Support Vector Machine [in the next section](./Regression-in-R#svm-regression)!
 
@@ -276,7 +276,7 @@ Time to train a Support Vector Machine [in the next section](./Regression-in-R#s
 
 There are several R packages that provide SVM regression, or Support Vector Regression (SVR), support, e.g., [caret](https://cran.r-project.org/web/packages/caret/caret.pdf){rel="noopener" target="_blank"}, [e1071](https://cran.r-project.org/web/packages/e1071/e1071.pdf){rel="noopener" target="_blank"}, or [kernLab](https://cran.r-project.org/web/packages/kernlab/kernlab.pdf){rel="noopener" target="_blank"}. We will use the e1071 package, as it offers [an interface to the well-known libsvm](https://cran.r-project.org/web/packages/e1071/vignettes/svmdoc.pdf){rel="noopener" target="_blank"} implementation.
 
-Below you can see a complete code implementation. Read the [previous section](./Regresion-in-R.qmd#prepare-samples-for-regression){rel="noopener" target="_blank"} to learn about pre-processing the training data. While this is already executable with the given input data, you should read the in-depth guide in the following to understand the code in detail.
+Below you can see a complete code implementation. Read the [previous section](./Regression-in-R.qmd#prepare-samples-for-regression){rel="noopener" target="_blank"} to learn about pre-processing the training data. While this is already executable with the given input data, you should read the in-depth guide in the following to understand the code in detail.
 
 ``` r
 # import
