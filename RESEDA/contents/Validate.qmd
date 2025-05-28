@@ -290,7 +290,7 @@ Our goal is first to generate two factor vectors, which we then compare in our c
 1.  **reference** : class labels you assigned manually in the previous section
 2.  **predicted** : class labels that resulted in the automatic RF (or SVM) classification
 
-For the reference vector, we need to address the *validclass* column of our shapefile (we created this column in [this section in QGIS](./Validate.qmd#label-samples-in-qgis/){rel="noopener" target="_blank"}). As already mentioned, we need to transform the vectors into factors using `as.factor()` (it becomes clear why in a second):
+For the reference vector, we need to address the *validclass* column of our shapefile (we created this column in [this section in QGIS](./Validate.qmd#label-samples-in-qgis){rel="noopener" target="_blank"}). As already mentioned, we need to transform the vectors into factors using `as.factor()` (it becomes clear why in a second):
 
 ``` r
 reference <- as.factor(shp.valid$validclass)
