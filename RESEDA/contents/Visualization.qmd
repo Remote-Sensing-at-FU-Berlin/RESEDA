@@ -6,7 +6,7 @@ page-layout: full
 
 Alright, you have some image data now. The next step is to get an overview of the radiometric and geometric properties of the imagery you own. The comparison of several data sets is especially comfortable in QGIS with its overlay functionalities. However, we also want to take a closer look at the visualization capacities of R in order to achieve an optimal image presentation.
 
-We will do some visualization settings on a Landsat 8 Scene data downloaded in the chapter [Acquire](./Acquireyourdata.qmd). So if you have not done the exercises yet, catch it up [here](./Download.qmd##EarthExplorer).
+We will do some visualization settings on a Landsat 9 Scene data downloaded in the chapter [Acquire](./Acquireyourdata.qmd). So if you have not done the exercises yet, catch it up [here](./Download.qmd##EarthExplorer).
 
 ::: {style="background-color:#f1f1f1;padding:18px 30px 1px"}
 
@@ -17,11 +17,11 @@ In this section you will learn how to best represent image data in QGIS and R us
 -- different color composites and their advantages\
 -- histograms explained\
 [**Visualize data in QGIS**](./Visualization.qmd#visualize-in-qgis)\
--- import a L8 scene\
+-- import a L9 scene\
 -- compare singleband and multiband visualization\
 -- min/ max contrast stretching\
 [**Visualize data in R/ R-Studio**](./Visualization.qmd#visualize-in-r)\
--- import a L8 scene\
+-- import a L9 scene\
 -- compare singleband and multiband visualization\
 -- different contrast stretchings
 :::
