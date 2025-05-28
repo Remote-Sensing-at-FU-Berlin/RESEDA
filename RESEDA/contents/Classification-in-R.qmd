@@ -286,7 +286,7 @@ str(smp)
 ##  $ cl: Factor w/ 6 levels "baresoil","forest",..: 6 6 6 6 6 6 6 6 6 6 ...
 ```
 
-Now you are ready to start training your classifier as described in the [next sections](./Classification.qmd#rf-classification)!
+Now you are ready to start training your classifier as described in the [next sections](./Classification-in-R.qmd#rf-classification)!
 
 **Optional**: If you only include spectral information in your classifier, as in our example, it is often helpful to plot the so-called spectral profiles, or z-profiles. Those represent the mean values of each class for the individual spectral bands. You can also represent other features, e.g., terrain height or precipitation, however, you must then pay attention to the value range in the presentation and possibly normalize the data at first. The magic here happens in the `aggregate()` command, which combines all the rows of the same class ` . \~ cl` and calculates the arithmetic mean of those groups
 `FUN = mean`. This happens for all classes, in the `cl` column, where NA values are to be ignored via `na.rm = TRUE`. The rest of the functions in the following script are for visualization purposes only and include standard functions such as `plot()`, `lines()`, `grid()` and `legend()`. Use the help function for a detailed description of the arguments!
