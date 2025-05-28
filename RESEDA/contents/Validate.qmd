@@ -247,7 +247,7 @@ Zoom to a scale level that allows you to differentiate your target classes in Go
 
 [![Select a point and automatically zoom to it](./img/valid_008.png){.aligncenter .size-full}](./img/valid_008.png)
 
-Use both your initial dataset (Landsat 8) and any high-resolution information (Google Maps) to decide which class the pixel that contains the point belongs to.
+Use both your initial dataset (Landsat 8 or Landsat 9) and any high-resolution information (Google Maps) to decide which class the pixel that contains the point belongs to.
 
 [![Validate random stratified points by low resolution Landsat 8 data (initial dataset)](./img/valid_006.png){.aligncenter .size-full}](./img/valid_006.png)
 
