@@ -22,7 +22,7 @@ In this chapter, the following content awaits you:
 -- calculate confidence intervalls for overall accuracies\
 -- calculate kappa statistics\
 [**Area Adjusted Accuracies**](./Validate.qmd#area-adjusted-accuracies)\
--- calculate area weighted accuracy statistics according to [Olofsson et al. 2014](https://box.fu-berlin.de/s/d4Z6B29kpjF7THs){rel="noopener" target="_blank"}
+-- calculate area weighted accuracy statistics according to [Olofsson et al. 2014](https://www.sciencedirect.com/science/article/pii/S0034425714000704){rel="noopener" target="_blank"}
 :::
 .
 
@@ -45,7 +45,7 @@ In the following, we want to present a best practice workflow for a classificati
 
 # Create Samples in R {#create-samples-in-r .entry-title}
 
-Creating validation samples is a crucial step in validation workflows. Certainly, sampling is not a trivial task. Many publications deal with the optimal sampling method, trying to maintain heterogeneity and avoid autcorrelations within validation samples, e.g., [Köhl et al. 2006](https://www.springer.com/de/book/9783540325710){rel="noopener" target="_blank"}, [Mu et al. 2015](http://www.mdpi.com/2072-4292/7/12/15817/htm){rel="noopener" target="_blank"}, [Oloffson et al. 2014](http://reddcr.go.cr/sites/default/files/centro-de-documentacion/olofsson_et_al._2014_-_good_practices_for_estimating_area_and_assessing_accuracy_of_land_change.pdf){rel="noopener" target="_blank"}.
+Creating validation samples is a crucial step in validation workflows. Certainly, sampling is not a trivial task. Many publications deal with the optimal sampling method, trying to maintain heterogeneity and avoid autcorrelations within validation samples, e.g., [Köhl et al. 2006](https://www.springer.com/de/book/9783540325710){rel="noopener" target="_blank"}, [Mu et al. 2015](http://www.mdpi.com/2072-4292/7/12/15817/htm){rel="noopener" target="_blank"}, [Oloffson et al. 2014](https://www.sciencedirect.com/science/article/pii/S0034425714000704){rel="noopener" target="_blank"}.
 
 In general, there are several random sampling strategies commonly found in remote sensing studies and software solutions:
 
