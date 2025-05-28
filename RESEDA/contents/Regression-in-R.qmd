@@ -270,7 +270,7 @@ Line 10: use row bind (\[rbind()`) to add the new sample`newsmp`to our training 
 
 We now prepared a training data set `smp` with all input features (Landsat 8 bands 1 to 7) and the percentage value of our target class (*imperviousness*).
 
-Time to train a Support Vector Machine [in the next section](./Machine-Lerning-Basics.qmd#support-vector-machine)!
+Time to train a Support Vector Machine [in the next section](./Regression-in-R#svm-regression)!
 
 # SVM Regression {#svm-regression .entry-title}
 
