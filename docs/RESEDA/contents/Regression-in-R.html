@@ -635,14 +635,14 @@ Line 4: only the polygons belonging to the target classes were extracted, we dis
 Line 5: if a polygon of a target class exists in the cell, do everything inside the curly brackets. If there is no polygon in the cell, jump to line 7.<br>
 Line 6: calculate the proportion of the area of each polygon and sum the proportions ([area(grid)<span class="math display">\[1\]</span><code>equals 900 m² in our example due to the geometric resolution).\ Line 7: if there is no polygon of class *building* or *impervious*, set</code>areaPercent<code>to zero.\ Line 10: use the column bind ([cbind()</code>) function to combine the feature values (reflectances of Landsat image) and the <code>areaPercent</code> value to form a new sample <code>newsmp</code>.<br>
 Line 10: use row bind ([rbind()<code>) to add the new sample</code>newsmp<code>to our training dataset</code>smp`.</p>
-<p>We now prepared a training data set <code>smp</code> with all input features (Landsat 8 bands 1 to 7) and the percentage value of our target class (<em>imperviousness</em>).</p>
+<p>We now prepared a training data set <code>smp</code> with all input features (Landsat 9 bands 1 to 7) and the percentage value of our target class (<em>imperviousness</em>).</p>
 <p>Time to train a Support Vector Machine <a href="./Regression-in-R#svm-regression">in the next section</a>!</p>
 </section>
 </section>
 <section id="svm-regression" class="level1 entry-title">
 <h1 class="entry-title">SVM Regression</h1>
 <p>There are several R packages that provide SVM regression, or Support Vector Regression (SVR), support, e.g., <a href="https://cran.r-project.org/web/packages/caret/caret.pdf" rel="noopener" target="_blank">caret</a>, <a href="https://cran.r-project.org/web/packages/e1071/e1071.pdf" rel="noopener" target="_blank">e1071</a>, or <a href="https://cran.r-project.org/web/packages/kernlab/kernlab.pdf" rel="noopener" target="_blank">kernLab</a>. We will use the e1071 package, as it offers <a href="https://cran.r-project.org/web/packages/e1071/vignettes/svmdoc.pdf" rel="noopener" target="_blank">an interface to the well-known libsvm</a> implementation.</p>
-<p>Below you can see a complete code implementation. Read the <a href="./Regresion-in-R.qmd#prepare-samples-for-regression" rel="noopener" target="_blank">previous section</a> to learn about pre-processing the training data. While this is already executable with the given input data, you should read the in-depth guide in the following to understand the code in detail.</p>
+<p>Below you can see a complete code implementation. Read the <a href="../../RESEDA/contents/Regression-in-R.html#prepare-samples-for-regression" rel="noopener" target="_blank">previous section</a> to learn about pre-processing the training data. While this is already executable with the given input data, you should read the in-depth guide in the following to understand the code in detail.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(e1071)</span>
