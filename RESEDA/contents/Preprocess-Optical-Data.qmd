@@ -17,7 +17,7 @@ We want to focus on converting the just-downloaded products into GeoTIFF files. 
 
 Landsat 8 as well as Landsat 9 ship as a [tar-archived file](https://en.wikipedia.org/wiki/Tar_(computing)){target="_blank"} with the spectral bands as individual georeferenced tif images. We want to stack these images into a single geotiff-file, i.e., into a so-called raster stack. Afterwards, it is much easier to work with the darta. While this could also be done in QGIS, we will use R for this preprocessing, because it is easier to automate things this way. This results in the following intermediate steps we have to check off:
 
-1.  unzip your downloaded L8 files
+1.  unzip your downloaded L9 files
 2.  put together the spectral band files of your choice into a rasterstack
 3.  save this rasterstack to your hard drive
 4.  (optional) delete all redundant data
@@ -41,7 +41,7 @@ We recommend writing the following code in the script window of R-Studio and exe
 
 We will use the [terra library](https://cran.r-project.org/web/packages/terra/terra.pdf){target="_blank"} to write a raster file later. Additional libraries should always be loaded first, using the function `library() `:
 
-``` theme:amityreseda
+``` r
 library(terra)
 ## Loading required package: sp
 ```
