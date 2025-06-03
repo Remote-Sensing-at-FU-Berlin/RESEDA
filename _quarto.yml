@@ -79,7 +79,7 @@ website:
               
     - title: "RESEDA"
       style: "docked"
-      background: red-400
+      background: gray-400
       contents:
         - section: "Overview"
           contents: 
