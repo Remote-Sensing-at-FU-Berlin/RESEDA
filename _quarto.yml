@@ -125,11 +125,11 @@ website:
             - text: "Chapter in a box"
               file: RESEDA/contents/Validate.qmd
             - text: "Create Samples in R"
-              file: RESEDA/contents/Validate.qmd#create-samples-in-r
+              file: RESEDA/contents/Validate.qmd
             - text: "Label Samples in QGIS"
-              file: RESEDA/contents/Validate.qmd#label-samples-in-qgis
+              file: RESEDA/contents/Validate.qmd
             - text: "Accuracy Matrix"
-              file: RESEDA/contents/Validate.qmd#Accuracy-Matrix
+              file: RESEDA/contents/Validate.qmd
             - text: "Area Adjusted Accuracies"
               file: RESEDA/contents/Validate.qmd
         - section: "The End!"
