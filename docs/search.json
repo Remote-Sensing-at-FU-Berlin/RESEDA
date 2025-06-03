@@ -871,9 +871,14 @@
   {
     "objectID": "RESEDA/contents/Complete.html",
     "href": "RESEDA/contents/Complete.html",
-    "title": "",
+    "title": "The End!",
     "section": "",
-    "text": "THE END!"
+    "text": "The End!\nThank you for working through the RESEDA course. 🎉",
+    "crumbs": [
+      "RESEDA",
+      "The End!",
+      "The End!"
+    ]
   },
   {
     "objectID": "RESEDA/contents/EarthExplorer-Exercise.html",
