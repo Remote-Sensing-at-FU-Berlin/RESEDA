@@ -131,11 +131,11 @@ website:
             - text: "Accuracy Matrix"
               file: RESEDA/contents/Validate.qmd#Accuracy-Matrix
             - text: "Area Adjusted Accuracies"
-              file: RESEDA/contents/Validate.qmd#area-adjusted-accuracies
+              file: RESEDA/contents/Validate.qmd
         - section: "The End!"
           contents:
-            #- text: "The End!"
-            - file: RESEDA/contents/Complete.qmd
+            - text: "The End!"
+              file: RESEDA/contents/Complete.qmd
             
 
 # Don't touch unless you know what you are doing :) ------------
