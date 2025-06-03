@@ -319,7 +319,6 @@ for (i in products) {
   }
 ```
 
-What does the script for Level-1 data look like? Get an answer and check your knowledge during the following tasks!
 
 
 ## Sentinel 2 Preprocessing {#sentinel-2-preprocessing .entry-title}
