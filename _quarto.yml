@@ -132,7 +132,9 @@ website:
               file: RESEDA/contents/Validate.qmd#Accuracy-Matrix
             - text: "Area Adjusted Accuracies"
               file: RESEDA/contents/Validate.qmd#area-adjusted-accuracies
-              - text: "The End!"
+         - section: "The End!"
+          contents: 
+            - text: "The End!"
               file: RESEDA/contents/Complete.qmd#the-end
             
 
