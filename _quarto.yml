@@ -135,7 +135,7 @@ website:
         - section: "The End!"
           contents:
             - text: "The End!"
-              file: RESEDA/contents/The End!.qmd#the-end
+              file: RESEDA/contents/The End!.qmd
             
 
 # Don't touch unless you know what you are doing :) ------------
