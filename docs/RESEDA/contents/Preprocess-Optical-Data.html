@@ -384,7 +384,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#sentinel-2-preprocessing" id="toc-sentinel-2-preprocessing" class="nav-link" data-scroll-target="#sentinel-2-preprocessing">Sentinel 2 Preprocessing</a>
   <ul class="collapse">
-  <li><a href="#sentinel-2-bulk-preprocessing" id="toc-sentinel-2-bulk-preprocessing" class="nav-link" data-scroll-target="#sentinel-2-bulk-preprocessing">Sentinel 2 Bulk Preprocessing</a></li>
   <li><a href="#cloud-masking-for-sentinel-2-images" id="toc-cloud-masking-for-sentinel-2-images" class="nav-link" data-scroll-target="#cloud-masking-for-sentinel-2-images">Cloud Masking for Sentinel-2 images</a></li>
   </ul></li>
   </ul></li>
@@ -790,83 +789,6 @@ Watch this video on YouTube</a></p>
 <span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(subset_raster, output_subset_tif, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(subset_raster, <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)  <span class="do">##To display cropped/selected area</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<section id="sentinel-2-bulk-preprocessing" class="level3 entry-title">
-<h3 class="entry-title anchored" data-anchor-id="sentinel-2-bulk-preprocessing">Sentinel 2 Bulk Preprocessing</h3>
-<p>This section contains advanced techniques. Understanding these techniques is particularly relevant if you want to pre-process dozens of Sentinel 2 data in an identical way.<br>
-We will create a graph in SNAP and then modify it to process all data automatically via the Graph Processing Tool (GPT)!</p>
-<p>Open SNAP and click on the graph builder icon <img src="./img/SNAP_buttons_05.png" class="alignnone size-full wp-image-899" width="28" height="32"> in the Toolbar. You will see a new window pop up, which shows a standard graph (containing one <strong>Read</strong> and one <strong>Write</strong> node) in the upper area and some options in the lower area. Right click somewhere in the white area at upper window to add new nodes, i.e., processing steps, to the graph. Navigate to <em>Add</em> &gt; <em>Raster</em> &gt; <em>Geometric</em> &gt; <em>Resample</em> to add an <strong>Resample</strong> and a <strong>Subset</strong> node (those are the steps we used in the above section):</p>
-<p><a href="./img/S2_bulkproc_1.png"><img src="./img/S2_bulkproc_1.png" class="img-fluid"></a></p>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Add new nodes to the graph via a right click</span></p>
-</div>
-<p>Each processing step is visualized by a rectangle in the graph. You can drag those rectangles, or nodes, to whichever position you want with pressed left mouse button. Your graph should now look something like this:</p>
-<p><a href="./img/preproc_14.png"><img src="./img/preproc_14.png" class="img-fluid"></a></p>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Unconnected graph</span></p>
-</div>
-<p>The individual nodes are not yet linked. If you rest the mouse pointer over the right edge of a rectangle, you will see a red arrow. Drag this arrow with pressed left mouse button to the next node in the following order:</p>
-<p><a href="./img/preproc_15.png"><img src="./img/preproc_15.png" class="img-fluid"></a></p>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Connected graph</span></p>
-</div>
-<p>Next, click on the <strong>Read</strong> Node and load one of your ZIP-compressed Sentinel 2 scenes into the Source Product setting. This could take a short moment. <strong>Attention:</strong> From now on, it will always take a little while to switch back and forth between the processing nodes, as SNAP will process and read your data as virtual products in the background!</p>
-<p>Now either click through the tabs at the bottom of the Graph Builder window or through the rectangles at the top to set the following options for the <strong>Resampling</strong>, the <strong>Subset</strong> and the <strong>Write</strong> node (according to the settings made in the previous section):</p>
-<div class="h5p-iframe-wrapper" style="">
-
-</div>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Graph settings</span></p>
-</div>
-<p>The spatial section in the Subset node should be made using the geographic coordinates. However, the linked map is quite blurred and therefore not much help. However, under the map you can define any spatial subset using the Well-Known Text (WKT) format. There are a number of <a href="http://arthur-e.github.io/Wicket/sandbox-gmaps3.html" target="_blank" rel="noopener">simple online tools</a> for creating such WKTs. Copy the entire “Polygon(())” expression into the line below the map within the subset Node:</p>
-<p>POLYGON((13.11 52.65, 13.70 52.65, 13.70 52.35, 13.11 52.35, 13.11 52.65))</p>
-<p>Of course, you can add more processing steps later for your own analysis. When you are done click Save on the bottom of the Graph Builder window and save your graph as “myGraph.xml” to your hard drive (exchange folder recommended):</p>
-<p><a href="./img/preproc_20.png"><img src="./img/preproc_20.png" class="img-fluid"></a></p>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Save graph as .xml-file</span></p>
-</div>
-<p><strong>Automate Things Using GPT</strong></p>
-<p>Close SNAP, as we do not need it anymore. Now, open a terminal, which is linked in the taskbar of our VM:</p>
-<p><a href="./img/USGS_036.png"><img src="./img/USGS_036.png" class="img-fluid"></a></p>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Linux terminal shortcut in taskbar</span></p>
-</div>
-<p>It is possible to run the graph using the GPT now. The GPT can be found in our VM in the file path “/home/student/snap/bin/gpt”. Consequently, we can execute the graph with the following command (change the file path corresponding to the location of your graph file!):</p>
-<pre class="theme:amityresedaterminal nums:false"><code>/home/student/snap/bin/gpt /media/sf_exchange/sentineldata/myGraph.xml</code></pre>
-<p>Replace the path with the path of your file, copy it to the terminal and press Enter!</p>
-<p><a href="./img/preproc_21.png"><img src="./img/preproc_21.png" class="img-fluid"></a></p>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Execute graph via GPT in command line</span></p>
-</div>
-<p>A pre-processed file should be created directly in the same folder as your zip-compressed source file.<br>
-However, you can only process one file with the graph so far… That is not exactly what we wanted. That is why we will make some changes to the xml-file now. Right click the xml-file and choose <em>Open With</em> &gt; <em>Open With “Text Editor”</em>. Take a moment to understand how the file is structured. The individual inputs and outputs of all processes, or nodes, are saved here as a text. Each of the successive processes is opened by a <code>\&lt;node = id ""\&gt;</code> tag and closed by <code>/node\&gt;</code>.<br>
-Search for the <strong>Read</strong> node. Within that node, a line should list the Sentinel 2 file you used when creating the graph (the line number may differ in your xml):</p>
-<p><a href="./img/preproc_22.png"><img src="./img/preproc_22.png" class="img-fluid"></a></p>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Read node in xml</span></p>
-</div>
-<p>Replace the filename (marked green in the figure above) with the placeholder <code>\$input</code>:</p>
-<p><a href="./img/preproc_24.png"><img src="./img/preproc_24.png" class="img-fluid"></a></p>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Modified Read node in xml</span></p>
-</div>
-<p>Now search for the <strong>Write</strong> node:</p>
-<p><a href="./img/preproc_23.png"><img src="./img/preproc_23.png" class="img-fluid"></a></p>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Write node in xml</span></p>
-</div>
-<p>And replace the file path with the placeholder <code>\$output</code>:</p>
-<p><a href="./img/preproc_25.png"><img src="./img/preproc_25.png" class="img-fluid"></a></p>
-<div style="margin: -30px 0 20px 0;text-align: center">
-<p><span style="color: #686868;font-size: small">Modified Write node in xml</span></p>
-</div>
-<p>The input and output paths have now been replaced by placeholders, which could dynamically accept any file. When calling the graph via GPT, the two variables <code>\$input</code> and <code>\$output</code> must always be defined with from now on. A possible call for a file might look like this:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="sc">/</span>home<span class="sc">/</span>student<span class="sc">/</span>snap<span class="sc">/</span>bin<span class="sc">/</span>gpt <span class="sc">/</span>media<span class="sc">/</span>sf_exchange<span class="sc">/</span>sentineldata<span class="sc">/</span>myGraph.xml <span class="sc">-</span>Pinput<span class="ot">=</span><span class="er">/</span>media<span class="sc">/</span>sf_exchange<span class="sc">/</span>sentineldata<span class="sc">/</span>S2B_MSIL1C_20170830T102019_N0205_R065_T33UUU_20170830T102531.zip <span class="sc">-</span>Poutput<span class="ot">=</span><span class="er">/</span>media<span class="sc">/</span>sf_exchange<span class="sc">/</span>sentineldata<span class="sc">/</span>S2B_MSIL1C_20170830T102019_N0205_R065_T33UUU_20170830T102531_sub_res.tif</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Of course, we can take advantage of this and use a for-loop to go through and process all the Sentinel 2 datasets located in a folder one after another using R or a bash script. We have prepared a bash script for you, which does just that, located in <code>/home/student/Documents/S2_proc.bash</code>. This script tells the bash shell of Linux what it has to do, so you will need our VM or any Linux operating system. To run the script, open a terminal, reference the script and give it two arguments: first the full path to your graph .xml file and second the path where the downloaded Sentinel 2 zip-files are located. A possible command might look like this:</p>
-<pre class="theme:amityresedaterminal nums:false"><code>/home/student/Documents/S2_proc.bash /media/sf_exchange/sentineldata/myGraph.xml /media/sf_exchange/sentineldata/</code></pre>
-<p>The script starts as soon as you press enter and writes the output to a new folder called “Processed”, which will be created next to your S2 zip files.</p>
-<p><a href="./img/preproc_26.png"><img src="./img/preproc_26.png" class="img-fluid"></a></p>
-<p>&nbsp;</p>
-</section>
 <section id="cloud-masking-for-sentinel-2-images" class="level3 entry-title">
 <h3 class="entry-title anchored" data-anchor-id="cloud-masking-for-sentinel-2-images">Cloud Masking for Sentinel-2 images</h3>
 <p><span title="">If there are clouds or cloud shadows on your sentinel-2 scene, they can be mask out using the <em>quality scene classification band</em> of your scene.<br>
@@ -883,46 +805,46 @@ Search for the <strong>Read</strong> node. Within that node, a line should list 
 <p><a href="https://box.fu-berlin.de/s/DQRRxiRcFsGjrt8" target="_blank" rel="noopener">Here</a> you can download a Sentinel-2 image for executing this pre-processing step. For the scene which we used in the pre-processing before is no cloud correction necessary.</p>
 <p><strong>Processing steps in RStudio:</strong></p>
 <p>Open R-Studio and install, open the required packages and set your working directory:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"terra"</span>)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"D:</span><span class="sc">\\</span><span class="st">elearning</span><span class="sc">\\</span><span class="st">exchange</span><span class="sc">\\</span><span class="st">R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"terra"</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"D:</span><span class="sc">\\</span><span class="st">elearning</span><span class="sc">\\</span><span class="st">exchange</span><span class="sc">\\</span><span class="st">R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Open and plot the image:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>sen2 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">subset_0_of_S2A_MSIL2A_20190626T102031_N0212_R065_T32UQD_20190626T125319_resampled.tif"</span>)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2)</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2, <span class="at">r =</span> <span class="dv">4</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>sen2 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">subset_0_of_S2A_MSIL2A_20190626T102031_N0212_R065_T32UQD_20190626T125319_resampled.tif"</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2, <span class="at">r =</span> <span class="dv">4</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Separate spectral bands and classification (band 1 to 12 is the mulispectral Sentinel- 2 scene, band 13 is the quality classification band):</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>sen2_bands <span class="ot">&lt;-</span> sen2[[<span class="sc">-</span><span class="dv">13</span>]]</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>sen2_mask <span class="ot">&lt;-</span> sen2[[<span class="dv">13</span>]]</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2_mask)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>sen2_bands <span class="ot">&lt;-</span> sen2[[<span class="sc">-</span><span class="dv">13</span>]]</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>sen2_mask <span class="ot">&lt;-</span> sen2[[<span class="dv">13</span>]]</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2_mask)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Which pixels do we want to mask?</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2_mask)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>sen2_mask_combi <span class="ot">&lt;-</span> sen2_mask</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>sen2_mask_combi[sen2_mask <span class="sc">==</span> <span class="dv">3</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">7</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">8</span> <span class="sc">|</span> </span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                  sen2_mask <span class="sc">==</span> <span class="dv">9</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">10</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2_mask_combi)</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_mask_combi, <span class="st">"sen2_mask.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2_mask)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>sen2_mask_combi <span class="ot">&lt;-</span> sen2_mask</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>sen2_mask_combi[sen2_mask <span class="sc">==</span> <span class="dv">3</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">7</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">8</span> <span class="sc">|</span> </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                  sen2_mask <span class="sc">==</span> <span class="dv">9</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">10</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2_mask_combi)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_mask_combi, <span class="st">"sen2_mask.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><a href="./img/Maske.png"><img src="./img/Maske.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Mask without the classes: 3,7,8,9,10,11<br>
 </span></p>
 </div>
 <p>Apply mask:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>sen2_bands_masked <span class="ot">&lt;-</span> <span class="fu">mask</span>(sen2_bands, sen2_mask_combi)</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2_bands_masked, <span class="at">r =</span> <span class="dv">4</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_bands_masked, <span class="st">"sen2_masked.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>sen2_bands_masked <span class="ot">&lt;-</span> <span class="fu">mask</span>(sen2_bands, sen2_mask_combi)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2_bands_masked, <span class="at">r =</span> <span class="dv">4</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_bands_masked, <span class="st">"sen2_masked.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><a href="./img/Maske_applied.png"><img src="./img/Maske_applied.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Applied mask<br>
 </span></p>
 </div>
 <p>…or the whole part in short:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>sen2_bands_masked_a <span class="ot">&lt;-</span> sen2_bands</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>sen2_bands_masked_a[sen2_mask <span class="sc">==</span> <span class="dv">3</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">7</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">8</span> <span class="sc">|</span> </span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                      sen2_mask <span class="sc">==</span> <span class="dv">9</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">10</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_bands_masked_a, <span class="st">"sen2_masked_alternativ.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>sen2_bands_masked_a <span class="ot">&lt;-</span> sen2_bands</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>sen2_bands_masked_a[sen2_mask <span class="sc">==</span> <span class="dv">3</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">7</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">8</span> <span class="sc">|</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                      sen2_mask <span class="sc">==</span> <span class="dv">9</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">10</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_bands_masked_a, <span class="st">"sen2_masked_alternativ.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
