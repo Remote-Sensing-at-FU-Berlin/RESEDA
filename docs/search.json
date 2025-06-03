@@ -892,7 +892,12 @@
     "href": "RESEDA/contents/The End!.html",
     "title": "The End!",
     "section": "",
-    "text": "The End!\nThank you for working through the RESEDA course. 🎉"
+    "text": "The End!\nThank you for working through the RESEDA course. 🎉",
+    "crumbs": [
+      "RESEDA",
+      "The End!",
+      "The End!"
+    ]
   },
   {
     "objectID": "RESEDA/index.html",
