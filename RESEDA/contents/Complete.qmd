@@ -1,8 +1,3 @@
----
-title: "The End!"
-description: "Congratulations, you’ve finished RESEDA!"
----
-
 # The End!
 
 Thank you for working through the RESEDA course. 🎉
