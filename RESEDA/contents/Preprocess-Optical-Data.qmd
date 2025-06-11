@@ -523,39 +523,29 @@ sen2.img.lr <- rast(jp2files.20m[c(5, 6, 7, 8, 9, 10)])
 # Visualize a SWIR, NIR, Red composite for vegetation analysis
 plotRGB(sen2.img.lr, 6, 5, 2, stretch = "lin")
 ```
+**Step 3: Extract and Resample Bands for Analysis**
 
-Insert the function for Bilinear Interpolation : is a resampling method that uses the distance-weighted average of the four nearest pixel values to estimate a new pixel value.
-This applies to each raster file.
+we use the resample() function from the terra package to perform this operation. Resampling methods include: Consider the following two resampling methods:
 
-``` r
-resample_raster <- function(file, ref) {
-  r <- rast(file)
-  r_resampled <- resample(r, ref, method = "bilinear")  # Bilinear for continuous data
-  return(r_resampled)
-}
-```
-
-Applying resampling to all bands.
+1. Bilinear Interpolation: Calculates the new pixel values based on the weighted average of the four nearest pixels. This method is best for continuous data, like spectral bands.
+2. Nearest Neighbor: Simply assigns the nearest pixel value. This method is better for categorical data (e.g., a classification band), as it maintains discrete classes.
 
 ``` r
-#Apply resampling to all bands
-for (file in jp2_files) {
-  band_name <- basename(file)  # Extract filename
-  output_file <- file.path(output_dir, gsub(".jp2$", "_resampled.tif", band_name))  # Rename output file
-  
-  #Resample
-  r_resampled <- resample_raster(file, ref_band)
-  
-  #Save the resampled raster
-  writeRaster(r_resampled, output_file, overwrite = TRUE)
-  
-  
-  
-  cat("Resampled:", band_name, "->", output_file, "\n")
-}
-
-cat("\n✅ All Sentinel-2 bands have been resampled to 10m and saved in:", output_dir, "\n")
+sen2.img.lr.to10m <- resample(sen2.img.lr, sen2.img.hr, method = "bilinear")
 ```
+**Step 4: Combine All Bands in the Correct Wavelength Order**
+
+Reorder bands to follow the typical Sentinel-2 wavelength progression. This is how the images look like right now: - 10m bands: B2 (Blue), B3 (Green), B4 (Red), B8 (NIR) - Resampled 20m bands: B5, B6, B7 (Red Edge), B11, B12 (SWIR), B8A (Narrow NIR).
+
+``` r
+# Stack into a single raster
+sen2.full <- c(sen2.img.hr[[1]], sen2.img.hr[[2]], sen2.img.hr[[3]],
+               sen2.img.lr.to10m[[1]], sen2.img.lr.to10m[[2]], sen2.img.lr.to10m[[3]],
+               sen2.img.hr[[4]], sen2.img.lr.to10m[[6]], sen2.img.lr.to10m[[4]],
+               sen2.img.lr.to10m[[5]])
+
+# Confirm the band order
+print(names(sen2.full))```
 
 Stacking the resampled data and plot an image in True Color Composite (RGB).
 This displayed the whole stacked image.
