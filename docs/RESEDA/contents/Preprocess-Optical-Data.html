@@ -401,7 +401,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#sentinel-2-preprocessing" id="toc-sentinel-2-preprocessing" class="nav-link" data-scroll-target="#sentinel-2-preprocessing">Sentinel 2 Preprocessing</a></li>
   </ul></li>
-  <li><a href="#create-a-multiband-layerstack-of-10-m-spatial-resolution" id="toc-create-a-multiband-layerstack-of-10-m-spatial-resolution" class="nav-link" data-scroll-target="#create-a-multiband-layerstack-of-10-m-spatial-resolution">Create a multiband layerstack of 10 m spatial resolution</a>
+  <li><a href="#pre-processing-steps-in-rstudio" id="toc-pre-processing-steps-in-rstudio" class="nav-link" data-scroll-target="#pre-processing-steps-in-rstudio">Pre-Processing steps in RStudio:**</a>
   <ul class="collapse">
   <li><a href="#cloud-masking-for-sentinel-2-images" id="toc-cloud-masking-for-sentinel-2-images" class="nav-link" data-scroll-target="#cloud-masking-for-sentinel-2-images">Cloud Masking for Sentinel-2 images</a></li>
   </ul></li>
@@ -728,7 +728,10 @@ Due to the size of the data, we need to subset the important data from the SAFE 
 Watch this video on YouTube</a></p>
 </div>
 </div>
-<p><strong>Pre-Processing steps in RStudio:</strong></p>
+</section>
+</section>
+<section id="pre-processing-steps-in-rstudio" class="level1">
+<h1>Pre-Processing steps in RStudio:**</h1>
 <p>We will now use RStudio to pre-process our Sentinel 2 data.The processing steps will be as follows:</p>
 <ol type="1">
 <li>Open the spectral bands.</li>
@@ -743,10 +746,7 @@ Watch this video on YouTube</a></p>
 <p>Set the working directory: Update the path to the directory where today’s data are stored on your computer.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>path.image <span class="ot">&lt;-</span> <span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">Sentinal 2 Data"</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(pathimage)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-</section>
-<section id="create-a-multiband-layerstack-of-10-m-spatial-resolution" class="level1">
-<h1>Create a multiband layerstack of 10 m spatial resolution</h1>
+<p><strong>Create a multiband layerstack of 10 m spatial resolution:</strong></p>
 <p>Sentinel-2 images provide spectral bands at different spatial resolutions, depending on the type of information each band captures:</p>
 <ol type="1">
 <li>10m resolution: Bands 2, 3, 4, and 8 – These bands capture visible and near-infrared (NIR) light, making them ideal for high-detail analysis, such as vegetation and land cover mapping.</li>
