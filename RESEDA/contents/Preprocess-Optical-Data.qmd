@@ -486,18 +486,42 @@ Sentinel-2 images provide spectral bands at different spatial resolutions, depen
 Since different bands capture different aspects of the landscape, a combined analysis often requires multiple bands. However, the difference in spatial resolution can cause issues when you try to analyze or visualize them together.
 
 To solve this, we need to unify the resolutions by resampling the 20m bands to 10m. This ensures all bands align spatially and can be analyzed as a cohesive dataset. Resampling adjusts the pixel size of the 20m bands to match the finer detail of the 10m bands.
+
+**Step 1: Load High-Resolution (10m) Bands**
+
+Navigate to the R10m directory, which contains the high-resolution bands (B2, B3, B4, B8) at 10m. These bands represent the Blue, Green, Red, and Near Infrared (NIR) wavelengths, respectively, and are commonly used for RGB and NDVI visualizations.
+
 ``` r
-ref_band_file <- "E:\\Work\\S2_15_05_2024\\S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE\\S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE\\GRANULE\\L1C_T32UQD_A037557_20240515T101556\\IMG_DATA\\T32UQD_20240515T101559_B02.jp2"
-ref_band <- rast(ref_band_file)
+# Set working directory to R10m resolution data
+setwd(paste0(path.image, "\\R10m"))
+
+# List all JP2 files in the directory (10m bands only)
+jp2files.10m <- list.files(path = ".", pattern = ".*_B.*\\.jp2$", ignore.case = TRUE)
+print(jp2files.10m)
+
+# Load selected high-resolution bands (B2, B3, B4, B8) at 10m resolution
+sen2.img.hr <- rast(jp2files.10m[c(1:4)])
+
+# Visualize the RGB composite (bands 4, 3, 2 correspond to Red, Green, Blue)
+plotRGB(sen2.img.hr, 4, 3, 2, stretch = "lin")
 ```
+**Step 2: Load Medium-Resolution (20m) Bands**
 
-Generally any band with a 10m resolution in Sentinel 2, such as Blue(B02), Green(B03), Red(B04), NIR|(B08) can be used, however in this case Blue band is used due to its shorter wavelength and a high sensitivity to atmospheric conditions.
-
-Create an output folder for the resampled images.
+Switch to the R20m directory to load 20m resolution bands. These bands include additional spectral information, such as red-edge and SWIR bands.
 
 ``` r
-output_dir <- "E:\\Work\\S2_15_05_2024\\S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE\\S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE\\GRANULE\\L1C_T32UQD_A037557_20240515T101556\\Resampled"
-dir.create(output_dir, showWarnings = FALSE)
+# Set working directory to R20m resolution data
+setwd(paste0(path.image, "\\R20m"))
+
+# List all JP2 files in the directory (20m bands only)
+jp2files.20m <- list.files(path = ".", pattern = ".*_B.*\\.jp2$", ignore.case = TRUE)
+print(jp2files.20m)
+
+# Load selected low-resolution bands at 20m resolution (specify indices for desired bands) 
+sen2.img.lr <- rast(jp2files.20m[c(5, 6, 7, 8, 9, 10)])
+
+# Visualize a SWIR, NIR, Red composite for vegetation analysis
+plotRGB(sen2.img.lr, 6, 5, 2, stretch = "lin")
 ```
 
 Insert the function for Bilinear Interpolation : is a resampling method that uses the distance-weighted average of the four nearest pixel values to estimate a new pixel value.
