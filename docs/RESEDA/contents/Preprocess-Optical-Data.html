@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-2db3ae2482ea114dfc2ef5e5ac73d892.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-969ac3f3e26a9e4e07b4886b96ad488c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -399,10 +399,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#landsat-8-bulk-preprocessing" id="toc-landsat-8-bulk-preprocessing" class="nav-link" data-scroll-target="#landsat-8-bulk-preprocessing">Landsat 8 &amp; Landsat 9 Bulk Preprocessing</a></li>
   </ul></li>
-  <li><a href="#sentinel-2-preprocessing" id="toc-sentinel-2-preprocessing" class="nav-link" data-scroll-target="#sentinel-2-preprocessing">Sentinel 2 Preprocessing</a>
+  <li><a href="#sentinel-2-preprocessing" id="toc-sentinel-2-preprocessing" class="nav-link" data-scroll-target="#sentinel-2-preprocessing">Sentinel 2 Preprocessing</a></li>
+  </ul></li>
+  <li><a href="#create-a-multiband-layerstack-of-10-m-spatial-resolution" id="toc-create-a-multiband-layerstack-of-10-m-spatial-resolution" class="nav-link" data-scroll-target="#create-a-multiband-layerstack-of-10-m-spatial-resolution">Create a multiband layerstack of 10 m spatial resolution</a>
   <ul class="collapse">
   <li><a href="#cloud-masking-for-sentinel-2-images" id="toc-cloud-masking-for-sentinel-2-images" class="nav-link" data-scroll-target="#cloud-masking-for-sentinel-2-images">Cloud Masking for Sentinel-2 images</a></li>
-  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -730,23 +731,30 @@ Watch this video on YouTube</a></p>
 <p><strong>Pre-Processing steps in RStudio:</strong></p>
 <p>We will now use RStudio to pre-process our Sentinel 2 data.The processing steps will be as follows:</p>
 <ol type="1">
-<li>Resample bands to a spatial resolution of 10m.</li>
-<li>Stack the resampled bands.</li>
-<li>Create a subset of choice.</li>
+<li>Open the spectral bands.</li>
+<li>Resampling 20 m bands to 10 m.</li>
+<li>Creating a multiband raster including all spectral bands (and reorder them).</li>
+<li>Using the scene classification quality band to mask clouds and their shadows.</li>
+<li>Writing the data to a Geotif.</li>
 </ol>
-<p>Open R-Studio and install, open the required packages and set your working directory:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(terra)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">S2_15_05_2024"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Define the folder containing the Sentinel 2 data and list the .jp2 file (Raster Data).</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Folder containing .jp2 files</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>image_dir <span class="ot">&lt;-</span> <span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">S2_15_05_2024</span><span class="sc">\\</span><span class="st">S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE</span><span class="sc">\\</span><span class="st">S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE</span><span class="sc">\\</span><span class="st">GRANULE</span><span class="sc">\\</span><span class="st">L1C_T32UQD_A037557_20240515T101556</span><span class="sc">\\</span><span class="st">IMG_DATA"</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># list all .jp2 files</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>jp2_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(image_dir, <span class="at">pattern =</span> <span class="st">"</span><span class="sc">\\</span><span class="st">.jp2$"</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>We now use band 2 (Blue band), to serve as a reference band to resample all other bands to a spatial resolution of 10m.</p>
+<p>Open a new R-script or RMarkdown file and save it. Run each code section in the sequence below and add comments as needed. Install necessary packages: Make sure the terra package is installed and loaded.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"terra"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Set the working directory: Update the path to the directory where today’s data are stored on your computer.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>path.image <span class="ot">&lt;-</span> <span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">Sentinal 2 Data"</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(pathimage)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="create-a-multiband-layerstack-of-10-m-spatial-resolution" class="level1">
+<h1>Create a multiband layerstack of 10 m spatial resolution</h1>
+<p>Sentinel-2 images provide spectral bands at different spatial resolutions, depending on the type of information each band captures:</p>
+<ol type="1">
+<li>10m resolution: Bands 2, 3, 4, and 8 – These bands capture visible and near-infrared (NIR) light, making them ideal for high-detail analysis, such as vegetation and land cover mapping.</li>
+<li>20m resolution: Bands 5, 6, 7, 8A, 11, and 12 – These bands include red-edge and shortwave infrared (SWIR) information, which is crucial for assessing vegetation health, soil, and water content.</li>
+<li>60m resolution: Bands 1, 9, and 10 – These are primarily used for atmospheric correction and are not typically used in high-resolution analysis of surface features.</li>
+</ol>
+<p>Since different bands capture different aspects of the landscape, a combined analysis often requires multiple bands. However, the difference in spatial resolution can cause issues when you try to analyze or visualize them together.</p>
+<p>To solve this, we need to unify the resolutions by resampling the 20m bands to 10m. This ensures all bands align spatially and can be analyzed as a cohesive dataset. Resampling adjusts the pixel size of the 20m bands to match the finer detail of the 10m bands.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ref_band_file <span class="ot">&lt;-</span> <span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">S2_15_05_2024</span><span class="sc">\\</span><span class="st">S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE</span><span class="sc">\\</span><span class="st">S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE</span><span class="sc">\\</span><span class="st">GRANULE</span><span class="sc">\\</span><span class="st">L1C_T32UQD_A037557_20240515T101556</span><span class="sc">\\</span><span class="st">IMG_DATA</span><span class="sc">\\</span><span class="st">T32UQD_20240515T101559_B02.jp2"</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>ref_band <span class="ot">&lt;-</span> <span class="fu">rast</span>(ref_band_file)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Generally any band with a 10m resolution in Sentinel 2, such as Blue(B02), Green(B03), Red(B04), NIR|(B08) can be used, however in this case Blue band is used due to its shorter wavelength and a high sensitivity to atmospheric conditions.</p>
@@ -863,7 +871,6 @@ Watch this video on YouTube</a></p>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_bands_masked_a, <span class="st">"sen2_masked_alternativ.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
-</section>
 </section>
 </section>
 
