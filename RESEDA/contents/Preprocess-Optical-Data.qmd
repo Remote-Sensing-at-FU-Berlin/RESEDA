@@ -547,6 +547,14 @@ sen2.full <- c(sen2.img.hr[[1]], sen2.img.hr[[2]], sen2.img.hr[[3]],
 # Confirm the band order
 print(names(sen2.full)
 ```
+**Step 5: Save the Geotif**
+
+Save the data as GeoTiff.
+``` r
+# Export the data as GeoTiff
+setwd("C:\\Users\\stellmes\\Documents\\master\\4_seminar\\")
+writeRaster(masked.image.cropped, "sen2_20241024.tif", overwrite=T)
+```
 
 
 ### Cloud Masking for Sentinel-2 images {#cloud-masking-for-sentinel-2-images .entry-title}
