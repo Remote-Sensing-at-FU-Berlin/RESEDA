@@ -455,32 +455,37 @@ Watch this video on YouTube](https://youtu.be/cXbXHgELbjQ)
 
 We will now use RStudio to pre-process our Sentinel 2 data.The processing steps will be as follows:
 
-1. Resample bands to a spatial resolution of 10m.
-2. Stack the resampled bands.
-3. Create a subset of choice.
+1. Open the spectral bands.
+2. Resampling 20 m bands to 10 m.
+3. Creating a multiband raster including all spectral bands (and reorder them).
+4. Using the scene classification quality band to mask clouds and their shadows.
+5. Writing the data to a Geotif.
 
-Open R-Studio and install, open the required packages and set your working directory:
+Open a new R-script or RMarkdown file and save it. Run each code section in the sequence below and add comments as needed.
+Install necessary packages: Make sure the terra package is installed and loaded.
 
 ``` r
-install.packages(terra)
-
+install.packages("terra")
 library(terra)
-
-setwd("E:\\Work\\S2_15_05_2024")
 ```
 
-Define the folder containing the Sentinel 2 data and list the .jp2 file (Raster Data).
+Set the working directory: Update the path to the directory where today’s data are stored on your computer.
 
 ``` r
-#Folder containing .jp2 files
-image_dir <- "E:\\Work\\S2_15_05_2024\\S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE\\S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE\\GRANULE\\L1C_T32UQD_A037557_20240515T101556\\IMG_DATA"
-
-# list all .jp2 files
-jp2_files <- list.files(image_dir, pattern = "\\.jp2$", full.names = TRUE)
+path.image <- "E:\\Work\\Sentinal 2 Data"
+setwd(pathimage)
 ```
+# Create a multiband layerstack of 10 m spatial resolution
 
-We now use band 2 (Blue band), to serve as a reference band to resample all other bands to a spatial resolution of 10m.
+Sentinel-2 images provide spectral bands at different spatial resolutions, depending on the type of information each band captures:
 
+1. 10m resolution: Bands 2, 3, 4, and 8 – These bands capture visible and near-infrared (NIR) light, making them ideal for high-detail analysis, such as vegetation and land cover mapping.
+2. 20m resolution: Bands 5, 6, 7, 8A, 11, and 12 – These bands include red-edge and shortwave infrared (SWIR) information, which is crucial for assessing vegetation health, soil, and water content.
+3. 60m resolution: Bands 1, 9, and 10 – These are primarily used for atmospheric correction and are not typically used in high-resolution analysis of surface features.
+
+Since different bands capture different aspects of the landscape, a combined analysis often requires multiple bands. However, the difference in spatial resolution can cause issues when you try to analyze or visualize them together.
+
+To solve this, we need to unify the resolutions by resampling the 20m bands to 10m. This ensures all bands align spatially and can be analyzed as a cohesive dataset. Resampling adjusts the pixel size of the 20m bands to match the finer detail of the 10m bands.
 ``` r
 ref_band_file <- "E:\\Work\\S2_15_05_2024\\S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE\\S2B_MSIL1C_20240515T101559_N0510_R065_T32UQD_20240515T140423.SAFE\\GRANULE\\L1C_T32UQD_A037557_20240515T101556\\IMG_DATA\\T32UQD_20240515T101559_B02.jp2"
 ref_band <- rast(ref_band_file)
