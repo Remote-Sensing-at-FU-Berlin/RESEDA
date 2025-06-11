@@ -451,7 +451,7 @@ Watch this video on YouTube](https://youtu.be/cXbXHgELbjQ)
 :::
 :::
 
-**Pre-Processing steps in RStudio:**
+# Pre-Processing steps in RStudio:**
 
 We will now use RStudio to pre-process our Sentinel 2 data.The processing steps will be as follows:
 
@@ -475,7 +475,7 @@ Set the working directory: Update the path to the directory where today’s data
 path.image <- "E:\\Work\\Sentinal 2 Data"
 setwd(pathimage)
 ```
-# Create a multiband layerstack of 10 m spatial resolution
+**Create a multiband layerstack of 10 m spatial resolution:**
 
 Sentinel-2 images provide spectral bands at different spatial resolutions, depending on the type of information each band captures:
 
