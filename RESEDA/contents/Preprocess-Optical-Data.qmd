@@ -451,7 +451,7 @@ Watch this video on YouTube](https://youtu.be/cXbXHgELbjQ)
 :::
 :::
 
-# Pre-Processing steps in RStudio:
+# Pre-Processing steps in RStudio
 
 We will now use RStudio to pre-process our Sentinel 2 data.The processing steps will be as follows:
 
