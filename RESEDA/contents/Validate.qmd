@@ -514,10 +514,14 @@ Extracts the classification values of all pixels from the raster.This is used to
 ``` r
 imgVal <- as.factor(values(img.class))
 ```
+Counts how many unique land cover classes exist based on training data, which is needed to define loop iterations, allocate arrays/matrices, and label outputs correctly.
+
+``` r
+nclass <- length(unique(shp.train$classes)) 
+```
 
 
 ``` r
-nclass <- length(unique(shp.train$classes))
 maparea <- sapply(1:nclass, function(x) sum(imgVal == x, na.rm = TRUE))
 maparea <- maparea * res(img.class)[1] ^ 2 / 1000000  # Convert to km²
 
