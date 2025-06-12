@@ -568,17 +568,26 @@ PA <- diag(p) / colSums(p)
 
 UA <- diag(p) / rowSums(p)
 ```
-
+This is the confidence interval for Overall Accuracy and provides uncertainty bounds on the overall performance metric.
 
 ``` r
 OA_CI <- conf * sqrt(sum(W_i ^ 2 * UA * (1 - UA) / (n_i - 1)))
+```
+The confidence interval for User Accuracy computes standard error for each UA value.
 
+``` r
 UA_CI <- conf * sqrt(UA * (1 - UA) / (n_i - 1))
+```
+Confidence interval for Producer Accuracy.
 
+``` r
 N_j <- sapply(1:nclass, function(x) sum(maparea / n_i * confmat[ , x]) )
 tmp <- sapply(1:nclass, function(x) sum(maparea[-x] ^ 2 * confmat[-x, x] / n_i[-x] * (1 - confmat[-x, x] / n_i[-x]) / (n_i[-x] - 1)))
 PA_CI <- conf * sqrt(1 / N_j ^ 2 * (maparea ^ 2 * (1 - PA) ^ 2 * UA * (1 - UA) / (n_i - 1) + PA ^ 2 * tmp))
+```
+This is the final output table which assembles all matrices into a readable table with names and column headers.
 
+``` r
 result <- matrix(c(p_area, p_area_CI, PA * 100, PA_CI * 100, UA * 100, UA_CI * 100, c(OA * 100, rep(NA, nclass-1)), c(OA_CI * 100, rep(NA, nclass-1))), nrow = nclass)
 result <- round(result, digits = 2)
 rownames(result) <- levels(as.factor(shp.train$classes))
