@@ -481,6 +481,8 @@ The area of land cover change obtained from a map may differ greatly from the tr
 
 The script is commented comprehensively and the equations from the paper are marked accordingly in the comments of this script.
 
+Load required packages and set working directory.
+
 ``` r
 # area adjusted accuracy assessment 
 # calculated as in Olofsson et al. 2014
@@ -488,11 +490,22 @@ The script is commented comprehensively and the equations from the paper are mar
 library(terra)
 
 setwd("E:\\Work")
+```
+Load classification and ground truth data.
 
+``` r
 img.class <- rast("E:\\Work\\classification_RF.tif")
-shp.train <- vect("E:\\Work\\training_data\\training_data.shp")
-shp.valid <- vect("E:\\Work\\validation_RF.shp")
+#Loads the classified raster map (result from classification)
 
+shp.train <- vect("E:\\Work\\training_data\\training_data.shp")
+#Loads training data (used to train the classifier)
+
+shp.valid <- vect("E:\\Work\\validation_RF.shp")
+#Loads validation data (independent ground-truth for accuracy assessment)
+```
+
+
+``` r
 confmat <- table(as.factor(extract(img.class, shp.valid)), as.factor(shp.valid$validclass))
 
 imgVal <- as.factor(values(img.class))
