@@ -543,7 +543,7 @@ This counts how many validation samples fall into each predicted class.
 ``` r
 n_i <- rowSums(confmat)
 ```
-
+This estimates actual area for each interval class and calculates confidence intervals for those estimates.
 
 ``` r
 p <- W_i * confmat / n_i
@@ -552,13 +552,25 @@ p[is.na(p)] <- 0  # Handle division by zero
 p_area <- colSums(p) * A
 
 p_area_CI <- conf * A * sqrt(colSums((W_i * p - p ^ 2) / (n_i - 1)))
+```
+This calculates the Overall Accuracy, which sums up all the correctly classified area.
 
+``` r
 OA <- sum(diag(p))
+```
+The Producer Accuracy and User Accuracy provides class specific insights.
 
+-   The Producer Accuracy tells us how well the reference class is captured by the map.
+-   The User Accuracy tells us how reliable a map label is for a given class.
+
+``` r
 PA <- diag(p) / colSums(p)
 
 UA <- diag(p) / rowSums(p)
+```
 
+
+``` r
 OA_CI <- conf * sqrt(sum(W_i ^ 2 * UA * (1 - UA) / (n_i - 1)))
 
 UA_CI <- conf * sqrt(UA * (1 - UA) / (n_i - 1))
