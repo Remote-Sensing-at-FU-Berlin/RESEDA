@@ -530,13 +530,17 @@ Confidence interval parameter is fixed, which is used for computing uncertainty 
 ``` r
 conf <- 1.96
 ```
-
+Each class must be weighted by its real-world proportion to avoid biasing the accuracy toward over-sampled or under-represented classes.
 
 ``` r
 A <- sum(maparea)
 
 W_i <- maparea / A
+# Computes relative area weight (Wᵢ) for each class.
+```
 
+
+``` r
 n_i <- rowSums(confmat)
 
 p <- W_i * confmat / n_i
