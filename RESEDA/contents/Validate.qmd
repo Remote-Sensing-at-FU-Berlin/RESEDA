@@ -538,11 +538,14 @@ A <- sum(maparea)
 W_i <- maparea / A
 # Computes relative area weight (Wᵢ) for each class.
 ```
-
+This counts how many validation samples fall into each predicted class.
 
 ``` r
 n_i <- rowSums(confmat)
+```
 
+
+``` r
 p <- W_i * confmat / n_i
 p[is.na(p)] <- 0  # Handle division by zero
 
