@@ -519,12 +519,15 @@ Counts how many unique land cover classes exist based on training data, which is
 ``` r
 nclass <- length(unique(shp.train$classes)) 
 ```
-
+The number of pixels in each class is counted and converted into km².
 
 ``` r
 maparea <- sapply(1:nclass, function(x) sum(imgVal == x, na.rm = TRUE))
 maparea <- maparea * res(img.class)[1] ^ 2 / 1000000  # Convert to km²
+```
 
+
+``` r
 conf <- 1.96
 
 A <- sum(maparea)
