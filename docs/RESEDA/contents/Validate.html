@@ -860,168 +860,169 @@ A value greater than 0 indicates that the classification is significantly better
 <span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Loads validation data (independent ground-truth for accuracy assessment)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Build a confusion matrix, as this is the basis for all accuracy calculations (Producer’s, User’s, and Overall Accuracy). The confusion matrix extracts predicted classes from the raster at each validation point and creates a confusion matrix comparing predicted vs actual classes.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>confmat <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">as.factor</span>(<span class="fu">extract</span>(img.class, shp.valid)), <span class="fu">as.factor</span>(shp.valid<span class="sc">$</span>validclass))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>imgVal <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">values</span>(img.class))</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>nclass <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(shp.train<span class="sc">$</span>classes))</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>maparea <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nclass, <span class="cf">function</span>(x) <span class="fu">sum</span>(imgVal <span class="sc">==</span> x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>maparea <span class="ot">&lt;-</span> maparea <span class="sc">*</span> <span class="fu">res</span>(img.class)[<span class="dv">1</span>] <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span> <span class="dv">1000000</span>  <span class="co"># Convert to km²</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fl">1.96</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">sum</span>(maparea)</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>W_i <span class="ot">&lt;-</span> maparea <span class="sc">/</span> A</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>n_i <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(confmat)</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> W_i <span class="sc">*</span> confmat <span class="sc">/</span> n_i</span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>p[<span class="fu">is.na</span>(p)] <span class="ot">&lt;-</span> <span class="dv">0</span>  <span class="co"># Handle division by zero</span></span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>p_area <span class="ot">&lt;-</span> <span class="fu">colSums</span>(p) <span class="sc">*</span> A</span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>p_area_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> A <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">colSums</span>((W_i <span class="sc">*</span> p <span class="sc">-</span> p <span class="sc">^</span> <span class="dv">2</span>) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>)))</span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>OA <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">diag</span>(p))</span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>PA <span class="ot">&lt;-</span> <span class="fu">diag</span>(p) <span class="sc">/</span> <span class="fu">colSums</span>(p)</span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>UA <span class="ot">&lt;-</span> <span class="fu">diag</span>(p) <span class="sc">/</span> <span class="fu">rowSums</span>(p)</span>
-<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>OA_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(W_i <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> UA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> UA) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>)))</span>
-<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a>UA_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> <span class="fu">sqrt</span>(UA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> UA) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>))</span>
-<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a>N_j <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nclass, <span class="cf">function</span>(x) <span class="fu">sum</span>(maparea <span class="sc">/</span> n_i <span class="sc">*</span> confmat[ , x]) )</span>
-<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nclass, <span class="cf">function</span>(x) <span class="fu">sum</span>(maparea[<span class="sc">-</span>x] <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> confmat[<span class="sc">-</span>x, x] <span class="sc">/</span> n_i[<span class="sc">-</span>x] <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> confmat[<span class="sc">-</span>x, x] <span class="sc">/</span> n_i[<span class="sc">-</span>x]) <span class="sc">/</span> (n_i[<span class="sc">-</span>x] <span class="sc">-</span> <span class="dv">1</span>)))</span>
-<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a>PA_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> N_j <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> (maparea <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> PA) <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> UA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> UA) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">+</span> PA <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> tmp))</span>
-<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(p_area, p_area_CI, PA <span class="sc">*</span> <span class="dv">100</span>, PA_CI <span class="sc">*</span> <span class="dv">100</span>, UA <span class="sc">*</span> <span class="dv">100</span>, UA_CI <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">c</span>(OA <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">rep</span>(<span class="cn">NA</span>, nclass<span class="dv">-1</span>)), <span class="fu">c</span>(OA_CI <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">rep</span>(<span class="cn">NA</span>, nclass<span class="dv">-1</span>))), <span class="at">nrow =</span> nclass)</span>
-<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">round</span>(result, <span class="at">digits =</span> <span class="dv">2</span>)</span>
-<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(result) <span class="ot">&lt;-</span> <span class="fu">levels</span>(<span class="fu">as.factor</span>(shp.train<span class="sc">$</span>classes))</span>
-<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(result) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"km²"</span>, <span class="st">"km²±"</span>, <span class="st">"PA"</span>, <span class="st">"PA±"</span>, <span class="st">"UA"</span>, <span class="st">"UA±"</span>, <span class="st">"OA"</span>, <span class="st">"OA±"</span>)</span>
-<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(result) <span class="ot">&lt;-</span> <span class="st">"table"</span></span>
-<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a>result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work"</span>)</span>
+<p>Extracts the classification values of all pixels from the raster.This is used to compute how many pixels belong to each class which is required for area weighting.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>imgVal <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">values</span>(img.class))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>nclass <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(shp.train<span class="sc">$</span>classes))</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>maparea <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nclass, <span class="cf">function</span>(x) <span class="fu">sum</span>(imgVal <span class="sc">==</span> x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>maparea <span class="ot">&lt;-</span> maparea <span class="sc">*</span> <span class="fu">res</span>(img.class)[<span class="dv">1</span>] <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span> <span class="dv">1000000</span>  <span class="co"># Convert to km²</span></span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>img.class <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">classification_RF.tif"</span>)</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>shp.train <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">training_data</span><span class="sc">\\</span><span class="st">training_data.shp"</span>)</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>shp.valid <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">validation_RF.shp"</span>)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fl">1.96</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">sum</span>(maparea)</span>
 <span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>confmat <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">as.factor</span>(<span class="fu">extract</span>(img.class, shp.valid)), <span class="fu">as.factor</span>(shp.valid<span class="sc">$</span>validclass))</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(confmat)</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="do">##      1  2  3  4  5  6</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="do">##   1 31  0  7  2  5  0</span></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="do">##   2  0 47  2  0  0  1</span></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="do">##   3  0  7 39  0  4  0</span></span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="do">##   4  0  0  0 40  9  0</span></span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a><span class="do">##   5  0  0  1  2 47  0</span></span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="do">##   6  0  0  0  0  0 49</span></span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>W_i <span class="ot">&lt;-</span> maparea <span class="sc">/</span> A</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>n_i <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(confmat)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> W_i <span class="sc">*</span> confmat <span class="sc">/</span> n_i</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>p[<span class="fu">is.na</span>(p)] <span class="ot">&lt;-</span> <span class="dv">0</span>  <span class="co"># Handle division by zero</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>p_area <span class="ot">&lt;-</span> <span class="fu">colSums</span>(p) <span class="sc">*</span> A</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>p_area_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> A <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">colSums</span>((W_i <span class="sc">*</span> p <span class="sc">-</span> p <span class="sc">^</span> <span class="dv">2</span>) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>)))</span>
 <span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>imgVal <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">values</span>(img.class))</span>
-<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(imgVal)</span>
-<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 5 5 5 5 5 5</span></span>
-<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a><span class="do">## Levels: 1 2 3 4 5 6</span></span>
-<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>nclass <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(shp.train<span class="sc">$</span>classes))</span>
-<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(nclass)</span>
-<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 6</span></span>
-<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>maparea <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nclass, <span class="cf">function</span>(x) <span class="fu">sum</span>(imgVal <span class="sc">==</span> x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(maparea)</span>
-<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a><span class="do">## [1]  26741 121740  36345 129130 185222  19942</span></span>
-<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a>maparea <span class="ot">&lt;-</span> maparea <span class="sc">*</span> <span class="fu">res</span>(img.class)[<span class="dv">1</span>] <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span> <span class="dv">1000000</span>  <span class="co"># Convert to km²</span></span>
-<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(maparea)</span>
-<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a><span class="do">## [1]  24.0669 109.5660  32.7105 116.2170 166.6998  17.9478</span></span>
-<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fl">1.96</span></span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>OA <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">diag</span>(p))</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a>PA <span class="ot">&lt;-</span> <span class="fu">diag</span>(p) <span class="sc">/</span> <span class="fu">colSums</span>(p)</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>UA <span class="ot">&lt;-</span> <span class="fu">diag</span>(p) <span class="sc">/</span> <span class="fu">rowSums</span>(p)</span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>OA_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(W_i <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> UA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> UA) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>)))</span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>UA_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> <span class="fu">sqrt</span>(UA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> UA) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>N_j <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nclass, <span class="cf">function</span>(x) <span class="fu">sum</span>(maparea <span class="sc">/</span> n_i <span class="sc">*</span> confmat[ , x]) )</span>
+<span id="cb26-31"><a href="#cb26-31" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nclass, <span class="cf">function</span>(x) <span class="fu">sum</span>(maparea[<span class="sc">-</span>x] <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> confmat[<span class="sc">-</span>x, x] <span class="sc">/</span> n_i[<span class="sc">-</span>x] <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> confmat[<span class="sc">-</span>x, x] <span class="sc">/</span> n_i[<span class="sc">-</span>x]) <span class="sc">/</span> (n_i[<span class="sc">-</span>x] <span class="sc">-</span> <span class="dv">1</span>)))</span>
+<span id="cb26-32"><a href="#cb26-32" aria-hidden="true" tabindex="-1"></a>PA_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> N_j <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> (maparea <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> PA) <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> UA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> UA) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">+</span> PA <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> tmp))</span>
+<span id="cb26-33"><a href="#cb26-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-34"><a href="#cb26-34" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(p_area, p_area_CI, PA <span class="sc">*</span> <span class="dv">100</span>, PA_CI <span class="sc">*</span> <span class="dv">100</span>, UA <span class="sc">*</span> <span class="dv">100</span>, UA_CI <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">c</span>(OA <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">rep</span>(<span class="cn">NA</span>, nclass<span class="dv">-1</span>)), <span class="fu">c</span>(OA_CI <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">rep</span>(<span class="cn">NA</span>, nclass<span class="dv">-1</span>))), <span class="at">nrow =</span> nclass)</span>
+<span id="cb26-35"><a href="#cb26-35" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">round</span>(result, <span class="at">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb26-36"><a href="#cb26-36" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(result) <span class="ot">&lt;-</span> <span class="fu">levels</span>(<span class="fu">as.factor</span>(shp.train<span class="sc">$</span>classes))</span>
+<span id="cb26-37"><a href="#cb26-37" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(result) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"km²"</span>, <span class="st">"km²±"</span>, <span class="st">"PA"</span>, <span class="st">"PA±"</span>, <span class="st">"UA"</span>, <span class="st">"UA±"</span>, <span class="st">"OA"</span>, <span class="st">"OA±"</span>)</span>
+<span id="cb26-38"><a href="#cb26-38" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(result) <span class="ot">&lt;-</span> <span class="st">"table"</span></span>
 <span id="cb26-39"><a href="#cb26-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-41"><a href="#cb26-41" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">sum</span>(maparea)</span>
-<span id="cb26-42"><a href="#cb26-42" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(A)</span>
-<span id="cb26-43"><a href="#cb26-43" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 467.208</span></span>
-<span id="cb26-44"><a href="#cb26-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-45"><a href="#cb26-45" aria-hidden="true" tabindex="-1"></a>W_i <span class="ot">&lt;-</span> maparea <span class="sc">/</span> A</span>
-<span id="cb26-46"><a href="#cb26-46" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(W_i)</span>
-<span id="cb26-47"><a href="#cb26-47" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.05151217 0.23451225 0.07001271 0.24874788 0.35679997 0.03841501</span></span>
-<span id="cb26-48"><a href="#cb26-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-49"><a href="#cb26-49" aria-hidden="true" tabindex="-1"></a>n_i <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(confmat)</span>
-<span id="cb26-50"><a href="#cb26-50" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(n_i)</span>
-<span id="cb26-51"><a href="#cb26-51" aria-hidden="true" tabindex="-1"></a><span class="do">##  1  2  3  4  5  6 </span></span>
-<span id="cb26-52"><a href="#cb26-52" aria-hidden="true" tabindex="-1"></a><span class="do">## 45 50 50 49 50 49</span></span>
-<span id="cb26-53"><a href="#cb26-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-54"><a href="#cb26-54" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> W_i <span class="sc">*</span> confmat <span class="sc">/</span> n_i</span>
-<span id="cb26-55"><a href="#cb26-55" aria-hidden="true" tabindex="-1"></a>p[<span class="fu">is.na</span>(p)] <span class="ot">&lt;-</span> <span class="dv">0</span>  <span class="co"># Handle division by zero</span></span>
-<span id="cb26-56"><a href="#cb26-56" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">round</span>(p, <span class="at">digits =</span> <span class="dv">4</span>))</span>
-<span id="cb26-57"><a href="#cb26-57" aria-hidden="true" tabindex="-1"></a><span class="do">##          1      2      3      4      5      6</span></span>
-<span id="cb26-58"><a href="#cb26-58" aria-hidden="true" tabindex="-1"></a><span class="do">##   1 0.0355 0.0000 0.0080 0.0023 0.0057 0.0000</span></span>
-<span id="cb26-59"><a href="#cb26-59" aria-hidden="true" tabindex="-1"></a><span class="do">##   2 0.0000 0.2204 0.0094 0.0000 0.0000 0.0047</span></span>
-<span id="cb26-60"><a href="#cb26-60" aria-hidden="true" tabindex="-1"></a><span class="do">##   3 0.0000 0.0098 0.0546 0.0000 0.0056 0.0000</span></span>
-<span id="cb26-61"><a href="#cb26-61" aria-hidden="true" tabindex="-1"></a><span class="do">##   4 0.0000 0.0000 0.0000 0.2031 0.0457 0.0000</span></span>
-<span id="cb26-62"><a href="#cb26-62" aria-hidden="true" tabindex="-1"></a><span class="do">##   5 0.0000 0.0000 0.0071 0.0143 0.3354 0.0000</span></span>
-<span id="cb26-63"><a href="#cb26-63" aria-hidden="true" tabindex="-1"></a><span class="do">##   6 0.0000 0.0000 0.0000 0.0000 0.0000 0.0384</span></span>
-<span id="cb26-64"><a href="#cb26-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-65"><a href="#cb26-65" aria-hidden="true" tabindex="-1"></a>p_area <span class="ot">&lt;-</span> <span class="fu">colSums</span>(p) <span class="sc">*</span> A</span>
-<span id="cb26-66"><a href="#cb26-66" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p_area)</span>
-<span id="cb26-67"><a href="#cb26-67" aria-hidden="true" tabindex="-1"></a><span class="do">##         1         2         3         4         5         6 </span></span>
-<span id="cb26-68"><a href="#cb26-68" aria-hidden="true" tabindex="-1"></a><span class="do">##  16.57942 107.57151  36.97457 102.60865 183.33473  20.13912</span></span>
-<span id="cb26-69"><a href="#cb26-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-70"><a href="#cb26-70" aria-hidden="true" tabindex="-1"></a>p_area_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> A <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">colSums</span>((W_i <span class="sc">*</span> p <span class="sc">-</span> p <span class="sc">^</span> <span class="dv">2</span>) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>))) </span>
-<span id="cb26-71"><a href="#cb26-71" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p_area_CI)</span>
-<span id="cb26-72"><a href="#cb26-72" aria-hidden="true" tabindex="-1"></a><span class="do">##         1         2         3         4         5         6 </span></span>
-<span id="cb26-73"><a href="#cb26-73" aria-hidden="true" tabindex="-1"></a><span class="do">##  3.292170  7.948700  9.994001 15.744342 17.208163  4.294987</span></span>
-<span id="cb26-74"><a href="#cb26-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-75"><a href="#cb26-75" aria-hidden="true" tabindex="-1"></a>OA <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">diag</span>(p))</span>
-<span id="cb26-76"><a href="#cb26-76" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(OA)</span>
-<span id="cb26-77"><a href="#cb26-77" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.8874041</span></span>
-<span id="cb26-78"><a href="#cb26-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-79"><a href="#cb26-79" aria-hidden="true" tabindex="-1"></a>PA <span class="ot">&lt;-</span> <span class="fu">diag</span>(p) <span class="sc">/</span> <span class="fu">colSums</span>(p)</span>
-<span id="cb26-80"><a href="#cb26-80" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(PA)</span>
-<span id="cb26-81"><a href="#cb26-81" aria-hidden="true" tabindex="-1"></a><span class="do">##         1         2         3         4         5         6 </span></span>
-<span id="cb26-82"><a href="#cb26-82" aria-hidden="true" tabindex="-1"></a><span class="do">## 1.0000000 0.9574286 0.6900470 0.9245908 0.8547088 0.8911909</span></span>
-<span id="cb26-83"><a href="#cb26-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-84"><a href="#cb26-84" aria-hidden="true" tabindex="-1"></a>UA <span class="ot">&lt;-</span> <span class="fu">diag</span>(p) <span class="sc">/</span> <span class="fu">rowSums</span>(p)</span>
-<span id="cb26-85"><a href="#cb26-85" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(UA)</span>
-<span id="cb26-86"><a href="#cb26-86" aria-hidden="true" tabindex="-1"></a><span class="do">##         1         2         3         4         5         6 </span></span>
-<span id="cb26-87"><a href="#cb26-87" aria-hidden="true" tabindex="-1"></a><span class="do">## 0.6888889 0.9400000 0.7800000 0.8163265 0.9400000 1.0000000</span></span>
-<span id="cb26-88"><a href="#cb26-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-89"><a href="#cb26-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-90"><a href="#cb26-90" aria-hidden="true" tabindex="-1"></a>OA_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(W_i <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> UA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> UA) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>)))</span>
-<span id="cb26-91"><a href="#cb26-91" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(OA_CI)</span>
-<span id="cb26-92"><a href="#cb26-92" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.04079462</span></span>
-<span id="cb26-93"><a href="#cb26-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-94"><a href="#cb26-94" aria-hidden="true" tabindex="-1"></a>UA_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> <span class="fu">sqrt</span>(UA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> UA) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>))</span>
-<span id="cb26-95"><a href="#cb26-95" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(UA_CI)</span>
-<span id="cb26-96"><a href="#cb26-96" aria-hidden="true" tabindex="-1"></a><span class="do">##          1          2          3          4          5          6 </span></span>
-<span id="cb26-97"><a href="#cb26-97" aria-hidden="true" tabindex="-1"></a><span class="do">## 0.13679244 0.06649632 0.11598896 0.10954451 0.06649632 0.00000000</span></span>
-<span id="cb26-98"><a href="#cb26-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-99"><a href="#cb26-99" aria-hidden="true" tabindex="-1"></a>N_j <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nclass, <span class="cf">function</span>(x) <span class="fu">sum</span>(maparea <span class="sc">/</span> n_i <span class="sc">*</span> confmat[ , x]) )</span>
-<span id="cb26-100"><a href="#cb26-100" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nclass, <span class="cf">function</span>(x) <span class="fu">sum</span>(maparea[<span class="sc">-</span>x] <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> confmat[<span class="sc">-</span>x, x] <span class="sc">/</span> n_i[<span class="sc">-</span>x] <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> confmat[<span class="sc">-</span>x, x] <span class="sc">/</span> n_i[<span class="sc">-</span>x]) <span class="sc">/</span> (n_i[<span class="sc">-</span>x] <span class="sc">-</span> <span class="dv">1</span>)))</span>
-<span id="cb26-101"><a href="#cb26-101" aria-hidden="true" tabindex="-1"></a>PA_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> N_j <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> (maparea <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> PA) <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> UA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> UA) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">+</span> PA <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> tmp))</span>
-<span id="cb26-102"><a href="#cb26-102" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(PA_CI)</span>
-<span id="cb26-103"><a href="#cb26-103" aria-hidden="true" tabindex="-1"></a><span class="do">##          1          2          3          4          5          6 </span></span>
-<span id="cb26-104"><a href="#cb26-104" aria-hidden="true" tabindex="-1"></a><span class="do">## 0.00000000 0.02843232 0.17545912 0.08399238 0.06198829 0.19006061</span></span>
-<span id="cb26-105"><a href="#cb26-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-106"><a href="#cb26-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-107"><a href="#cb26-107" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(p_area, p_area_CI, PA <span class="sc">*</span> <span class="dv">100</span>, PA_CI <span class="sc">*</span> <span class="dv">100</span>, UA <span class="sc">*</span> <span class="dv">100</span>, UA_CI <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">c</span>(OA <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">rep</span>(<span class="cn">NA</span>, nclass<span class="dv">-1</span>)), <span class="fu">c</span>(OA_CI <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">rep</span>(<span class="cn">NA</span>, nclass<span class="dv">-1</span>))), <span class="at">nrow =</span> nclass)</span>
-<span id="cb26-108"><a href="#cb26-108" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">round</span>(result, <span class="at">digits =</span> <span class="dv">2</span>)</span>
-<span id="cb26-109"><a href="#cb26-109" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(result) <span class="ot">&lt;-</span> <span class="fu">levels</span>(<span class="fu">as.factor</span>(shp.train<span class="sc">$</span>classes))</span>
-<span id="cb26-110"><a href="#cb26-110" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(result) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"km²"</span>, <span class="st">"km²±"</span>, <span class="st">"PA"</span>, <span class="st">"PA±"</span>, <span class="st">"UA"</span>, <span class="st">"UA±"</span>, <span class="st">"OA"</span>, <span class="st">"OA±"</span>)</span>
-<span id="cb26-111"><a href="#cb26-111" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(result) <span class="ot">&lt;-</span> <span class="st">"table"</span></span>
-<span id="cb26-112"><a href="#cb26-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-113"><a href="#cb26-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-114"><a href="#cb26-114" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result)</span>
-<span id="cb26-115"><a href="#cb26-115" aria-hidden="true" tabindex="-1"></a><span class="do">##              km²   km²±     PA    PA±     UA    UA±     OA    OA±</span></span>
-<span id="cb26-116"><a href="#cb26-116" aria-hidden="true" tabindex="-1"></a><span class="do">## baresoil   16.58   3.29 100.00   0.00  68.89  13.68  88.74   4.08</span></span>
-<span id="cb26-117"><a href="#cb26-117" aria-hidden="true" tabindex="-1"></a><span class="do">## forest    107.57   7.95  95.74   2.84  94.00   6.65              </span></span>
-<span id="cb26-118"><a href="#cb26-118" aria-hidden="true" tabindex="-1"></a><span class="do">## grassland  36.97   9.99  69.00  17.55  78.00  11.60              </span></span>
-<span id="cb26-119"><a href="#cb26-119" aria-hidden="true" tabindex="-1"></a><span class="do">## urban_hd  102.61  15.74  92.46   8.40  81.63  10.95              </span></span>
-<span id="cb26-120"><a href="#cb26-120" aria-hidden="true" tabindex="-1"></a><span class="do">## urban_ld  183.33  17.21  85.47   6.20  94.00   6.65              </span></span>
-<span id="cb26-121"><a href="#cb26-121" aria-hidden="true" tabindex="-1"></a><span class="do">## water      20.14   4.29  89.12  19.01 100.00   0.00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-40"><a href="#cb26-40" aria-hidden="true" tabindex="-1"></a>result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work"</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>img.class <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">classification_RF.tif"</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>shp.train <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">training_data</span><span class="sc">\\</span><span class="st">training_data.shp"</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>shp.valid <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">validation_RF.shp"</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>confmat <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">as.factor</span>(<span class="fu">extract</span>(img.class, shp.valid)), <span class="fu">as.factor</span>(shp.valid<span class="sc">$</span>validclass))</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(confmat)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="do">##      1  2  3  4  5  6</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="do">##   1 31  0  7  2  5  0</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="do">##   2  0 47  2  0  0  1</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="do">##   3  0  7 39  0  4  0</span></span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="do">##   4  0  0  0 40  9  0</span></span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a><span class="do">##   5  0  0  1  2 47  0</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="do">##   6  0  0  0  0  0 49</span></span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>imgVal <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">values</span>(img.class))</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(imgVal)</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 5 5 5 5 5 5</span></span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="do">## Levels: 1 2 3 4 5 6</span></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>nclass <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(shp.train<span class="sc">$</span>classes))</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(nclass)</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 6</span></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>maparea <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nclass, <span class="cf">function</span>(x) <span class="fu">sum</span>(imgVal <span class="sc">==</span> x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(maparea)</span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a><span class="do">## [1]  26741 121740  36345 129130 185222  19942</span></span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>maparea <span class="ot">&lt;-</span> maparea <span class="sc">*</span> <span class="fu">res</span>(img.class)[<span class="dv">1</span>] <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span> <span class="dv">1000000</span>  <span class="co"># Convert to km²</span></span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(maparea)</span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a><span class="do">## [1]  24.0669 109.5660  32.7105 116.2170 166.6998  17.9478</span></span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fl">1.96</span></span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">sum</span>(maparea)</span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(A)</span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 467.208</span></span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a>W_i <span class="ot">&lt;-</span> maparea <span class="sc">/</span> A</span>
+<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(W_i)</span>
+<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.05151217 0.23451225 0.07001271 0.24874788 0.35679997 0.03841501</span></span>
+<span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-49"><a href="#cb27-49" aria-hidden="true" tabindex="-1"></a>n_i <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(confmat)</span>
+<span id="cb27-50"><a href="#cb27-50" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(n_i)</span>
+<span id="cb27-51"><a href="#cb27-51" aria-hidden="true" tabindex="-1"></a><span class="do">##  1  2  3  4  5  6 </span></span>
+<span id="cb27-52"><a href="#cb27-52" aria-hidden="true" tabindex="-1"></a><span class="do">## 45 50 50 49 50 49</span></span>
+<span id="cb27-53"><a href="#cb27-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-54"><a href="#cb27-54" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> W_i <span class="sc">*</span> confmat <span class="sc">/</span> n_i</span>
+<span id="cb27-55"><a href="#cb27-55" aria-hidden="true" tabindex="-1"></a>p[<span class="fu">is.na</span>(p)] <span class="ot">&lt;-</span> <span class="dv">0</span>  <span class="co"># Handle division by zero</span></span>
+<span id="cb27-56"><a href="#cb27-56" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">round</span>(p, <span class="at">digits =</span> <span class="dv">4</span>))</span>
+<span id="cb27-57"><a href="#cb27-57" aria-hidden="true" tabindex="-1"></a><span class="do">##          1      2      3      4      5      6</span></span>
+<span id="cb27-58"><a href="#cb27-58" aria-hidden="true" tabindex="-1"></a><span class="do">##   1 0.0355 0.0000 0.0080 0.0023 0.0057 0.0000</span></span>
+<span id="cb27-59"><a href="#cb27-59" aria-hidden="true" tabindex="-1"></a><span class="do">##   2 0.0000 0.2204 0.0094 0.0000 0.0000 0.0047</span></span>
+<span id="cb27-60"><a href="#cb27-60" aria-hidden="true" tabindex="-1"></a><span class="do">##   3 0.0000 0.0098 0.0546 0.0000 0.0056 0.0000</span></span>
+<span id="cb27-61"><a href="#cb27-61" aria-hidden="true" tabindex="-1"></a><span class="do">##   4 0.0000 0.0000 0.0000 0.2031 0.0457 0.0000</span></span>
+<span id="cb27-62"><a href="#cb27-62" aria-hidden="true" tabindex="-1"></a><span class="do">##   5 0.0000 0.0000 0.0071 0.0143 0.3354 0.0000</span></span>
+<span id="cb27-63"><a href="#cb27-63" aria-hidden="true" tabindex="-1"></a><span class="do">##   6 0.0000 0.0000 0.0000 0.0000 0.0000 0.0384</span></span>
+<span id="cb27-64"><a href="#cb27-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-65"><a href="#cb27-65" aria-hidden="true" tabindex="-1"></a>p_area <span class="ot">&lt;-</span> <span class="fu">colSums</span>(p) <span class="sc">*</span> A</span>
+<span id="cb27-66"><a href="#cb27-66" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p_area)</span>
+<span id="cb27-67"><a href="#cb27-67" aria-hidden="true" tabindex="-1"></a><span class="do">##         1         2         3         4         5         6 </span></span>
+<span id="cb27-68"><a href="#cb27-68" aria-hidden="true" tabindex="-1"></a><span class="do">##  16.57942 107.57151  36.97457 102.60865 183.33473  20.13912</span></span>
+<span id="cb27-69"><a href="#cb27-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-70"><a href="#cb27-70" aria-hidden="true" tabindex="-1"></a>p_area_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> A <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">colSums</span>((W_i <span class="sc">*</span> p <span class="sc">-</span> p <span class="sc">^</span> <span class="dv">2</span>) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>))) </span>
+<span id="cb27-71"><a href="#cb27-71" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p_area_CI)</span>
+<span id="cb27-72"><a href="#cb27-72" aria-hidden="true" tabindex="-1"></a><span class="do">##         1         2         3         4         5         6 </span></span>
+<span id="cb27-73"><a href="#cb27-73" aria-hidden="true" tabindex="-1"></a><span class="do">##  3.292170  7.948700  9.994001 15.744342 17.208163  4.294987</span></span>
+<span id="cb27-74"><a href="#cb27-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-75"><a href="#cb27-75" aria-hidden="true" tabindex="-1"></a>OA <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">diag</span>(p))</span>
+<span id="cb27-76"><a href="#cb27-76" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(OA)</span>
+<span id="cb27-77"><a href="#cb27-77" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.8874041</span></span>
+<span id="cb27-78"><a href="#cb27-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-79"><a href="#cb27-79" aria-hidden="true" tabindex="-1"></a>PA <span class="ot">&lt;-</span> <span class="fu">diag</span>(p) <span class="sc">/</span> <span class="fu">colSums</span>(p)</span>
+<span id="cb27-80"><a href="#cb27-80" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(PA)</span>
+<span id="cb27-81"><a href="#cb27-81" aria-hidden="true" tabindex="-1"></a><span class="do">##         1         2         3         4         5         6 </span></span>
+<span id="cb27-82"><a href="#cb27-82" aria-hidden="true" tabindex="-1"></a><span class="do">## 1.0000000 0.9574286 0.6900470 0.9245908 0.8547088 0.8911909</span></span>
+<span id="cb27-83"><a href="#cb27-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-84"><a href="#cb27-84" aria-hidden="true" tabindex="-1"></a>UA <span class="ot">&lt;-</span> <span class="fu">diag</span>(p) <span class="sc">/</span> <span class="fu">rowSums</span>(p)</span>
+<span id="cb27-85"><a href="#cb27-85" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(UA)</span>
+<span id="cb27-86"><a href="#cb27-86" aria-hidden="true" tabindex="-1"></a><span class="do">##         1         2         3         4         5         6 </span></span>
+<span id="cb27-87"><a href="#cb27-87" aria-hidden="true" tabindex="-1"></a><span class="do">## 0.6888889 0.9400000 0.7800000 0.8163265 0.9400000 1.0000000</span></span>
+<span id="cb27-88"><a href="#cb27-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-89"><a href="#cb27-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-90"><a href="#cb27-90" aria-hidden="true" tabindex="-1"></a>OA_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(W_i <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> UA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> UA) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>)))</span>
+<span id="cb27-91"><a href="#cb27-91" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(OA_CI)</span>
+<span id="cb27-92"><a href="#cb27-92" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.04079462</span></span>
+<span id="cb27-93"><a href="#cb27-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-94"><a href="#cb27-94" aria-hidden="true" tabindex="-1"></a>UA_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> <span class="fu">sqrt</span>(UA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> UA) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb27-95"><a href="#cb27-95" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(UA_CI)</span>
+<span id="cb27-96"><a href="#cb27-96" aria-hidden="true" tabindex="-1"></a><span class="do">##          1          2          3          4          5          6 </span></span>
+<span id="cb27-97"><a href="#cb27-97" aria-hidden="true" tabindex="-1"></a><span class="do">## 0.13679244 0.06649632 0.11598896 0.10954451 0.06649632 0.00000000</span></span>
+<span id="cb27-98"><a href="#cb27-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-99"><a href="#cb27-99" aria-hidden="true" tabindex="-1"></a>N_j <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nclass, <span class="cf">function</span>(x) <span class="fu">sum</span>(maparea <span class="sc">/</span> n_i <span class="sc">*</span> confmat[ , x]) )</span>
+<span id="cb27-100"><a href="#cb27-100" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nclass, <span class="cf">function</span>(x) <span class="fu">sum</span>(maparea[<span class="sc">-</span>x] <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> confmat[<span class="sc">-</span>x, x] <span class="sc">/</span> n_i[<span class="sc">-</span>x] <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> confmat[<span class="sc">-</span>x, x] <span class="sc">/</span> n_i[<span class="sc">-</span>x]) <span class="sc">/</span> (n_i[<span class="sc">-</span>x] <span class="sc">-</span> <span class="dv">1</span>)))</span>
+<span id="cb27-101"><a href="#cb27-101" aria-hidden="true" tabindex="-1"></a>PA_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> N_j <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> (maparea <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> PA) <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> UA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> UA) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">+</span> PA <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> tmp))</span>
+<span id="cb27-102"><a href="#cb27-102" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(PA_CI)</span>
+<span id="cb27-103"><a href="#cb27-103" aria-hidden="true" tabindex="-1"></a><span class="do">##          1          2          3          4          5          6 </span></span>
+<span id="cb27-104"><a href="#cb27-104" aria-hidden="true" tabindex="-1"></a><span class="do">## 0.00000000 0.02843232 0.17545912 0.08399238 0.06198829 0.19006061</span></span>
+<span id="cb27-105"><a href="#cb27-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-106"><a href="#cb27-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-107"><a href="#cb27-107" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(p_area, p_area_CI, PA <span class="sc">*</span> <span class="dv">100</span>, PA_CI <span class="sc">*</span> <span class="dv">100</span>, UA <span class="sc">*</span> <span class="dv">100</span>, UA_CI <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">c</span>(OA <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">rep</span>(<span class="cn">NA</span>, nclass<span class="dv">-1</span>)), <span class="fu">c</span>(OA_CI <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">rep</span>(<span class="cn">NA</span>, nclass<span class="dv">-1</span>))), <span class="at">nrow =</span> nclass)</span>
+<span id="cb27-108"><a href="#cb27-108" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">round</span>(result, <span class="at">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb27-109"><a href="#cb27-109" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(result) <span class="ot">&lt;-</span> <span class="fu">levels</span>(<span class="fu">as.factor</span>(shp.train<span class="sc">$</span>classes))</span>
+<span id="cb27-110"><a href="#cb27-110" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(result) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"km²"</span>, <span class="st">"km²±"</span>, <span class="st">"PA"</span>, <span class="st">"PA±"</span>, <span class="st">"UA"</span>, <span class="st">"UA±"</span>, <span class="st">"OA"</span>, <span class="st">"OA±"</span>)</span>
+<span id="cb27-111"><a href="#cb27-111" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(result) <span class="ot">&lt;-</span> <span class="st">"table"</span></span>
+<span id="cb27-112"><a href="#cb27-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-113"><a href="#cb27-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-114"><a href="#cb27-114" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result)</span>
+<span id="cb27-115"><a href="#cb27-115" aria-hidden="true" tabindex="-1"></a><span class="do">##              km²   km²±     PA    PA±     UA    UA±     OA    OA±</span></span>
+<span id="cb27-116"><a href="#cb27-116" aria-hidden="true" tabindex="-1"></a><span class="do">## baresoil   16.58   3.29 100.00   0.00  68.89  13.68  88.74   4.08</span></span>
+<span id="cb27-117"><a href="#cb27-117" aria-hidden="true" tabindex="-1"></a><span class="do">## forest    107.57   7.95  95.74   2.84  94.00   6.65              </span></span>
+<span id="cb27-118"><a href="#cb27-118" aria-hidden="true" tabindex="-1"></a><span class="do">## grassland  36.97   9.99  69.00  17.55  78.00  11.60              </span></span>
+<span id="cb27-119"><a href="#cb27-119" aria-hidden="true" tabindex="-1"></a><span class="do">## urban_hd  102.61  15.74  92.46   8.40  81.63  10.95              </span></span>
+<span id="cb27-120"><a href="#cb27-120" aria-hidden="true" tabindex="-1"></a><span class="do">## urban_ld  183.33  17.21  85.47   6.20  94.00   6.65              </span></span>
+<span id="cb27-121"><a href="#cb27-121" aria-hidden="true" tabindex="-1"></a><span class="do">## water      20.14   4.29  89.12  19.01 100.00   0.00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
