@@ -503,11 +503,15 @@ shp.train <- vect("E:\\Work\\training_data\\training_data.shp")
 shp.valid <- vect("E:\\Work\\validation_RF.shp")
 #Loads validation data (independent ground-truth for accuracy assessment)
 ```
-
+Build a confusion matrix, as this is the basis for all accuracy calculations (Producer’s, User’s, and Overall Accuracy).
+The confusion matrix extracts predicted classes from the raster at each validation point and creates a confusion matrix comparing predicted vs actual classes.
 
 ``` r
 confmat <- table(as.factor(extract(img.class, shp.valid)), as.factor(shp.valid$validclass))
+```
 
+
+``` r
 imgVal <- as.factor(values(img.class))
 nclass <- length(unique(shp.train$classes))
 maparea <- sapply(1:nclass, function(x) sum(imgVal == x, na.rm = TRUE))
