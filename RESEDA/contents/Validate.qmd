@@ -525,11 +525,14 @@ The number of pixels in each class is counted and converted into km².
 maparea <- sapply(1:nclass, function(x) sum(imgVal == x, na.rm = TRUE))
 maparea <- maparea * res(img.class)[1] ^ 2 / 1000000  # Convert to km²
 ```
-
+Confidence interval parameter is fixed, which is used for computing uncertainty bounds (± CI) for area and accuracy metrics.
 
 ``` r
 conf <- 1.96
+```
 
+
+``` r
 A <- sum(maparea)
 
 W_i <- maparea / A
