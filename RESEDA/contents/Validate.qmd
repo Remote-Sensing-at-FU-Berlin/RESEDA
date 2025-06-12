@@ -509,10 +509,14 @@ The confusion matrix extracts predicted classes from the raster at each validati
 ``` r
 confmat <- table(as.factor(extract(img.class, shp.valid)), as.factor(shp.valid$validclass))
 ```
-
+Extracts the classification values of all pixels from the raster.This is used to compute how many pixels belong to each class which is required for area weighting.
 
 ``` r
 imgVal <- as.factor(values(img.class))
+```
+
+
+``` r
 nclass <- length(unique(shp.train$classes))
 maparea <- sapply(1:nclass, function(x) sum(imgVal == x, na.rm = TRUE))
 maparea <- maparea * res(img.class)[1] ^ 2 / 1000000  # Convert to km²
