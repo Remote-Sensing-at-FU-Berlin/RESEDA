@@ -1,18 +1,18 @@
 [
   {
-    "listing": "/projects/index.html",
-    "items": [
-      "/projects/posts/post-with-code/index.html",
-      "/projects/posts/welcome/index.html"
-    ]
-  },
-  {
     "listing": "/staff/index.html",
     "items": [
       "/staff/people/FabianFassnacht.html",
       "/staff/people/MarionStellmes.html",
       "/staff/people/Asad Waseem.html",
       "/staff/people/LinaPerez.html"
+    ]
+  },
+  {
+    "listing": "/projects/index.html",
+    "items": [
+      "/projects/posts/post-with-code/index.html",
+      "/projects/posts/welcome/index.html"
     ]
   }
 ]

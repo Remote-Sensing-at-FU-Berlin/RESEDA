@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../img/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-969ac3f3e26a9e4e07b4886b96ad488c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-628ed2667cf57072d38c20822b8be009.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -115,7 +116,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo">
+    <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo light-content">
+    <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo dark-content">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -178,6 +180,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
@@ -447,31 +453,31 @@ We want to focus on converting the just-downloaded products into GeoTIFF files. 
 <p><strong>Preprocess a single dataset</strong></p>
 <p>We recommend writing the following code in the script window of R-Studio and executing it from there (see <a href="../../RESEDA/contents/R-Studio.html">chapter R-Studio</a>).The example below assumes that you have one or more Landsat 8 or 9 scenes in a “landsatdata”-folder.</p>
 <p>We will use the <a href="https://cran.r-project.org/web/packages/terra/terra.pdf" target="_blank">terra library</a> to write a raster file later. Additional libraries should always be loaded first, using the function <code>library()</code>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Loading required package: sp</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Loading required package: sp</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>A few libraries make use of other libraries. So does the terra library with the <a href="https://cran.r-project.org/web/packages/sp/sp.pdf" target="_blank">sp-package</a>, which will be loaded automatically.</p>
 <p>Set the path to your working directory. Please, be aware that the delimiters between subfolders should be either “/” or “\”. Especially, if you working on Windows machines, take care of this. Use the function <code>getwd()</code> to see which directory is set as your working directory.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:P/ath/to/your/folder"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:P/ath/to/your/folder"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Then define the Landsat 9 product of your choice with its entire file path and save it as the string variable <code>product</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>product <span class="ot">&lt;-</span> <span class="st">"LC09_L2SP_193023_20250328_20250329_02_T1.tar"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>product <span class="ot">&lt;-</span> <span class="st">"LC09_L2SP_193023_20250328_20250329_02_T1.tar"</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">file.exists</span>(product)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] TRUE</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] TRUE</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>NOTE:</strong> this is just an example – you have to change the file and its path according to your own settings!<br>
 You can use the function <code>file.exists()</code> to check whether the file can be found on your system or not. If it returns <code>FALSE</code>, make sure you did not mess up the file name.</p>
 <p>We want to unpack the file into a folder with the same name as the file. The character variable <code>product</code> already contains the full name of the Landsat scene. We just have to get rid of the suffix “.tar”. Therefore we can use the function <code>substr()</code> to delete the last four characters (=“.tar.gz”) of the string:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>productname <span class="ot">&lt;-</span> <span class="fu">substr</span>(product, <span class="dv">1</span>, <span class="fu">nchar</span>(product) <span class="sc">-</span> <span class="dv">4</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>productname <span class="ot">&lt;-</span> <span class="fu">substr</span>(product, <span class="dv">1</span>, <span class="fu">nchar</span>(product) <span class="sc">-</span> <span class="dv">4</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>productname</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "LC09_L2SP_193023_20250328_20250329_02_T1"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "LC09_L2SP_193023_20250328_20250329_02_T1"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The substring function <code>substr()</code> accepts three arguments here: a string (the entire file path with the suffix), and two integer values – one for a start (“1” = start with the first character) and one for a stop position within the given string. In order to define the stop position, we need to count the number of all characters of the file path via <code>nchar(product)</code> (which is 44 in our case) and substract 4.</p>
 <p>Unzip the Landsat product using the <code>untar()</code> method and define the directory to which all data will be extracted by setting the argument <code>exdir = productname</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">untar</span>(product, <span class="at">exdir =</span> productname)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">untar</span>(product, <span class="at">exdir =</span> productname)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>You should notice a new folder being created next to your initial data product. This could take a short moment. During processing, a red exclamation point can be seen in the upper right corner of the console window. <strong>NOTE:</strong> If this step fails, your data is corrupt. In this case, you will need to download the file again because something went wrong during data transfer.<br>
 After unpacking is complete, we want to have a look in the newly extracted folder and save the file names of all files in this folder into a vector <code>productfiles</code> using the function <code>list.files</code>. By providing the argument <code>full.names = TRUE</code>, the full paths are returned for each file:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>productfiles <span class="ot">&lt;-</span> <span class="fu">list.files</span>(productname, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>productfiles <span class="ot">&lt;-</span> <span class="fu">list.files</span>(productname, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>productfiles</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_ANG.txt"          </span></span>
@@ -495,11 +501,11 @@ After unpacking is complete, we want to have a look in the newly extracted folde
 <span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="do">##[19] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_ST_EMSD.TIF"      </span></span>
 <span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="do">##[20] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_ST_QA.TIF"        </span></span>
 <span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="do">##[21] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_ST_TRAD.TIF"      </span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="do">##[22] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_ST_URAD.TIF"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="do">##[22] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_ST_URAD.TIF"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>These are all 22 files that come with a Level-2 product including bands regarding thermal observations (see <a href="../../RESEDA/contents/SensorBasics.html#landsat-8">Landsat 8 and Landsat-9</a> for more information). As a double check, you can have a look at the identical files in your file explorer:</p>
 <p><a href="./img/preproc_01.png"><img src="./img/preproc_01.png" class="img-fluid"></a></p>
 <p>Now we select all the spectral bands that we want to put into our new data stack. Have a deeper look at the files in <code>productfiles</code>. The files are named after the corresponding spectral channels at the end of the file name, e.g., “SR_B1”, “SR_B2”, and so on. We use these terms to extract the bands by utilizing the <code>grep()</code> function. The following code looks a little bloated. Maybe it is. But it gives you the freedom to exclude individual bands that you may not need. <strong>NOTE:</strong> This is an example of level 2 data. Landsat Level-1 scenes potentially have 11 channels. In the case of Level 1 data, you could easily enter the remaining lines here.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>bands <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">grep</span>(<span class="st">'SR_B1'</span>, productfiles, <span class="at">value=</span><span class="cn">TRUE</span>),</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>bands <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">grep</span>(<span class="st">'SR_B1'</span>, productfiles, <span class="at">value=</span><span class="cn">TRUE</span>),</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>           <span class="fu">grep</span>(<span class="st">'SR_B2'</span>, productfiles, <span class="at">value=</span><span class="cn">TRUE</span>),</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">grep</span>(<span class="st">'SR_B3'</span>, productfiles, <span class="at">value=</span><span class="cn">TRUE</span>),</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>           <span class="fu">grep</span>(<span class="st">'SR_B4'</span>, productfiles, <span class="at">value=</span><span class="cn">TRUE</span>),</span>
@@ -515,10 +521,10 @@ After unpacking is complete, we want to have a look in the newly extracted folde
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="do">## [4] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_SR_B4.TIF"</span></span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="do">## [5] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_SR_B5.TIF"</span></span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="do">## [6] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_SR_B6.TIF"</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="do">## [7] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_SR_B7.TIF"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="do">## [7] "LC09_L2SP_193023_20250328_20250329_02_T1/LC09_L2SP_193023_20250328_20250329_02_T1_SR_B7.TIF"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The <code>grep()</code> function searches for the string, which is given as the first argument, e.g., ‘SR_B1’, in the vector of strings (2nd argument). Normally, when the function finds a match, it only returns the position of this find in the vector <code>productfiles</code>. By setting the argument <code>value=TRUE</code> we can write out the content of the vector at the respective position instead. By doing so, we create an vector <code>bands</code> containing all file paths via the standard combine-function <code>c()</code>.</p>
 <p>Now we can create a raster stack based on the vector of bands in the variable <code>bands</code>. In order to do so, we use the function <code>rast()</code>, which is part of the terra-library we loaded in the beginning! This <a href="https://www.rdocumentation.org/packages/terra/versions/0.8-6/topics/rast" target="_blank">raster stack function</a> creates a raster stack object based on a list of filenames. You will learn more about the beauty of raster stacks in the <a href="../../RESEDA/contents/Visualization.html">chapter Visualization</a>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>rasterstack <span class="ot">&lt;-</span> <span class="fu">rast</span>(bands)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>rasterstack <span class="ot">&lt;-</span> <span class="fu">rast</span>(bands)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>We can save this raster stack and store it on your hard drive via <code>writeRaster</code>:</p>
 <pre class="theme:amityreseda"><code>writeRaster(rasterstack, 
             paste0(productname, ".tif"), 
@@ -529,14 +535,14 @@ After unpacking is complete, we want to have a look in the newly extracted folde
 <p><strong>DONE!</strong> A new file containing all spectral bands is now written directly next to the initial packed file you downloaded!</p>
 <p>There are still two useful additional things left to do:<br>
 First, we can now delete the folder we created by uncompressing your Landsat data because it is no longer needed. So, if you want to save disk space, use the command <code>unlink()</code> to simply delete the folder. By setting the argument <code>recursive=TRUE</code>, all files within the folder will be deleted:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(productname, <span class="at">recursive=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(productname, <span class="at">recursive=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Second, it is advisable to create so-called <a href="http://desktop.arcgis.com/en/arcmap/latest/manage-data/raster-and-images/raster-pyramids.htm" target="_blank">pyramid layers</a> for each Landsat dataset. Pyramid layers are used to improve performance. They are a downsampled version of the original raster and speed up the display of raster data by retrieving only the data at a specified resolution that is required for the display. We can automatically create them by using the <a href="http://www.gdal.org/" target="_blank">Geospatial Data Abstraction Library</a> (GDAL). Initially, GDAL has nothing to do with R, but it can be operated via R using eg. <code>sf</code> and <code>terra</code> <a href="https://cran.r-project.org/web/packages/sf/sf.pdf" target="_blank">sf</a>. Here, we use the function <a href="https://www.rdocumentation.org/packages/sf/versions/1.0-14/topics/gdal_addo" target="_blank">gdal_addo</a>.If you want to use this function, remember to install and load the library <code>sf</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gdal_addo</span>(<span class="fu">paste0</span>(productname, <span class="st">".tif"</span>),  <span class="at">overviews =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gdal_addo</span>(<span class="fu">paste0</span>(productname, <span class="st">".tif"</span>),  <span class="at">overviews =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Run the code and you will create a .ovr-file next to your .tif-file. This ovr-file holds the pyramid information, which will prove useful later in QGIS.</p>
 <p>Note: In my case, after using the command gdal_addo() the object rasterstack is not usable anymore. In that case just reopen the save rasterstack file.</p>
 <p>Phew! This was A LOT of (explanatory) text by now. Fortunately, the code is actually much shorter! Here is the complete code for preprocessing one exemplary L8 Level-2 collection 2 file:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the 'terra' package for raster data manipulation</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the 'terra' package for raster data manipulation</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the 'sf' package for handling spatial data</span></span>
@@ -581,7 +587,7 @@ First, we can now delete the folder we created by uncompressing your Landsat dat
 <span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a><span class="fu">unlink</span>(productname, <span class="at">recursive=</span><span class="cn">TRUE</span>)</span>
 <span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate overviews (pyramids) for the GeoTIFF file to optimize its performance</span></span>
-<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a><span class="fu">gdal_addo</span>(<span class="fu">paste0</span>(productname, <span class="st">".tif"</span>),  <span class="at">overviews =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a><span class="fu">gdal_addo</span>(<span class="fu">paste0</span>(productname, <span class="st">".tif"</span>),  <span class="at">overviews =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Learn how to automate things for many datasets in the next section!</p>
 <section id="section" class="level4">
 <h4 class="anchored" data-anchor-id="section"></h4>
@@ -590,31 +596,31 @@ First, we can now delete the folder we created by uncompressing your Landsat dat
 <h3 class="entry-title anchored" data-anchor-id="landsat-8-bulk-preprocessing">Landsat 8 &amp; Landsat 9 Bulk Preprocessing</h3>
 <p>Imagine you have 50 Landsat 8 records. Of course, it would be very tedious to modify and start the script 50 times. That’s why there is now an automated solution for any number of data products!</p>
 <p>Again, the prerequisite is that you have the L8 Level-2 datasets downloaded to a folder, in which all of your Landsat 8 scenes are stored – please, no other files! Of course you should replace the file path according to your storage location and create a character variable:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pathToFiles <span class="ot">&lt;-</span> <span class="st">"/media/sf_exchange/landsatdata"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pathToFiles <span class="ot">&lt;-</span> <span class="st">"/media/sf_exchange/landsatdata"</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dir</span>(pathToFiles)</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [2] "LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [2] "LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>You can check the files inside <code>pathToFiles</code> with the <code>dir()</code> function. It should list all your Landsat 8 files. If that is not the case, make sure you did not mess up the file path name.<br>
 We can write all the products that exist in the folder in a vector <code>products</code> using the <code>list.files()</code> function:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>products <span class="ot">&lt;-</span> <span class="fu">list.files</span>(pathToFiles, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>products <span class="ot">&lt;-</span> <span class="fu">list.files</span>(pathToFiles, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>products</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [2] "/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [2] "/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>To go through all the steps we saw in the previous section above for each of the scenes in <code>products</code>, we use a for-loop. Conceptually, the for-loop does the following:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> products) {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> products) {</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(i)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">"do all the preprocessing stuff"</span>)</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"</span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "do all the preprocessing stuff"</span></span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "/media/sf_exchange/landsatdata/LC09_L2SP_193023_20250328_20250329_02_T1.tar.gz"</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "do all the preprocessing stuff"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "do all the preprocessing stuff"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For all landsat scenes <code>i</code> in <code>products</code>, it will do all the preprocessing stuff. The variable, or iterator, <code>i</code> is just a placeholder, which is sequentially occupied with the file names of the Landsat products.<br>
 Thus, you can just imagine any filename (as a string) every time you see the iterator i.<br>
 The remaining steps are then identical to those described above. Here is the complete code. Just adjust your <code>pathToFiles</code> and run it in R-Studio to preprocess all of your Landsat 8 Level-2 files!</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>pathToFiles <span class="ot">&lt;-</span> <span class="st">"./landsatdata"</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -647,7 +653,7 @@ The remaining steps are then identical to those described above. Here is the com
 <span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>  makeOVR <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"gdaladdo -ro "</span>, productname, <span class="st">".tif 2 4 8 16"</span>)</span>
 <span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">system</span>( makeOVR )</span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>  }</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="sentinel-2-preprocessing" class="level2 entry-title">
@@ -741,11 +747,11 @@ Watch this video on YouTube</a></p>
 <li>Writing the data to a Geotif.</li>
 </ol>
 <p>Open a new R-script or RMarkdown file and save it. Run each code section in the sequence below and add comments as needed. Install necessary packages: Make sure the terra package is installed and loaded.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"terra"</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"terra"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Set the working directory: Update the path to the directory where today’s data are stored on your computer.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>path.image <span class="ot">&lt;-</span> <span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">Sentinal 2 Data"</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(pathimage)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>path.image <span class="ot">&lt;-</span> <span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">Sentinal 2 Data"</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(pathimage)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Create a multiband layerstack of 10 m spatial resolution:</strong></p>
 <p>Sentinel-2 images provide spectral bands at different spatial resolutions, depending on the type of information each band captures:</p>
 <ol type="1">
@@ -757,7 +763,7 @@ Watch this video on YouTube</a></p>
 <p>To solve this, we need to unify the resolutions by resampling the 20m bands to 10m. This ensures all bands align spatially and can be analyzed as a cohesive dataset. Resampling adjusts the pixel size of the 20m bands to match the finer detail of the 10m bands.</p>
 <p><strong>Step 1: Load High-Resolution (10m) Bands</strong></p>
 <p>Navigate to the R10m directory, which contains the high-resolution bands (B2, B3, B4, B8) at 10m. These bands represent the Blue, Green, Red, and Near Infrared (NIR) wavelengths, respectively, and are commonly used for RGB and NDVI visualizations.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set working directory to R10m resolution data</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set working directory to R10m resolution data</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="fu">paste0</span>(path.image, <span class="st">"</span><span class="sc">\\</span><span class="st">R10m"</span>))</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># List all JP2 files in the directory (10m bands only)</span></span>
@@ -768,10 +774,10 @@ Watch this video on YouTube</a></p>
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>sen2.img.hr <span class="ot">&lt;-</span> <span class="fu">rast</span>(jp2files<span class="fl">.10</span>m[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)])</span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the RGB composite (bands 4, 3, 2 correspond to Red, Green, Blue)</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2.img.hr, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2.img.hr, <span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Step 2: Load Medium-Resolution (20m) Bands</strong></p>
 <p>Switch to the R20m directory to load 20m resolution bands. These bands include additional spectral information, such as red-edge and SWIR bands.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set working directory to R20m resolution data</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set working directory to R20m resolution data</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="fu">paste0</span>(path.image, <span class="st">"</span><span class="sc">\\</span><span class="st">R20m"</span>))</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># List all JP2 files in the directory (20m bands only)</span></span>
@@ -782,29 +788,29 @@ Watch this video on YouTube</a></p>
 <span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>sen2.img.lr <span class="ot">&lt;-</span> <span class="fu">rast</span>(jp2files<span class="fl">.20</span>m[<span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>)])</span>
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize a SWIR, NIR, Red composite for vegetation analysis</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2.img.lr, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2.img.lr, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Step 3: Extract and Resample Bands for Analysis</strong></p>
 <p>we use the resample() function from the terra package to perform this operation. Resampling methods include: Consider the following two resampling methods:</p>
 <ol type="1">
 <li>Bilinear Interpolation: Calculates the new pixel values based on the weighted average of the four nearest pixels. This method is best for continuous data, like spectral bands.</li>
 <li>Nearest Neighbor: Simply assigns the nearest pixel value. This method is better for categorical data (e.g., a classification band), as it maintains discrete classes.</li>
 </ol>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>sen2.img.lr.to10m <span class="ot">&lt;-</span> <span class="fu">resample</span>(sen2.img.lr, sen2.img.hr, <span class="at">method =</span> <span class="st">"bilinear"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>sen2.img.lr.to10m <span class="ot">&lt;-</span> <span class="fu">resample</span>(sen2.img.lr, sen2.img.hr, <span class="at">method =</span> <span class="st">"bilinear"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Step 4: Combine All Bands in the Correct Wavelength Order</strong></p>
 <p>Reorder bands to follow the typical Sentinel-2 wavelength progression. This is how the images look like right now: - 10m bands: B2 (Blue), B3 (Green), B4 (Red), B8 (NIR) - Resampled 20m bands: B5, B6, B7 (Red Edge), B11, B12 (SWIR), B8A (Narrow NIR).</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stack into a single raster</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stack into a single raster</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>sen2.full <span class="ot">&lt;-</span> <span class="fu">c</span>(sen2.img.hr[[<span class="dv">1</span>]], sen2.img.hr[[<span class="dv">2</span>]], sen2.img.hr[[<span class="dv">3</span>]],</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>               sen2.img.lr.to10m[[<span class="dv">1</span>]], sen2.img.lr.to10m[[<span class="dv">2</span>]], sen2.img.lr.to10m[[<span class="dv">3</span>]],</span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>               sen2.img.hr[[<span class="dv">4</span>]], sen2.img.lr.to10m[[<span class="dv">6</span>]], sen2.img.lr.to10m[[<span class="dv">4</span>]],</span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>               sen2.img.lr.to10m[[<span class="dv">5</span>]])</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Confirm the band order</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">names</span>(sen2.full)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">names</span>(sen2.full)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Step 5: Save the Geotif</strong></p>
 <p>Save the data as GeoTiff.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Export the data as GeoTiff</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Export the data as GeoTiff</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Users</span><span class="sc">\\</span><span class="st">stellmes</span><span class="sc">\\</span><span class="st">Documents</span><span class="sc">\\</span><span class="st">master</span><span class="sc">\\</span><span class="st">4_seminar</span><span class="sc">\\</span><span class="st">"</span>)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(masked.image.cropped, <span class="st">"sen2_20241024.tif"</span>, <span class="at">overwrite=</span>T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(masked.image.cropped, <span class="st">"sen2_20241024.tif"</span>, <span class="at">overwrite=</span>T)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <section id="cloud-masking-for-sentinel-2-images" class="level3 entry-title">
 <h3 class="entry-title anchored" data-anchor-id="cloud-masking-for-sentinel-2-images">Cloud Masking for Sentinel-2 images</h3>
 <p><span title="">If there are clouds or cloud shadows on your sentinel-2 scene, they can be mask out using the <em>quality scene classification band</em> of your scene.<br>
@@ -821,46 +827,46 @@ Watch this video on YouTube</a></p>
 <p><a href="https://box.fu-berlin.de/s/DQRRxiRcFsGjrt8" target="_blank" rel="noopener">Here</a> you can download a Sentinel-2 image for executing this pre-processing step. For the scene which we used in the pre-processing before is no cloud correction necessary.</p>
 <p><strong>Processing steps in RStudio:</strong></p>
 <p>Open R-Studio and install, open the required packages and set your working directory:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"terra"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"terra"</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"D:</span><span class="sc">\\</span><span class="st">elearning</span><span class="sc">\\</span><span class="st">exchange</span><span class="sc">\\</span><span class="st">R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"D:</span><span class="sc">\\</span><span class="st">elearning</span><span class="sc">\\</span><span class="st">exchange</span><span class="sc">\\</span><span class="st">R"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Open and plot the image:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>sen2 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">subset_0_of_S2A_MSIL2A_20190626T102031_N0212_R065_T32UQD_20190626T125319_resampled.tif"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>sen2 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">subset_0_of_S2A_MSIL2A_20190626T102031_N0212_R065_T32UQD_20190626T125319_resampled.tif"</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2, <span class="at">r =</span> <span class="dv">4</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2, <span class="at">r =</span> <span class="dv">4</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Separate spectral bands and classification (band 1 to 12 is the mulispectral Sentinel- 2 scene, band 13 is the quality classification band):</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>sen2_bands <span class="ot">&lt;-</span> sen2[[<span class="sc">-</span><span class="dv">13</span>]]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>sen2_bands <span class="ot">&lt;-</span> sen2[[<span class="sc">-</span><span class="dv">13</span>]]</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>sen2_mask <span class="ot">&lt;-</span> sen2[[<span class="dv">13</span>]]</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2_mask)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2_mask)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Which pixels do we want to mask?</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2_mask)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2_mask)</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>sen2_mask_combi <span class="ot">&lt;-</span> sen2_mask</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>sen2_mask_combi[sen2_mask <span class="sc">==</span> <span class="dv">3</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">7</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">8</span> <span class="sc">|</span> </span>
 <span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                  sen2_mask <span class="sc">==</span> <span class="dv">9</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">10</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2_mask_combi)</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_mask_combi, <span class="st">"sen2_mask.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_mask_combi, <span class="st">"sen2_mask.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><a href="./img/Maske.png"><img src="./img/Maske.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Mask without the classes: 3,7,8,9,10,11<br>
 </span></p>
 </div>
 <p>Apply mask:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>sen2_bands_masked <span class="ot">&lt;-</span> <span class="fu">mask</span>(sen2_bands, sen2_mask_combi)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>sen2_bands_masked <span class="ot">&lt;-</span> <span class="fu">mask</span>(sen2_bands, sen2_mask_combi)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2_bands_masked, <span class="at">r =</span> <span class="dv">4</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_bands_masked, <span class="st">"sen2_masked.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_bands_masked, <span class="st">"sen2_masked.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><a href="./img/Maske_applied.png"><img src="./img/Maske_applied.png" class="img-fluid"></a></p>
 <div style="margin: -30px 0 20px 0;text-align: center">
 <p><span style="color: #686868;font-size: small">Applied mask<br>
 </span></p>
 </div>
 <p>…or the whole part in short:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>sen2_bands_masked_a <span class="ot">&lt;-</span> sen2_bands</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>sen2_bands_masked_a <span class="ot">&lt;-</span> sen2_bands</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>sen2_bands_masked_a[sen2_mask <span class="sc">==</span> <span class="dv">3</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">7</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">8</span> <span class="sc">|</span> </span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                      sen2_mask <span class="sc">==</span> <span class="dv">9</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">10</span> <span class="sc">|</span> sen2_mask <span class="sc">==</span> <span class="dv">11</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_bands_masked_a, <span class="st">"sen2_masked_alternativ.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(sen2_bands_masked_a, <span class="st">"sen2_masked_alternativ.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>
@@ -918,13 +924,14 @@ Watch this video on YouTube</a></p>
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

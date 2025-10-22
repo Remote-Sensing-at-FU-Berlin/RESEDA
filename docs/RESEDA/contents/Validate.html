@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.31">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../img/favicon.png" rel="icon" type="image/png">
 <script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../../site_libs/quarto-html/popper.min.js"></script>
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-969ac3f3e26a9e4e07b4886b96ad488c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-628ed2667cf57072d38c20822b8be009.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -118,7 +119,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -144,7 +145,8 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo">
+    <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo light-content">
+    <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo dark-content">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -207,6 +209,10 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../../index.html" class="sidebar-logo-link">
+      </a>
+      </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item sidebar-item-section">
@@ -489,7 +495,7 @@ The validation of remote sensing data is the last step in our workflow. The purp
 <li><strong>equalized stratified random</strong>: Ensures, that each class’s sample size is exactly the same regardless of area of class on the map</li>
 </ul>
 <p>We will use <strong>equalized stratified random</strong> sampling for this example. This is a complete R script you need in order to automatically generate exactly 50 samples per class within your study extent:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary library</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary library</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Set working directory</span></span>
@@ -528,26 +534,26 @@ The validation of remote sensing data is the last step in our workflow. The purp
 <span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(smp_test, <span class="at">col =</span> <span class="st">"black"</span>, <span class="at">pch =</span> <span class="dv">20</span>)</span>
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the sampled points as a shapefile</span></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="fu">writeVector</span>(smp_test, <span class="at">filename =</span> <span class="st">"validation_RF.shp"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="fu">writeVector</span>(smp_test, <span class="at">filename =</span> <span class="st">"validation_RF.shp"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><br>
 </p>
 <section id="in-depth-guide" class="level2">
 <h2 class="anchored" data-anchor-id="in-depth-guide">In-depth Guide</h2>
 <p>All we need is the [raster` package, so make sure you’ve imported it.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("terra")</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("terra")</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Furthermore, you should have your classification map ready (<a href="../../RESEDA/contents/Analyse.html" rel="noopener" target="_blank">Chapter Analysis</a>), lying in your working directory. Import it with the <code>raster()</code> function:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>img.classified <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"classification_RF.tif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>img.classified <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"classification_RF.tif"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The <code>raster</code> provides a function called <code>sampleStratified()</code>, which does all the work for us:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>smp.test <span class="ot">&lt;-</span> <span class="fu">spatSample</span>(<span class="at">x =</span> classification, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>smp.test <span class="ot">&lt;-</span> <span class="fu">spatSample</span>(<span class="at">x =</span> classification, </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">size =</span> <span class="dv">50</span>, </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">method =</span> <span class="st">"stratified"</span>, </span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">na.rm =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">as.points =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">as.points =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This function needs an Raster-Object as <code>x</code> argument and a positive integer value as <code>size</code> argument. Latter is the number of sample points per class. Additionally we can exclude all <code>NA</code> values, by setting <code>na.rm = TRUE</code>. <code>NA</code> Values can arise if your scene lies diagonally in space and points are placed in the border areas. Line 4 ensures, that the returned object is a SpatialPointDataFrame (which is easier to handle).</p>
 <p>We can now check the class labels of our newly extracted validation points:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>smp.test<span class="sc">$</span>classification_RF</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>smp.test<span class="sc">$</span>classification_RF</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="do">##   [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="do">##  [36] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  [71] 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3</span></span>
@@ -556,12 +562,12 @@ The validation of remote sensing data is the last step in our workflow. The purp
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [176] 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 5 5 5 5 5 5 5 5 5 5</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [211] 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5</span></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="do">## [246] 5 5 5 5 5 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="do">## [281] 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="do">## [281] 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Note: the name of the column within <code>smp.test</code> depends on the file name of your classification map.</p>
 <p>Due to the subsequent manual labeling in the <a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis" rel="noopener" target="_blank">next section</a>, it makes sense to mix the samples so that the order is random. Again, we use the <code>sample()</code> function for this:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>smp.test <span class="ot">&lt;-</span> smp.test[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(smp.test)), ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>smp.test <span class="ot">&lt;-</span> smp.test[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(smp.test)), ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>By looking at the class labels again, we see that the order is now random:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>smp.test<span class="sc">$</span>classification_RF</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>smp.test<span class="sc">$</span>classification_RF</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="do">##   [1] 3 1 4 4 6 4 5 3 6 2 1 5 4 2 2 4 4 3 4 5 1 3 4 2 6 3 3 6 1 4 6 6 5 6 2</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="do">##  [36] 3 1 1 3 3 1 2 5 4 3 4 2 4 1 5 1 1 4 1 3 5 2 1 5 4 5 2 3 6 2 1 5 3 5 2</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  [71] 2 6 4 1 5 1 6 4 6 6 6 6 1 1 1 2 4 5 6 4 5 3 5 4 2 2 1 2 2 3 5 6 6 1 1</span></span>
@@ -570,9 +576,9 @@ The validation of remote sensing data is the last step in our workflow. The purp
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="do">## [176] 4 2 5 1 6 1 5 5 6 4 5 2 2 2 5 3 2 6 2 5 3 6 4 1 5 5 3 1 3 5 4 4 4 4 2</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="do">## [211] 3 5 3 4 1 1 3 3 4 2 2 3 3 1 4 4 6 2 1 1 2 6 3 4 5 3 6 1 6 5 2 3 6 3 6</span></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="do">## [246] 5 1 1 4 1 2 4 3 4 5 5 3 5 2 3 2 2 6 3 6 5 5 3 2 4 3 1 3 6 5 6 5 5 5 6</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="do">## [281] 2 3 5 5 1 1 3 4 4 1 4 5 6 4 2 3 5 3 5 4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="do">## [281] 2 3 5 5 1 1 3 4 4 1 4 5 6 4 2 3 5 3 5 4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>In addition, we can delete all variables in our dataframe <code>smp.test</code> and append a consecutive ID variable called <code>ID</code>, which will then be displayed to us in QGIS:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>smp.test <span class="ot">&lt;-</span> smp.test[, <span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>smp.test <span class="ot">&lt;-</span> smp.test[, <span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>smp.test<span class="sc">$</span>ID <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(smp.test)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(smp.test)</span>
@@ -583,18 +589,18 @@ The validation of remote sensing data is the last step in our workflow. The purp
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="do">## variables   : 1</span></span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="do">## names       :  ID </span></span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="do">## min values  :   1 </span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="do">## max values  : 300</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="do">## max values  : 300</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>To visualize the distribution of our validation points, we can plot the SpatialPointDataFrame <code>smp.test</code> on top of our classification map in one plot:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(classification, </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(classification, </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">axes =</span> <span class="cn">FALSE</span>, </span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">box =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#fbf793"</span>, <span class="st">"#006601"</span>, <span class="st">"#bfe578"</span>, <span class="st">"#d00000"</span>, <span class="st">"#fa6700"</span>, <span class="st">"#6569ff"</span>)</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(smp.test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(smp.test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><a href="./img/valid_009.png"><img src="./img/valid_009.png" class="img-fluid"></a></p>
 <p>Last but not least, it is still necessary to save the SpatialPointDataFrame <code>smp.test</code> as a shapefile to your hard drive. This is also very easy with the <code>shapefile()</code> function from the raster package. Choose an appropriate <code>filename =</code> for the new shapefile created.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">writeVector</span>(smp.test, <span class="st">"validation_RF.shp"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">writeVector</span>(smp.test, <span class="st">"validation_RF.shp"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="label-samples-in-qgis" class="level1 entry-title">
@@ -630,7 +636,7 @@ Right click your point shapefile (“validation_RF.shp”) and choose “Open At
 </figure>
 </div>
 <p>Reminder: You wonder what numbers represent which class? Look again at section <a href="./Analyse#machine-learning-basics" rel="noopener" target="_blank">Prepare Samples in R</a>. Starting from our training polygon shapefile, we were able to display the individual class labels and the corresponding class IDs in the following step. The order results according to the alphabetical sorting of the class names:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(<span class="fu">as.factor</span>(shp<span class="sc">$</span>classes))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(<span class="fu">as.factor</span>(shp<span class="sc">$</span>classes))</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] "baresoil"  "forest"    "grassland" "urban_hd"  "urban_ld"  "water"</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(<span class="fu">unique</span>(shp<span class="sc">$</span>classes))) {<span class="fu">cat</span>(<span class="fu">paste0</span>(i, <span class="st">" "</span>, <span class="fu">levels</span>(<span class="fu">as.factor</span>(shp<span class="sc">$</span>classes))[i]), <span class="at">sep=</span><span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)}</span>
@@ -639,7 +645,7 @@ Right click your point shapefile (“validation_RF.shp”) and choose “Open At
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="do">## 3 grassland</span></span>
 <span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="do">## 4 urban_hd</span></span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="do">## 5 urban_ld</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 6 water</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="do">## 6 water</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Write down the classification key! A wrong labeling of the points would be fatal for your validation statistics!</p>
 <p>If the class IDs are finally known, you can start:<br>
 Zoom to a scale level that allows you to differentiate your target classes in Google Earth. Then click on the left part of a line in the attribute table to highlight/select it. Once selected, press the icon “Zoom to selected Features” in the toolbar or simply <strong>Control+J</strong> on your keyboard to automatically navigate to the respective point in the Map View:</p>
@@ -676,22 +682,22 @@ Zoom to a scale level that allows you to differentiate your target classes in Go
 You need your final classification map, as well as both the training and validation shapefiles created in the course of the <a href="../../RESEDA/contents/Classification-in-R.html" rel="noopener" target="_blank">Classification in R section</a>.<br>
 Good to go?</p>
 <p>Fine, then import your <code>terra</code> library in R as usual:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("terra")</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("terra")</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Then import your classification image <code>classification_RF.tif</code>, your training shapefile <code>training_data.shp</code> and your validation shapefile <code>validation_RF.shp</code>. In this example we use the output of the RF classification. However, the workflow is applicable to every classifier!</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work"</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>img.classified <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">classification_RF.tif"</span>)</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>shp.train <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">training_data</span><span class="sc">\\</span><span class="st">training_data.shp"</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>shp.valid <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">validation_RF.shp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>shp.valid <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">validation_RF.shp"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Our goal is first to generate two factor vectors, which we then compare in our confusion matrix:</p>
 <ol type="1">
 <li><strong>reference</strong> : class labels you assigned manually in the previous section</li>
 <li><strong>predicted</strong> : class labels that resulted in the automatic RF (or SVM) classification</li>
 </ol>
 <p>For the reference vector, we need to address the <em>validclass</em> column of our shapefile (we created this column in <a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis" rel="noopener" target="_blank">this section in QGIS</a>). As already mentioned, we need to transform the vectors into factors using <code>as.factor()</code> (it becomes clear why in a second):</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>reference <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(shp.valid<span class="sc">$</span>validclass)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>reference <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(shp.valid<span class="sc">$</span>validclass)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(reference)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="do">##   [1] 3    1    4    4    6    4    5    3    6    2    1    5    4    2   </span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  [15] 2    4    4    5    4    5    1    3    &lt;NA&gt; 2    6    3    3    6   </span></span>
@@ -715,10 +721,10 @@ Good to go?</p>
 <span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="do">## [267] 5    5    3    4    3    &lt;NA&gt; 3    6    5    6    5    5    5    6   </span></span>
 <span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="do">## [281] 2    3    4    5    1    1    3    4    4    1    4    5    6    4   </span></span>
 <span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="do">## [295] 2    3    4    3    5    4   </span></span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="do">## Levels: 1 2 3 4 5 6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="do">## Levels: 1 2 3 4 5 6</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>You may notice some entries in your reference values. These arise, for example, if you have skipped some validation points during the <a href="../../RESEDA/contents/Validate.html#label-samples-in-qgis" rel="noopener" target="_blank">labeling in QGIS</a> because you could not make a clear classification based on the available image data. We simply ignore them later on in the statistics – no problem!</p>
 <p>For the predicted vector, we need to extract the classification values at the validation coordinates. Here again, we want a factor object via <code>as.factor()</code>:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>predicted <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">extract</span>(img.classified, shp.valid))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>predicted <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">extract</span>(img.classified, shp.valid))</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(predicted)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="do">##   [1] 3 1 4 4 6 4 5 3 6 2 1 5 4 2 2 4 4 3 4 5 1 3 4 2 6 3 3 6 1 4 6 6 5 6 2</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  [36] 3 1 1 3 3 1 2 5 4 3 4 2 4 1 5 1 1 4 1 3 5 2 1 5 4 5 2 3 6 2 1 5 3 5 2</span></span>
@@ -729,9 +735,9 @@ Good to go?</p>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="do">## [211] 3 5 3 4 1 1 3 3 4 2 2 3 3 1 4 4 6 2 1 1 2 6 3 4 5 3 6 1 6 5 2 3 6 3 6</span></span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="do">## [246] 5 1 1 4 1 2 4 3 4 5 5 3 5 2 3 2 2 6 3 6 5 5 3 2 4 3 1 3 6 5 6 5 5 5 6</span></span>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="do">## [281] 2 3 5 5 1 1 3 4 4 1 4 5 6 4 2 3 5 3 5 4</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Levels: 1 2 3 4 5 6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="do">## Levels: 1 2 3 4 5 6</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Once we prepared both factor vectors, we can utilize the <code>table</code> function in an elegant way to build a contingency table of the counts at each combination of factor levels. We can additionally name the vectors so that they are also displayed in the table accordingly:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>accmat <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="st">"pred"</span> <span class="ot">=</span> predicted, <span class="st">"ref"</span> <span class="ot">=</span> reference)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>accmat <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="st">"pred"</span> <span class="ot">=</span> predicted, <span class="st">"ref"</span> <span class="ot">=</span> reference)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(accmat)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="do">##     ref</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="do">## pred  1  2  3  4  5  6</span></span>
@@ -740,11 +746,11 @@ Good to go?</p>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="do">##    3  0  7 39  0  4  0</span></span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="do">##    4  0  0  0 40  9  0</span></span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="do">##    5  0  0  1  2 47  0</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="do">##    6  0  0  0  0  0 49</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="do">##    6  0  0  0  0  0 49</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The numbers thus reflect the number of validation pixels. All pixels that have a value in either or were ignored here.<br>
 Excellent! This output already visualize if and where there are misclassifications in our map: all pixels located on the diagonale are correctly classified, all pixels off the diagonal are not.</p>
 <p>We can now calculate the user’s accuracies, producer’s accuracies, and the overall accuracy:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>UA <span class="ot">&lt;-</span> <span class="fu">diag</span>(accmat) <span class="sc">/</span> <span class="fu">rowSums</span>(accmat) <span class="sc">*</span> <span class="dv">100</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>UA <span class="ot">&lt;-</span> <span class="fu">diag</span>(accmat) <span class="sc">/</span> <span class="fu">rowSums</span>(accmat) <span class="sc">*</span> <span class="dv">100</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(UA)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="do">##         1         2         3         4         5         6 </span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="do">##  68.88889  94.00000  78.00000  81.63265  94.00000 100.00000</span></span>
@@ -756,9 +762,9 @@ Excellent! This output already visualize if and where there are misclassificatio
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>OA <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">diag</span>(accmat)) <span class="sc">/</span> <span class="fu">sum</span>(accmat) <span class="sc">*</span> <span class="dv">100</span></span>
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(OA)</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 86.34812</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 86.34812</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Actually we already extracted all information needed for a confusion matrix, so let us form a nicely formatted matrix in R:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>accmat.ext <span class="ot">&lt;-</span> <span class="fu">addmargins</span>(accmat)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>accmat.ext <span class="ot">&lt;-</span> <span class="fu">addmargins</span>(accmat)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>accmat.ext <span class="ot">&lt;-</span> <span class="fu">rbind</span>(accmat.ext, <span class="st">"Users"</span> <span class="ot">=</span> <span class="fu">c</span>(PA, <span class="cn">NA</span>))</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>accmat.ext <span class="ot">&lt;-</span> <span class="fu">cbind</span>(accmat.ext, <span class="st">"Producers"</span> <span class="ot">=</span> <span class="fu">c</span>(UA, <span class="cn">NA</span>, OA))</span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(accmat.ext) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">levels</span>(<span class="fu">as.factor</span>(shp.train<span class="sc">$</span>classes)), <span class="st">"Sum"</span>, <span class="st">"PA"</span>)</span>
@@ -777,13 +783,13 @@ Excellent! This output already visualize if and where there are misclassificatio
 <span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="do">##   urban_ld       0.0    0.0       1.0      2.0     47.0   0.0  50.0  94.0</span></span>
 <span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="do">##   water          0.0    0.0       0.0      0.0      0.0  49.0  49.0 100.0</span></span>
 <span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="do">##   Sum           31.0   54.0      49.0     44.0     65.0  50.0 293.0      </span></span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="do">##   PA           100.0   87.0      79.6     90.9     72.3  98.0        86.3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="do">##   PA           100.0   87.0      79.6     90.9     72.3  98.0        86.3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <section id="significance-test" class="level2">
 <h2 class="anchored" data-anchor-id="significance-test">Significance Test</h2>
 <p>Furthermore, we can check if the result is purely coincidental, i.e., whether a random classification of the classes could have led to an identical result. We can use a <a href="https://en.wikipedia.org/wiki/Binomial_test" rel="noopener" target="_blank">binomial test</a> for this. We only need two values for this test:<br>
 total number of correctly classified validation points, and<br>
 the total number of validation points in our confusion matrix:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sign <span class="ot">&lt;-</span> <span class="fu">binom.test</span>(<span class="at">x =</span> <span class="fu">sum</span>(<span class="fu">diag</span>(accmat)),</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sign <span class="ot">&lt;-</span> <span class="fu">binom.test</span>(<span class="at">x =</span> <span class="fu">sum</span>(<span class="fu">diag</span>(accmat)),</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">n =</span> <span class="fu">sum</span>(accmat),</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">alternative =</span> <span class="fu">c</span>(<span class="st">"two.sided"</span>),</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">conf.level =</span> <span class="fl">0.95</span></span>
@@ -795,7 +801,7 @@ the total number of validation points in our confusion matrix:</p>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>CI95 <span class="ot">&lt;-</span> sign<span class="sc">$</span>conf.int[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>CI95</span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.8187710 0.9006459</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.8187710 0.9006459</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The p-value is much lower than 0.05, so the classification result is highly significant. If the classification were repeated under the same conditions, it can be assumed that the OA is 95% in the range of 81.2% to 90.0%.</p>
 <p><br>
 </p>
@@ -814,16 +820,16 @@ A value greater than 0 indicates that the classification is significantly better
    N_{e} = \frac{1}{N}\cdot\sum_{l=1}^c\left(\sum_{j=1}^c{m_{l, j}} \cdot \sum_{i=1}^c{m_{i, l}}\right)
 \]</span></p>
 <p>That looks pretty complicated. Using R, we can write our own function, which calculates <span class="math inline">\(\kappa\)</span> for us! The calculation also looks much friendlier:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>kappa <span class="ot">&lt;-</span> <span class="cf">function</span>(m) {</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>kappa <span class="ot">&lt;-</span> <span class="cf">function</span>(m) {</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> <span class="fu">sum</span>(m)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  No <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">diag</span>(m))</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  Ne <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> N <span class="sc">*</span> <span class="fu">sum</span>(<span class="fu">colSums</span>(m) <span class="sc">*</span> <span class="fu">rowSums</span>(m))</span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>( (No <span class="sc">-</span> Ne) <span class="sc">/</span> (N <span class="sc">-</span> Ne) )</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Use the accuracy matrix as argument for our new function to calculate the Kappa coefficient:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>kappacoefficient <span class="ot">&lt;-</span> <span class="fu">kappa</span>(accmat)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>kappacoefficient <span class="ot">&lt;-</span> <span class="fu">kappa</span>(accmat)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>kappacoefficient</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.8359646</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="do">## [1] 0.8359646</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>However, Kappas use has been questioned by many articles and is therefore not recommended (see <a href="https://sensoremoto2016.files.wordpress.com/2016/09/pontius_death_to_kappa_2011.pdf" rel="noopener" target="_blank">Pontius Jr and Millones 2011</a>).</p>
 </section>
 </section>
@@ -843,73 +849,73 @@ A value greater than 0 indicates that the classification is significantly better
 </ul>
 <p>The script is commented comprehensively and the equations from the paper are marked accordingly in the comments of this script.</p>
 <p>Load required packages and set working directory.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># area adjusted accuracy assessment </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># area adjusted accuracy assessment </span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co"># calculated as in Olofsson et al. 2014</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Load classification and ground truth data.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>img.class <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">classification_RF.tif"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>img.class <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">classification_RF.tif"</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Loads the classified raster map (result from classification)</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>shp.train <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">training_data</span><span class="sc">\\</span><span class="st">training_data.shp"</span>)</span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Loads training data (used to train the classifier)</span></span>
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>shp.valid <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work</span><span class="sc">\\</span><span class="st">validation_RF.shp"</span>)</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Loads validation data (independent ground-truth for accuracy assessment)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Loads validation data (independent ground-truth for accuracy assessment)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Build a confusion matrix, as this is the basis for all accuracy calculations (Producer’s, User’s, and Overall Accuracy). The confusion matrix extracts predicted classes from the raster at each validation point and creates a confusion matrix comparing predicted vs actual classes.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>confmat <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">as.factor</span>(<span class="fu">extract</span>(img.class, shp.valid)), <span class="fu">as.factor</span>(shp.valid<span class="sc">$</span>validclass))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>confmat <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">as.factor</span>(<span class="fu">extract</span>(img.class, shp.valid)), <span class="fu">as.factor</span>(shp.valid<span class="sc">$</span>validclass))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Extracts the classification values of all pixels from the raster.This is used to compute how many pixels belong to each class which is required for area weighting.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>imgVal <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">values</span>(img.class))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>imgVal <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">values</span>(img.class))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Counts how many unique land cover classes exist based on training data, which is needed to define loop iterations, allocate arrays/matrices, and label outputs correctly.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>nclass <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(shp.train<span class="sc">$</span>classes)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>nclass <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">unique</span>(shp.train<span class="sc">$</span>classes)) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The number of pixels in each class is counted and converted into km².</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>maparea <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nclass, <span class="cf">function</span>(x) <span class="fu">sum</span>(imgVal <span class="sc">==</span> x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>maparea <span class="ot">&lt;-</span> maparea <span class="sc">*</span> <span class="fu">res</span>(img.class)[<span class="dv">1</span>] <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span> <span class="dv">1000000</span>  <span class="co"># Convert to km²</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>maparea <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nclass, <span class="cf">function</span>(x) <span class="fu">sum</span>(imgVal <span class="sc">==</span> x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>maparea <span class="ot">&lt;-</span> maparea <span class="sc">*</span> <span class="fu">res</span>(img.class)[<span class="dv">1</span>] <span class="sc">^</span> <span class="dv">2</span> <span class="sc">/</span> <span class="dv">1000000</span>  <span class="co"># Convert to km²</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Confidence interval parameter is fixed, which is used for computing uncertainty bounds (± CI) for area and accuracy metrics.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fl">1.96</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fl">1.96</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Each class must be weighted by its real-world proportion to avoid biasing the accuracy toward over-sampled or under-represented classes.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">sum</span>(maparea)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">sum</span>(maparea)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>W_i <span class="ot">&lt;-</span> maparea <span class="sc">/</span> A</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Computes relative area weight (Wᵢ) for each class.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Computes relative area weight (Wᵢ) for each class.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This counts how many validation samples fall into each predicted class.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>n_i <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(confmat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>n_i <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(confmat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This estimates actual area for each interval class and calculates confidence intervals for those estimates.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> W_i <span class="sc">*</span> confmat <span class="sc">/</span> n_i</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> W_i <span class="sc">*</span> confmat <span class="sc">/</span> n_i</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>p[<span class="fu">is.na</span>(p)] <span class="ot">&lt;-</span> <span class="dv">0</span>  <span class="co"># Handle division by zero</span></span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>p_area <span class="ot">&lt;-</span> <span class="fu">colSums</span>(p) <span class="sc">*</span> A</span>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>p_area_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> A <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">colSums</span>((W_i <span class="sc">*</span> p <span class="sc">-</span> p <span class="sc">^</span> <span class="dv">2</span>) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>p_area_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> A <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">colSums</span>((W_i <span class="sc">*</span> p <span class="sc">-</span> p <span class="sc">^</span> <span class="dv">2</span>) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This calculates the Overall Accuracy, which sums up all the correctly classified area.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>OA <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">diag</span>(p))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>OA <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">diag</span>(p))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The Producer Accuracy and User Accuracy provides class specific insights.</p>
 <ul>
 <li>The Producer Accuracy tells us how well the reference class is captured by the map.</li>
 <li>The User Accuracy tells us how reliable a map label is for a given class.</li>
 </ul>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>PA <span class="ot">&lt;-</span> <span class="fu">diag</span>(p) <span class="sc">/</span> <span class="fu">colSums</span>(p)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>PA <span class="ot">&lt;-</span> <span class="fu">diag</span>(p) <span class="sc">/</span> <span class="fu">colSums</span>(p)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>UA <span class="ot">&lt;-</span> <span class="fu">diag</span>(p) <span class="sc">/</span> <span class="fu">rowSums</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>UA <span class="ot">&lt;-</span> <span class="fu">diag</span>(p) <span class="sc">/</span> <span class="fu">rowSums</span>(p)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This is the confidence interval for Overall Accuracy and provides uncertainty bounds on the overall performance metric.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>OA_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(W_i <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> UA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> UA) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>OA_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(W_i <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> UA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> UA) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The confidence interval for User Accuracy computes standard error for each UA value.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>UA_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> <span class="fu">sqrt</span>(UA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> UA) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>UA_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> <span class="fu">sqrt</span>(UA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> UA) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Confidence interval for Producer Accuracy.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>N_j <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nclass, <span class="cf">function</span>(x) <span class="fu">sum</span>(maparea <span class="sc">/</span> n_i <span class="sc">*</span> confmat[ , x]) )</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>N_j <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nclass, <span class="cf">function</span>(x) <span class="fu">sum</span>(maparea <span class="sc">/</span> n_i <span class="sc">*</span> confmat[ , x]) )</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>nclass, <span class="cf">function</span>(x) <span class="fu">sum</span>(maparea[<span class="sc">-</span>x] <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> confmat[<span class="sc">-</span>x, x] <span class="sc">/</span> n_i[<span class="sc">-</span>x] <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> confmat[<span class="sc">-</span>x, x] <span class="sc">/</span> n_i[<span class="sc">-</span>x]) <span class="sc">/</span> (n_i[<span class="sc">-</span>x] <span class="sc">-</span> <span class="dv">1</span>)))</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>PA_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> N_j <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> (maparea <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> PA) <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> UA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> UA) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">+</span> PA <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> tmp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>PA_CI <span class="ot">&lt;-</span> conf <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">/</span> N_j <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> (maparea <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> PA) <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> UA <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> UA) <span class="sc">/</span> (n_i <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">+</span> PA <span class="sc">^</span> <span class="dv">2</span> <span class="sc">*</span> tmp))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This is the final output table which assembles all matrices into a readable table with names and column headers.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(p_area, p_area_CI, PA <span class="sc">*</span> <span class="dv">100</span>, PA_CI <span class="sc">*</span> <span class="dv">100</span>, UA <span class="sc">*</span> <span class="dv">100</span>, UA_CI <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">c</span>(OA <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">rep</span>(<span class="cn">NA</span>, nclass<span class="dv">-1</span>)), <span class="fu">c</span>(OA_CI <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">rep</span>(<span class="cn">NA</span>, nclass<span class="dv">-1</span>))), <span class="at">nrow =</span> nclass)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(p_area, p_area_CI, PA <span class="sc">*</span> <span class="dv">100</span>, PA_CI <span class="sc">*</span> <span class="dv">100</span>, UA <span class="sc">*</span> <span class="dv">100</span>, UA_CI <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">c</span>(OA <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">rep</span>(<span class="cn">NA</span>, nclass<span class="dv">-1</span>)), <span class="fu">c</span>(OA_CI <span class="sc">*</span> <span class="dv">100</span>, <span class="fu">rep</span>(<span class="cn">NA</span>, nclass<span class="dv">-1</span>))), <span class="at">nrow =</span> nclass)</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">round</span>(result, <span class="at">digits =</span> <span class="dv">2</span>)</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(result) <span class="ot">&lt;-</span> <span class="fu">levels</span>(<span class="fu">as.factor</span>(shp.train<span class="sc">$</span>classes))</span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(result) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"km²"</span>, <span class="st">"km²±"</span>, <span class="st">"PA"</span>, <span class="st">"PA±"</span>, <span class="st">"UA"</span>, <span class="st">"UA±"</span>, <span class="st">"OA"</span>, <span class="st">"OA±"</span>)</span>
 <span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(result) <span class="ot">&lt;-</span> <span class="st">"table"</span></span>
 <span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>result</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:</span><span class="sc">\\</span><span class="st">Work"</span>)</span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -1029,7 +1035,7 @@ A value greater than 0 indicates that the classification is significantly better
 <span id="cb38-118"><a href="#cb38-118" aria-hidden="true" tabindex="-1"></a><span class="do">## grassland  36.97   9.99  69.00  17.55  78.00  11.60              </span></span>
 <span id="cb38-119"><a href="#cb38-119" aria-hidden="true" tabindex="-1"></a><span class="do">## urban_hd  102.61  15.74  92.46   8.40  81.63  10.95              </span></span>
 <span id="cb38-120"><a href="#cb38-120" aria-hidden="true" tabindex="-1"></a><span class="do">## urban_ld  183.33  17.21  85.47   6.20  94.00   6.65              </span></span>
-<span id="cb38-121"><a href="#cb38-121" aria-hidden="true" tabindex="-1"></a><span class="do">## water      20.14   4.29  89.12  19.01 100.00   0.00</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-121"><a href="#cb38-121" aria-hidden="true" tabindex="-1"></a><span class="do">## water      20.14   4.29  89.12  19.01 100.00   0.00</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>
@@ -1086,13 +1092,14 @@ A value greater than 0 indicates that the classification is significantly better
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
