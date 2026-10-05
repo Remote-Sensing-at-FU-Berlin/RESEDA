@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Asad Waseem">
+<meta name="dcterms.date" content="2027-03-08">
 
-<title>index</title>
+<title>Week 9 - Intro to Lidar Data: Part II</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -29,23 +31,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../RESEDA/contents/PrepareYourself.html" rel="next">
-<link href="../img/favicon.png" rel="icon" type="image/png">
-<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-f52b4817bf3b3562848cb17a6e795d47.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../img/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-f52b4817bf3b3562848cb17a6e795d47.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -76,16 +78,16 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar docked nav-fixed quarto-light">
+<body class="docked nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../img/RSG-Logo-RGB.png" alt="" class="navbar-logo light-content">
-    <img src="../img/RSG-Logo-RGB.png" alt="" class="navbar-logo dark-content">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo light-content">
+    <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo dark-content">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -95,23 +97,23 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../staff/index.html"> 
+    <a class="nav-link" href="../../staff/index.html"> 
 <span class="menu-text">Staff</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../R-Crash-Course/index.html"> 
+    <a class="nav-link" href="../../R-Crash-Course/index.html"> 
 <span class="menu-text">R Crash Course</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../RESEDA/index.html" aria-current="page"> 
+    <a class="nav-link" href="../../RESEDA/index.html"> 
 <span class="menu-text">RESEDA</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../About/index.html"> 
+    <a class="nav-link" href="../../About/index.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../Seminar-Advace Remote Sensing and GIS/index.html"> 
+    <a class="nav-link" href="../../Seminar-Advace Remote Sensing and GIS/index.html"> 
 <span class="menu-text">Seminar-Advance Remote Sensing and GIS</span></a>
   </li>  
 </ul>
@@ -137,300 +139,142 @@ ul.task-list li input[type="checkbox"] {
 </div>
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../RESEDA/index.html">Overview</a></li><li class="breadcrumb-item"><a href="../RESEDA/index.html">Let’s start!</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-    </div>
-  </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Overview</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Let’s start!</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Preparations</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/PrepareYourself.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter in a box</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/QGIS.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">QGIS</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/R-Studio.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">RStudio</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/SNAP.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">SNAP</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Acquire</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/Acquireyourdata.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter in a box</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/SensorBasics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Sensor basics</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/Download.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Download</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Preprocess</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/Preprocess.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter in a box</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/Preprocess-Optical-Data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Preprocess Optical Data</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/Visualization.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Visualization</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
- <span class="menu-text">Analyse</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/Analyse.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter in a box</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/Machine-Learning-Basics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Machine Learning Basics</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/Classification-in-R.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Classification in R</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/Regression-in-R.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Regression in R</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Validate</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/Validate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Chapter in a box</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/Validate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Create Samples in R</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/Validate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Label Samples in QGIS</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/Validate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Accuracy Matrix</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/Validate.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Area Adjusted Accuracies</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
- <span class="menu-text">The End!</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../RESEDA/contents/The End!.html#the-end" class="sidebar-item-text sidebar-link">
- <span class="menu-text">The End!</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+    <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#lets-start" id="toc-lets-start" class="nav-link active" data-scroll-target="#lets-start">Let’s start!</a></li>
-  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
+  <li><a href="#contents" id="toc-contents" class="nav-link active" data-scroll-target="#contents">Contents</a></li>
+  <li><a href="#lidar-data---tutorial" id="toc-lidar-data---tutorial" class="nav-link" data-scroll-target="#lidar-data---tutorial">1. Lidar data - Tutorial</a></li>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">2. The Data</a></li>
+  <li><a href="#your-tasks" id="toc-your-tasks" class="nav-link" data-scroll-target="#your-tasks">3. Your Tasks</a>
+  <ul>
+  <li><a href="#visualize-the-data" id="toc-visualize-the-data" class="nav-link" data-scroll-target="#visualize-the-data">3.1 Visualize the Data</a></li>
+  <li><a href="#compare-heights" id="toc-compare-heights" class="nav-link" data-scroll-target="#compare-heights">3.2 Compare Heights</a></li>
+  <li><a href="#lidar-metrics" id="toc-lidar-metrics" class="nav-link" data-scroll-target="#lidar-metrics">3.3 Lidar Metrics</a>
+  <ul>
+  <li><a href="#lidar-metrics-at-the-pixel-level" id="toc-lidar-metrics-at-the-pixel-level" class="nav-link" data-scroll-target="#lidar-metrics-at-the-pixel-level">3.3.1 Lidar Metrics at the Pixel Level</a></li>
+  <li><a href="#additional-lidar-metrics-at-the-tree-level" id="toc-additional-lidar-metrics-at-the-tree-level" class="nav-link" data-scroll-target="#additional-lidar-metrics-at-the-tree-level">3.3.2 Additional: Lidar metrics at the tree level</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
-<main class="content column-body" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Week 9 - Intro to Lidar Data: Part II</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<div class="quarto-about-trestles column-body">
-  <div class="about-entity">
-    <img src="reseda-logo.png" class="about-image
-  rounded " style="width: 20em;">
-<header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../RESEDA/index.html">Overview</a></li><li class="breadcrumb-item"><a href="../RESEDA/index.html">Let’s start!</a></li></ol></nav><h1 class="title display-7">Let’s start!</h1></header>
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Asad Waseem </p>
+          </div>
   </div>
-  <div class="about-contents"><div id="about">
-<section id="lets-start" class="level1">
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 8, 2027</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="contents" class="level1">
+<h1>Contents</h1>
+<p>Last week you got familiar with the principles of lidar sensors and the use of the data.</p>
+<p>This week you will continue working with these data. You will work with two las-files from Grunewald. The one you already used and another which is located in the vicinity. Additionally, you will make use of the forestry data provided via fisbroker (we already used that one).</p>
+<hr>
 </section>
-</div></div>
-</div>
-
-<div id="hero-heading">
-<section id="learning-objectives" class="level2">
-<h2 data-anchor-id="learning-objectives">Learning Objectives</h2>
-<p>This online course is divided into separate sections covering particular topics, which together provide a whole workflow commonly used for remote sensing imagery. Although the sections are built on one another and we recommend to handle them in given order, feel free to skip parts you are already comfortable with and focus on the chapters you are interested in. In almost every section you will come across exercises, e.g., multiple choice questionnaires or coding exercises to proof your comprehension of previous sections.</p>
-<p>Let us have a look at the learning objectives and checkpoints of each individual section:</p>
-<p><strong>Prepare Yourself</strong></p>
-<p>install our VirtualBox containing all required software get used to the GUIs of R-Studio, QGIS and SNAP refresh basics of the programming language R (if needed)</p>
-<p><strong>Acquire Data</strong></p>
-<ul>
-<li>repeat basics of optical and radar imagery</li>
-<li>become familiar with online data provider and HUBs</li>
-<li>automatically download many images using bulk downloads</li>
-</ul>
-<p><strong>Analyse Your Data</strong></p>
-<ul>
-<li>repeat basics of classification and regression tasks</li>
-<li>classify image data in R with Random Forest and SVM</li>
-<li>visualize results in R and QGIS</li>
-</ul>
-<p><strong>Validate Results</strong></p>
-<ul>
-<li>repeat validation basics</li>
-<li>validate results in R with state of the art methods</li>
-</ul>
-<p><strong>SAR Processing</strong></p>
-<ul>
-<li>get deeper insights in SAR processing</li>
-<li>process Sentinel imagery in SNAP</li>
-<li>learn to do InSAR and texture analysis</li>
-</ul>
-<p>We wish you a lot of creative ideas, much findings and great results!</p>
-<p>Best regards, your FU Berlin Remote Sensing and Geoinformatics staff.</p>
+<section id="lidar-data---tutorial" class="level1">
+<h1>1. Lidar data - Tutorial</h1>
+<p>The detailed tutorial for the lidR package can be found here: <a href="https://r-lidar.github.io/lidRbook/">https://r-lidar.github.io/lidRbook/</a></p>
+<hr>
 </section>
-</div>
+<section id="the-data" class="level1">
+<h1>2. The Data</h1>
+<p>The data of this week can be found here: <a href="https://box.fu-berlin.de/s/xXJ5retoYgR64EY">https://box.fu-berlin.de/s/xXJ5retoYgR64EY</a></p>
+<p>Detailed information of the attributes of the vector data can be found at Geodatensuche (sorry, only in German): (search for “Alters- und Bestandesstruktur der Wälder” of 2014) <a href="https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/ea216e7d-77ca-3f96-847a-27166b111d31">https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/ea216e7d-77ca-3f96-847a-27166b111d31</a> and the technical description here <a href="https://gdi.berlin.de/data/ua_forstbetriebskarte_2014/docs/Datenformatbeschreibung_05_04_forstbetriebskarte2014.pdf">https://gdi.berlin.de/data/ua_forstbetriebskarte_2014/docs/Datenformatbeschreibung_05_04_forstbetriebskarte2014.pdf</a></p>
+<p>Unfortunately, they did not link the age classes correctly at the end of the pdf. Therefore I have uploaded a copy of the html-file to the seminar’s data folder.</p>
+<hr>
+</section>
+<section id="your-tasks" class="level1">
+<h1>3. Your Tasks</h1>
+<section id="visualize-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="visualize-the-data">3.1 Visualize the Data</h2>
+<ul>
+<li><p>Visualize the data. Plots should include the CHMs as well as plots of the dominant tree species, the stand height and the stand age.</p></li>
+<li><p>Visually compare the plots of the lidar and vector data. Can you see patterns and structures in the lidar data that could be related to the vector data?</p></li>
+<li><p>Have a closer look at the attributes of the vector data. Would you classify all stands to be “pure”, meaning that the dominant tree species covers a large part of the stand?</p></li>
+</ul>
+<p><strong>Hint:</strong> You may of course make use of your last week’s script to calculate the CHM for the second plot.</p>
+</section>
+<section id="compare-heights" class="level2">
+<h2 class="anchored" data-anchor-id="compare-heights">3.2 Compare Heights</h2>
+<p>Compare the heights of the CHMs and the corresponding values from the vector data for several forest stands. Do they match?</p>
+</section>
+<section id="lidar-metrics" class="level2">
+<h2 class="anchored" data-anchor-id="lidar-metrics">3.3 Lidar Metrics</h2>
+<p>Different kind of lidar metrics were introduced in the lecture.</p>
+<p>Looking into the functions of the lidr-package there are different ways to calculate these metrics. You may calculate these on the cloud, the pixel, the tree, the voxel and the point level.</p>
+<p>This week, we will focus on the pixel and the tree level (additional) even though you might also try the other metrics.</p>
+<p>An overview of the standard metrics can be found here: <a href="https://github.com/r-lidar/lidR/wiki/stdmetrics">https://github.com/r-lidar/lidR/wiki/stdmetrics</a></p>
+<section id="lidar-metrics-at-the-pixel-level" class="level3">
+<h3 class="anchored" data-anchor-id="lidar-metrics-at-the-pixel-level">3.3.1 Lidar Metrics at the Pixel Level</h3>
+<p>Calculate lidar metrics at the pixel level for both las-files. You may use the standard metrics.</p>
+<ul>
+<li><p>Choose two different pixel resolutions (e.g.&nbsp;5 and 20 m).</p></li>
+<li><p>Choose six different metrics and plot them (preferably: 1 plot with 6 subplots)</p></li>
+<li><p>Compare the results of the lidar data with the vector data on a visual basis. Can you see the boundaries of the forest stands also within the lidar data?</p></li>
+<li><p>Calculate statistics of the tree height (e.g.&nbsp;mean, standard deviation or use boxplots) from the lidar data for different forest stands (e.g.&nbsp;two differing dominant tree species and/or different stand age). What are your observations?</p></li>
+</ul>
+</section>
+<section id="additional-lidar-metrics-at-the-tree-level" class="level3">
+<h3 class="anchored" data-anchor-id="additional-lidar-metrics-at-the-tree-level">3.3.2 Additional: Lidar metrics at the tree level</h3>
+<ul>
+<li><p>Calculate lidar metrics at the tree level for both lidar data sets. You may use the standard metrics (use the argument <code>geom = "convex"</code>).</p></li>
+<li><p>Visualize some of the metrics. Are the trees within on forest stand very similar?</p></li>
+</ul>
+<p>For a better overview you may use a spatial subset of the data.</p>
+<hr>
 
 
-
+</section>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
     const isCodeAnnotation = (el) => {
       for (const clz of el.classList) {
         if (clz.startsWith('code-annotation-')) {                     
@@ -822,15 +666,6 @@ ul.task-list li input[type="checkbox"] {
     }
   });
   </script>
-<nav class="page-navigation column-body">
-  <div class="nav-page nav-page-previous">
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="../RESEDA/contents/PrepareYourself.html" class="pagination-link" aria-label="Chapter in a box">
-        <span class="nav-page-text">Chapter in a box</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
