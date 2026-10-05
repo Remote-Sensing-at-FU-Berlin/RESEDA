@@ -27,7 +27,7 @@ website:
       - text: "About"
         href: About/index.qmd
       - text: "Seminar: Advanced Remote Sensing and GIS"
-        href: seminar.qmd
+        href: Seminar - Advanced Remote Sensing and GIS/index.qmd
     
     # your social media handles
     right:
