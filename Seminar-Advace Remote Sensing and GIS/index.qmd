@@ -22,21 +22,23 @@ The seminar is designed to build the practical skills needed to work with geospa
 
 The seminar is divided into several sections. Select a topic below to open the corresponding exercise.
 
-1. [Week 1 – Introduction to R](./intro_to_R_week1.qmd)
+1. [Week 1 – Introduction to R](./contents/intro_to_R_week1.qmd)
 
-2. [Week 2 – Raster Layers](./raster_layer_week2.qmd)
+2. [Week 2 – Raster Layers](./contents/raster_layer_week2.qmd)
 
-3. [Week 3 – Raster and Vector Data](./raster_vector_week3.qmd)
+3. [Week 3 – Raster and Vector Data](./contents/raster_vector_week3.qmd)
 
-4. [Week 4 – Sentinel-2 Data in R](./sentinel2data_in_R_week4.qmd)
+4. [Week 4 – Sentinel-2 Data in R](./contents/sentinel2data_in_R_week4.qmd)
 
-5. [Week 5 – Spectral Profiles, Feature Space and Vegetation Indices](./SpectralProfiles_featureSpace_vegetationIndices_week5.qmd)
+5. [Week 5 – Spectral Profiles, Feature Space and Vegetation Indices](./contents/SpectralOrofiles_featureSpace_vegetationIndices_week5.qmd)
 
-6. [Week 6 – Random Forest Classification](./RandomForest_Classification_week6.qmd)
+6. [Week 6 – Random Forest Classification](./contents/RandonForest_Classification_week6.qmd)
 
-7. [Week 8 – Introduction to LiDAR](./IntroToLidar_Week8.qmd)
+7. [Week 7 - Random Forest Regression](./contents/RandonForest_Classification_week6.qmd)
 
-8. [Mapping Exercise](./mapping_exercise.qmd)
+8. [Week 8 – Introduction to LiDAR](./contents/IntroToLidar_Week8.qmd)
+
+9. [Mapping Exercise](./contents/mapping_exercise.qmd)
 
 :::
 :::
