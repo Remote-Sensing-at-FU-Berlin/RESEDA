@@ -135,7 +135,7 @@
   {
     "objectID": "Seminar-Advace Remote Sensing and GIS/index.html",
     "href": "Seminar-Advace Remote Sensing and GIS/index.html",
-    "title": "Advanced Geomatics Seminar",
+    "title": "Seminar - Advance Remote Sensing and GIS",
     "section": "",
     "text": "This seminar provides practical exercises in remote sensing, geospatial analysis, GIS, and Earth observation. The exercises introduce and develop workflows using R, raster and vector data, Sentinel-2 imagery, spectral analysis, machine learning, and LiDAR data.\nThe seminar is designed to build the practical skills needed to work with geospatial and remote-sensing datasets. Each section focuses on a specific topic and includes practical exercises to help you apply the concepts covered.\n\nSeminar Exercises\nThe seminar is divided into several sections. Select a topic below to open the corresponding exercise.\n\nWeek 1 – Introduction to R\nWeek 2 – Raster Layers\nWeek 3 – Raster and Vector Data\nWeek 4 – Sentinel-2 Data in R\nWeek 5 – Spectral Profiles, Feature Space and Vegetation Indices\nWeek 6 – Random Forest Classification\nWeek 7 - Random Forest Regression\nWeek 8 – Introduction to LiDAR\nMapping Exercise"
   },
