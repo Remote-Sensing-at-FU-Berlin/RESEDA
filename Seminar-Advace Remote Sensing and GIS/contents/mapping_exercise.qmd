@@ -1,7 +1,5 @@
 ---
 title: "Mapping Exercise"
-author: "Asad Waseem"
-date: "15-08-2026"
 
 format:
   html:
