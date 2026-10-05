@@ -5,50 +5,39 @@ toc: false
 ---
 
 ::: {#main .site-main role="main"}
+
 ::: entry-header
-# R Crash Course {#r-crash-course .entry-title}
+# Advanced Geomatics Seminar {#advanced-geomatics-seminar .entry-title}
 :::
 
 ::: entry-content
-This is a R crash course for anyone who previously had no or very little contact with script-based programming. It should establish the basic understanding needed for upcoming chapters.\
-You are an old hand in R programming and do not need this introduction? -- Skip this section and go explore the [RESEDA](../RESEDA/index.qmd) course!
 
-In order to deepen your knowledge, in particular with a view to statistical analysis, we recommend the advanced e-learning course [SOGA](https://www.geo.fu-berlin.de/en/v/soga/index.html) (Softwaregestützte Geodatenanalyse). Of course, there are lots of [tutorials](https://education.rstudio.com/learn/) and relevant [literature](https://cran.r-project.org/doc/manuals/R-intro.pdf) out there, which should not go unmentioned here.
+This seminar provides practical exercises in remote sensing, geospatial analysis, GIS, and Earth observation. The exercises introduce and develop workflows using R, raster and vector data, Sentinel-2 imagery, spectral analysis, machine learning, and LiDAR data.
+
+The seminar is designed to build the practical skills needed to work with geospatial and remote-sensing datasets. Each section focuses on a specific topic and includes practical exercises to help you apply the concepts covered.
 
 ::: {style="background-color: #f1f1f1;padding: 18px 30px 1px"}
-# Crash Course in a Box
 
-We subdivided this crash course into several sections. At the end of most sections you will get to test your knowledge with coding exercises (E)!
+# Seminar Exercises
 
-1.  [Part I](./contents/PartI.qmd) + [E I](./contents/RExcerciseI.qmd):
+The seminar is divided into several sections. Select a topic below to open the corresponding exercise.
 
-    1.  Package Management
+1. [Week 1 – Introduction to R](./intro_to_R_week1.qmd)
 
-    2.  Calculate With R
+2. [Week 2 – Raster Layers](./raster_layer_week2.qmd)
 
-    3.  Variables
+3. [Week 3 – Raster and Vector Data](./raster_vector_week3.qmd)
 
-    4.  Functions
+4. [Week 4 – Sentinel-2 Data in R](./sentinel2data_in_R_week4.qmd)
 
-2.  [Part II](./contents/PartII.qmd) + [E II](./contents/RExcerciseII.qmd):
+5. [Week 5 – Spectral Profiles, Feature Space and Vegetation Indices](./SpectralProfiles_featureSpace_vegetationIndices_week5.qmd)
 
-    1.  Vectors
+6. [Week 6 – Random Forest Classification](./RandomForest_Classification_week6.qmd)
 
-    2.  Factors
+7. [Week 8 – Introduction to LiDAR](./IntroToLidar_Week8.qmd)
 
-3.  [Part III](./contents/PartIII.qmd) + [E III](./contents/RExcerciseIII.qmd):
+8. [Mapping Exercise](./mapping_exercise.qmd)
 
-    1.  Matrices
-
-4.  [Part IV](./contents/PartIV.qmd) + [E IV](./contents/RExcerciseIV.qmd):
-
-    1.  Lists
-
-5.  [Part V](./contents/PartV.qmd) + [E V](./contents/RExcerciseV.qmd):
-
-    1.  Missing values
-
-    2.  Control structures
 :::
 :::
 :::
