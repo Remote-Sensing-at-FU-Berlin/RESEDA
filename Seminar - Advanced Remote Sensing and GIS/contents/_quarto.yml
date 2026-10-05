@@ -1,0 +1,54 @@
+project:
+  type: website
+
+website:
+  title: "Advanced Geomatics"
+
+  sidebar:
+    style: docked
+    background: light
+    search: false
+    collapse-level: 1
+
+    contents:
+      - href: index.qmd
+        text: Home
+
+      - section: "Seminar: Advance Remote Sensing and Geoinformatics"
+        contents:
+          - href: contents/intro_to_R_week1.qmd
+            text: Week 1 - Intro to R
+
+          - href: contents/raster_layer_week2.qmd
+            text: Week 2 - Intro to R - Raster layer
+
+          - href: contents/raster_vector_week3.qmd
+            text: Week 3 - Crash course - Raster & Vector data
+
+          - href: contents/sentinel2data_in_R_week4.qmd
+            text: Week 4 - Preprocess Sentinel 2 data in R without SNAP
+
+          - href: contents/SpectralOrofiles_featureSpace_vegetationIndices_week5.qmd
+            text: Week 5 - Spectral Profiles, Feature Space and Vegetation Indices
+
+          - href: contents/RandomForest_Classification_week6.qmd
+            text: Week 6 - Random Forest Classification
+
+          - href: contents/RandomForest_Regression_week7.qmd
+            text: Week 7 - Random Forest Regression
+
+          - href: contents/IntroToLidar_Week8.qmd
+            text: Week 8 - Intro To Lidar Data
+
+          - href: contents/IntroToLidar_part2_Week8.qmd
+            text: Week 9 - Intro To Lidar Data Part II
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    toc-location: left
+    toc-depth: 6
+    smooth-scroll: true
+    code-fold: true

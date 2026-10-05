@@ -1,0 +1,450 @@
+---
+title: "Advance Geomatics - Intro to R- Week 2: Raster Layer"
+author: "Asad Waseem"
+date: "2026-07-21"
+output:
+   html_document:
+     dev: svg
+     fig_height: 4
+     fig_width: 6
+     number_sections: no
+     theme: cerulean
+     toc: yes
+     toc_depth: 3
+     toc_float: yes
+---
+
+
+# Contents
+
+1. Open raster data
+
+2. Retrieve information of an object
+
+3. Subset raster layer
+
+4. Statistical functions to analyze raster layers
+
+5. Plot raster layer using easy as well as advanced arguments
+
+6. Reclassification of raster data
+
+7. Additional: map scale and north arrow
+
+ - Homework
+ 
+---
+
+# FU E-learning courses for R
+
+There is a FU e-learning course that shows how R might be used in remote sensing (we are updating it during the next weeks): [https://remote-sensing-at-fu-berlin.github.io/RESEDA/R-Crash-Course/](https://blogs.fu-berlin.de/reseda/r-crash-course/)
+
+Here is a link to SOGA, another FU e-learning course, which deals exhaustively with use of R and Python in statistics: [https://www.geo.fu-berlin.de/en/v/soga/](https://www.geo.fu-berlin.de/en/v/soga/)
+
+Hint: Besides the R help itself there are many sources in the internet where you can find help to many R functions and packages
+
+---
+
+# Preparation
+
+- Open a new R-file and save it. Fill in and run the requested R commands and comment as you like. Please, try to solve the exercises on your own before you have a look at the solution.
+
+- Install the package terra and load them. What is the main purpose of this package?
+
+```r
+# Install and load the package "terra"
+#install.packages("terra")
+
+library(terra)
+```
+
+- Set the working directory to the folder where today's data are located on your computer. Use the right folder delimiter (`\\` oder `/`) to separate the folder names.
+
+```r
+setwd("N:/FU_Arbeit/R_Masterkurs/Woche_02")
+```
+
+---
+
+# 1. Open Raster Data
+
+- Open the file n48_e008_1arc_v3.tif by using the function `rast()` and assign it to an object named DEM.
+
+```r
+DEM <- rast("n48_e008_1arc_v3.tif")
+```
+
+---
+
+# 2. Retrieve an Object’s Properties
+
+- Display metadata and general information on the object by executing the object’s name (i.e. type DEM). Which kind of datatype are we dealing with?
+
+```r
+DEM
+```
+
+- The function summary() provides general information on an object. Which information is provided for the object DEM?
+
+```r
+summary(DEM)
+```
+
+- Have a look at the output of the function str(). Which kind of information is provided?
+```r
+str(DEM)
+```
+
+- Many functions help you to gather metadata from your data. Try for example crs(). Which 
+information is provided?
+
+```r
+crs(DEM)
+```
+
+- What is the spatial extent of the DEM? Which function can you use?
+
+```r
+ext(DEM)
+```
+
+- What is the minimum western (left) boundary?
+
+```r
+ext(DEM)$xmin
+
+#or
+
+ext(DEM)[1]
+```
+
+- Some functions exist that allow to alter information/metadata stored within a raster object. For example, it may be beneficial to set the minimum and maximum value of a raster to improve the illustration with the function setMinMax.
+
+ **a.** Have again a look at the metadata. Is a minimum or maximum value provided?
+
+```r
+DEM
+```
+
+ **b.** Set the min and max value.
+
+```r
+DEM <- setMinMax(DEM)
+```
+
+ **c.** Did the min and max value change within the metadata? Hint: The settings are only stored in the object DEM, NOT in the original data.
+```r
+DEM
+```
+
+---
+
+# 3. Subset raster layer
+
+You may easily create a geographic subset of the data using the function crop().
+
+**a.** Plot the DEM
+
+```r
+plot(DEM)
+```
+
+**b.** Define the corners of your subset (here a rectangle: this means you need to define the minimum and maximum x as well as y coordinates - here geographic coordinates). For the test data use following coordinates `x1 <- 8.4`, `x2 <- 8.8`, `y1 <- 48.3`, `y2 <- 48.5`
+
+```r
+x1 <- 8.4
+x2 <- 8.8
+y1 <- 48.3
+y2 <- 48.5
+```
+
+**c.** Plot the extent of the defined rectangle using the plotting function rect(). Have a close look at the order of coordinates as required by the function.
+
+```r
+plot(DEM)
+rect(x1, y1, x2, y2, border="white", lwd=3)
+```
+
+**d.** Use the function crop() to subset the data according to the defined boundaries.
+
+- Define a vector with the coordinates. The order of coordinates is different from the the function `rect`. The order is `xmin`, `xmax`, `ymin`, `ymax`. We can use `crop()` to subset data using the geographic extent of another dataset. We will have a look at this within the next weeks.
+
+- Subset the data.
+
+```r
+cropsub <- c(x1, x2, y1, y2)
+DEM.sub <- crop(DEM, cropsub)
+```
+
+Plot the new object.
+
+```r
+plot(DEM.sub)
+```
+
+---
+
+# 4. Statistical functions for raster layers
+
+- Use the function global() and calculate minimum and maximum value, the range as well as the standard deviation.
+
+**a.** Minimum
+
+```r
+DEMmin <- global(DEM, min)
+DEM_min
+```
+
+**b.** Maximum
+
+```r
+DEM_max <- global(DEM, max)
+DEM_max
+```
+
+**c.** Range
+
+```r
+DEM_range <- global(DEM, range)
+DEM_range
+```
+
+**d.** Standard Deviation
+
+```r
+DEM_sd <- global(DEM, sd)
+DEM_sd
+```
+
+- Use the function global() to derive quantile information. a) Use the default function, b) use the argument probs to derive quantiles in 10% steps. Hint: you may use the seq() function to simplify the statement.
+
+**a.** Default function
+
+```r
+q <- global(DEM, quantile)
+q
+```
+
+**b.** Self-defined Quantiles using a vector
+
+```r
+q <- global(DEM, quantile, probs=c(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1))
+q
+```
+
+**c.** Self-defined Quantiles using seq
+
+```r
+q <- global(DEM, quantile, probs=seq(0,1,0.1))
+q
+```
+
+- Use the function `hist()` to display a histogram of the elevation data. Try to change arguments such as `maxcell` and `col`. Available colors can be found here: [http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf)
+
+**a.** Default Histogram
+
+```r
+hist(DEM, main="Distribution of elevation values", maxcell=10000)
+```
+
+**b.** Histogram with `maxcell = 22000000`, `col= "blue"`
+
+```r
+hist(DEM, main="Distribution of elevation values", col= "blue",  maxcell=22000000)
+```
+
+- Display a boxplot of the DEM.
+
+```r
+boxplot(DEM)
+```
+
+---
+
+# 5. Plot Rater Layer
+
+::: {.panel-tabset}
+
+## Plot I: Basic
+
+Plot the DEM. Use the function without any arguments.
+
+```r
+plot(DEM.sub)
+```
+
+## Plot II: Modifications
+
+Plot the DEM using arguments such as `legend`,`lab`, `main`, `xlab`, `ylab`.
+
+```r
+plot(DEM.sub, 
+     plg=list(title="Elevation (m)"),
+     main="Digital Elevation Model of Black Forest",
+     xlab="Longitude",
+     ylab="Latitude")
+```
+
+## Plot III: Contour Lines
+
+Add contour lines using `contour`, use the argument `add=TRUE`. This will add the contour lines to an existing plot instead of generating a new plot.
+
+```r
+plot(DEM.sub, 
+    plg=list(title="Elevation (m)"),
+    main="Digital Elevation Model of Black Forest",
+    xlab="Longitude",
+    ylab="Latitude")
+    
+contour(DEM.sub, add=TRUE)
+```
+
+## Plot IV: Default Colours
+
+You may alter the colour representation of the DEM using the argument col. Existing color palettes are `terrain.colors()`, `heat.colors()`, `topo.colors()`, `cm.colors()`, `rainbow()`. The number you use as argument (number within the bracket) defines the number of color levels.
+
+- `terrain.colors(255)`
+
+```r
+plot(DEM.sub, col=terrain.colors(255))
+```
+
+- `terrain.colors(5)`
+
+```r
+plot(DEM.sub, col=terrain.colors(5))
+```
+
+- Plot the DEM with labels and try different color palettes and different number of colors.
+
+```r
+plot(DEM.sub, col=topo.colors(15),
+legend.lab="Elevation (m)",
+main="Digital Elevation Model of Black Forest",
+xlab="Longitude",
+ylab="Latitude")
+```
+
+## Plot V: Self-defined colors
+
+You may create a self defined color ramp with `colorRampPalette()`. **The color bar ranges from blue to orange to white.**
+
+```r
+mycols <- colorRampPalette(c("blue", "orange", "white"))
+```
+
+- Plot the DEM with the self designed color palette.
+
+```r
+plot(DEM.sub, col=mycols(255))
+```
+
+## Plot VI: Classes
+
+It is also possible to display the DEM in discrete classes. Use the argument breaks within the `plot()` function.
+
+- Create a vector `brk` that contains the height classes you would like to diffentiate (e.g. 0, 500, 650, 800, 1000)
+
+```r
+brk <- c(0, 500, 650, 800, 1000)
+```
+
+- Define the number of colors according the number of the defined classes (number of breaks - 1) and assign it to the object cols.
+
+```r
+cols <- mycols(4)
+```
+
+- Plot the DEM using the `breaks` argument.
+
+```r
+plot(DEM.sub, col=cols, breaks=brk, main="DEM with classes")
+```
+
+## Plot VII: Self-designed Legend
+
+We may create a self-designed legend.
+
+- Use the argument `legend =  FALSE` in the `plot` function.
+
+```r
+plot(DEM.sub, col=cols, breaks=brk, main="DEM with classes", legend = FALSE)
+```
+
+- Add the legend using the function `legend()`. This function allows us the tailor discrete legends regarding colors and labels. You may use the arguement inset to place the legend within the plot.
+
+```r
+plot(DEM.sub, col=cols, breaks=brk, main="DEM with classes", legend = FALSE)
+legend('topright', title='DEM Classes',
+legend=c("<500 m", "[500 m, 650m]", "[650 m, 800 m]", ">=800 m"),
+          fill=cols, bg='white', inset=c(0.13,0.015))
+```
+
+:::
+
+---
+
+# 6. Reclassification of Raster Data
+
+- What is the difference of the following code in comparison the break argument? Add comments explaining the code.
+
+```r
+DEM_class<-DEM.sub
+DEM_class[DEM.sub<500]<-1
+DEM_class[DEM.sub>=500 & DEM.sub<650]<-2
+DEM_class[DEM.sub>=650 & DEM.sub<800]<-3
+DEM_class[DEM.sub>=800]<-4
+
+DEM_class
+global(DEM_class, range)
+
+plot(DEM_class, col=mycols(4), legend=FALSE)
+legend('topright', title='DEM Classes',
+       legend=c("<500 m", "[500 m, 650m]", "[650 m, 800 m]", ">=800 m"),
+       fill=mycols(4), bg='white', inset=c(0.13,0.015))
+```
+
+---
+
+# 7. Additional: Map Scale and North Arrow
+
+- Add a north arrow using the function `north()` from the library terra. Have a look in the help to modify the north arrow (`?north`)
+
+```r
+plot(DEM.sub, col=mycols(255))
+north(xy=c(8.42, 48.32), type=3, col="white", cex = 1.3)
+```
+
+- Add a scale bar using the function `sbar()`.
+
+```r
+plot(DEM.sub, col=mycols(255))
+north(xy=c(8.42, 48.32), type=3, col="black", cex = 1.3)
+sbar(d= 5, xy=c(8.44, 48.315), type="bar", divs=2, lonlat=TRUE, below="km", cex=1, col="black")
+```
+
+---
+
+
+# Homework Seminar 2
+
+1. Download a DEM subset of your choice
+
+(preferable a mountainous area).
+- [http://earthexplorer.usgs.gov](http://earthexplorer.usgs.gov)
+
+[http://srtm.csi.cgiar.org/](http://srtm.csi.cgiar.org/) (90m! –> follow link:SRTM Data Search and Download)
+
+2. Plot the DEM and use a continuous color ramp ranging from the DEM`s minimum to maximum. You may also subset your data.
+
+3. Find an existing function which allows you to calculate slope and aspect of your DEM. Calculate the slope (in degree not in percent) and the aspect.
+
+4. Plot the slope. Use the argument breaks to plot the slope: 10 classes (10% quantiles)
+
+5. Plot the aspect. Use the function breaks to plot the aspect: 10 classes (equal intervals)
+
+6. Classify the aspect and plot the result. The aspect should be classified into south-, east-, west- and north-facing slopes.
+
+7. Add a class to the aspect classification that shows areas that have a slope less than 5° and where the aspect can therefore be neglected. Plot your result.
+
+

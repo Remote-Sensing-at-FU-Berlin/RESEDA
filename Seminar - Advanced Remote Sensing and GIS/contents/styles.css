@@ -1,0 +1,8 @@
+/* css styles */
+
+/*centering image caption*/
+
+
+figure figcaption {
+  text-align: center !important;
+}

@@ -1,0 +1,41 @@
+{
+  "contents/Intro to R - Week 1.qmd": {
+    "Intro to R - Week 1.html": "509a5248"
+  },
+  "about.qmd": {
+    "about.html": "dc18d0b1"
+  },
+  "index.qmd": {
+    "index.html": "593d7383"
+  },
+  "contents/intro_to_R_week1.qmd": {
+    "intro_to_R_week1.html": "647f20d5"
+  },
+  "contents/raster_layer_week2.qmd": {
+    "raster_layer_week2.html": "bd030600"
+  },
+  "contents/index.qmd": {
+    "index.html": "1757040b"
+  },
+  "contents/IntroToLidar_part2_Week8.qmd": {
+    "IntroToLidar_part2_Week8.html": "ad5feb59"
+  },
+  "contents/IntroToLidar_Week8.qmd": {
+    "IntroToLidar_Week8.html": "073d10d1"
+  },
+  "contents/RadomForest_Regression_week7.qmd": {
+    "RadomForest_Regression_week7.html": "f070fd28"
+  },
+  "contents/RandonForest_Classification_week6.qmd": {
+    "RandonForest_Classification_week6.html": "104e6253"
+  },
+  "contents/raster_vector_week3.qmd": {
+    "raster_vector_week3.html": "601c49bd"
+  },
+  "contents/sentinel2data_in_R_week4.qmd": {
+    "sentinel2data_in_R_week4.html": "666386ec"
+  },
+  "contents/SpectralOrofiles_featureSpace_vegetationIndices_week5.qmd": {
+    "SpectralOrofiles_featureSpace_vegetationIndices_week5.html": "7f1a0254"
+  }
+}
