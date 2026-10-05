@@ -135,9 +135,9 @@
   {
     "objectID": "Seminar-Advace Remote Sensing and GIS/index.html",
     "href": "Seminar-Advace Remote Sensing and GIS/index.html",
-    "title": "R Crash Course",
+    "title": "Advanced Geomatics Seminar",
     "section": "",
-    "text": "This is a R crash course for anyone who previously had no or very little contact with script-based programming. It should establish the basic understanding needed for upcoming chapters.\nYou are an old hand in R programming and do not need this introduction? – Skip this section and go explore the RESEDA course!\nIn order to deepen your knowledge, in particular with a view to statistical analysis, we recommend the advanced e-learning course SOGA (Softwaregestützte Geodatenanalyse). Of course, there are lots of tutorials and relevant literature out there, which should not go unmentioned here.\n\nCrash Course in a Box\nWe subdivided this crash course into several sections. At the end of most sections you will get to test your knowledge with coding exercises (E)!\n\nPart I + E I:\n\nPackage Management\nCalculate With R\nVariables\nFunctions\n\nPart II + E II:\n\nVectors\nFactors\n\nPart III + E III:\n\nMatrices\n\nPart IV + E IV:\n\nLists\n\nPart V + E V:\n\nMissing values\nControl structures"
+    "text": "This seminar provides practical exercises in remote sensing, geospatial analysis, GIS, and Earth observation. The exercises introduce and develop workflows using R, raster and vector data, Sentinel-2 imagery, spectral analysis, machine learning, and LiDAR data.\nThe seminar is designed to build the practical skills needed to work with geospatial and remote-sensing datasets. Each section focuses on a specific topic and includes practical exercises to help you apply the concepts covered.\n\nSeminar Exercises\nThe seminar is divided into several sections. Select a topic below to open the corresponding exercise.\n\nWeek 1 – Introduction to R\nWeek 2 – Raster Layers\nWeek 3 – Raster and Vector Data\nWeek 4 – Sentinel-2 Data in R\nWeek 5 – Spectral Profiles, Feature Space and Vegetation Indices\nWeek 6 – Random Forest Classification\nWeek 8 – Introduction to LiDAR\nMapping Exercise"
   },
   {
     "objectID": "projects/posts/welcome/index.html",
