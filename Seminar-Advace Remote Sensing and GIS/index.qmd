@@ -7,7 +7,7 @@ toc: false
 ::: {#main .site-main role="main"}
 
 ::: entry-header
-# Advanced Geomatics Seminar {#advanced-geomatics-seminar .entry-title}
+# Seminar - Advance Remote Sensing and GIS {#advanced-geomatics-seminar .entry-title}
 :::
 
 ::: entry-content
