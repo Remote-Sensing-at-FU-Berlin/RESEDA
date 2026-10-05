@@ -26,6 +26,8 @@ website:
         href: RESEDA/index.qmd
       - text: "About"
         href: About/index.qmd
+      - text: "Seminar: Advanced Remote Sensing and GIS"
+        href: seminar.qmd
     
     # your social media handles
     right:
