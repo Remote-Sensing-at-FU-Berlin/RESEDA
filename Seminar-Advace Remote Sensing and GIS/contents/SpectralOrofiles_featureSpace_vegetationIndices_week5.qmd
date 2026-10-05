@@ -1,7 +1,5 @@
 ---
 title: "Week 5 - Spectral Profiles, Feature Space and Vegetation Indices"
-author: "Asad Waseem"
-date: "13-08-2026"
 
 format:
   html:

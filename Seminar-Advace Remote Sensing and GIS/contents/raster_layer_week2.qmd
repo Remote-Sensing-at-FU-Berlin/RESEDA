@@ -1,7 +1,6 @@
 ---
 title: "Advance Geomatics - Intro to R- Week 2: Raster Layer"
-author: "Asad Waseem"
-date: "2026-07-21"
+
 output:
    html_document:
      dev: svg

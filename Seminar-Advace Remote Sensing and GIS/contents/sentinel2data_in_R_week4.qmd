@@ -1,6 +1,6 @@
 ---
 title: "Week 4: Preprocess Sentinel 2 data in R without SNAP"
-author: "Asad Waseem"
+
 output:
    html_document:
      dev: svg

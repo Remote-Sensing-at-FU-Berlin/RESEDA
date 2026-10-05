@@ -1,7 +1,6 @@
 ---
 title: "Advanced Geomatics - Intro to R - Week 1"
-author: "Asad Waseem"
-date: "2026-07-21"
+
 output:
    html_document:
      dev: svg

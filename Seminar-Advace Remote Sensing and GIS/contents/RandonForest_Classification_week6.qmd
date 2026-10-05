@@ -1,7 +1,5 @@
 ---
 title: "Week 6 - Random Forest Classification"
-author: "Asad Waseem"
-date: "15-08-2026"
 
 format:
   html:

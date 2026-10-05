@@ -1,7 +1,6 @@
 ---
 title: "Crash course week 3: Raster & Vector data"
-author: "Asad Waseem"
-date: "29-07-2026"
+
 output:
    html_document:
      dev: svg

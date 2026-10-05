@@ -1,7 +1,5 @@
 ---
 title: "Week 9 - Intro to Lidar Data: Part II"
-author: "Asad Waseem"
-date: "15-08-2026"
 
 format:
   html:
