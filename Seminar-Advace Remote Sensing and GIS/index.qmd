@@ -1,54 +1,54 @@
-project:
-  type: website
+---
+page-layout: full
+sidebar: true
+toc: false
+---
 
-website:
-  title: "Advanced Geomatics"
+::: {#main .site-main role="main"}
+::: entry-header
+# R Crash Course {#r-crash-course .entry-title}
+:::
 
-  sidebar:
-    style: docked
-    background: light
-    search: false
-    collapse-level: 1
+::: entry-content
+This is a R crash course for anyone who previously had no or very little contact with script-based programming. It should establish the basic understanding needed for upcoming chapters.\
+You are an old hand in R programming and do not need this introduction? -- Skip this section and go explore the [RESEDA](../RESEDA/index.qmd) course!
 
-    contents:
-      - href: index.qmd
-        text: Home
+In order to deepen your knowledge, in particular with a view to statistical analysis, we recommend the advanced e-learning course [SOGA](https://www.geo.fu-berlin.de/en/v/soga/index.html) (Softwaregestützte Geodatenanalyse). Of course, there are lots of [tutorials](https://education.rstudio.com/learn/) and relevant [literature](https://cran.r-project.org/doc/manuals/R-intro.pdf) out there, which should not go unmentioned here.
 
-      - section: "Seminar: Advance Remote Sensing and Geoinformatics"
-        contents:
-          - href: contents/intro_to_R_week1.qmd
-            text: Week 1 - Intro to R
+::: {style="background-color: #f1f1f1;padding: 18px 30px 1px"}
+# Crash Course in a Box
 
-          - href: contents/raster_layer_week2.qmd
-            text: Week 2 - Intro to R - Raster layer
+We subdivided this crash course into several sections. At the end of most sections you will get to test your knowledge with coding exercises (E)!
 
-          - href: contents/raster_vector_week3.qmd
-            text: Week 3 - Crash course - Raster & Vector data
+1.  [Part I](./contents/PartI.qmd) + [E I](./contents/RExcerciseI.qmd):
 
-          - href: contents/sentinel2data_in_R_week4.qmd
-            text: Week 4 - Preprocess Sentinel 2 data in R without SNAP
+    1.  Package Management
 
-          - href: contents/SpectralOrofiles_featureSpace_vegetationIndices_week5.qmd
-            text: Week 5 - Spectral Profiles, Feature Space and Vegetation Indices
+    2.  Calculate With R
 
-          - href: contents/RandomForest_Classification_week6.qmd
-            text: Week 6 - Random Forest Classification
+    3.  Variables
 
-          - href: contents/RandomForest_Regression_week7.qmd
-            text: Week 7 - Random Forest Regression
+    4.  Functions
 
-          - href: contents/IntroToLidar_Week8.qmd
-            text: Week 8 - Intro To Lidar Data
+2.  [Part II](./contents/PartII.qmd) + [E II](./contents/RExcerciseII.qmd):
 
-          - href: contents/IntroToLidar_part2_Week8.qmd
-            text: Week 9 - Intro To Lidar Data Part II
+    1.  Vectors
 
-format:
-  html:
-    theme: cosmo
-    css: styles.css
-    toc: true
-    toc-location: left
-    toc-depth: 6
-    smooth-scroll: true
-    code-fold: true
+    2.  Factors
+
+3.  [Part III](./contents/PartIII.qmd) + [E III](./contents/RExcerciseIII.qmd):
+
+    1.  Matrices
+
+4.  [Part IV](./contents/PartIV.qmd) + [E IV](./contents/RExcerciseIV.qmd):
+
+    1.  Lists
+
+5.  [Part V](./contents/PartV.qmd) + [E V](./contents/RExcerciseV.qmd):
+
+    1.  Missing values
+
+    2.  Control structures
+:::
+:::
+:::
