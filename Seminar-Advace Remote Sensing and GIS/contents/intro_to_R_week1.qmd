@@ -1073,7 +1073,7 @@ RStudio facilitates the import of files. In the Environment-window, a wizard for
 
 Conveniently, the import function in RStudio recognizes much of this automatically. The following settings are useful for our sample dataset:
 
-![RStudio GUI](images/8.1.png)
+![RStudio GUI](./images/8.1.png)
 
 The Quicklook at the bottom of the window gives an insight into the effects of the individual settings. To confirm our choice we press Import at the bottom of the window. The dataset is imported and the underlying command `read.csv("Temperatur_1981-2010.txt", sep=";")` is displayed in the console window in RStudio. This command can also be used to load the dataset script-based. Note: Due to the special characters in German, it is sometimes necessary to specify `encoding="latin1"` so that these characters can be read. It makes more sense to get into the habit of not using special characters in datasets and scripts, esp. if you work in an international environment.
 
