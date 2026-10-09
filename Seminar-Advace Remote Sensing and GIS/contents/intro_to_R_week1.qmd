@@ -57,7 +57,7 @@ Recommended is the non-commercial open-source licensed Desktop Edition, which ca
 
 ## 2.2. RStudio Layout
 
-![RStudio GUI](images/2.2.png)
+![RStudio GUI](./images/2.2.png){.aligncenter}](./images/2.2.png)
 
 The default view of RStudio consists of four working areas:
 
