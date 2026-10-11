@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Week 8 - Intro to Lidar Data</title>
+<title>Week 9 - Intro to Lidar Data: Part II</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -111,7 +111,7 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../AdvancedRS/index.qmd"> 
+    <a class="nav-link" href="../../AdvancedRS/index.html"> 
 <span class="menu-text">ADVANCED RS</span></a>
   </li>  
 </ul>
@@ -147,15 +147,17 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#contents" id="toc-contents" class="nav-link active" data-scroll-target="#contents">Contents</a></li>
-  <li><a href="#lidar-data---intro" id="toc-lidar-data---intro" class="nav-link" data-scroll-target="#lidar-data---intro">1. Lidar data - Intro</a></li>
-  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">2. The data</a></li>
+  <li><a href="#lidar-data---tutorial" id="toc-lidar-data---tutorial" class="nav-link" data-scroll-target="#lidar-data---tutorial">1. Lidar data - Tutorial</a></li>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">2. The Data</a></li>
   <li><a href="#your-tasks" id="toc-your-tasks" class="nav-link" data-scroll-target="#your-tasks">3. Your Tasks</a>
   <ul>
-  <li><a href="#reading-the-data" id="toc-reading-the-data" class="nav-link" data-scroll-target="#reading-the-data">3.1 Reading the Data</a></li>
-  <li><a href="#visualizing" id="toc-visualizing" class="nav-link" data-scroll-target="#visualizing">3.2 Visualizing</a></li>
-  <li><a href="#dtm" id="toc-dtm" class="nav-link" data-scroll-target="#dtm">3.3 DTM</a></li>
-  <li><a href="#dsm-chm" id="toc-dsm-chm" class="nav-link" data-scroll-target="#dsm-chm">3.4 DSM / CHM</a></li>
-  <li><a href="#tree-detection-and-segmentation" id="toc-tree-detection-and-segmentation" class="nav-link" data-scroll-target="#tree-detection-and-segmentation">3.5 Tree Detection and Segmentation</a></li>
+  <li><a href="#visualize-the-data" id="toc-visualize-the-data" class="nav-link" data-scroll-target="#visualize-the-data">3.1 Visualize the Data</a></li>
+  <li><a href="#compare-heights" id="toc-compare-heights" class="nav-link" data-scroll-target="#compare-heights">3.2 Compare Heights</a></li>
+  <li><a href="#lidar-metrics" id="toc-lidar-metrics" class="nav-link" data-scroll-target="#lidar-metrics">3.3 Lidar Metrics</a>
+  <ul>
+  <li><a href="#lidar-metrics-at-the-pixel-level" id="toc-lidar-metrics-at-the-pixel-level" class="nav-link" data-scroll-target="#lidar-metrics-at-the-pixel-level">3.3.1 Lidar Metrics at the Pixel Level</a></li>
+  <li><a href="#additional-lidar-metrics-at-the-tree-level" id="toc-additional-lidar-metrics-at-the-tree-level" class="nav-link" data-scroll-target="#additional-lidar-metrics-at-the-tree-level">3.3.2 Additional: Lidar metrics at the tree level</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -169,7 +171,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Week 8 - Intro to Lidar Data</h1>
+<h1 class="title">Week 9 - Intro to Lidar Data: Part II</h1>
 </div>
 
 
@@ -188,79 +190,64 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="contents" class="level1">
 <h1>Contents</h1>
-<p>This week you will get to know how to deal with lidar (also LIDAR, LiDAR) data in R. There is the package <code>lidR</code> which is dedicated for analyzing these data.</p>
-<p>You will find an extensive tutorial describing the possibilities of the package regarding data analyses. Therefore, this is a great use case for you to get familiar working with tutorials to obtain the desired information.</p>
-<p>You will learn how to</p>
-<ul>
-<li>Open the data</li>
-<li>Visualize the data</li>
-<li>Extract an digital terrain model and a digital surface model or canopy height model</li>
-<li>Identify tree tops</li>
-<li>Segment tree crowns</li>
-</ul>
-<p>For those of you, who like to dig a bit deeper, there are some “additional” tasks.</p>
+<p>Last week you got familiar with the principles of lidar sensors and the use of the data.</p>
+<p>This week you will continue working with these data. You will work with two las-files from Grunewald. The one you already used and another which is located in the vicinity. Additionally, you will make use of the forestry data provided via fisbroker (we already used that one).</p>
 <hr>
 </section>
-<section id="lidar-data---intro" class="level1">
-<h1>1. Lidar data - Intro</h1>
-<p>In case you did not find time yet to have a look at the lecture, here is a short overview of lidar data: <a href="https://www.youtube.com/watch?v=EYbhNSUnIdU">https://www.youtube.com/watch?v=EYbhNSUnIdU</a></p>
-<p>The detailed tutorial for the <code>lidR</code> package can be found here: <a href="https://r-lidar.github.io/lidRbook/">https://r-lidar.github.io/lidRbook/</a></p>
+<section id="lidar-data---tutorial" class="level1">
+<h1>1. Lidar data - Tutorial</h1>
+<p>The detailed tutorial for the lidR package can be found here: <a href="https://r-lidar.github.io/lidRbook/">https://r-lidar.github.io/lidRbook/</a></p>
 <hr>
 </section>
 <section id="the-data" class="level1">
-<h1>2. The data</h1>
-<p>Berlin has an open data policy and therefore the data of the last lidar survey are freely available via FIS-Broker (Geo portal of Berlin). The amount of data is enormous and therefore, we may only focus on rather small patches. I have chosen a tile from Grunewald but you are free to download the data and choose another tile. (Hint: Be aware that the data amount is quite huge).</p>
-<p>You may find the data here: <a href="https://box.fu-berlin.de/s/xXJ5retoYgR64EY">https://box.fu-berlin.de/s/xXJ5retoYgR64EY</a></p>
+<h1>2. The Data</h1>
+<p>The data of this week can be found here: <a href="https://box.fu-berlin.de/s/xXJ5retoYgR64EY">https://box.fu-berlin.de/s/xXJ5retoYgR64EY</a></p>
+<p>Detailed information of the attributes of the vector data can be found at Geodatensuche (sorry, only in German): (search for “Alters- und Bestandesstruktur der Wälder” of 2014) <a href="https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/ea216e7d-77ca-3f96-847a-27166b111d31">https://gdi.berlin.de/geonetwork/srv/ger/catalog.search#/metadata/ea216e7d-77ca-3f96-847a-27166b111d31</a> and the technical description here <a href="https://gdi.berlin.de/data/ua_forstbetriebskarte_2014/docs/Datenformatbeschreibung_05_04_forstbetriebskarte2014.pdf">https://gdi.berlin.de/data/ua_forstbetriebskarte_2014/docs/Datenformatbeschreibung_05_04_forstbetriebskarte2014.pdf</a></p>
+<p>Unfortunately, they did not link the age classes correctly at the end of the pdf. Therefore I have uploaded a copy of the html-file to the seminar’s data folder.</p>
 <hr>
 </section>
 <section id="your-tasks" class="level1">
 <h1>3. Your Tasks</h1>
-<section id="reading-the-data" class="level2">
-<h2 class="anchored" data-anchor-id="reading-the-data">3.1 Reading the Data</h2>
+<section id="visualize-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="visualize-the-data">3.1 Visualize the Data</h2>
 <ul>
-<li>Read the lidar data.</li>
-<li>I recommend to use also a subset of the data because this makes it easier to see details of the lidar data, e.g.&nbsp;a subset of 100 m by 100 m might be a good size. For this purpose, useful functions are <code>ext(data)</code> and <code>clip_rectangle(data, xmin, ymin, xmax, ymax)</code></li>
+<li><p>Visualize the data. Plots should include the CHMs as well as plots of the dominant tree species, the stand height and the stand age.</p></li>
+<li><p>Visually compare the plots of the lidar and vector data. Can you see patterns and structures in the lidar data that could be related to the vector data?</p></li>
+<li><p>Have a closer look at the attributes of the vector data. Would you classify all stands to be “pure”, meaning that the dominant tree species covers a large part of the stand?</p></li>
+</ul>
+<p><strong>Hint:</strong> You may of course make use of your last week’s script to calculate the CHM for the second plot.</p>
+</section>
+<section id="compare-heights" class="level2">
+<h2 class="anchored" data-anchor-id="compare-heights">3.2 Compare Heights</h2>
+<p>Compare the heights of the CHMs and the corresponding values from the vector data for several forest stands. Do they match?</p>
+</section>
+<section id="lidar-metrics" class="level2">
+<h2 class="anchored" data-anchor-id="lidar-metrics">3.3 Lidar Metrics</h2>
+<p>Different kind of lidar metrics were introduced in the lecture.</p>
+<p>Looking into the functions of the lidr-package there are different ways to calculate these metrics. You may calculate these on the cloud, the pixel, the tree, the voxel and the point level.</p>
+<p>This week, we will focus on the pixel and the tree level (additional) even though you might also try the other metrics.</p>
+<p>An overview of the standard metrics can be found here: <a href="https://github.com/r-lidar/lidR/wiki/stdmetrics">https://github.com/r-lidar/lidR/wiki/stdmetrics</a></p>
+<section id="lidar-metrics-at-the-pixel-level" class="level3">
+<h3 class="anchored" data-anchor-id="lidar-metrics-at-the-pixel-level">3.3.1 Lidar Metrics at the Pixel Level</h3>
+<p>Calculate lidar metrics at the pixel level for both las-files. You may use the standard metrics.</p>
+<ul>
+<li><p>Choose two different pixel resolutions (e.g.&nbsp;5 and 20 m).</p></li>
+<li><p>Choose six different metrics and plot them (preferably: 1 plot with 6 subplots)</p></li>
+<li><p>Compare the results of the lidar data with the vector data on a visual basis. Can you see the boundaries of the forest stands also within the lidar data?</p></li>
+<li><p>Calculate statistics of the tree height (e.g.&nbsp;mean, standard deviation or use boxplots) from the lidar data for different forest stands (e.g.&nbsp;two differing dominant tree species and/or different stand age). What are your observations?</p></li>
 </ul>
 </section>
-<section id="visualizing" class="level2">
-<h2 class="anchored" data-anchor-id="visualizing">3.2 Visualizing</h2>
-<p>Visualize the lidar data:</p>
+<section id="additional-lidar-metrics-at-the-tree-level" class="level3">
+<h3 class="anchored" data-anchor-id="additional-lidar-metrics-at-the-tree-level">3.3.2 Additional: Lidar metrics at the tree level</h3>
 <ul>
-<li>Wimple 3D plot</li>
-<li>Voxel plot</li>
-<li>Additional: cross section</li>
+<li><p>Calculate lidar metrics at the tree level for both lidar data sets. You may use the standard metrics (use the argument <code>geom = "convex"</code>).</p></li>
+<li><p>Visualize some of the metrics. Are the trees within on forest stand very similar?</p></li>
 </ul>
-<p>Please, be aware, that some of the examples in the tutorial only work if you already used functions that are explained only later in the tutorial. This is for instance the case for the overlay plots.</p>
-</section>
-<section id="dtm" class="level2">
-<h2 class="anchored" data-anchor-id="dtm">3.3 DTM</h2>
-<ul>
-<li>Use one of the provided methods to derive a digital terrain model.</li>
-<li>Plot the data.</li>
-<li>Additional: Create a hillshade image.</li>
-</ul>
-</section>
-<section id="dsm-chm" class="level2">
-<h2 class="anchored" data-anchor-id="dsm-chm">3.4 DSM / CHM</h2>
-<ul>
-<li>Derive a Digital Surface Model and plot it.</li>
-<li>Derive a Canopy Height Model and plot it.</li>
-</ul>
-<p>For the latter you need to normalize the data. For this the DTM is required that you have just created. The normalization is the subtraction of the DTM from the original lidar heights. <code>data.normalized = data - dtm</code></p>
-<p>Thus, the terrain surface equals 0.</p>
-</section>
-<section id="tree-detection-and-segmentation" class="level2">
-<h2 class="anchored" data-anchor-id="tree-detection-and-segmentation">3.5 Tree Detection and Segmentation</h2>
-<p>“Individual tree detection (ITD) is the process of spatially locating trees and extracting height information. Individual tree segmentation (ITS) is the process of individually delineating detected trees.” (taken from the tutorial)</p>
-<ul>
-<li>Identify single trees.</li>
-<li>Segment the tree crowns.</li>
-</ul>
-<p>In the case, you receive an error message like this “Error in st_crs.character(terra::crs(.x)) : invalid crs:”, you might define the correct coordinate system using following command: <code>crs(smoothed) &lt;- 'EPSG:25833'</code></p>
-<p>Do the results look satisfactory?</p>
+<p>For a better overview you may use a spatial subset of the data.</p>
 <hr>
 
 
+</section>
 </section>
 </section>
 
