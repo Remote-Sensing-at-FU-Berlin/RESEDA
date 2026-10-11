@@ -7,7 +7,7 @@ toc: false
 ::: {#main .site-main role="main"}
 
 ::: entry-header
-# Advanced RS {#advanced-geomatics-seminar .entry-title}
+# Advanced RS {#AdvancedRS .entry-title}
 :::
 
 ::: entry-content
