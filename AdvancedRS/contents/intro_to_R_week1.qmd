@@ -53,7 +53,7 @@ For the operating systems Windows and Mac OS X, precompiled executable files are
 
 Once the installation is complete, R would theoretically be ready to go, however, it is recommended to use an integrated development environment (IDE) for working with R, such as RStudio. RStudio offers a number of advantages, e.g. the convenient visualization of mappings, the immediate execution of code fragments, the color highlighting of syntax in the code, and much more.
 
-Recommended is the non-commercial open-source licensed Desktop Edition, which can be obtained from the official website for all operating systems. [https://www.rstudio.com/products/rstudio/download/#download] (https://www.rstudio.com/products/rstudio/download/#download)
+Recommended is the non-commercial open-source licensed Desktop Edition, which can be obtained from the official website for all operating systems. [https://www.rstudio.com/products/rstudio/download/#download](https://www.rstudio.com/products/rstudio/download/#download)
 
 ## 2.2. RStudio Layout
 
