@@ -1,5 +1,6 @@
 ---
 title: "Crash course week 3: Raster & Vector data"
+author: "Department of Remote Sensing and Geoinformatics, FU Berlin"
 
 output:
    html_document:
