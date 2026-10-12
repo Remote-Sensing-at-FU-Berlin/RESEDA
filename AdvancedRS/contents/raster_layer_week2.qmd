@@ -1,5 +1,6 @@
 ---
 title: "Advance Geomatics - Intro to R- Week 2: Raster Layer"
+author: "Department of Remote Sensing and Geoinformatics, FU Berlin"
 
 output:
    html_document:
