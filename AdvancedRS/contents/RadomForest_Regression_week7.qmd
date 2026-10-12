@@ -1,6 +1,6 @@
 ---
 title: "Week 7 - Random Forest Regression"
-author: "Department of Remote Sensing and Geoinformatics, FU Berlin"
+author: "Remote Sensing and Geoinformatics, FU Berlin"
 
 output:
    html_document:
