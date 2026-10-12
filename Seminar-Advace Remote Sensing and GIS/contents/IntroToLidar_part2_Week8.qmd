@@ -1,12 +1,16 @@
 ---
 title: "Week 9 - Intro to Lidar Data: Part II"
 
-format:
-  html:
-    toc: true
-    toc-depth: 6
-    toc-location: left
-    code-fold: true
+output:
+   html_document:
+     dev: svg
+     fig_height: 4
+     fig_width: 6
+     number_sections: no
+     theme: cerulean
+     toc: yes
+     toc_depth: 3
+     toc_float: yes
 ---
 
 # Contents
