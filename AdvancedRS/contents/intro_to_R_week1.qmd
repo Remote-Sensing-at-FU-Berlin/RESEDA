@@ -1,5 +1,6 @@
 ---
 title: "Advanced Geomatics - Intro to R - Week 1"
+author: "Remote Sensing and Geoinformatics, FU Berlin"
 
 output:
    html_document:
