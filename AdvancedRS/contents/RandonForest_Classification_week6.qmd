@@ -1,6 +1,6 @@
 ---
 title: "Week 6 - Random Forest Classification"
-author: "Department of Remote Sensing and Geoinformatics, FU Berlin"
+author: "Remote Sensing and Geoinformatics, FU Berlin"
 
 output:
    html_document:
