@@ -1,6 +1,6 @@
 ---
 title: "Week 8 - Intro to Lidar Data"
-author: "Department of Remote Sensing and Geoinformatics, FU Berlin"
+author: "Remote Sensing and Geoinformatics, FU Berlin"
 
 output:
    html_document:
