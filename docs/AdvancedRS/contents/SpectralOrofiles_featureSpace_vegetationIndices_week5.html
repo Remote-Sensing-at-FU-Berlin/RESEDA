@@ -111,7 +111,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="docked nav-fixed quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -176,8 +176,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
-    <nav id="TOC" role="doc-toc" class="toc-active">
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
@@ -189,17 +190,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#illustrate-mean-reflectance-spectra" id="toc-illustrate-mean-reflectance-spectra" class="nav-link" data-scroll-target="#illustrate-mean-reflectance-spectra">6. Illustrate Mean Reflectance Spectra</a></li>
   <li><a href="#feature-space" id="toc-feature-space" class="nav-link" data-scroll-target="#feature-space">7. Feature Space</a></li>
   <li><a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework">Homework</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#feature-space-1" id="toc-feature-space-1" class="nav-link" data-scroll-target="#feature-space-1">1. Feature Space</a></li>
   <li><a href="#ndvi" id="toc-ndvi" class="nav-link" data-scroll-target="#ndvi">2. NDVI</a></li>
   <li><a href="#evi" id="toc-evi" class="nav-link" data-scroll-target="#evi">3. EVI</a></li>
   <li><a href="#pvi" id="toc-pvi" class="nav-link" data-scroll-target="#pvi">4. PVI</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#intro" id="toc-intro" class="nav-link" data-scroll-target="#intro">Intro</a></li>
   </ul></li>
   </ul></li>
   <li><a href="#derivation-of-the-soil-line" id="toc-derivation-of-the-soil-line" class="nav-link" data-scroll-target="#derivation-of-the-soil-line">Derivation of the soil line</a>
-  <ul>
+  <ul class="collapse">
   <li><a href="#a.-plot-the-feature-space-between-the-red-band-and-the-nir-band." id="toc-a.-plot-the-feature-space-between-the-red-band-and-the-nir-band." class="nav-link" data-scroll-target="#a.-plot-the-feature-space-between-the-red-band-and-the-nir-band.">a. Plot the feature space between the red band and the NIR band.</a></li>
   <li><a href="#b.-inspect-the-soil-line." id="toc-b.-inspect-the-soil-line." class="nav-link" data-scroll-target="#b.-inspect-the-soil-line.">b. Inspect the soil line.</a></li>
   <li><a href="#c.-derive-the-soil-line-by-calculating-gain-a-and-intercept-b." id="toc-c.-derive-the-soil-line-by-calculating-gain-a-and-intercept-b." class="nav-link" data-scroll-target="#c.-derive-the-soil-line-by-calculating-gain-a-and-intercept-b.">c.&nbsp;Derive the soil line by calculating gain <strong>a</strong> and intercept <strong>b</strong>.</a></li>
@@ -208,10 +209,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   </ul>
 </nav>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
-<!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
