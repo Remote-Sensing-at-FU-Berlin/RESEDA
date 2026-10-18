@@ -1,5 +1,5 @@
 ---
-title: "Advance Geomatics - Intro to R- Week 2: Raster Layer"
+title: "Advanced Geomatics - Intro to R - Week 2: Raster Layer"
 author: "Remote Sensing and Geoinformatics, FU Berlin"
 
 output:
@@ -12,6 +12,7 @@ output:
      toc: yes
      toc_depth: 3
      toc_float: yes
+     code_folding: hide
 ---
 
 
