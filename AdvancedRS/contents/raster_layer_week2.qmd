@@ -37,8 +37,6 @@ output:
 
 - [Homework](#homework-seminar-2)
 
-- Homework
-
 Today we will explore a digital elevation model (DEM) of the Black Forest. We will first have a look at the landscape in QGIS and then use R to visualise, subset and analyse the same data.
 
 By the end of the exercise, you should be able to open and inspect a raster, create a geographic subset, describe its values and distinguish between changing a map's appearance and changing the raster values.
