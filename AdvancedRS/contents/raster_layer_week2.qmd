@@ -17,139 +17,231 @@ output:
 
 # Contents
 
-1. Open raster data
+1. Explore a digital elevation model in QGIS
+2. Open and plot raster data in R
+3. Retrieve an object's properties
+4. Subset a raster layer
+5. Describe the landscape using statistics
+6. Display elevation classes and reclassify raster data
+7. Additional: plotting options and raster properties
 
-2. Retrieve information of an object
+- Homework
 
-3. Subset raster layer
+Today we will explore a digital elevation model (DEM) of the Black Forest. We will first have a look at the landscape in QGIS and then use R to visualise, subset and analyse the same data.
 
-4. Statistical functions to analyze raster layers
+By the end of the exercise, you should be able to open and inspect a raster, create a geographic subset, describe its values and distinguish between changing a map's appearance and changing the raster values.
 
-5. Plot raster layer using easy as well as advanced arguments
-
-6. Reclassification of raster data
-
-7. Additional: map scale and north arrow
-
- - Homework
- 
----
-
-# FU E-learning courses for R
-
-There is a FU e-learning course that shows how R might be used in remote sensing (we are updating it during the next weeks): [https://remote-sensing-at-fu-berlin.github.io/RESEDA/R-Crash-Course/](https://blogs.fu-berlin.de/reseda/r-crash-course/)
-
-Here is a link to SOGA, another FU e-learning course, which deals exhaustively with use of R and Python in statistics: [https://www.geo.fu-berlin.de/en/v/soga/](https://www.geo.fu-berlin.de/en/v/soga/)
-
-Hint: Besides the R help itself there are many sources in the internet where you can find help to many R functions and packages
+Working with R takes practice, and it is normal if not everything works straight away. You do not need to solve every problem on your own. If you get stuck during the exercises or homework, please post your question in the course discussion forum. Include the relevant code and any error message, and briefly explain what you expected to happen. We are happy to help, and your question may also be useful to others.
 
 ---
 
 # Preparation
 
-- Open a new R-file and save it. Fill in and run the requested R commands and comment as you like. Please, try to solve the exercises on your own before you have a look at the solution.
+- Make sure that QGIS, R and RStudio are installed on your computer.
+- Download the DEM `n48_e008_1arc_v3.tif` from [FU Box](https://box.fu-berlin.de/s/i4LimtWHfWp7mkN) and save it in a folder for today's exercise. Extract it first if it is provided in a ZIP archive.
+- Keep your data and R script in this folder.
+- Please try to solve the tasks yourself before looking at the example code. Add comments explaining what you are doing and short answers to the questions.
 
-- Install the package terra and load them. What is the main purpose of this package?
+Work in short steps: first make a prediction, then run the code and compare the result with your expectation. Keep your initial prediction, even if it turns out to be wrong, and add a short explanation afterwards. Refer to specific locations, values or outputs from your own work. At the short checkpoints, use your script and results to explain your reasoning to your neighbour and try the requested change yourself before consulting the examples again.
+
+---
+
+# Further Help
+
+- Use the R help, for example `?terra::rast`, `?terra::plot` and `?terra::global`.
+- [terra function reference](https://rspatial.github.io/terra/reference/index.html)
+- [terra: plotting rasters](https://rspatial.github.io/terra/reference/plot.html)
+- [terra: global statistics](https://rspatial.github.io/terra/reference/global.html)
+- [terra: terrain characteristics](https://rspatial.github.io/terra/reference/terrain.html)
+- [QGIS: raster properties and symbology](https://docs.qgis.org/3.44/en/docs/user_manual/working_with_raster/raster_properties.html)
+- [QGIS: Identify Features](https://docs.qgis.org/3.44/en/docs/user_manual/introduction/general_tools.html#identifying-features)
+
+Besides the examples in this script, the package help provides explanations of arguments and further examples. If a command does not behave as expected, check the function help and your object names before changing several things at once.
+
+---
+
+# 1. Explore a Digital Elevation Model in QGIS
+
+Spend about 10-15 minutes on this first exploration.
+
+## Open the data
+
+**a.** Open QGIS and start a new project.
+
+**b.** Add `n48_e008_1arc_v3.tif` to the project. You may drag the file from your file browser into the QGIS map window.
+
+**c.** Have a look at the landscape. Zoom in and out and identify one relatively high and one relatively low area. Where can you recognise valleys or ridges?
+
+## Inspect raster values
+
+**a.** Select the DEM in the Layers panel. Use the **Identify Features** tool to click on several locations. Have a look at the value of Band 1 in the results.
+
+**b.** Note the elevation at one relatively high and one relatively low location. Describe their positions so that your neighbour can find them again, for example by referring to a recognisable valley or ridge. The elevation values in this dataset are given in metres.
+
+- What does a raster cell represent in this dataset?
+- How are the values related to the colours or shades in the map?
+- Does a dark colour always indicate a low elevation? Have a look at the legend before answering.
+
+## Change the visualisation
+
+**a.** Open the layer's **Properties** and select **Symbology**. Choose **Singleband pseudocolor** as the render type, select a colour ramp and use **Linear** interpolation. Click **Classify** if the colour table is empty, then **Apply**.
+
+**b.** Try another colour ramp. Keep the same minimum and maximum values for this comparison.
+
+**c.** Discuss briefly with your neighbour:
+
+- Which representation helps you recognise the landscape?
+- Have the elevation values changed, or only their representation?
+- What information do you need in order to interpret the colours correctly?
+
+**Check your observation:** Return to one of your selected locations and identify its elevation again after changing the colour ramp. Compare the value with your earlier note. Use this example to explain what you changed.
+
+**Hint:** The names of tools and menus depend on the language of your QGIS installation. You can find further help in the [QGIS documentation on raster symbology](https://docs.qgis.org/3.44/en/docs/user_manual/working_with_raster/raster_properties.html#symbology-properties).
+
+---
+
+# 2. Open and Plot Raster Data in R
+
+We will now explore the same file in R. Saving our commands in a script allows us to repeat the analysis and adapt it to another dataset.
+
+## Prepare your R script
+
+**a.** Open a new R script in RStudio and save it as `Week_02_Raster.R` in your exercise folder. Add your name and the date as comments.
+
+**b.** Install the package `terra` if necessary and load it. What is the main purpose of this package?
 
 ```r
-# Install and load the package "terra"
-#install.packages("terra")
+# Install the package once, if necessary
+# install.packages("terra")
 
 library(terra)
 ```
 
-- Set the working directory to the folder where today's data are located on your computer. Use the right folder delimiter (`\\` oder `/`) to separate the folder names.
+**c.** Set the working directory to your exercise folder. Replace the example path with the path on your computer. Use `/` or double backslashes `\\` to separate folder names.
 
 ```r
-setwd("N:/FU_Arbeit/R_Masterkurs/Woche_02")
+setwd("C:/your/path/Week_02")
 ```
 
----
+**Hint:** If you use an RStudio Project in your exercise folder, you can work with paths relative to that folder and omit `setwd()`.
 
-# 1. Open Raster Data
+## Open and plot the DEM
 
-- Open the file n48_e008_1arc_v3.tif by using the function `rast()` and assign it to an object named DEM.
+**a.** Open the file using `rast()` and assign it to an object named `DEM`.
 
 ```r
 DEM <- rast("n48_e008_1arc_v3.tif")
 ```
 
----
-
-# 2. Retrieve an Object’s Properties
-
-- Display metadata and general information on the object by executing the object’s name (i.e. type DEM). Which kind of datatype are we dealing with?
-
-```r
-DEM
-```
-
-- The function summary() provides general information on an object. Which information is provided for the object DEM?
-
-```r
-summary(DEM)
-```
-
-- Have a look at the output of the function str(). Which kind of information is provided?
-```r
-str(DEM)
-```
-
-- Many functions help you to gather metadata from your data. Try for example crs(). Which 
-information is provided?
-
-```r
-crs(DEM)
-```
-
-- What is the spatial extent of the DEM? Which function can you use?
-
-```r
-ext(DEM)
-```
-
-- What is the minimum western (left) boundary?
-
-```r
-ext(DEM)$xmin
-
-#or
-
-ext(DEM)[1]
-```
-
-- Some functions exist that allow to alter information/metadata stored within a raster object. For example, it may be beneficial to set the minimum and maximum value of a raster to improve the illustration with the function setMinMax.
-
- **a.** Have again a look at the metadata. Is a minimum or maximum value provided?
-
-```r
-DEM
-```
-
- **b.** Set the min and max value.
-
-```r
-DEM <- setMinMax(DEM)
-```
-
- **c.** Did the min and max value change within the metadata? Hint: The settings are only stored in the object DEM, NOT in the original data.
-```r
-DEM
-```
-
----
-
-# 3. Subset raster layer
-
-You may easily create a geographic subset of the data using the function crop().
-
-**a.** Plot the DEM
+**b.** Plot the DEM.
 
 ```r
 plot(DEM)
 ```
 
-**b.** Define the corners of your subset (here a rectangle: this means you need to define the minimum and maximum x as well as y coordinates - here geographic coordinates). For the test data use following coordinates `x1 <- 8.4`, `x2 <- 8.8`, `y1 <- 48.3`, `y2 <- 48.5`
+- Can you recognise the landscape you explored in QGIS?
+- What looks similar and what looks different?
+- Does a difference in colour necessarily indicate a difference in the data?
+
+## Modify the plot
+
+**a.** Add a title and axis labels. Use `plg` to add a title to the legend.
+
+```r
+plot(DEM,
+     main = "Digital Elevation Model of the Black Forest",
+     xlab = "Longitude",
+     ylab = "Latitude",
+     plg = list(title = "Elevation (m)"))
+```
+
+**b.** Use `col` to change the colour palette.
+
+```r
+plot(DEM,
+     col = terrain.colors(100),
+     main = "Exploring the landscape",
+     plg = list(title = "Elevation (m)"))
+```
+
+**c.** What do you expect to happen if you replace `terrain.colors(100)` with `terrain.colors(5)`? Write down your expectation before running the code. Then compare both plots.
+
+- What does the number in `terrain.colors()` control?
+- Have you changed the number of raster cells, their values or the colours used to display them?
+
+**Hint:** Change one argument at a time. This makes it easier to understand its effect.
+
+**Checkpoint:** Show your neighbour one change you made to the plot. Explain which part of the command controls it. Your neighbour then suggests a small change to the title or colour palette; make that change yourself and check the result.
+
+---
+
+# 3. Retrieve an Object's Properties
+
+Before selecting an area for further analysis, we need to know where the raster is located and how its cells are arranged.
+
+## General information
+
+**a.** Display general information on the raster by executing its object name.
+
+```r
+DEM
+```
+
+- What is the object's class?
+- How many rows, columns and layers does it have?
+- Which information can you find about its location and resolution?
+
+**b.** Use `class()` to check the object class.
+
+```r
+class(DEM)
+```
+
+**Hint:** The object class, such as `SpatRaster`, describes the kind of R object you are working with. It is different from the numerical storage type of the cell values.
+
+## Coordinate reference system and resolution
+
+**a.** Use `crs()` to inspect the coordinate reference system.
+
+```r
+crs(DEM)
+```
+
+**b.** Retrieve the spatial resolution using `res()`.
+
+```r
+res(DEM)
+```
+
+- Are the horizontal coordinates and cell dimensions given in degrees or metres?
+- Are these the same units as the elevation values?
+- If the cell dimensions in the x and y directions are equal in degrees, does this necessarily mean that they are equal in metres?
+
+## Spatial extent
+
+**a.** What is the spatial extent of the DEM? Use `ext()` to retrieve its boundaries.
+
+```r
+ext(DEM)
+```
+
+**b.** Retrieve the western boundary, i.e. the minimum x coordinate.
+
+```r
+ext(DEM)[1]
+```
+
+**c.** Identify the eastern, southern and northern boundaries. Use this information to check whether the coordinates in the next section fall inside the raster.
+
+---
+
+# 4. Subset a Raster Layer
+
+We will now take a closer look at part of the landscape. You can use `crop()` to create a geographic subset.
+
+## Define and display an area of interest
+
+**a.** Define the boundaries of the following rectangle. The coordinates are given in the same coordinate reference system as the DEM.
 
 ```r
 x1 <- 8.4
@@ -158,293 +250,473 @@ y1 <- 48.3
 y2 <- 48.5
 ```
 
-**c.** Plot the extent of the defined rectangle using the plotting function rect(). Have a close look at the order of coordinates as required by the function.
+**b.** Plot the DEM and add the rectangle using `rect()`.
 
 ```r
-plot(DEM)
-rect(x1, y1, x2, y2, border="white", lwd=3)
+plot(DEM, col = terrain.colors(100))
+rect(x1, y1, x2, y2, border = "black", lwd = 2)
 ```
 
-**d.** Use the function crop() to subset the data according to the defined boundaries.
+- Which part of the landscape does the rectangle cover?
+- What do you expect to see after cropping the raster?
 
-- Define a vector with the coordinates. The order of coordinates is different from the the function `rect`. The order is `xmin`, `xmax`, `ymin`, `ymax`. We can use `crop()` to subset data using the geographic extent of another dataset. We will have a look at this within the next weeks.
+## Crop the raster
 
-- Subset the data.
+**a.** Create an extent object. Have a close look at the order of coordinates: `ext()` uses `xmin`, `xmax`, `ymin`, `ymax`. This is different from the order used by `rect()`.
 
 ```r
-cropsub <- c(x1, x2, y1, y2)
+cropsub <- ext(x1, x2, y1, y2)
 DEM.sub <- crop(DEM, cropsub)
 ```
 
-Plot the new object.
+**b.** Plot the new object.
 
 ```r
-plot(DEM.sub)
+plot(DEM.sub,
+     col = terrain.colors(100),
+     main = "Our study area",
+     plg = list(title = "Elevation (m)"))
 ```
+
+**c.** Compare the properties of `DEM` and `DEM.sub`.
+
+```r
+DEM
+DEM.sub
+
+res(DEM)
+res(DEM.sub)
+```
+
+- What has changed: the extent, the number of cells, the resolution or the coordinate reference system?
+- Does cropping make the raster more detailed?
+- Is the original object `DEM` still available?
+
+**Hint:** The cropped extent follows the raster's cell boundaries. It may differ slightly from the coordinates you requested.
+
+**Try yourself:** Select a second rectangle inside the original DEM. Use the same coordinate width and height as the first rectangle, but move it to a different part of the landscape. Save the result as `DEM.test` and keep `DEM.sub` for the following exercises. Plot both rectangles on the complete DEM.
+
+Before calculating statistics, predict which subset has the higher mean elevation and which has the greater spread of elevation values. Refer to a feature visible in each rectangle. Keep this prediction for the next section.
+
+**Checkpoint:** A fellow student says: "Cropping has increased the spatial resolution because the landscape looks larger in the plot." Use the actual resolution and dimensions of your two raster objects to explain whether this is correct. Show your neighbour the outputs that support your answer.
 
 ---
 
-# 4. Statistical functions for raster layers
+# 5. Describe the Landscape Using Statistics
 
-- Use the function global() and calculate minimum and maximum value, the range as well as the standard deviation.
+Have another look at the map of `DEM.sub`. Which elevations seem to occur most frequently? Write down your expectation before calculating statistics.
+
+## Display a histogram
+
+**a.** Use `hist()` to display the distribution of elevation values.
+
+```r
+hist(DEM.sub,
+     main = "Distribution of elevation values",
+     xlab = "Elevation (m)",
+     col = "grey70",
+     maxcell = 10000)
+```
+
+- Does the histogram support your first impression?
+- Which information is easier to recognise in the histogram than in the map?
+- Can you tell from the histogram where the valleys are located?
+
+**b.** Have a look at the argument `maxcell` in the help for the raster histogram. What does it control?
+
+```r
+?terra::hist
+```
+
+**c.** Repeat the histogram using all cells in the subset. Compare the shape of the distributions, taking account of the different sample sizes and any differences in the histogram bins.
+
+```r
+hist(DEM.sub,
+     main = "Elevation values of the complete subset",
+     xlab = "Elevation (m)",
+     col = "grey70",
+     maxcell = ncell(DEM.sub))
+```
+
+## Calculate summary statistics
+
+Use `global()` to calculate statistics across the raster cells. The argument `na.rm = TRUE` excludes missing values from these calculations. A missing value (`NA`) is different from an elevation of zero.
 
 **a.** Minimum
 
 ```r
-DEMmin <- global(DEM, min)
+DEM_min <- global(DEM.sub, "min", na.rm = TRUE)
 DEM_min
 ```
 
 **b.** Maximum
 
 ```r
-DEM_max <- global(DEM, max)
+DEM_max <- global(DEM.sub, "max", na.rm = TRUE)
 DEM_max
 ```
 
 **c.** Range
 
 ```r
-DEM_range <- global(DEM, range)
+DEM_range <- global(DEM.sub, "range", na.rm = TRUE)
 DEM_range
 ```
 
-**d.** Standard Deviation
+**d.** Mean and standard deviation
 
 ```r
-DEM_sd <- global(DEM, sd)
+DEM_mean <- global(DEM.sub, "mean", na.rm = TRUE)
+DEM_sd <- global(DEM.sub, "sd", na.rm = TRUE)
+
+DEM_mean
 DEM_sd
 ```
 
-- Use the function global() to derive quantile information. a) Use the default function, b) use the argument probs to derive quantiles in 10% steps. Hint: you may use the seq() function to simplify the statement.
+- Are the values plausible when compared with the map and histogram?
+- What does the standard deviation tell you about the elevation values? Does it tell you where steep slopes occur?
+- `global()` returns a data frame. Which row and columns contain your results?
 
-**a.** Default function
+**Hint:** The range output contains the minimum and maximum. Calculate their difference if you want the elevation span as a single number.
+
+## Calculate quantiles
+
+**a.** Use `global()` with `quantile` to calculate the default quantiles.
 
 ```r
-q <- global(DEM, quantile)
+q <- global(DEM.sub, quantile, na.rm = TRUE)
 q
 ```
 
-**b.** Self-defined Quantiles using a vector
+**b.** Calculate quantiles in 10% steps. Use `seq()` to generate the probabilities.
 
 ```r
-q <- global(DEM, quantile, probs=c(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1))
+q <- global(DEM.sub, quantile,
+            probs = seq(0, 1, 0.1),
+            na.rm = TRUE)
 q
 ```
 
-**c.** Self-defined Quantiles using seq
+- How do you interpret the 50% quantile?
+- What does the 90% quantile tell you about the elevation values?
+- Would classes based on these quantiles have equal elevation intervals?
 
-```r
-q <- global(DEM, quantile, probs=seq(0,1,0.1))
-q
-```
+**Hint:** Quantile calculations can require considerable memory for large rasters. We use the smaller subset here. For larger datasets, `global()` also allows you to specify a regular sample using `maxcell`; quantiles calculated this way are estimates.
 
-- Use the function `hist()` to display a histogram of the elevation data. Try to change arguments such as `maxcell` and `col`. Available colors can be found here: [http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf](http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf)
+**Try yourself:** Calculate the mean and standard deviation for `DEM.test`. Make a small comparison table with one row per subset and columns for the mean and standard deviation. Compare these values with your earlier predictions.
 
-**a.** Default Histogram
+- Give the difference between the two mean elevations in metres.
+- Which prediction was supported and which, if any, needs to be revised? Refer to your actual values and one landscape feature in the maps.
+- Show your neighbour a location whose elevation is above its subset's mean. Explain how you would check this.
 
-```r
-hist(DEM, main="Distribution of elevation values", maxcell=10000)
-```
-
-**b.** Histogram with `maxcell = 22000000`, `col= "blue"`
-
-```r
-hist(DEM, main="Distribution of elevation values", col= "blue",  maxcell=22000000)
-```
-
-- Display a boxplot of the DEM.
-
-```r
-boxplot(DEM)
-```
+When comparing maps, check their legend ranges as well. Brief notes are sufficient; you do not need to write a general description of the statistical functions.
 
 ---
 
-# 5. Plot Rater Layer
+# 6. Display Elevation Classes and Reclassify Raster Data
 
-::: {.panel-tabset}
+We will now distinguish four elevation classes: below 500 m, 500 to below 650 m, 650 to below 800 m and 800 m or higher.
 
-## Plot I: Basic
+## Display the DEM in classes
 
-Plot the DEM. Use the function without any arguments.
+**a.** Define four colours and their labels. Keep the order consistent throughout this section.
 
 ```r
-plot(DEM.sub)
+cols <- c("#D9F0A3", "#ADDD8E", "#78C679", "#238443")
+
+class_labels <- c("<500 m", "500 to <650 m",
+                  "650 to <800 m", ">=800 m")
 ```
 
-## Plot II: Modifications
-
-Plot the DEM using arguments such as `legend`,`lab`, `main`, `xlab`, `ylab`.
+**b.** Create a vector containing the class boundaries. We use the range calculated above to place the outer boundaries beyond the observed minimum and maximum. The internal boundaries are 500, 650 and 800 m.
 
 ```r
-plot(DEM.sub, 
-     plg=list(title="Elevation (m)"),
-     main="Digital Elevation Model of Black Forest",
-     xlab="Longitude",
-     ylab="Latitude")
+lower <- min(0, DEM_range[1, 1] - 1)
+upper <- max(1000, DEM_range[1, 2] + 1)
+
+brk <- c(lower, 500, 650, 800, upper)
+brk
 ```
 
-## Plot III: Contour Lines
+- Why do four classes require five boundaries?
+- Why should the outer boundaries cover the complete range of the data?
 
-Add contour lines using `contour`, use the argument `add=TRUE`. This will add the contour lines to an existing plot instead of generating a new plot.
+**c.** Use `breaks` to display the DEM in classes. Switch off the default legend and add a legend using `legend()`.
 
 ```r
-plot(DEM.sub, 
-    plg=list(title="Elevation (m)"),
-    main="Digital Elevation Model of Black Forest",
-    xlab="Longitude",
-    ylab="Latitude")
-    
-contour(DEM.sub, add=TRUE)
+plot(DEM.sub,
+     col = cols,
+     breaks = brk,
+     main = "DEM displayed in elevation classes",
+     legend = FALSE)
+
+legend("topright",
+       title = "Elevation",
+       legend = class_labels,
+       fill = cols,
+       bg = "white",
+       inset = c(0.0, 0.142),
+       cex = 0.8)
 ```
 
-## Plot IV: Default Colours
+**Hint:** The values in `inset = c(0.0, 0.142)` were found by trying different positions. They specify the horizontal and vertical distances from the plot edges as fractions of the plot width and height. With `"topright"`, the second value moves the legend downwards. The best position can depend on the size and shape of your graphics window, so you may need to adjust these values. Run `plot()` again before adding the revised legend to avoid drawing several legends on top of each other.
 
-You may alter the colour representation of the DEM using the argument col. Existing color palettes are `terrain.colors()`, `heat.colors()`, `topo.colors()`, `cm.colors()`, `rainbow()`. The number you use as argument (number within the bracket) defines the number of color levels.
-
-- `terrain.colors(255)`
+**d.** Have the raster values changed? Check their range again.
 
 ```r
-plot(DEM.sub, col=terrain.colors(255))
+global(DEM.sub, "range", na.rm = TRUE)
 ```
 
-- `terrain.colors(5)`
+## Create a reclassified raster
+
+**a.** Read the following code before running it. Explain the meaning of `<`, `>=`, `&` and the square brackets. Which class will contain a value of exactly 650 m?
 
 ```r
-plot(DEM.sub, col=terrain.colors(5))
+DEM_class <- DEM.sub
+
+DEM_class[DEM.sub < 500] <- 1
+DEM_class[DEM.sub >= 500 & DEM.sub < 650] <- 2
+DEM_class[DEM.sub >= 650 & DEM.sub < 800] <- 3
+DEM_class[DEM.sub >= 800] <- 4
 ```
 
-- Plot the DEM with labels and try different color palettes and different number of colors.
+**b.** Add comments explaining each line, then run the code. Inspect the new raster and the frequency of its class values.
 
 ```r
-plot(DEM.sub, col=topo.colors(15),
-legend.lab="Elevation (m)",
-main="Digital Elevation Model of Black Forest",
-xlab="Longitude",
-ylab="Latitude")
-```
-
-## Plot V: Self-defined colors
-
-You may create a self defined color ramp with `colorRampPalette()`. **The color bar ranges from blue to orange to white.**
-
-```r
-mycols <- colorRampPalette(c("blue", "orange", "white"))
-```
-
-- Plot the DEM with the self designed color palette.
-
-```r
-plot(DEM.sub, col=mycols(255))
-```
-
-## Plot VI: Classes
-
-It is also possible to display the DEM in discrete classes. Use the argument breaks within the `plot()` function.
-
-- Create a vector `brk` that contains the height classes you would like to diffentiate (e.g. 0, 500, 650, 800, 1000)
-
-```r
-brk <- c(0, 500, 650, 800, 1000)
-```
-
-- Define the number of colors according the number of the defined classes (number of breaks - 1) and assign it to the object cols.
-
-```r
-cols <- mycols(4)
-```
-
-- Plot the DEM using the `breaks` argument.
-
-```r
-plot(DEM.sub, col=cols, breaks=brk, main="DEM with classes")
-```
-
-## Plot VII: Self-designed Legend
-
-We may create a self-designed legend.
-
-- Use the argument `legend =  FALSE` in the `plot` function.
-
-```r
-plot(DEM.sub, col=cols, breaks=brk, main="DEM with classes", legend = FALSE)
-```
-
-- Add the legend using the function `legend()`. This function allows us the tailor discrete legends regarding colors and labels. You may use the arguement inset to place the legend within the plot.
-
-```r
-plot(DEM.sub, col=cols, breaks=brk, main="DEM with classes", legend = FALSE)
-legend('topright', title='DEM Classes',
-legend=c("<500 m", "[500 m, 650m]", "[650 m, 800 m]", ">=800 m"),
-          fill=cols, bg='white', inset=c(0.13,0.015))
-```
-
-:::
-
----
-
-# 6. Reclassification of Raster Data
-
-- What is the difference of the following code in comparison the break argument? Add comments explaining the code.
-
-```r
-DEM_class<-DEM.sub
-DEM_class[DEM.sub<500]<-1
-DEM_class[DEM.sub>=500 & DEM.sub<650]<-2
-DEM_class[DEM.sub>=650 & DEM.sub<800]<-3
-DEM_class[DEM.sub>=800]<-4
-
 DEM_class
-global(DEM_class, range)
-
-plot(DEM_class, col=mycols(4), legend=FALSE)
-legend('topright', title='DEM Classes',
-       legend=c("<500 m", "[500 m, 650m]", "[650 m, 800 m]", ">=800 m"),
-       fill=mycols(4), bg='white', inset=c(0.13,0.015))
+global(DEM_class, "range", na.rm = TRUE)
+freq(DEM_class)
 ```
+
+**c.** Plot the classified raster. The plotting boundaries below separate the class codes 1, 2, 3 and 4. They are no longer elevation boundaries.
+
+```r
+plot(DEM_class,
+     col = cols,
+     breaks = seq(0.5, 4.5, 1),
+     main = "Reclassified elevation raster",
+     legend = FALSE)
+
+legend("topright",
+       title = "Elevation",
+       legend = class_labels,
+       fill = cols,
+       bg = "white",
+       inset = c(0.0, 0.142),
+       cex = 0.8)
+```
+
+**d.** Compare `DEM.sub` and `DEM_class`.
+
+- Which values are stored in each raster?
+- Why can the two maps look the same even though the stored values differ?
+- Which raster would you use to calculate the mean elevation?
+- Has the number of missing cells changed? Check using `global(DEM.sub, "isNA")` and `global(DEM_class, "isNA")`.
+
+## Check the class boundaries
+
+**a.** Consider the following values. Assign each value to one of the four classes by hand.
+
+```r
+test_values <- c(499, 500, 649, 650, 799, 800, 1001)
+```
+
+**b.** The following version contains mistakes. Before running it, identify which of your example values you expect to be assigned incorrectly. Then run the code and compare the results with the classes you assigned by hand.
+
+```r
+test_class <- test_values
+
+test_class[test_values < 500] <- 1
+test_class[test_values >= 500 & test_values <= 650] <- 2
+test_class[test_values > 650 & test_values < 800] <- 3
+test_class[test_values > 800] <- 4
+
+data.frame(elevation = test_values, class = test_class)
+```
+
+**c.** Correct the conditions. For each correction, give an example value showing why it was necessary. Check that every non-missing value is assigned to exactly one intended class.
+
+**Checkpoint:** Your neighbour chooses a value just below, at or just above a class boundary. Explain its assignment using your corrected conditions. Then move the 650 m boundary to 700 m in a copy of your code. Which conditions and legend labels need to change? Check the values 690 and 710 before applying the change to a raster.
+
+**Hint:** A plausible map and a minimum and maximum class code do not prove that every cell has been classified correctly. Small examples help you check what happens at the boundaries.
 
 ---
 
-# 7. Additional: Map Scale and North Arrow
+# 7. Additional: Plotting Options and Raster Properties
 
-- Add a north arrow using the function `north()` from the library terra. Have a look in the help to modify the north arrow (`?north`)
+The following tasks allow you to explore further options. Continue with them once you have completed the main exercises.
 
-```r
-plot(DEM.sub, col=mycols(255))
-north(xy=c(8.42, 48.32), type=3, col="white", cex = 1.3)
-```
+## Add contour lines
 
-- Add a scale bar using the function `sbar()`.
+Use `contour()` to add contour lines to an existing map. The argument `add = TRUE` adds them to the current plot.
 
 ```r
-plot(DEM.sub, col=mycols(255))
-north(xy=c(8.42, 48.32), type=3, col="black", cex = 1.3)
-sbar(d= 5, xy=c(8.44, 48.315), type="bar", divs=2, lonlat=TRUE, below="km", cex=1, col="black")
+plot(DEM.sub,
+     col = terrain.colors(100),
+     main = "Elevation and contour lines",
+     plg = list(title = "Elevation (m)"))
+
+contour(DEM.sub, add = TRUE)
 ```
+
+- What additional information do the contour lines provide?
+- What happens if you omit `add = TRUE`?
+
+## Create your own colour palette
+
+You may use `colorRampPalette()` to create a colour ramp. The example below ranges from dark green through light yellow to brown.
+
+```r
+mycols <- colorRampPalette(c("#1B7837", "#FFFFBF", "#8C510A"))
+
+plot(DEM.sub,
+     col = mycols(100),
+     main = "DEM with a self-defined colour palette",
+     plg = list(title = "Elevation (m)"))
+```
+
+Try different colours and explain your choice. Does your palette make the order from low to high elevations easy to recognise?
+
+## Compare maps using the same colour scale
+
+Plotting two rasters separately can result in different legend ranges. Use the same colours and `range` if you want the same colour to represent the same elevation in both maps.
+
+```r
+full_range <- global(DEM, "range", na.rm = TRUE)
+limits <- as.numeric(full_range[1, ])
+
+plot(DEM,
+     col = terrain.colors(100),
+     range = limits,
+     main = "Complete DEM",
+     plg = list(title = "Elevation (m)"))
+
+plot(DEM.sub,
+     col = terrain.colors(100),
+     range = limits,
+     main = "Subset with the same colour scale",
+     plg = list(title = "Elevation (m)"))
+```
+
+## Add a north arrow and a scale bar
+
+**a.** Add a north arrow using `north()` and a scale bar using `sbar()`. The positions below refer to the predefined subset.
+
+```r
+plot(DEM.sub,
+     col = terrain.colors(100),
+     main = "Digital Elevation Model of the Black Forest",
+     xlab = "Longitude",
+     ylab = "Latitude",
+     plg = list(title = "Elevation (m)"))
+
+north(xy = c(8.42, 48.32), type = 3, col = "black", cex = 1.1)
+
+sbar(d = 5,
+     xy = c(8.44, 48.315),
+     type = "bar",
+     divs = 2,
+     lonlat = TRUE,
+     below = "km",
+     cex = 0.8)
+```
+
+**b.** Have a look at `?north` and `?sbar`. Try changing the positions and sizes.
+
+**Hint:** With `lonlat = TRUE`, `d` is given in kilometres. For projected coordinates, check the map units and the help before choosing the scale bar length.
+
+## Explore other ways to inspect a raster
+
+**a.** Compare the output of `summary()` with the results from `global()`.
+
+```r
+summary(DEM.sub)
+```
+
+**Hint:** `summary()` can use a sample for large rasters. Have a look at any messages and at its help before comparing the values.
+
+**b.** Display a boxplot. Which features of the elevation distribution can you recognise?
+
+```r
+boxplot(DEM.sub,
+        main = "Distribution of elevation values",
+        ylab = "Elevation (m)")
+```
+
+**c.** Inspect the structure of the object. How does the output differ from simply executing its name?
+
+```r
+str(DEM)
+```
+
+**d.** Check whether minimum and maximum values are already stored in the raster object. Use `setMinMax()` to compute and store them if necessary.
+
+```r
+hasMinMax(DEM)
+setMinMax(DEM)
+minmax(DEM)
+```
+
+**Hint:** `setMinMax(DEM)` calculates and stores the minimum and maximum elevation if these values are not already available. The elevation values in the raster remain unchanged. You do not need to write `DEM <-` before this command. Use `minmax(DEM)` to display the stored minimum and maximum.
 
 ---
-
 
 # Homework Seminar 2
 
-1. Download a DEM subset of your choice
+Apply the workflow to a DEM of your choice and extend it to slope and aspect. **Tasks 1-3 are required.** The optional exercises below allow you to explore further representations and classifications.
 
-(preferable a mountainous area).
-- [http://earthexplorer.usgs.gov](http://earthexplorer.usgs.gov)
+Save your commands in a commented R script that produces three maps: elevation, slope and classified aspect. Include brief answers as comments in your script and refer to your own maps and numerical results. No separate written report is needed.
 
-[http://srtm.csi.cgiar.org/](http://srtm.csi.cgiar.org/) (90m! –> follow link:SRTM Data Search and Download)
+## 1. Choose and plot a study area
 
-2. Plot the DEM and use a continuous color ramp ranging from the DEM`s minimum to maximum. You may also subset your data.
+- Download a DEM for an area of your choice. You may use [USGS EarthExplorer](https://earthexplorer.usgs.gov/), for example to obtain SRTM data within its coverage.
+- Choose a manageable area and create a subset if necessary.
+- Note the dataset, source, coordinate reference system, spatial resolution and units of the elevation values. Briefly explain why you chose this area.
+- Open the DEM in R and plot it using a continuous colour ramp. Add an informative title and a legend with units.
 
-3. Find an existing function which allows you to calculate slope and aspect of your DEM. Calculate the slope (in degree not in percent) and the aspect.
+Before calculating slope, record your first impression: is the area predominantly flat, moderately sloping or steep? Briefly explain your expectation using landscape features visible in the DEM. Keep this prediction for task 2.
 
-4. Plot the slope. Use the argument breaks to plot the slope: 10 classes (10% quantiles)
+## 2. Calculate slope and aspect
 
-5. Plot the aspect. Use the function breaks to plot the aspect: 10 classes (equal intervals)
+- Find a function in `terra` that calculates slope and aspect from a DEM and read its help.
+- Before running it, check whether your DEM uses longitude/latitude or projected coordinates. Which elevation units does the function require for this type of coordinate reference system? State the elevation units of your DEM and whether they meet this requirement.
+- Calculate slope and aspect in degrees. Inspect their value ranges. Are your results plausible?
+- Plot slope using a continuous colour ramp, an informative title and a legend with units.
+- Calculate the median slope of your study area. Compare the slope map and the median with your initial prediction. Two or three sentences are sufficient.
 
-6. Classify the aspect and plot the result. The aspect should be classified into south-, east-, west- and north-facing slopes.
+**Hint:** The elevation units of the input DEM and the angular units of the slope and aspect outputs are different things. Your initial prediction does not have to be correct; use your results to reconsider it.
 
-7. Add a class to the aspect classification that shows areas that have a slope less than 5° and where the aspect can therefore be neglected. Plot your result.
+## 3. Reclassify aspect
 
+- Create a raster with four classes: north-, east-, south- and west-facing slopes. Use sectors centred on the cardinal directions, with explicit boundaries that do not overlap or leave gaps. Preserve missing values as `NA`.
+- Plot the result with a matching legend.
+- Briefly explain why north-facing slopes need particular attention when defining the conditions. Why are 1 and 359 degrees similar directions?
+- Check your conditions using the values `1, 45, 90, 180, 270, 315, 359`. First assign each value to a class by hand, then compare your expectations with the output of your code. If they differ, explain and correct the conditions.
 
+## Check your work
+
+- Run your script from the beginning in a fresh R session. Does it reproduce your results?
+- Check that your three maps have appropriate titles and legends, and that your short answers refer to your own results.
+- Bring your script and results to the next seminar. Be prepared to explain one part of your code and make a small change, for example to a subset or class boundary. First predict its effect, then inspect the result.
+
+## Optional exercises
+
+The following exercises are voluntary. Choose any that interest you; you do not need to complete them all.
+
+### A. Display slope using quantile classes
+
+- Calculate slope quantiles in 10% steps and use them as plotting boundaries in `breaks`.
+- Check that the boundaries are distinct. If values repeat, use the distinct boundaries and report the resulting number of classes.
+- What should be similar across the classes: their slope intervals or their number of valid cells? Use two neighbouring classes from your own result to explain the difference. Repeated values may prevent classes from containing exactly equal numbers of cells.
+
+### B. Display aspect using equal intervals
+
+- Display aspect in ten equal intervals from 0 to 360 degrees. Use `seq()` to define the boundaries and pass them to `breaks` in `plot()`.
+- How wide is each interval, and must the classes contain equal numbers of cells?
+- Consider the transition across north when choosing colours. Does your palette make directions such as 1 and 359 degrees look similar?
+
+### C. Add a class for gently sloping areas
+
+- Add a fifth class for cells with a slope of less than 5 degrees. It should take priority over the four aspect classes wherever slope and aspect are available. Keep missing or undefined cells as `NA`.
+- Plot the result. Why is aspect less informative for gently sloping areas? Check the function help to find out how it handles aspect for exactly horizontal cells.
+- Predict what will happen if you increase the slope threshold from 5 to 10 degrees. Apply the change to a separate result using the same DEM and valid cells. Compare the number of cells in the gently sloping class and explain whether the change matches your prediction.
