@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.10.19">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 <meta name="author" content="Remote Sensing and Geoinformatics, FU Berlin">
-
 <title>Advanced Geomatics - Intro to R - Week 2: Raster Layer</title>
 <style>
 /* Default styles provided by pandoc.
@@ -64,7 +61,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
-
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -81,8 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-f52b4817bf3b3562848cb17a6e795d47.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="../../site_libs/bootstrap/bootstrap-f52b4817bf3b3562848cb17a6e795d47.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -108,21 +103,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-
-
 </head>
-
 <body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
-      <div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo light-content">
-    <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo dark-content">
-    </a>
+    <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo light-content"><img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo dark-content"></a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -130,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
+<li class="nav-item">
     <a class="nav-link" href="../../staff/index.html"> 
 <span class="menu-text">Staff</span></a>
   </li>  
@@ -151,8 +139,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">ADVANCED RS</span></a>
   </li>  
 </ul>
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item compact">
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item compact">
     <a class="nav-link" href="https://blogs.fu-berlin.de/reseda/"> <i class="bi bi-folder-symlink" role="img">
 </i> 
 <span class="menu-text"></span></a>
@@ -168,88 +156,98 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text"></span></a>
   </li>  
 </ul>
-          </div> <!-- /navcollapse -->
+</div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
-    </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#contents" id="toc-contents" class="nav-link active" data-scroll-target="#contents">Contents</a></li>
+<li><a href="#contents" id="toc-contents" class="nav-link active" data-scroll-target="#contents">Contents</a></li>
   <li><a href="#preparation" id="toc-preparation" class="nav-link" data-scroll-target="#preparation">Preparation</a></li>
   <li><a href="#further-help" id="toc-further-help" class="nav-link" data-scroll-target="#further-help">Further Help</a></li>
-  <li><a href="#explore-a-digital-elevation-model-in-qgis" id="toc-explore-a-digital-elevation-model-in-qgis" class="nav-link" data-scroll-target="#explore-a-digital-elevation-model-in-qgis">1. Explore a Digital Elevation Model in QGIS</a>
+  <li>
+<a href="#explore-a-digital-elevation-model-in-qgis" id="toc-explore-a-digital-elevation-model-in-qgis" class="nav-link" data-scroll-target="#explore-a-digital-elevation-model-in-qgis">1. Explore a Digital Elevation Model in QGIS</a>
   <ul class="collapse">
-  <li><a href="#open-the-data" id="toc-open-the-data" class="nav-link" data-scroll-target="#open-the-data">Open the data</a></li>
+<li><a href="#open-the-data" id="toc-open-the-data" class="nav-link" data-scroll-target="#open-the-data">Open the data</a></li>
   <li><a href="#inspect-raster-values" id="toc-inspect-raster-values" class="nav-link" data-scroll-target="#inspect-raster-values">Inspect raster values</a></li>
   <li><a href="#change-the-visualisation" id="toc-change-the-visualisation" class="nav-link" data-scroll-target="#change-the-visualisation">Change the visualisation</a></li>
-  </ul></li>
-  <li><a href="#open-and-plot-raster-data-in-r" id="toc-open-and-plot-raster-data-in-r" class="nav-link" data-scroll-target="#open-and-plot-raster-data-in-r">2. Open and Plot Raster Data in R</a>
+  </ul>
+</li>
+  <li>
+<a href="#open-and-plot-raster-data-in-r" id="toc-open-and-plot-raster-data-in-r" class="nav-link" data-scroll-target="#open-and-plot-raster-data-in-r">2. Open and Plot Raster Data in R</a>
   <ul class="collapse">
-  <li><a href="#prepare-your-r-script" id="toc-prepare-your-r-script" class="nav-link" data-scroll-target="#prepare-your-r-script">Prepare your R script</a></li>
+<li><a href="#prepare-your-r-script" id="toc-prepare-your-r-script" class="nav-link" data-scroll-target="#prepare-your-r-script">Prepare your R script</a></li>
   <li><a href="#open-and-plot-the-dem" id="toc-open-and-plot-the-dem" class="nav-link" data-scroll-target="#open-and-plot-the-dem">Open and plot the DEM</a></li>
   <li><a href="#modify-the-plot" id="toc-modify-the-plot" class="nav-link" data-scroll-target="#modify-the-plot">Modify the plot</a></li>
-  </ul></li>
-  <li><a href="#retrieve-an-objects-properties" id="toc-retrieve-an-objects-properties" class="nav-link" data-scroll-target="#retrieve-an-objects-properties">3. Retrieve an Object’s Properties</a>
+  </ul>
+</li>
+  <li>
+<a href="#retrieve-an-objects-properties" id="toc-retrieve-an-objects-properties" class="nav-link" data-scroll-target="#retrieve-an-objects-properties">3. Retrieve an Object’s Properties</a>
   <ul class="collapse">
-  <li><a href="#general-information" id="toc-general-information" class="nav-link" data-scroll-target="#general-information">General information</a></li>
+<li><a href="#general-information" id="toc-general-information" class="nav-link" data-scroll-target="#general-information">General information</a></li>
   <li><a href="#coordinate-reference-system-and-resolution" id="toc-coordinate-reference-system-and-resolution" class="nav-link" data-scroll-target="#coordinate-reference-system-and-resolution">Coordinate reference system and resolution</a></li>
   <li><a href="#spatial-extent" id="toc-spatial-extent" class="nav-link" data-scroll-target="#spatial-extent">Spatial extent</a></li>
-  </ul></li>
-  <li><a href="#subset-a-raster-layer" id="toc-subset-a-raster-layer" class="nav-link" data-scroll-target="#subset-a-raster-layer">4. Subset a Raster Layer</a>
+  </ul>
+</li>
+  <li>
+<a href="#subset-a-raster-layer" id="toc-subset-a-raster-layer" class="nav-link" data-scroll-target="#subset-a-raster-layer">4. Subset a Raster Layer</a>
   <ul class="collapse">
-  <li><a href="#define-and-display-an-area-of-interest" id="toc-define-and-display-an-area-of-interest" class="nav-link" data-scroll-target="#define-and-display-an-area-of-interest">Define and display an area of interest</a></li>
+<li><a href="#define-and-display-an-area-of-interest" id="toc-define-and-display-an-area-of-interest" class="nav-link" data-scroll-target="#define-and-display-an-area-of-interest">Define and display an area of interest</a></li>
   <li><a href="#crop-the-raster" id="toc-crop-the-raster" class="nav-link" data-scroll-target="#crop-the-raster">Crop the raster</a></li>
-  </ul></li>
-  <li><a href="#describe-the-landscape-using-statistics" id="toc-describe-the-landscape-using-statistics" class="nav-link" data-scroll-target="#describe-the-landscape-using-statistics">5. Describe the Landscape Using Statistics</a>
+  </ul>
+</li>
+  <li>
+<a href="#describe-the-landscape-using-statistics" id="toc-describe-the-landscape-using-statistics" class="nav-link" data-scroll-target="#describe-the-landscape-using-statistics">5. Describe the Landscape Using Statistics</a>
   <ul class="collapse">
-  <li><a href="#display-a-histogram" id="toc-display-a-histogram" class="nav-link" data-scroll-target="#display-a-histogram">Display a histogram</a></li>
+<li><a href="#display-a-histogram" id="toc-display-a-histogram" class="nav-link" data-scroll-target="#display-a-histogram">Display a histogram</a></li>
   <li><a href="#calculate-summary-statistics" id="toc-calculate-summary-statistics" class="nav-link" data-scroll-target="#calculate-summary-statistics">Calculate summary statistics</a></li>
   <li><a href="#calculate-quantiles" id="toc-calculate-quantiles" class="nav-link" data-scroll-target="#calculate-quantiles">Calculate quantiles</a></li>
-  </ul></li>
-  <li><a href="#display-elevation-classes-and-reclassify-raster-data" id="toc-display-elevation-classes-and-reclassify-raster-data" class="nav-link" data-scroll-target="#display-elevation-classes-and-reclassify-raster-data">6. Display Elevation Classes and Reclassify Raster Data</a>
+  </ul>
+</li>
+  <li>
+<a href="#display-elevation-classes-and-reclassify-raster-data" id="toc-display-elevation-classes-and-reclassify-raster-data" class="nav-link" data-scroll-target="#display-elevation-classes-and-reclassify-raster-data">6. Display Elevation Classes and Reclassify Raster Data</a>
   <ul class="collapse">
-  <li><a href="#display-the-dem-in-classes" id="toc-display-the-dem-in-classes" class="nav-link" data-scroll-target="#display-the-dem-in-classes">Display the DEM in classes</a></li>
+<li><a href="#display-the-dem-in-classes" id="toc-display-the-dem-in-classes" class="nav-link" data-scroll-target="#display-the-dem-in-classes">Display the DEM in classes</a></li>
   <li><a href="#create-a-reclassified-raster" id="toc-create-a-reclassified-raster" class="nav-link" data-scroll-target="#create-a-reclassified-raster">Create a reclassified raster</a></li>
   <li><a href="#check-the-class-boundaries" id="toc-check-the-class-boundaries" class="nav-link" data-scroll-target="#check-the-class-boundaries">Check the class boundaries</a></li>
-  </ul></li>
-  <li><a href="#additional-plotting-options-and-raster-properties" id="toc-additional-plotting-options-and-raster-properties" class="nav-link" data-scroll-target="#additional-plotting-options-and-raster-properties">7. Additional: Plotting Options and Raster Properties</a>
+  </ul>
+</li>
+  <li>
+<a href="#additional-plotting-options-and-raster-properties" id="toc-additional-plotting-options-and-raster-properties" class="nav-link" data-scroll-target="#additional-plotting-options-and-raster-properties">7. Additional: Plotting Options and Raster Properties</a>
   <ul class="collapse">
-  <li><a href="#add-contour-lines" id="toc-add-contour-lines" class="nav-link" data-scroll-target="#add-contour-lines">Add contour lines</a></li>
+<li><a href="#add-contour-lines" id="toc-add-contour-lines" class="nav-link" data-scroll-target="#add-contour-lines">Add contour lines</a></li>
   <li><a href="#create-your-own-colour-palette" id="toc-create-your-own-colour-palette" class="nav-link" data-scroll-target="#create-your-own-colour-palette">Create your own colour palette</a></li>
   <li><a href="#compare-maps-using-the-same-colour-scale" id="toc-compare-maps-using-the-same-colour-scale" class="nav-link" data-scroll-target="#compare-maps-using-the-same-colour-scale">Compare maps using the same colour scale</a></li>
   <li><a href="#add-a-north-arrow-and-a-scale-bar" id="toc-add-a-north-arrow-and-a-scale-bar" class="nav-link" data-scroll-target="#add-a-north-arrow-and-a-scale-bar">Add a north arrow and a scale bar</a></li>
   <li><a href="#explore-other-ways-to-inspect-a-raster" id="toc-explore-other-ways-to-inspect-a-raster" class="nav-link" data-scroll-target="#explore-other-ways-to-inspect-a-raster">Explore other ways to inspect a raster</a></li>
-  </ul></li>
-  <li><a href="#homework-seminar-2" id="toc-homework-seminar-2" class="nav-link" data-scroll-target="#homework-seminar-2">Homework Seminar 2</a>
+  </ul>
+</li>
+  <li>
+<a href="#homework-seminar-2" id="toc-homework-seminar-2" class="nav-link" data-scroll-target="#homework-seminar-2">Homework Seminar 2</a>
   <ul class="collapse">
-  <li><a href="#choose-and-plot-a-study-area" id="toc-choose-and-plot-a-study-area" class="nav-link" data-scroll-target="#choose-and-plot-a-study-area">1. Choose and plot a study area</a></li>
+<li><a href="#choose-and-plot-a-study-area" id="toc-choose-and-plot-a-study-area" class="nav-link" data-scroll-target="#choose-and-plot-a-study-area">1. Choose and plot a study area</a></li>
   <li><a href="#calculate-slope-and-aspect" id="toc-calculate-slope-and-aspect" class="nav-link" data-scroll-target="#calculate-slope-and-aspect">2. Calculate slope and aspect</a></li>
   <li><a href="#reclassify-aspect" id="toc-reclassify-aspect" class="nav-link" data-scroll-target="#reclassify-aspect">3. Reclassify aspect</a></li>
   <li><a href="#check-your-work" id="toc-check-your-work" class="nav-link" data-scroll-target="#check-your-work">Check your work</a></li>
-  <li><a href="#optional-exercises" id="toc-optional-exercises" class="nav-link" data-scroll-target="#optional-exercises">Optional exercises</a>
+  <li>
+<a href="#optional-exercises" id="toc-optional-exercises" class="nav-link" data-scroll-target="#optional-exercises">Optional exercises</a>
   <ul class="collapse">
-  <li><a href="#a.-display-slope-using-quantile-classes" id="toc-a.-display-slope-using-quantile-classes" class="nav-link" data-scroll-target="#a.-display-slope-using-quantile-classes">A. Display slope using quantile classes</a></li>
+<li><a href="#a.-display-slope-using-quantile-classes" id="toc-a.-display-slope-using-quantile-classes" class="nav-link" data-scroll-target="#a.-display-slope-using-quantile-classes">A. Display slope using quantile classes</a></li>
   <li><a href="#b.-display-aspect-using-equal-intervals" id="toc-b.-display-aspect-using-equal-intervals" class="nav-link" data-scroll-target="#b.-display-aspect-using-equal-intervals">B. Display aspect using equal intervals</a></li>
   <li><a href="#c.-add-a-class-for-gently-sloping-areas" id="toc-c.-add-a-class-for-gently-sloping-areas" class="nav-link" data-scroll-target="#c.-add-a-class-for-gently-sloping-areas">C. Add a class for gently sloping areas</a></li>
-  </ul></li>
-  </ul></li>
   </ul>
-</nav>
+</li>
+  </ul>
+</li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Advanced Geomatics - Intro to R - Week 2: Raster Layer</h1>
 </div>
 
@@ -276,11 +274,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header>
-
-
-<section id="contents" class="level1">
-<h1>Contents</h1>
+</header><section id="contents" class="level1"><h1>Contents</h1>
 <ol type="1">
 <li>Explore a digital elevation model in QGIS</li>
 <li>Open and plot raster data in R</li>
@@ -296,10 +290,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Today we will explore a digital elevation model (DEM) of the Black Forest. We will first have a look at the landscape in QGIS and then use R to visualise, subset and analyse the same data.</p>
 <p>By the end of the exercise, you should be able to open and inspect a raster, create a geographic subset, describe its values and distinguish between changing a map’s appearance and changing the raster values.</p>
 <p>Working with R takes practice, and it is normal if not everything works straight away. You do not need to solve every problem on your own. If you get stuck during the exercises or homework, please post your question in the course discussion forum. Include the relevant code and any error message, and briefly explain what you expected to happen. We are happy to help, and your question may also be useful to others.</p>
-<hr>
-</section>
-<section id="preparation" class="level1">
-<h1>Preparation</h1>
+<hr></section><section id="preparation" class="level1"><h1>Preparation</h1>
 <ul>
 <li>Make sure that QGIS, R and RStudio are installed on your computer.</li>
 <li>Download the DEM <code>n48_e008_1arc_v3.tif</code> from <a href="https://box.fu-berlin.de/s/i4LimtWHfWp7mkN">FU Box</a> and save it in a folder for today’s exercise. Extract it first if it is provided in a ZIP archive.</li>
@@ -307,10 +298,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Please try to solve the tasks yourself before looking at the example code. Add comments explaining what you are doing and short answers to the questions.</li>
 </ul>
 <p>Work in short steps: first make a prediction, then run the code and compare the result with your expectation. Keep your initial prediction, even if it turns out to be wrong, and add a short explanation afterwards. Refer to specific locations, values or outputs from your own work. At the short checkpoints, use your script and results to explain your reasoning to your neighbour and try the requested change yourself before consulting the examples again.</p>
-<hr>
-</section>
-<section id="further-help" class="level1">
-<h1>Further Help</h1>
+<hr></section><section id="further-help" class="level1"><h1>Further Help</h1>
 <ul>
 <li>Use the R help, for example <code>?terra::rast</code>, <code>?terra::plot</code> and <code>?terra::global</code>.</li>
 <li><a href="https://rspatial.github.io/terra/reference/index.html">terra function reference</a></li>
@@ -321,29 +309,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="https://docs.qgis.org/3.44/en/docs/user_manual/introduction/general_tools.html#identifying-features">QGIS: Identify Features</a></li>
 </ul>
 <p>Besides the examples in this script, the package help provides explanations of arguments and further examples. If a command does not behave as expected, check the function help and your object names before changing several things at once.</p>
-<hr>
-</section>
-<section id="explore-a-digital-elevation-model-in-qgis" class="level1">
-<h1>1. Explore a Digital Elevation Model in QGIS</h1>
+<hr></section><section id="explore-a-digital-elevation-model-in-qgis" class="level1"><h1>1. Explore a Digital Elevation Model in QGIS</h1>
 <p>Spend about 10-15 minutes on this first exploration.</p>
-<section id="open-the-data" class="level2">
-<h2 class="anchored" data-anchor-id="open-the-data">Open the data</h2>
+<section id="open-the-data" class="level2"><h2 class="anchored" data-anchor-id="open-the-data">Open the data</h2>
 <p><strong>a.</strong> Open QGIS and start a new project.</p>
 <p><strong>b.</strong> Add <code>n48_e008_1arc_v3.tif</code> to the project. You may drag the file from your file browser into the QGIS map window.</p>
 <p><strong>c.</strong> Have a look at the landscape. Zoom in and out and identify one relatively high and one relatively low area. Where can you recognise valleys or ridges?</p>
-</section>
-<section id="inspect-raster-values" class="level2">
-<h2 class="anchored" data-anchor-id="inspect-raster-values">Inspect raster values</h2>
+</section><section id="inspect-raster-values" class="level2"><h2 class="anchored" data-anchor-id="inspect-raster-values">Inspect raster values</h2>
 <p><strong>a.</strong> Select the DEM in the Layers panel. Use the <strong>Identify Features</strong> tool to click on several locations. Have a look at the value of Band 1 in the results.</p>
 <p><strong>b.</strong> Note the elevation at one relatively high and one relatively low location. Describe their positions so that your neighbour can find them again, for example by referring to a recognisable valley or ridge. The elevation values in this dataset are given in metres.</p>
 <ul>
 <li>What does a raster cell represent in this dataset?</li>
 <li>How are the values related to the colours or shades in the map?</li>
 <li>Does a dark colour always indicate a low elevation? Have a look at the legend before answering.</li>
-</ul>
-</section>
-<section id="change-the-visualisation" class="level2">
-<h2 class="anchored" data-anchor-id="change-the-visualisation">Change the visualisation</h2>
+</ul></section><section id="change-the-visualisation" class="level2"><h2 class="anchored" data-anchor-id="change-the-visualisation">Change the visualisation</h2>
 <p><strong>a.</strong> Open the layer’s <strong>Properties</strong> and select <strong>Symbology</strong>. Choose <strong>Singleband pseudocolor</strong> as the render type, select a colour ramp and use <strong>Linear</strong> interpolation. Click <strong>Classify</strong> if the colour table is empty, then <strong>Apply</strong>.</p>
 <p><strong>b.</strong> Try another colour ramp. Keep the same minimum and maximum values for this comparison.</p>
 <p><strong>c.</strong> Discuss briefly with your neighbour:</p>
@@ -354,131 +333,137 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p><strong>Check your observation:</strong> Return to one of your selected locations and identify its elevation again after changing the colour ramp. Compare the value with your earlier note. Use this example to explain what you changed.</p>
 <p><strong>Hint:</strong> The names of tools and menus depend on the language of your QGIS installation. You can find further help in the <a href="https://docs.qgis.org/3.44/en/docs/user_manual/working_with_raster/raster_properties.html#symbology-properties">QGIS documentation on raster symbology</a>.</p>
-<hr>
-</section>
-</section>
-<section id="open-and-plot-raster-data-in-r" class="level1">
-<h1>2. Open and Plot Raster Data in R</h1>
+<hr></section></section><section id="open-and-plot-raster-data-in-r" class="level1"><h1>2. Open and Plot Raster Data in R</h1>
 <p>We will now explore the same file in R. Saving our commands in a script allows us to repeat the analysis and adapt it to another dataset.</p>
-<section id="prepare-your-r-script" class="level2">
-<h2 class="anchored" data-anchor-id="prepare-your-r-script">Prepare your R script</h2>
+<section id="prepare-your-r-script" class="level2"><h2 class="anchored" data-anchor-id="prepare-your-r-script">Prepare your R script</h2>
 <p><strong>a.</strong> Open a new R script in RStudio and save it as <code>Week_02_Raster.R</code> in your exercise folder. Add your name and the date as comments.</p>
 <p><strong>b.</strong> Install the package <code>terra</code> if necessary and load it. What is the main purpose of this package?</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install the package once, if necessary</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("terra")</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Install the package once, if necessary</span></span>
+<span><span class="co"># install.packages("terra")</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/">terra</a></span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>c.</strong> Set the working directory to your exercise folder. Replace the example path with the path on your computer. Use <code>/</code> or double backslashes <code>\\</code> to separate folder names.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:/your/path/Week_02"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Hint:</strong> If you use an RStudio Project in your exercise folder, you can work with paths relative to that folder and omit <code>setwd()</code>.</p>
-</section>
-<section id="open-and-plot-the-dem" class="level2">
-<h2 class="anchored" data-anchor-id="open-and-plot-the-dem">Open and plot the DEM</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"C:/your/path/Week_02"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Hint:</strong> If you use an RStudio Project in your exercise folder, you can work with paths relative to that folder and omit <code><a href="https://rdrr.io/r/base/getwd.html">setwd()</a></code>.</p>
+</section><section id="open-and-plot-the-dem" class="level2"><h2 class="anchored" data-anchor-id="open-and-plot-the-dem">Open and plot the DEM</h2>
 <p><strong>a.</strong> Open the file using <code>rast()</code> and assign it to an object named <code>DEM</code>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>DEM <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"n48_e008_1arc_v3.tif"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">DEM</span> <span class="op">&lt;-</span> <span class="fu">rast</span><span class="op">(</span><span class="st">"n48_e008_1arc_v3.tif"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>b.</strong> Plot the DEM.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DEM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">DEM</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
 <li>Can you recognise the landscape you explored in QGIS?</li>
 <li>What looks similar and what looks different?</li>
 <li>Does a difference in colour necessarily indicate a difference in the data?</li>
-</ul>
-</section>
-<section id="modify-the-plot" class="level2">
-<h2 class="anchored" data-anchor-id="modify-the-plot">Modify the plot</h2>
+</ul></section><section id="modify-the-plot" class="level2"><h2 class="anchored" data-anchor-id="modify-the-plot">Modify the plot</h2>
 <p><strong>a.</strong> Add a title and axis labels. Use <code>plg</code> to add a title to the legend.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DEM,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Digital Elevation Model of the Black Forest"</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Longitude"</span>,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Latitude"</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">plg =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Elevation (m)"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">DEM</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Digital Elevation Model of the Black Forest"</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">"Longitude"</span>,</span>
+<span>     ylab <span class="op">=</span> <span class="st">"Latitude"</span>,</span>
+<span>     plg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Elevation (m)"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>b.</strong> Use <code>col</code> to change the colour palette.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DEM,</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">terrain.colors</span>(<span class="dv">100</span>),</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Exploring the landscape"</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">plg =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Elevation (m)"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">DEM</span>,</span>
+<span>     col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">terrain.colors</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Exploring the landscape"</span>,</span>
+<span>     plg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Elevation (m)"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>c.</strong> What do you expect to happen if you replace <code>terrain.colors(100)</code> with <code>terrain.colors(5)</code>? Write down your expectation before running the code. Then compare both plots.</p>
 <ul>
-<li>What does the number in <code>terrain.colors()</code> control?</li>
+<li>What does the number in <code><a href="https://rdrr.io/r/grDevices/palettes.html">terrain.colors()</a></code> control?</li>
 <li>Have you changed the number of raster cells, their values or the colours used to display them?</li>
 </ul>
 <p><strong>Hint:</strong> Change one argument at a time. This makes it easier to understand its effect.</p>
 <p><strong>Checkpoint:</strong> Show your neighbour one change you made to the plot. Explain which part of the command controls it. Your neighbour then suggests a small change to the title or colour palette; make that change yourself and check the result.</p>
-<hr>
-</section>
-</section>
-<section id="retrieve-an-objects-properties" class="level1">
-<h1>3. Retrieve an Object’s Properties</h1>
+<hr></section></section><section id="retrieve-an-objects-properties" class="level1"><h1>3. Retrieve an Object’s Properties</h1>
 <p>Before selecting an area for further analysis, we need to know where the raster is located and how its cells are arranged.</p>
-<section id="general-information" class="level2">
-<h2 class="anchored" data-anchor-id="general-information">General information</h2>
+<section id="general-information" class="level2"><h2 class="anchored" data-anchor-id="general-information">General information</h2>
 <p><strong>a.</strong> Display general information on the raster by executing its object name.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>DEM</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">DEM</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
 <li>What is the object’s class?</li>
 <li>How many rows, columns and layers does it have?</li>
 <li>Which information can you find about its location and resolution?</li>
 </ul>
-<p><strong>b.</strong> Use <code>class()</code> to check the object class.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(DEM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>b.</strong> Use <code><a href="https://rdrr.io/r/base/class.html">class()</a></code> to check the object class.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">DEM</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>Hint:</strong> The object class, such as <code>SpatRaster</code>, describes the kind of R object you are working with. It is different from the numerical storage type of the cell values.</p>
-</section>
-<section id="coordinate-reference-system-and-resolution" class="level2">
-<h2 class="anchored" data-anchor-id="coordinate-reference-system-and-resolution">Coordinate reference system and resolution</h2>
+</section><section id="coordinate-reference-system-and-resolution" class="level2"><h2 class="anchored" data-anchor-id="coordinate-reference-system-and-resolution">Coordinate reference system and resolution</h2>
 <p><strong>a.</strong> Use <code>crs()</code> to inspect the coordinate reference system.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(DEM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">crs</span><span class="op">(</span><span class="va">DEM</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>b.</strong> Retrieve the spatial resolution using <code>res()</code>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">res</span>(DEM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">res</span><span class="op">(</span><span class="va">DEM</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
 <li>Are the horizontal coordinates and cell dimensions given in degrees or metres?</li>
 <li>Are these the same units as the elevation values?</li>
 <li>If the cell dimensions in the x and y directions are equal in degrees, does this necessarily mean that they are equal in metres?</li>
-</ul>
-</section>
-<section id="spatial-extent" class="level2">
-<h2 class="anchored" data-anchor-id="spatial-extent">Spatial extent</h2>
+</ul></section><section id="spatial-extent" class="level2"><h2 class="anchored" data-anchor-id="spatial-extent">Spatial extent</h2>
 <p><strong>a.</strong> What is the spatial extent of the DEM? Use <code>ext()</code> to retrieve its boundaries.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ext</span>(DEM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">ext</span><span class="op">(</span><span class="va">DEM</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>b.</strong> Retrieve the western boundary, i.e.&nbsp;the minimum x coordinate.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ext</span>(DEM)[<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">ext</span><span class="op">(</span><span class="va">DEM</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>c.</strong> Identify the eastern, southern and northern boundaries. Use this information to check whether the coordinates in the next section fall inside the raster.</p>
-<hr>
-</section>
-</section>
-<section id="subset-a-raster-layer" class="level1">
-<h1>4. Subset a Raster Layer</h1>
+<hr></section></section><section id="subset-a-raster-layer" class="level1"><h1>4. Subset a Raster Layer</h1>
 <p>We will now take a closer look at part of the landscape. You can use <code>crop()</code> to create a geographic subset.</p>
-<section id="define-and-display-an-area-of-interest" class="level2">
-<h2 class="anchored" data-anchor-id="define-and-display-an-area-of-interest">Define and display an area of interest</h2>
+<section id="define-and-display-an-area-of-interest" class="level2"><h2 class="anchored" data-anchor-id="define-and-display-an-area-of-interest">Define and display an area of interest</h2>
 <p><strong>a.</strong> Define the boundaries of the following rectangle. The coordinates are given in the same coordinate reference system as the DEM.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fl">8.4</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fl">8.8</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>y1 <span class="ot">&lt;-</span> <span class="fl">48.3</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>y2 <span class="ot">&lt;-</span> <span class="fl">48.5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>b.</strong> Plot the DEM and add the rectangle using <code>rect()</code>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DEM, <span class="at">col =</span> <span class="fu">terrain.colors</span>(<span class="dv">100</span>))</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rect</span>(x1, y1, x2, y2, <span class="at">border =</span> <span class="st">"black"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">x1</span> <span class="op">&lt;-</span> <span class="fl">8.4</span></span>
+<span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fl">8.8</span></span>
+<span><span class="va">y1</span> <span class="op">&lt;-</span> <span class="fl">48.3</span></span>
+<span><span class="va">y2</span> <span class="op">&lt;-</span> <span class="fl">48.5</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>b.</strong> Plot the DEM and add the rectangle using <code><a href="https://rdrr.io/r/graphics/rect.html">rect()</a></code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">DEM</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">terrain.colors</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span><span class="op">(</span><span class="va">x1</span>, <span class="va">y1</span>, <span class="va">x2</span>, <span class="va">y2</span>, border <span class="op">=</span> <span class="st">"black"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
 <li>Which part of the landscape does the rectangle cover?</li>
 <li>What do you expect to see after cropping the raster?</li>
-</ul>
-</section>
-<section id="crop-the-raster" class="level2">
-<h2 class="anchored" data-anchor-id="crop-the-raster">Crop the raster</h2>
-<p><strong>a.</strong> Create an extent object. Have a close look at the order of coordinates: <code>ext()</code> uses <code>xmin</code>, <code>xmax</code>, <code>ymin</code>, <code>ymax</code>. This is different from the order used by <code>rect()</code>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>cropsub <span class="ot">&lt;-</span> <span class="fu">ext</span>(x1, x2, y1, y2)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>DEM.sub <span class="ot">&lt;-</span> <span class="fu">crop</span>(DEM, cropsub)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</ul></section><section id="crop-the-raster" class="level2"><h2 class="anchored" data-anchor-id="crop-the-raster">Crop the raster</h2>
+<p><strong>a.</strong> Create an extent object. Have a close look at the order of coordinates: <code>ext()</code> uses <code>xmin</code>, <code>xmax</code>, <code>ymin</code>, <code>ymax</code>. This is different from the order used by <code><a href="https://rdrr.io/r/graphics/rect.html">rect()</a></code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cropsub</span> <span class="op">&lt;-</span> <span class="fu">ext</span><span class="op">(</span><span class="va">x1</span>, <span class="va">x2</span>, <span class="va">y1</span>, <span class="va">y2</span><span class="op">)</span></span>
+<span><span class="va">DEM.sub</span> <span class="op">&lt;-</span> <span class="fu">crop</span><span class="op">(</span><span class="va">DEM</span>, <span class="va">cropsub</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>b.</strong> Plot the new object.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DEM.sub,</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">terrain.colors</span>(<span class="dv">100</span>),</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Our study area"</span>,</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">plg =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Elevation (m)"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">DEM.sub</span>,</span>
+<span>     col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">terrain.colors</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Our study area"</span>,</span>
+<span>     plg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Elevation (m)"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>c.</strong> Compare the properties of <code>DEM</code> and <code>DEM.sub</code>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>DEM</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>DEM.sub</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">res</span>(DEM)</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">res</span>(DEM.sub)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">DEM</span></span>
+<span><span class="va">DEM.sub</span></span>
+<span></span>
+<span><span class="fu">res</span><span class="op">(</span><span class="va">DEM</span><span class="op">)</span></span>
+<span><span class="fu">res</span><span class="op">(</span><span class="va">DEM.sub</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
 <li>What has changed: the extent, the number of cells, the resolution or the coordinate reference system?</li>
 <li>Does cropping make the raster more detailed?</li>
@@ -488,69 +473,79 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Try yourself:</strong> Select a second rectangle inside the original DEM. Use the same coordinate width and height as the first rectangle, but move it to a different part of the landscape. Save the result as <code>DEM.test</code> and keep <code>DEM.sub</code> for the following exercises. Plot both rectangles on the complete DEM.</p>
 <p>Before calculating statistics, predict which subset has the higher mean elevation and which has the greater spread of elevation values. Refer to a feature visible in each rectangle. Keep this prediction for the next section.</p>
 <p><strong>Checkpoint:</strong> A fellow student says: “Cropping has increased the spatial resolution because the landscape looks larger in the plot.” Use the actual resolution and dimensions of your two raster objects to explain whether this is correct. Show your neighbour the outputs that support your answer.</p>
-<hr>
-</section>
-</section>
-<section id="describe-the-landscape-using-statistics" class="level1">
-<h1>5. Describe the Landscape Using Statistics</h1>
+<hr></section></section><section id="describe-the-landscape-using-statistics" class="level1"><h1>5. Describe the Landscape Using Statistics</h1>
 <p>Have another look at the map of <code>DEM.sub</code>. Which elevations seem to occur most frequently? Write down your expectation before calculating statistics.</p>
-<section id="display-a-histogram" class="level2">
-<h2 class="anchored" data-anchor-id="display-a-histogram">Display a histogram</h2>
-<p><strong>a.</strong> Use <code>hist()</code> to display the distribution of elevation values.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(DEM.sub,</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Distribution of elevation values"</span>,</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Elevation (m)"</span>,</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"grey70"</span>,</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">maxcell =</span> <span class="dv">10000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="display-a-histogram" class="level2"><h2 class="anchored" data-anchor-id="display-a-histogram">Display a histogram</h2>
+<p><strong>a.</strong> Use <code><a href="https://rdrr.io/r/graphics/hist.html">hist()</a></code> to display the distribution of elevation values.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">DEM.sub</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Distribution of elevation values"</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">"Elevation (m)"</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"grey70"</span>,</span>
+<span>     maxcell <span class="op">=</span> <span class="fl">10000</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
 <li>Does the histogram support your first impression?</li>
 <li>Which information is easier to recognise in the histogram than in the map?</li>
 <li>Can you tell from the histogram where the valleys are located?</li>
 </ul>
 <p><strong>b.</strong> Have a look at the argument <code>maxcell</code> in the help for the raster histogram. What does it control?</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>?terra<span class="sc">::</span>hist</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="op">?</span><span class="fu">terra</span><span class="fu">::</span><span class="va">hist</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>c.</strong> Repeat the histogram using all cells in the subset. Compare the shape of the distributions, taking account of the different sample sizes and any differences in the histogram bins.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(DEM.sub,</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Elevation values of the complete subset"</span>,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Elevation (m)"</span>,</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"grey70"</span>,</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">maxcell =</span> <span class="fu">ncell</span>(DEM.sub))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="calculate-summary-statistics" class="level2">
-<h2 class="anchored" data-anchor-id="calculate-summary-statistics">Calculate summary statistics</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">DEM.sub</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Elevation values of the complete subset"</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">"Elevation (m)"</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"grey70"</span>,</span>
+<span>     maxcell <span class="op">=</span> <span class="fu">ncell</span><span class="op">(</span><span class="va">DEM.sub</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section><section id="calculate-summary-statistics" class="level2"><h2 class="anchored" data-anchor-id="calculate-summary-statistics">Calculate summary statistics</h2>
 <p>Use <code>global()</code> to calculate statistics across the raster cells. The argument <code>na.rm = TRUE</code> excludes missing values from these calculations. A missing value (<code>NA</code>) is different from an elevation of zero.</p>
 <p><strong>a.</strong> Minimum</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>DEM_min <span class="ot">&lt;-</span> <span class="fu">global</span>(DEM.sub, <span class="st">"min"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>DEM_min</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">DEM_min</span> <span class="op">&lt;-</span> <span class="fu">global</span><span class="op">(</span><span class="va">DEM.sub</span>, <span class="st">"min"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">DEM_min</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>b.</strong> Maximum</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>DEM_max <span class="ot">&lt;-</span> <span class="fu">global</span>(DEM.sub, <span class="st">"max"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>DEM_max</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">DEM_max</span> <span class="op">&lt;-</span> <span class="fu">global</span><span class="op">(</span><span class="va">DEM.sub</span>, <span class="st">"max"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">DEM_max</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>c.</strong> Range</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>DEM_range <span class="ot">&lt;-</span> <span class="fu">global</span>(DEM.sub, <span class="st">"range"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>DEM_range</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">DEM_range</span> <span class="op">&lt;-</span> <span class="fu">global</span><span class="op">(</span><span class="va">DEM.sub</span>, <span class="st">"range"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">DEM_range</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>d.</strong> Mean and standard deviation</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>DEM_mean <span class="ot">&lt;-</span> <span class="fu">global</span>(DEM.sub, <span class="st">"mean"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>DEM_sd <span class="ot">&lt;-</span> <span class="fu">global</span>(DEM.sub, <span class="st">"sd"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>DEM_mean</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>DEM_sd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">DEM_mean</span> <span class="op">&lt;-</span> <span class="fu">global</span><span class="op">(</span><span class="va">DEM.sub</span>, <span class="st">"mean"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">DEM_sd</span> <span class="op">&lt;-</span> <span class="fu">global</span><span class="op">(</span><span class="va">DEM.sub</span>, <span class="st">"sd"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">DEM_mean</span></span>
+<span><span class="va">DEM_sd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
 <li>Are the values plausible when compared with the map and histogram?</li>
 <li>What does the standard deviation tell you about the elevation values? Does it tell you where steep slopes occur?</li>
-<li><code>global()</code> returns a data frame. Which row and columns contain your results?</li>
+<li>
+<code>global()</code> returns a data frame. Which row and columns contain your results?</li>
 </ul>
 <p><strong>Hint:</strong> The range output contains the minimum and maximum. Calculate their difference if you want the elevation span as a single number.</p>
-</section>
-<section id="calculate-quantiles" class="level2">
-<h2 class="anchored" data-anchor-id="calculate-quantiles">Calculate quantiles</h2>
+</section><section id="calculate-quantiles" class="level2"><h2 class="anchored" data-anchor-id="calculate-quantiles">Calculate quantiles</h2>
 <p><strong>a.</strong> Use <code>global()</code> with <code>quantile</code> to calculate the default quantiles.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">global</span>(DEM.sub, quantile, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>q</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>b.</strong> Calculate quantiles in 10% steps. Use <code>seq()</code> to generate the probabilities.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="fu">global</span>(DEM.sub, quantile,</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">probs =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.1</span>),</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>q</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu">global</span><span class="op">(</span><span class="va">DEM.sub</span>, <span class="va">quantile</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">q</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>b.</strong> Calculate quantiles in 10% steps. Use <code><a href="https://rdrr.io/r/base/seq.html">seq()</a></code> to generate the probabilities.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="fu">global</span><span class="op">(</span><span class="va">DEM.sub</span>, <span class="va">quantile</span>,</span>
+<span>            probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0.1</span><span class="op">)</span>,</span>
+<span>            na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">q</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
 <li>How do you interpret the 50% quantile?</li>
 <li>What does the 90% quantile tell you about the elevation values?</li>
@@ -564,204 +559,208 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Show your neighbour a location whose elevation is above its subset’s mean. Explain how you would check this.</li>
 </ul>
 <p>When comparing maps, check their legend ranges as well. Brief notes are sufficient; you do not need to write a general description of the statistical functions.</p>
-<hr>
-</section>
-</section>
-<section id="display-elevation-classes-and-reclassify-raster-data" class="level1">
-<h1>6. Display Elevation Classes and Reclassify Raster Data</h1>
+<hr></section></section><section id="display-elevation-classes-and-reclassify-raster-data" class="level1"><h1>6. Display Elevation Classes and Reclassify Raster Data</h1>
 <p>We will now distinguish four elevation classes: below 500 m, 500 to below 650 m, 650 to below 800 m and 800 m or higher.</p>
-<section id="display-the-dem-in-classes" class="level2">
-<h2 class="anchored" data-anchor-id="display-the-dem-in-classes">Display the DEM in classes</h2>
+<section id="display-the-dem-in-classes" class="level2"><h2 class="anchored" data-anchor-id="display-the-dem-in-classes">Display the DEM in classes</h2>
 <p><strong>a.</strong> Define four colours and their labels. Keep the order consistent throughout this section.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#D9F0A3"</span>, <span class="st">"#ADDD8E"</span>, <span class="st">"#78C679"</span>, <span class="st">"#238443"</span>)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>class_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"&lt;500 m"</span>, <span class="st">"500 to &lt;650 m"</span>,</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"650 to &lt;800 m"</span>, <span class="st">"&gt;=800 m"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#D9F0A3"</span>, <span class="st">"#ADDD8E"</span>, <span class="st">"#78C679"</span>, <span class="st">"#238443"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">class_labels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"&lt;500 m"</span>, <span class="st">"500 to &lt;650 m"</span>,</span>
+<span>                  <span class="st">"650 to &lt;800 m"</span>, <span class="st">"&gt;=800 m"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>b.</strong> Create a vector containing the class boundaries. We use the range calculated above to place the outer boundaries beyond the observed minimum and maximum. The internal boundaries are 500, 650 and 800 m.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>lower <span class="ot">&lt;-</span> <span class="fu">min</span>(<span class="dv">0</span>, DEM_range[<span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">-</span> <span class="dv">1</span>)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>upper <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="dv">1000</span>, DEM_range[<span class="dv">1</span>, <span class="dv">2</span>] <span class="sc">+</span> <span class="dv">1</span>)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>brk <span class="ot">&lt;-</span> <span class="fu">c</span>(lower, <span class="dv">500</span>, <span class="dv">650</span>, <span class="dv">800</span>, upper)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>brk</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lower</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">DEM_range</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">upper</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="fl">1000</span>, <span class="va">DEM_range</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">brk</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">lower</span>, <span class="fl">500</span>, <span class="fl">650</span>, <span class="fl">800</span>, <span class="va">upper</span><span class="op">)</span></span>
+<span><span class="va">brk</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
 <li>Why do four classes require five boundaries?</li>
 <li>Why should the outer boundaries cover the complete range of the data?</li>
 </ul>
-<p><strong>c.</strong> Use <code>breaks</code> to display the DEM in classes. Switch off the default legend and add a legend using <code>legend()</code>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DEM.sub,</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> cols,</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> brk,</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"DEM displayed in elevation classes"</span>,</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Elevation"</span>,</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> class_labels,</span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> cols,</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">bg =</span> <span class="st">"white"</span>,</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">inset =</span> <span class="fu">c</span>(<span class="fl">0.0</span>, <span class="fl">0.142</span>),</span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fl">0.8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Hint:</strong> The values in <code>inset = c(0.0, 0.142)</code> were found by trying different positions. They specify the horizontal and vertical distances from the plot edges as fractions of the plot width and height. With <code>"topright"</code>, the second value moves the legend downwards. The best position can depend on the size and shape of your graphics window, so you may need to adjust these values. Run <code>plot()</code> again before adding the revised legend to avoid drawing several legends on top of each other.</p>
+<p><strong>c.</strong> Use <code>breaks</code> to display the DEM in classes. Switch off the default legend and add a legend using <code><a href="https://rdrr.io/r/graphics/legend.html">legend()</a></code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">DEM.sub</span>,</span>
+<span>     col <span class="op">=</span> <span class="va">cols</span>,</span>
+<span>     breaks <span class="op">=</span> <span class="va">brk</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"DEM displayed in elevation classes"</span>,</span>
+<span>     legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"topright"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Elevation"</span>,</span>
+<span>       legend <span class="op">=</span> <span class="va">class_labels</span>,</span>
+<span>       fill <span class="op">=</span> <span class="va">cols</span>,</span>
+<span>       bg <span class="op">=</span> <span class="st">"white"</span>,</span>
+<span>       inset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.0</span>, <span class="fl">0.142</span><span class="op">)</span>,</span>
+<span>       cex <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Hint:</strong> The values in <code>inset = c(0.0, 0.142)</code> were found by trying different positions. They specify the horizontal and vertical distances from the plot edges as fractions of the plot width and height. With <code>"topright"</code>, the second value moves the legend downwards. The best position can depend on the size and shape of your graphics window, so you may need to adjust these values. Run <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> again before adding the revised legend to avoid drawing several legends on top of each other.</p>
 <p><strong>d.</strong> Have the raster values changed? Check their range again.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">global</span>(DEM.sub, <span class="st">"range"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="create-a-reclassified-raster" class="level2">
-<h2 class="anchored" data-anchor-id="create-a-reclassified-raster">Create a reclassified raster</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">global</span><span class="op">(</span><span class="va">DEM.sub</span>, <span class="st">"range"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section><section id="create-a-reclassified-raster" class="level2"><h2 class="anchored" data-anchor-id="create-a-reclassified-raster">Create a reclassified raster</h2>
 <p><strong>a.</strong> Read the following code before running it. Explain the meaning of <code>&lt;</code>, <code>&gt;=</code>, <code>&amp;</code> and the square brackets. Which class will contain a value of exactly 650 m?</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>DEM_class <span class="ot">&lt;-</span> DEM.sub</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>DEM_class[DEM.sub <span class="sc">&lt;</span> <span class="dv">500</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>DEM_class[DEM.sub <span class="sc">&gt;=</span> <span class="dv">500</span> <span class="sc">&amp;</span> DEM.sub <span class="sc">&lt;</span> <span class="dv">650</span>] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>DEM_class[DEM.sub <span class="sc">&gt;=</span> <span class="dv">650</span> <span class="sc">&amp;</span> DEM.sub <span class="sc">&lt;</span> <span class="dv">800</span>] <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>DEM_class[DEM.sub <span class="sc">&gt;=</span> <span class="dv">800</span>] <span class="ot">&lt;-</span> <span class="dv">4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">DEM_class</span> <span class="op">&lt;-</span> <span class="va">DEM.sub</span></span>
+<span></span>
+<span><span class="va">DEM_class</span><span class="op">[</span><span class="va">DEM.sub</span> <span class="op">&lt;</span> <span class="fl">500</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">DEM_class</span><span class="op">[</span><span class="va">DEM.sub</span> <span class="op">&gt;=</span> <span class="fl">500</span> <span class="op">&amp;</span> <span class="va">DEM.sub</span> <span class="op">&lt;</span> <span class="fl">650</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="va">DEM_class</span><span class="op">[</span><span class="va">DEM.sub</span> <span class="op">&gt;=</span> <span class="fl">650</span> <span class="op">&amp;</span> <span class="va">DEM.sub</span> <span class="op">&lt;</span> <span class="fl">800</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
+<span><span class="va">DEM_class</span><span class="op">[</span><span class="va">DEM.sub</span> <span class="op">&gt;=</span> <span class="fl">800</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">4</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>b.</strong> Add comments explaining each line, then run the code. Inspect the new raster and the frequency of its class values.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>DEM_class</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">global</span>(DEM_class, <span class="st">"range"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="fu">freq</span>(DEM_class)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">DEM_class</span></span>
+<span><span class="fu">global</span><span class="op">(</span><span class="va">DEM_class</span>, <span class="st">"range"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu">freq</span><span class="op">(</span><span class="va">DEM_class</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>c.</strong> Plot the classified raster. The plotting boundaries below separate the class codes 1, 2, 3 and 4. They are no longer elevation boundaries.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DEM_class,</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> cols,</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="fl">0.5</span>, <span class="fl">4.5</span>, <span class="dv">1</span>),</span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Reclassified elevation raster"</span>,</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">legend =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Elevation"</span>,</span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> class_labels,</span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> cols,</span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">bg =</span> <span class="st">"white"</span>,</span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">inset =</span> <span class="fu">c</span>(<span class="fl">0.0</span>, <span class="fl">0.142</span>),</span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fl">0.8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">DEM_class</span>,</span>
+<span>     col <span class="op">=</span> <span class="va">cols</span>,</span>
+<span>     breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">4.5</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Reclassified elevation raster"</span>,</span>
+<span>     legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"topright"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Elevation"</span>,</span>
+<span>       legend <span class="op">=</span> <span class="va">class_labels</span>,</span>
+<span>       fill <span class="op">=</span> <span class="va">cols</span>,</span>
+<span>       bg <span class="op">=</span> <span class="st">"white"</span>,</span>
+<span>       inset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.0</span>, <span class="fl">0.142</span><span class="op">)</span>,</span>
+<span>       cex <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>d.</strong> Compare <code>DEM.sub</code> and <code>DEM_class</code>.</p>
 <ul>
 <li>Which values are stored in each raster?</li>
 <li>Why can the two maps look the same even though the stored values differ?</li>
 <li>Which raster would you use to calculate the mean elevation?</li>
 <li>Has the number of missing cells changed? Check using <code>global(DEM.sub, "isNA")</code> and <code>global(DEM_class, "isNA")</code>.</li>
-</ul>
-</section>
-<section id="check-the-class-boundaries" class="level2">
-<h2 class="anchored" data-anchor-id="check-the-class-boundaries">Check the class boundaries</h2>
+</ul></section><section id="check-the-class-boundaries" class="level2"><h2 class="anchored" data-anchor-id="check-the-class-boundaries">Check the class boundaries</h2>
 <p><strong>a.</strong> Consider the following values. Assign each value to one of the four classes by hand.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>test_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">499</span>, <span class="dv">500</span>, <span class="dv">649</span>, <span class="dv">650</span>, <span class="dv">799</span>, <span class="dv">800</span>, <span class="dv">1001</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">test_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">499</span>, <span class="fl">500</span>, <span class="fl">649</span>, <span class="fl">650</span>, <span class="fl">799</span>, <span class="fl">800</span>, <span class="fl">1001</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>b.</strong> The following version contains mistakes. Before running it, identify which of your example values you expect to be assigned incorrectly. Then run the code and compare the results with the classes you assigned by hand.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>test_class <span class="ot">&lt;-</span> test_values</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>test_class[test_values <span class="sc">&lt;</span> <span class="dv">500</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>test_class[test_values <span class="sc">&gt;=</span> <span class="dv">500</span> <span class="sc">&amp;</span> test_values <span class="sc">&lt;=</span> <span class="dv">650</span>] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>test_class[test_values <span class="sc">&gt;</span> <span class="dv">650</span> <span class="sc">&amp;</span> test_values <span class="sc">&lt;</span> <span class="dv">800</span>] <span class="ot">&lt;-</span> <span class="dv">3</span></span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>test_class[test_values <span class="sc">&gt;</span> <span class="dv">800</span>] <span class="ot">&lt;-</span> <span class="dv">4</span></span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">elevation =</span> test_values, <span class="at">class =</span> test_class)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">test_class</span> <span class="op">&lt;-</span> <span class="va">test_values</span></span>
+<span></span>
+<span><span class="va">test_class</span><span class="op">[</span><span class="va">test_values</span> <span class="op">&lt;</span> <span class="fl">500</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">test_class</span><span class="op">[</span><span class="va">test_values</span> <span class="op">&gt;=</span> <span class="fl">500</span> <span class="op">&amp;</span> <span class="va">test_values</span> <span class="op">&lt;=</span> <span class="fl">650</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
+<span><span class="va">test_class</span><span class="op">[</span><span class="va">test_values</span> <span class="op">&gt;</span> <span class="fl">650</span> <span class="op">&amp;</span> <span class="va">test_values</span> <span class="op">&lt;</span> <span class="fl">800</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">3</span></span>
+<span><span class="va">test_class</span><span class="op">[</span><span class="va">test_values</span> <span class="op">&gt;</span> <span class="fl">800</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">4</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>elevation <span class="op">=</span> <span class="va">test_values</span>, class <span class="op">=</span> <span class="va">test_class</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>c.</strong> Correct the conditions. For each correction, give an example value showing why it was necessary. Check that every non-missing value is assigned to exactly one intended class.</p>
 <p><strong>Checkpoint:</strong> Your neighbour chooses a value just below, at or just above a class boundary. Explain its assignment using your corrected conditions. Then move the 650 m boundary to 700 m in a copy of your code. Which conditions and legend labels need to change? Check the values 690 and 710 before applying the change to a raster.</p>
 <p><strong>Hint:</strong> A plausible map and a minimum and maximum class code do not prove that every cell has been classified correctly. Small examples help you check what happens at the boundaries.</p>
-<hr>
-</section>
-</section>
-<section id="additional-plotting-options-and-raster-properties" class="level1">
-<h1>7. Additional: Plotting Options and Raster Properties</h1>
+<hr></section></section><section id="additional-plotting-options-and-raster-properties" class="level1"><h1>7. Additional: Plotting Options and Raster Properties</h1>
 <p>The following tasks allow you to explore further options. Continue with them once you have completed the main exercises.</p>
-<section id="add-contour-lines" class="level2">
-<h2 class="anchored" data-anchor-id="add-contour-lines">Add contour lines</h2>
-<p>Use <code>contour()</code> to add contour lines to an existing map. The argument <code>add = TRUE</code> adds them to the current plot.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DEM.sub,</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">terrain.colors</span>(<span class="dv">100</span>),</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Elevation and contour lines"</span>,</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">plg =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Elevation (m)"</span>))</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="fu">contour</span>(DEM.sub, <span class="at">add =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="add-contour-lines" class="level2"><h2 class="anchored" data-anchor-id="add-contour-lines">Add contour lines</h2>
+<p>Use <code><a href="https://rdrr.io/r/graphics/contour.html">contour()</a></code> to add contour lines to an existing map. The argument <code>add = TRUE</code> adds them to the current plot.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">DEM.sub</span>,</span>
+<span>     col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">terrain.colors</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Elevation and contour lines"</span>,</span>
+<span>     plg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Elevation (m)"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/contour.html">contour</a></span><span class="op">(</span><span class="va">DEM.sub</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
 <li>What additional information do the contour lines provide?</li>
 <li>What happens if you omit <code>add = TRUE</code>?</li>
-</ul>
-</section>
-<section id="create-your-own-colour-palette" class="level2">
-<h2 class="anchored" data-anchor-id="create-your-own-colour-palette">Create your own colour palette</h2>
-<p>You may use <code>colorRampPalette()</code> to create a colour ramp. The example below ranges from dark green through light yellow to brown.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>mycols <span class="ot">&lt;-</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"#1B7837"</span>, <span class="st">"#FFFFBF"</span>, <span class="st">"#8C510A"</span>))</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DEM.sub,</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">mycols</span>(<span class="dv">100</span>),</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"DEM with a self-defined colour palette"</span>,</span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">plg =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Elevation (m)"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</ul></section><section id="create-your-own-colour-palette" class="level2"><h2 class="anchored" data-anchor-id="create-your-own-colour-palette">Create your own colour palette</h2>
+<p>You may use <code><a href="https://rdrr.io/r/grDevices/colorRamp.html">colorRampPalette()</a></code> to create a colour ramp. The example below ranges from dark green through light yellow to brown.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">mycols</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html">colorRampPalette</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#1B7837"</span>, <span class="st">"#FFFFBF"</span>, <span class="st">"#8C510A"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">DEM.sub</span>,</span>
+<span>     col <span class="op">=</span> <span class="fu">mycols</span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"DEM with a self-defined colour palette"</span>,</span>
+<span>     plg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Elevation (m)"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p>Try different colours and explain your choice. Does your palette make the order from low to high elevations easy to recognise?</p>
-</section>
-<section id="compare-maps-using-the-same-colour-scale" class="level2">
-<h2 class="anchored" data-anchor-id="compare-maps-using-the-same-colour-scale">Compare maps using the same colour scale</h2>
+</section><section id="compare-maps-using-the-same-colour-scale" class="level2"><h2 class="anchored" data-anchor-id="compare-maps-using-the-same-colour-scale">Compare maps using the same colour scale</h2>
 <p>Plotting two rasters separately can result in different legend ranges. Use the same colours and <code>range</code> if you want the same colour to represent the same elevation in both maps.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>full_range <span class="ot">&lt;-</span> <span class="fu">global</span>(DEM, <span class="st">"range"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>limits <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(full_range[<span class="dv">1</span>, ])</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DEM,</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">terrain.colors</span>(<span class="dv">100</span>),</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">range =</span> limits,</span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Complete DEM"</span>,</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">plg =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Elevation (m)"</span>))</span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DEM.sub,</span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">terrain.colors</span>(<span class="dv">100</span>),</span>
-<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">range =</span> limits,</span>
-<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Subset with the same colour scale"</span>,</span>
-<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">plg =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Elevation (m)"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="add-a-north-arrow-and-a-scale-bar" class="level2">
-<h2 class="anchored" data-anchor-id="add-a-north-arrow-and-a-scale-bar">Add a north arrow and a scale bar</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">full_range</span> <span class="op">&lt;-</span> <span class="fu">global</span><span class="op">(</span><span class="va">DEM</span>, <span class="st">"range"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">limits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">full_range</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">DEM</span>,</span>
+<span>     col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">terrain.colors</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>,</span>
+<span>     range <span class="op">=</span> <span class="va">limits</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Complete DEM"</span>,</span>
+<span>     plg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Elevation (m)"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">DEM.sub</span>,</span>
+<span>     col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">terrain.colors</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>,</span>
+<span>     range <span class="op">=</span> <span class="va">limits</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Subset with the same colour scale"</span>,</span>
+<span>     plg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Elevation (m)"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section><section id="add-a-north-arrow-and-a-scale-bar" class="level2"><h2 class="anchored" data-anchor-id="add-a-north-arrow-and-a-scale-bar">Add a north arrow and a scale bar</h2>
 <p><strong>a.</strong> Add a north arrow using <code>north()</code> and a scale bar using <code>sbar()</code>. The positions below refer to the predefined subset.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(DEM.sub,</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">terrain.colors</span>(<span class="dv">100</span>),</span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Digital Elevation Model of the Black Forest"</span>,</span>
-<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Longitude"</span>,</span>
-<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Latitude"</span>,</span>
-<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">plg =</span> <span class="fu">list</span>(<span class="at">title =</span> <span class="st">"Elevation (m)"</span>))</span>
-<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="fu">north</span>(<span class="at">xy =</span> <span class="fu">c</span>(<span class="fl">8.42</span>, <span class="fl">48.32</span>), <span class="at">type =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"black"</span>, <span class="at">cex =</span> <span class="fl">1.1</span>)</span>
-<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="fu">sbar</span>(<span class="at">d =</span> <span class="dv">5</span>,</span>
-<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">xy =</span> <span class="fu">c</span>(<span class="fl">8.44</span>, <span class="fl">48.315</span>),</span>
-<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"bar"</span>,</span>
-<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">divs =</span> <span class="dv">2</span>,</span>
-<span id="cb39-14"><a href="#cb39-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">lonlat =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb39-15"><a href="#cb39-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">below =</span> <span class="st">"km"</span>,</span>
-<span id="cb39-16"><a href="#cb39-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">cex =</span> <span class="fl">0.8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">DEM.sub</span>,</span>
+<span>     col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">terrain.colors</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Digital Elevation Model of the Black Forest"</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">"Longitude"</span>,</span>
+<span>     ylab <span class="op">=</span> <span class="st">"Latitude"</span>,</span>
+<span>     plg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Elevation (m)"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">north</span><span class="op">(</span>xy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">8.42</span>, <span class="fl">48.32</span><span class="op">)</span>, type <span class="op">=</span> <span class="fl">3</span>, col <span class="op">=</span> <span class="st">"black"</span>, cex <span class="op">=</span> <span class="fl">1.1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">sbar</span><span class="op">(</span>d <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>     xy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">8.44</span>, <span class="fl">48.315</span><span class="op">)</span>,</span>
+<span>     type <span class="op">=</span> <span class="st">"bar"</span>,</span>
+<span>     divs <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>     lonlat <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>     below <span class="op">=</span> <span class="st">"km"</span>,</span>
+<span>     cex <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>b.</strong> Have a look at <code>?north</code> and <code>?sbar</code>. Try changing the positions and sizes.</p>
 <p><strong>Hint:</strong> With <code>lonlat = TRUE</code>, <code>d</code> is given in kilometres. For projected coordinates, check the map units and the help before choosing the scale bar length.</p>
-</section>
-<section id="explore-other-ways-to-inspect-a-raster" class="level2">
-<h2 class="anchored" data-anchor-id="explore-other-ways-to-inspect-a-raster">Explore other ways to inspect a raster</h2>
-<p><strong>a.</strong> Compare the output of <code>summary()</code> with the results from <code>global()</code>.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(DEM.sub)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><strong>Hint:</strong> <code>summary()</code> can use a sample for large rasters. Have a look at any messages and at its help before comparing the values.</p>
+</section><section id="explore-other-ways-to-inspect-a-raster" class="level2"><h2 class="anchored" data-anchor-id="explore-other-ways-to-inspect-a-raster">Explore other ways to inspect a raster</h2>
+<p><strong>a.</strong> Compare the output of <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> with the results from <code>global()</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">DEM.sub</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Hint:</strong> <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> can use a sample for large rasters. Have a look at any messages and at its help before comparing the values.</p>
 <p><strong>b.</strong> Display a boxplot. Which features of the elevation distribution can you recognise?</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(DEM.sub,</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Distribution of elevation values"</span>,</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Elevation (m)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot</a></span><span class="op">(</span><span class="va">DEM.sub</span>,</span>
+<span>        main <span class="op">=</span> <span class="st">"Distribution of elevation values"</span>,</span>
+<span>        ylab <span class="op">=</span> <span class="st">"Elevation (m)"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>c.</strong> Inspect the structure of the object. How does the output differ from simply executing its name?</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(DEM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">DEM</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>d.</strong> Check whether minimum and maximum values are already stored in the raster object. Use <code>setMinMax()</code> to compute and store them if necessary.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hasMinMax</span>(DEM)</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setMinMax</span>(DEM)</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="fu">minmax</span>(DEM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">hasMinMax</span><span class="op">(</span><span class="va">DEM</span><span class="op">)</span></span>
+<span><span class="fu">setMinMax</span><span class="op">(</span><span class="va">DEM</span><span class="op">)</span></span>
+<span><span class="fu">minmax</span><span class="op">(</span><span class="va">DEM</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p><strong>Hint:</strong> <code>setMinMax(DEM)</code> calculates and stores the minimum and maximum elevation if these values are not already available. The elevation values in the raster remain unchanged. You do not need to write <code>DEM &lt;-</code> before this command. Use <code>minmax(DEM)</code> to display the stored minimum and maximum.</p>
-<hr>
-</section>
-</section>
-<section id="homework-seminar-2" class="level1">
-<h1>Homework Seminar 2</h1>
+<hr></section></section><section id="homework-seminar-2" class="level1"><h1>Homework Seminar 2</h1>
 <p>Apply the workflow to a DEM of your choice and extend it to slope and aspect. <strong>Tasks 1-3 are required.</strong> The optional exercises below allow you to explore further representations and classifications.</p>
 <p>Save your commands in a commented R script that produces three maps: elevation, slope and classified aspect. Include brief answers as comments in your script and refer to your own maps and numerical results. No separate written report is needed.</p>
-<section id="choose-and-plot-a-study-area" class="level2">
-<h2 class="anchored" data-anchor-id="choose-and-plot-a-study-area">1. Choose and plot a study area</h2>
+<section id="choose-and-plot-a-study-area" class="level2"><h2 class="anchored" data-anchor-id="choose-and-plot-a-study-area">1. Choose and plot a study area</h2>
 <ul>
-<li>Download a DEM for an area of your choice. You may use <a href="https://earthexplorer.usgs.gov/">USGS EarthExplorer</a>, for example to obtain SRTM data within its coverage.</li>
+<li>Download a DEM for an area of your choice. You may use <a href="https://earthexplorer.usgs.gov/">USGS EarthExplorer</a>, for example to obtain SRTM data within its coverage. For this you need to register. Alternatively, you might download data from the page of <a href="https://srtm.csi.cgiar.org/srtmdata/">CGIAR CSI</a>
+</li>
 <li>Choose a manageable area and create a subset if necessary.</li>
 <li>Note the dataset, source, coordinate reference system, spatial resolution and units of the elevation values. Briefly explain why you chose this area.</li>
 <li>Open the DEM in R and plot it using a continuous colour ramp. Add an informative title and a legend with units.</li>
 </ul>
 <p>Before calculating slope, record your first impression: is the area predominantly flat, moderately sloping or steep? Briefly explain your expectation using landscape features visible in the DEM. Keep this prediction for task 2.</p>
-</section>
-<section id="calculate-slope-and-aspect" class="level2">
-<h2 class="anchored" data-anchor-id="calculate-slope-and-aspect">2. Calculate slope and aspect</h2>
+</section><section id="calculate-slope-and-aspect" class="level2"><h2 class="anchored" data-anchor-id="calculate-slope-and-aspect">2. Calculate slope and aspect</h2>
 <ul>
 <li>Find a function in <code>terra</code> that calculates slope and aspect from a DEM and read its help.</li>
 <li>Before running it, check whether your DEM uses longitude/latitude or projected coordinates. Which elevation units does the function require for this type of coordinate reference system? State the elevation units of your DEM and whether they meet this requirement.</li>
@@ -770,102 +769,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Calculate the median slope of your study area. Compare the slope map and the median with your initial prediction. Two or three sentences are sufficient.</li>
 </ul>
 <p><strong>Hint:</strong> The elevation units of the input DEM and the angular units of the slope and aspect outputs are different things. Your initial prediction does not have to be correct; use your results to reconsider it.</p>
-</section>
-<section id="reclassify-aspect" class="level2">
-<h2 class="anchored" data-anchor-id="reclassify-aspect">3. Reclassify aspect</h2>
+</section><section id="reclassify-aspect" class="level2"><h2 class="anchored" data-anchor-id="reclassify-aspect">3. Reclassify aspect</h2>
 <ul>
 <li>Create a raster with four classes: north-, east-, south- and west-facing slopes. Use sectors centred on the cardinal directions, with explicit boundaries that do not overlap or leave gaps. Preserve missing values as <code>NA</code>.</li>
 <li>Plot the result with a matching legend.</li>
 <li>Briefly explain why north-facing slopes need particular attention when defining the conditions. Why are 1 and 359 degrees similar directions?</li>
 <li>Check your conditions using the values <code>1, 45, 90, 180, 270, 315, 359</code>. First assign each value to a class by hand, then compare your expectations with the output of your code. If they differ, explain and correct the conditions.</li>
-</ul>
-</section>
-<section id="check-your-work" class="level2">
-<h2 class="anchored" data-anchor-id="check-your-work">Check your work</h2>
+</ul></section><section id="check-your-work" class="level2"><h2 class="anchored" data-anchor-id="check-your-work">Check your work</h2>
 <ul>
 <li>Run your script from the beginning in a fresh R session. Does it reproduce your results?</li>
 <li>Check that your three maps have appropriate titles and legends, and that your short answers refer to your own results.</li>
 <li>Bring your script and results to the next seminar. Be prepared to explain one part of your code and make a small change, for example to a subset or class boundary. First predict its effect, then inspect the result.</li>
-</ul>
-</section>
-<section id="optional-exercises" class="level2">
-<h2 class="anchored" data-anchor-id="optional-exercises">Optional exercises</h2>
+</ul></section><section id="optional-exercises" class="level2"><h2 class="anchored" data-anchor-id="optional-exercises">Optional exercises</h2>
 <p>The following exercises are voluntary. Choose any that interest you; you do not need to complete them all.</p>
-<section id="a.-display-slope-using-quantile-classes" class="level3">
-<h3 class="anchored" data-anchor-id="a.-display-slope-using-quantile-classes">A. Display slope using quantile classes</h3>
+<section id="a.-display-slope-using-quantile-classes" class="level3"><h3 class="anchored" data-anchor-id="a.-display-slope-using-quantile-classes">A. Display slope using quantile classes</h3>
 <ul>
 <li>Calculate slope quantiles in 10% steps and use them as plotting boundaries in <code>breaks</code>.</li>
 <li>Check that the boundaries are distinct. If values repeat, use the distinct boundaries and report the resulting number of classes.</li>
 <li>What should be similar across the classes: their slope intervals or their number of valid cells? Use two neighbouring classes from your own result to explain the difference. Repeated values may prevent classes from containing exactly equal numbers of cells.</li>
-</ul>
-</section>
-<section id="b.-display-aspect-using-equal-intervals" class="level3">
-<h3 class="anchored" data-anchor-id="b.-display-aspect-using-equal-intervals">B. Display aspect using equal intervals</h3>
+</ul></section><section id="b.-display-aspect-using-equal-intervals" class="level3"><h3 class="anchored" data-anchor-id="b.-display-aspect-using-equal-intervals">B. Display aspect using equal intervals</h3>
 <ul>
-<li>Display aspect in ten equal intervals from 0 to 360 degrees. Use <code>seq()</code> to define the boundaries and pass them to <code>breaks</code> in <code>plot()</code>.</li>
+<li>Display aspect in ten equal intervals from 0 to 360 degrees. Use <code><a href="https://rdrr.io/r/base/seq.html">seq()</a></code> to define the boundaries and pass them to <code>breaks</code> in <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code>.</li>
 <li>How wide is each interval, and must the classes contain equal numbers of cells?</li>
 <li>Consider the transition across north when choosing colours. Does your palette make directions such as 1 and 359 degrees look similar?</li>
-</ul>
-</section>
-<section id="c.-add-a-class-for-gently-sloping-areas" class="level3">
-<h3 class="anchored" data-anchor-id="c.-add-a-class-for-gently-sloping-areas">C. Add a class for gently sloping areas</h3>
+</ul></section><section id="c.-add-a-class-for-gently-sloping-areas" class="level3"><h3 class="anchored" data-anchor-id="c.-add-a-class-for-gently-sloping-areas">C. Add a class for gently sloping areas</h3>
 <ul>
 <li>Add a fifth class for cells with a slope of less than 5 degrees. It should take priority over the four aspect classes wherever slope and aspect are available. Keep missing or undefined cells as <code>NA</code>.</li>
 <li>Plot the result. Why is aspect less informative for gently sloping areas? Check the function help to find out how it handles aspect for exactly horizontal cells.</li>
 <li>Predict what will happen if you increase the slope threshold from 5 to 10 degrees. Apply the change to a separate result using the same DEM and valid cells. Compare the number of cells in the gently sloping class and explain whether the change matches your prediction.</li>
 </ul>
-<style>
-details.course-code {
-  margin: 1em 0;
-}
-details.course-code > summary {
-  cursor: pointer;
-  color: #2874a6;
-  margin-bottom: 0.5em;
-}
-</style>
-
-<script>
-(function () {
-  function foldCode() {
-    document.querySelectorAll("pre").forEach(function (pre) {
-      if (!pre.querySelector("code") ||
-          pre.closest("details") ||
-          pre.closest(".cell-output")) return;
-
-      const block = pre.parentElement.matches("div.sourceCode")
-        ? pre.parentElement : pre;
-
-      const details = document.createElement("details");
-      details.className = "course-code";
-
-      const summary = document.createElement("summary");
-      summary.textContent = "Show code";
-
-      block.before(details);
-      details.append(summary, block);
-
-      details.addEventListener("toggle", function () {
-        summary.textContent = details.open ? "Hide code" : "Show code";
-      });
-    });
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", foldCode);
-  } else {
-    foldCode();
-  }
-}());
-</script>
 
 
-</section>
-</section>
-</section>
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
     const anchorJS = new window.AnchorJS();
@@ -1266,8 +1201,7 @@ details.course-code > summary {
   });
   </script>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">
 <p><span class="faux-block">© 2023 Fernerkundung und Geoinformatik 1.0</span></p>
 </div>   
@@ -1279,8 +1213,6 @@ details.course-code > summary {
 </div>
   </div>
 </footer>
-
-
 
 
 </body></html>
