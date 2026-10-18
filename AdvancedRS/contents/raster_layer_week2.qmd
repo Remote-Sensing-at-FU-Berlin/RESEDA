@@ -5,6 +5,10 @@ date: "2026-10-18"
 date-format: "MMMM Do, YYYY"
 lang: en
 
+execute:
+  eval: false
+  echo: true
+
 output:
    html_document:
      dev: svg
@@ -15,6 +19,9 @@ output:
      toc: yes
      toc_depth: 3
      toc_float: yes
+     code-fold: true
+     code-summary: "Show code"
+     code-tools: true
 ---
 
 
@@ -113,7 +120,7 @@ We will now explore the same file in R. Saving our commands in a script allows u
 
 **b.** Install the package `terra` if necessary and load it. What is the main purpose of this package?
 
-```r
+```{r}
 # Install the package once, if necessary
 # install.packages("terra")
 
@@ -122,7 +129,7 @@ library(terra)
 
 **c.** Set the working directory to your exercise folder. Replace the example path with the path on your computer. Use `/` or double backslashes `\\` to separate folder names.
 
-```r
+```{r}
 setwd("C:/your/path/Week_02")
 ```
 
@@ -132,13 +139,13 @@ setwd("C:/your/path/Week_02")
 
 **a.** Open the file using `rast()` and assign it to an object named `DEM`.
 
-```r
+```{r}
 DEM <- rast("n48_e008_1arc_v3.tif")
 ```
 
 **b.** Plot the DEM.
 
-```r
+```{r}
 plot(DEM)
 ```
 
@@ -150,7 +157,7 @@ plot(DEM)
 
 **a.** Add a title and axis labels. Use `plg` to add a title to the legend.
 
-```r
+```{r}
 plot(DEM,
      main = "Digital Elevation Model of the Black Forest",
      xlab = "Longitude",
@@ -160,7 +167,7 @@ plot(DEM,
 
 **b.** Use `col` to change the colour palette.
 
-```r
+```{r}
 plot(DEM,
      col = terrain.colors(100),
      main = "Exploring the landscape",
@@ -186,7 +193,7 @@ Before selecting an area for further analysis, we need to know where the raster 
 
 **a.** Display general information on the raster by executing its object name.
 
-```r
+```{r}
 DEM
 ```
 
@@ -196,7 +203,7 @@ DEM
 
 **b.** Use `class()` to check the object class.
 
-```r
+```{r}
 class(DEM)
 ```
 
@@ -206,13 +213,13 @@ class(DEM)
 
 **a.** Use `crs()` to inspect the coordinate reference system.
 
-```r
+```{r}
 crs(DEM)
 ```
 
 **b.** Retrieve the spatial resolution using `res()`.
 
-```r
+```{r}
 res(DEM)
 ```
 
@@ -224,13 +231,13 @@ res(DEM)
 
 **a.** What is the spatial extent of the DEM? Use `ext()` to retrieve its boundaries.
 
-```r
+```{r}
 ext(DEM)
 ```
 
 **b.** Retrieve the western boundary, i.e. the minimum x coordinate.
 
-```r
+```{r}
 ext(DEM)[1]
 ```
 
@@ -246,7 +253,7 @@ We will now take a closer look at part of the landscape. You can use `crop()` to
 
 **a.** Define the boundaries of the following rectangle. The coordinates are given in the same coordinate reference system as the DEM.
 
-```r
+```{r}
 x1 <- 8.4
 x2 <- 8.8
 y1 <- 48.3
@@ -255,7 +262,7 @@ y2 <- 48.5
 
 **b.** Plot the DEM and add the rectangle using `rect()`.
 
-```r
+```{r}
 plot(DEM, col = terrain.colors(100))
 rect(x1, y1, x2, y2, border = "black", lwd = 2)
 ```
@@ -267,14 +274,14 @@ rect(x1, y1, x2, y2, border = "black", lwd = 2)
 
 **a.** Create an extent object. Have a close look at the order of coordinates: `ext()` uses `xmin`, `xmax`, `ymin`, `ymax`. This is different from the order used by `rect()`.
 
-```r
+```{r}
 cropsub <- ext(x1, x2, y1, y2)
 DEM.sub <- crop(DEM, cropsub)
 ```
 
 **b.** Plot the new object.
 
-```r
+```{r}
 plot(DEM.sub,
      col = terrain.colors(100),
      main = "Our study area",
@@ -283,7 +290,7 @@ plot(DEM.sub,
 
 **c.** Compare the properties of `DEM` and `DEM.sub`.
 
-```r
+```{r}
 DEM
 DEM.sub
 
@@ -313,7 +320,7 @@ Have another look at the map of `DEM.sub`. Which elevations seem to occur most f
 
 **a.** Use `hist()` to display the distribution of elevation values.
 
-```r
+```{r}
 hist(DEM.sub,
      main = "Distribution of elevation values",
      xlab = "Elevation (m)",
@@ -327,13 +334,13 @@ hist(DEM.sub,
 
 **b.** Have a look at the argument `maxcell` in the help for the raster histogram. What does it control?
 
-```r
+```{r}
 ?terra::hist
 ```
 
 **c.** Repeat the histogram using all cells in the subset. Compare the shape of the distributions, taking account of the different sample sizes and any differences in the histogram bins.
 
-```r
+```{r}
 hist(DEM.sub,
      main = "Elevation values of the complete subset",
      xlab = "Elevation (m)",
@@ -347,28 +354,28 @@ Use `global()` to calculate statistics across the raster cells. The argument `na
 
 **a.** Minimum
 
-```r
+```{r}
 DEM_min <- global(DEM.sub, "min", na.rm = TRUE)
 DEM_min
 ```
 
 **b.** Maximum
 
-```r
+```{r}
 DEM_max <- global(DEM.sub, "max", na.rm = TRUE)
 DEM_max
 ```
 
 **c.** Range
 
-```r
+```{r}
 DEM_range <- global(DEM.sub, "range", na.rm = TRUE)
 DEM_range
 ```
 
 **d.** Mean and standard deviation
 
-```r
+```{r}
 DEM_mean <- global(DEM.sub, "mean", na.rm = TRUE)
 DEM_sd <- global(DEM.sub, "sd", na.rm = TRUE)
 
@@ -386,14 +393,14 @@ DEM_sd
 
 **a.** Use `global()` with `quantile` to calculate the default quantiles.
 
-```r
+```{r}
 q <- global(DEM.sub, quantile, na.rm = TRUE)
 q
 ```
 
 **b.** Calculate quantiles in 10% steps. Use `seq()` to generate the probabilities.
 
-```r
+```{r}
 q <- global(DEM.sub, quantile,
             probs = seq(0, 1, 0.1),
             na.rm = TRUE)
@@ -424,7 +431,7 @@ We will now distinguish four elevation classes: below 500 m, 500 to below 650 m,
 
 **a.** Define four colours and their labels. Keep the order consistent throughout this section.
 
-```r
+```{r}
 cols <- c("#D9F0A3", "#ADDD8E", "#78C679", "#238443")
 
 class_labels <- c("<500 m", "500 to <650 m",
@@ -433,7 +440,7 @@ class_labels <- c("<500 m", "500 to <650 m",
 
 **b.** Create a vector containing the class boundaries. We use the range calculated above to place the outer boundaries beyond the observed minimum and maximum. The internal boundaries are 500, 650 and 800 m.
 
-```r
+```{r}
 lower <- min(0, DEM_range[1, 1] - 1)
 upper <- max(1000, DEM_range[1, 2] + 1)
 
@@ -446,7 +453,7 @@ brk
 
 **c.** Use `breaks` to display the DEM in classes. Switch off the default legend and add a legend using `legend()`.
 
-```r
+```{r}
 plot(DEM.sub,
      col = cols,
      breaks = brk,
@@ -466,7 +473,7 @@ legend("topright",
 
 **d.** Have the raster values changed? Check their range again.
 
-```r
+```{r}
 global(DEM.sub, "range", na.rm = TRUE)
 ```
 
@@ -474,7 +481,7 @@ global(DEM.sub, "range", na.rm = TRUE)
 
 **a.** Read the following code before running it. Explain the meaning of `<`, `>=`, `&` and the square brackets. Which class will contain a value of exactly 650 m?
 
-```r
+```{r}
 DEM_class <- DEM.sub
 
 DEM_class[DEM.sub < 500] <- 1
@@ -485,7 +492,7 @@ DEM_class[DEM.sub >= 800] <- 4
 
 **b.** Add comments explaining each line, then run the code. Inspect the new raster and the frequency of its class values.
 
-```r
+```{r}
 DEM_class
 global(DEM_class, "range", na.rm = TRUE)
 freq(DEM_class)
@@ -493,7 +500,7 @@ freq(DEM_class)
 
 **c.** Plot the classified raster. The plotting boundaries below separate the class codes 1, 2, 3 and 4. They are no longer elevation boundaries.
 
-```r
+```{r}
 plot(DEM_class,
      col = cols,
      breaks = seq(0.5, 4.5, 1),
@@ -520,13 +527,13 @@ legend("topright",
 
 **a.** Consider the following values. Assign each value to one of the four classes by hand.
 
-```r
+```{r}
 test_values <- c(499, 500, 649, 650, 799, 800, 1001)
 ```
 
 **b.** The following version contains mistakes. Before running it, identify which of your example values you expect to be assigned incorrectly. Then run the code and compare the results with the classes you assigned by hand.
 
-```r
+```{r}
 test_class <- test_values
 
 test_class[test_values < 500] <- 1
@@ -553,7 +560,7 @@ The following tasks allow you to explore further options. Continue with them onc
 
 Use `contour()` to add contour lines to an existing map. The argument `add = TRUE` adds them to the current plot.
 
-```r
+```{r}
 plot(DEM.sub,
      col = terrain.colors(100),
      main = "Elevation and contour lines",
@@ -569,7 +576,7 @@ contour(DEM.sub, add = TRUE)
 
 You may use `colorRampPalette()` to create a colour ramp. The example below ranges from dark green through light yellow to brown.
 
-```r
+```{r}
 mycols <- colorRampPalette(c("#1B7837", "#FFFFBF", "#8C510A"))
 
 plot(DEM.sub,
@@ -584,7 +591,7 @@ Try different colours and explain your choice. Does your palette make the order 
 
 Plotting two rasters separately can result in different legend ranges. Use the same colours and `range` if you want the same colour to represent the same elevation in both maps.
 
-```r
+```{r}
 full_range <- global(DEM, "range", na.rm = TRUE)
 limits <- as.numeric(full_range[1, ])
 
@@ -605,7 +612,7 @@ plot(DEM.sub,
 
 **a.** Add a north arrow using `north()` and a scale bar using `sbar()`. The positions below refer to the predefined subset.
 
-```r
+```{r}
 plot(DEM.sub,
      col = terrain.colors(100),
      main = "Digital Elevation Model of the Black Forest",
@@ -632,7 +639,7 @@ sbar(d = 5,
 
 **a.** Compare the output of `summary()` with the results from `global()`.
 
-```r
+```{r}
 summary(DEM.sub)
 ```
 
@@ -640,7 +647,7 @@ summary(DEM.sub)
 
 **b.** Display a boxplot. Which features of the elevation distribution can you recognise?
 
-```r
+```{r}
 boxplot(DEM.sub,
         main = "Distribution of elevation values",
         ylab = "Elevation (m)")
@@ -648,13 +655,13 @@ boxplot(DEM.sub,
 
 **c.** Inspect the structure of the object. How does the output differ from simply executing its name?
 
-```r
+```{r}
 str(DEM)
 ```
 
 **d.** Check whether minimum and maximum values are already stored in the raster object. Use `setMinMax()` to compute and store them if necessary.
 
-```r
+```{r}
 hasMinMax(DEM)
 setMinMax(DEM)
 minmax(DEM)
@@ -672,7 +679,7 @@ Save your commands in a commented R script that produces three maps: elevation, 
 
 ## 1. Choose and plot a study area
 
-- Download a DEM for an area of your choice. You may use [USGS EarthExplorer](https://earthexplorer.usgs.gov/), for example to obtain SRTM data within its coverage.
+- Download a DEM for an area of your choice. You may use [USGS EarthExplorer](https://earthexplorer.usgs.gov/), for example to obtain SRTM data within its coverage. For this you need to register. Alternatively, you might download data from the page of [CGIAR CSI](https://srtm.csi.cgiar.org/srtmdata/)
 - Choose a manageable area and create a subset if necessary.
 - Note the dataset, source, coordinate reference system, spatial resolution and units of the elevation values. Briefly explain why you chose this area.
 - Open the DEM in R and plot it using a continuous colour ramp. Add an informative title and a legend with units.
@@ -723,50 +730,3 @@ The following exercises are voluntary. Choose any that interest you; you do not 
 - Add a fifth class for cells with a slope of less than 5 degrees. It should take priority over the four aspect classes wherever slope and aspect are available. Keep missing or undefined cells as `NA`.
 - Plot the result. Why is aspect less informative for gently sloping areas? Check the function help to find out how it handles aspect for exactly horizontal cells.
 - Predict what will happen if you increase the slope threshold from 5 to 10 degrees. Apply the change to a separate result using the same DEM and valid cells. Compare the number of cells in the gently sloping class and explain whether the change matches your prediction.
-
-```{=html}
-<style>
-details.course-code {
-  margin: 1em 0;
-}
-details.course-code > summary {
-  cursor: pointer;
-  color: #2874a6;
-  margin-bottom: 0.5em;
-}
-</style>
-
-<script>
-(function () {
-  function foldCode() {
-    document.querySelectorAll("pre").forEach(function (pre) {
-      if (!pre.querySelector("code") ||
-          pre.closest("details") ||
-          pre.closest(".cell-output")) return;
-
-      const block = pre.parentElement.matches("div.sourceCode")
-        ? pre.parentElement : pre;
-
-      const details = document.createElement("details");
-      details.className = "course-code";
-
-      const summary = document.createElement("summary");
-      summary.textContent = "Show code";
-
-      block.before(details);
-      details.append(summary, block);
-
-      details.addEventListener("toggle", function () {
-        summary.textContent = details.open ? "Hide code" : "Show code";
-      });
-    });
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", foldCode);
-  } else {
-    foldCode();
-  }
-}());
-</script>
-```
