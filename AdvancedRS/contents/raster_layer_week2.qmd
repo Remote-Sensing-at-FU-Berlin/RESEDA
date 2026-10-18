@@ -726,3 +726,50 @@ The following exercises are voluntary. Choose any that interest you; you do not 
 - Add a fifth class for cells with a slope of less than 5 degrees. It should take priority over the four aspect classes wherever slope and aspect are available. Keep missing or undefined cells as `NA`.
 - Plot the result. Why is aspect less informative for gently sloping areas? Check the function help to find out how it handles aspect for exactly horizontal cells.
 - Predict what will happen if you increase the slope threshold from 5 to 10 degrees. Apply the change to a separate result using the same DEM and valid cells. Compare the number of cells in the gently sloping class and explain whether the change matches your prediction.
+
+```{=html}
+<style>
+details.course-code {
+  margin: 1em 0;
+}
+details.course-code > summary {
+  cursor: pointer;
+  color: #2874a6;
+  margin-bottom: 0.5em;
+}
+</style>
+
+<script>
+(function () {
+  function foldCode() {
+    document.querySelectorAll("pre").forEach(function (pre) {
+      if (!pre.querySelector("code") ||
+          pre.closest("details") ||
+          pre.closest(".cell-output")) return;
+
+      const block = pre.parentElement.matches("div.sourceCode")
+        ? pre.parentElement : pre;
+
+      const details = document.createElement("details");
+      details.className = "course-code";
+
+      const summary = document.createElement("summary");
+      summary.textContent = "Show code";
+
+      block.before(details);
+      details.append(summary, block);
+
+      details.addEventListener("toggle", function () {
+        summary.textContent = details.open ? "Hide code" : "Show code";
+      });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", foldCode);
+  } else {
+    foldCode();
+  }
+}());
+</script>
+```
