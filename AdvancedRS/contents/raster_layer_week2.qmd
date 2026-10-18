@@ -27,13 +27,15 @@ output:
 
 # Contents
 
-1. Explore a digital elevation model in QGIS
-2. Open and plot raster data in R
-3. Retrieve an object's properties
-4. Subset a raster layer
-5. Describe the landscape using statistics
-6. Display elevation classes and reclassify raster data
-7. Additional: plotting options and raster properties
+1. [Explore a digital elevation model in QGIS](#explore-a-digital-elevation-model-in-qgis)
+2. [Open and plot raster data in R](#open-and-plot-raster-data-in-r)
+3. [Retrieve an object's properties](#retrieve-an-objects-properties)
+4. [Subset a raster layer](#subset-a-raster-layer)
+5. [Describe the landscape using statistics](#describe-the-landscape-using-statistics)
+6. [Display elevation classes and reclassify raster data](#display-elevation-classes-and-reclassify-raster-data)
+7. [Additional: plotting options and raster properties](#additional-plotting-options-and-raster-properties)
+
+- [Homework](#homework-seminar-2)
 
 - Homework
 
