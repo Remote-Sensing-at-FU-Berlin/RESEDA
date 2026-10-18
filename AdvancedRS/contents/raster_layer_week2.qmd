@@ -15,9 +15,6 @@ format:
     fig-format: svg
     fig-height: 4
     fig-width: 6
-    code-fold: true
-    code-summary: "Show code"
-    code-tools: true
 ---
 
 
