@@ -1,7 +1,7 @@
 ---
 title: "Advanced Geomatics - Intro to R - Week 2: Raster Layer"
 author: "Remote Sensing and Geoinformatics, FU Berlin"
-date: "2026-10-17"
+date: "2026-10-18"
 date-format: "MMMM Do, YYYY"
 lang: en
 
@@ -9,19 +9,19 @@ execute:
   eval: false
   echo: true
 
-output:
-   html_document:
-     dev: svg
-     fig_height: 4
-     fig_width: 6
-     number_sections: no
-     theme: cerulean
-     toc: yes
-     toc_depth: 3
-     toc_float: yes
-     code-fold: true
-     code-summary: "Show code"
-     code-tools: true
+format:
+  html:
+    fig-format: svg
+    fig-height: 4
+    fig-width: 6
+    number-sections: false
+    theme: cerulean
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    code-fold: true
+    code-summary: "Show code"
+    code-tools: true
 ---
 
 
