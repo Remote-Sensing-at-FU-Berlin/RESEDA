@@ -15,7 +15,6 @@ format:
     fig-height: 4
     fig-width: 6
     number-sections: false
-    theme: cerulean
     toc: true
     toc-depth: 3
     toc-location: right
