@@ -20,7 +20,9 @@ format:
     toc-location: right
     code-fold: true
     code-summary: "Show code"
-    code-tools: true
+    code-tools:
+      source: false
+      toggle: true
 ---
 
 
