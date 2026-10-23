@@ -1,17 +1,28 @@
 ---
 title: "Crash course week 3: Raster & Vector data"
 author: "Remote Sensing and Geoinformatics, FU Berlin"
+date: "2026-10-23"
+date-format: "MMMM Do, YYYY"
+lang: en
 
-output:
-   html_document:
-     dev: svg
-     fig_height: 4
-     fig_width: 6
-     number_sections: no
-     theme: cerulean
-     toc: yes
-     toc_depth: 3
-     toc_float: yes
+execute:
+  eval: false
+  echo: true
+
+format:
+  html:
+    fig-format: svg
+    fig-height: 4
+    fig-width: 6
+    number-sections: false
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    code-fold: true
+    code-summary: "Show code"
+    code-tools:
+      source: false
+      toggle: true
 ---
 
 # Visualization and further processing of raster and vector data in R
