@@ -741,7 +741,7 @@ window.Quarto = {
 </details>
 </div>
 <p><strong>Modify the map yourself:</strong> Display municipality parts with a mean elevation <strong>below 700 m</strong> in black and those <strong>at or above 700 m</strong> in red. Include a legend and account for missing means. You can adapt the logical selections from section 3, or create a colour vector using <code>ifelse()</code> and <code>is.na()</code>.</p>
-<p><strong>Interpret:</strong> Pick one selected municipality and inspect its terrain. Would its mean elevation be a reasonable substitute for the elevation at a station inside it? Explain using the station location and the variation in terrain.</p>
+<p><strong>Interpret:</strong> Pick one selected municipality and inspect its terrain. Would its mean elevation be a reasonable substitute for the elevation at a station inside it? Explain using the station location and the variation in terrain. Have a look at former plots or in QGIS.</p>
 </section>
 <section id="save-and-check-in-qgis" class="level3">
 <h3 class="anchored" data-anchor-id="save-and-check-in-qgis">5.5 Save and check in QGIS</h3>
@@ -790,7 +790,7 @@ window.Quarto = {
 <li>Keep station identifier, DEM elevation and January temperature in one analysis table. Check that elevation and temperature are numeric, and identify any missing values.</li>
 <li>Select the complete elevation–temperature pairs with <code>complete.cases()</code>. Use the same pairs for the scatterplot, correlation and regression. Report how many stations are included.</li>
 </ol>
-<p>Useful functions: <code>extract()</code>, <code>values()</code>, <code>data.frame()</code>, <code>str()</code>, <code>is.na()</code>, <code>complete.cases()</code> and <code>sum()</code>.</p>
+<p>Useful functions: <code>extract()</code>, <code>values()</code>, <code>data.frame()</code>, <code>str()</code>, <code>lm()</code>, <code>abline()</code>,<code>is.na()</code>, <code>complete.cases()</code> and <code>sum()</code>.</p>
 <p><strong>Hint:</strong> Stations outside the DEM have no extracted elevation. A location inside the DEM can also have a missing raster value. Remove incomplete rows from the combined table so that elevation and temperature remain paired correctly.</p>
 </section>
 <section id="b.-explore-and-fit-the-relationship" class="level3">
@@ -1745,7 +1745,7 @@ window.Quarto = {
 <span id="cb18-449"><a href="#cb18-449" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-450"><a href="#cb18-450" aria-hidden="true" tabindex="-1"></a>**Modify the map yourself:** Display municipality parts with a mean elevation **below 700 m** in black and those **at or above 700 m** in red. Include a legend and account for missing means. You can adapt the logical selections from section 3, or create a colour vector using <span class="in">`ifelse()`</span> and <span class="in">`is.na()`</span>.</span>
 <span id="cb18-451"><a href="#cb18-451" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-452"><a href="#cb18-452" aria-hidden="true" tabindex="-1"></a>**Interpret:** Pick one selected municipality and inspect its terrain. Would its mean elevation be a reasonable substitute for the elevation at a station inside it? Explain using the station location and the variation in terrain.</span>
+<span id="cb18-452"><a href="#cb18-452" aria-hidden="true" tabindex="-1"></a>**Interpret:** Pick one selected municipality and inspect its terrain. Would its mean elevation be a reasonable substitute for the elevation at a station inside it? Explain using the station location and the variation in terrain. Have a look at former plots or in QGIS.</span>
 <span id="cb18-453"><a href="#cb18-453" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-454"><a href="#cb18-454" aria-hidden="true" tabindex="-1"></a><span class="fu">### 5.5 Save and check in QGIS</span></span>
 <span id="cb18-455"><a href="#cb18-455" aria-hidden="true" tabindex="-1"></a></span>
@@ -1786,7 +1786,7 @@ window.Quarto = {
 <span id="cb18-492"><a href="#cb18-492" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Keep station identifier, DEM elevation and January temperature in one analysis table. Check that elevation and temperature are numeric, and identify any missing values.</span>
 <span id="cb18-493"><a href="#cb18-493" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Select the complete elevation–temperature pairs with <span class="in">`complete.cases()`</span>. Use the same pairs for the scatterplot, correlation and regression. Report how many stations are included.</span>
 <span id="cb18-494"><a href="#cb18-494" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-495"><a href="#cb18-495" aria-hidden="true" tabindex="-1"></a>Useful functions: <span class="in">`extract()`</span>, <span class="in">`values()`</span>, <span class="in">`data.frame()`</span>, <span class="in">`str()`</span>, <span class="in">`is.na()`</span>, <span class="in">`complete.cases()`</span> and <span class="in">`sum()`</span>.</span>
+<span id="cb18-495"><a href="#cb18-495" aria-hidden="true" tabindex="-1"></a>Useful functions: <span class="in">`extract()`</span>, <span class="in">`values()`</span>, <span class="in">`data.frame()`</span>, <span class="in">`str()`</span>, <span class="in">`lm()`</span>, <span class="in">`abline()`</span>,<span class="in">`is.na()`</span>, <span class="in">`complete.cases()`</span> and <span class="in">`sum()`</span>.</span>
 <span id="cb18-496"><a href="#cb18-496" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-497"><a href="#cb18-497" aria-hidden="true" tabindex="-1"></a>**Hint:** Stations outside the DEM have no extracted elevation. A location inside the DEM can also have a missing raster value. Remove incomplete rows from the combined table so that elevation and temperature remain paired correctly.</span>
 <span id="cb18-498"><a href="#cb18-498" aria-hidden="true" tabindex="-1"></a></span>
