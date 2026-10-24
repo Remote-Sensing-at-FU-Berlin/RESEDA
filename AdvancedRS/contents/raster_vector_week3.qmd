@@ -419,7 +419,7 @@ plot(temp.clip, add = TRUE, pch = 19, cex = 0.6, col = "black")
 
 **Modify the map yourself:** Display municipality parts with a mean elevation **below 700 m** in black and those **at or above 700 m** in red. Include a legend and account for missing means. You can adapt the logical selections from section 3, or create a colour vector using `ifelse()` and `is.na()`.
 
-**Interpret:** Pick one selected municipality and inspect its terrain. Would its mean elevation be a reasonable substitute for the elevation at a station inside it? Explain using the station location and the variation in terrain.
+**Interpret:** Pick one selected municipality and inspect its terrain. Would its mean elevation be a reasonable substitute for the elevation at a station inside it? Explain using the station location and the variation in terrain. Have a look at former plots or in QGIS.
 
 ### 5.5 Save and check in QGIS
 
@@ -460,7 +460,7 @@ Use the temperature column `temp_2016_1`. Save your commands in a commented R sc
 3. Keep station identifier, DEM elevation and January temperature in one analysis table. Check that elevation and temperature are numeric, and identify any missing values.
 4. Select the complete elevation–temperature pairs with `complete.cases()`. Use the same pairs for the scatterplot, correlation and regression. Report how many stations are included.
 
-Useful functions: `extract()`, `values()`, `data.frame()`, `str()`, `is.na()`, `complete.cases()` and `sum()`.
+Useful functions: `extract()`, `values()`, `data.frame()`, `str()`, `lm()`, `abline()`,`is.na()`, `complete.cases()` and `sum()`.
 
 **Hint:** Stations outside the DEM have no extracted elevation. A location inside the DEM can also have a missing raster value. Remove incomplete rows from the combined table so that elevation and temperature remain paired correctly.
 
