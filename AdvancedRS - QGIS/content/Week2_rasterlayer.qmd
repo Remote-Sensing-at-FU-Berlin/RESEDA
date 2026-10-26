@@ -1,0 +1,322 @@
+---
+title: "Advanced Geomatics - Intro to R - Week 2: Raster layer"
+author: "Remote Sensing and Geoinformatics, FU Berlin"
+output:
+   html_document:
+     dev: svg
+     fig_height: 4
+     fig_width: 6
+     number_sections: no
+     theme: cerulean
+     toc: yes
+     toc_depth: 3
+     toc_float: yes
+---
+
+<!-- FU color style -->
+<style type="text/css">
+h1 { /* Header 1 */color: #6b9e1f;}
+h2 { /* Header 2 */color: #6b9e1f;}
+h3 { /* Header 3 */color: #6b9e1f;}
+.list-group-item.active, .list-group-item.active:focus, 
+.list-group-item.active:hover {background-color: #6b9e1f;}
+.nav>li>a, .nav>li>a:hover, .nav>li>a:focus {color: #6b9e1f;}
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, 
+.nav-pills>li.active>a:focus {background-color: #6b9e1f;}
+</style>
+
+<!-- Expand / Collapse All Button -->
+<div style="margin-bottom: 10px;">
+  <button onclick="expandAll()">Expand All</button>
+  <button onclick="collapseAll()">Collapse All</button>
+</div>
+
+<script>
+function expandAll() {
+  document.querySelectorAll("details").forEach(d => d.open = true);
+}
+function collapseAll() {
+  document.querySelectorAll("details").forEach(d => d.open = false);
+}
+</script>
+
+<style>
+button {
+  background-color: #6b9e1f;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+button:hover {
+  background-color: #55820f;
+}
+</style>
+
+
+## 1. Open and Visualise Raster Data
+
+<details>
+<summary> Adding a raster layer in QGIS:</summary>
+
+- Open QGIS.
+- Click Layer (top menu).
+- Select Add Layer → Add Raster Layer
+- Click Browse.
+- Navigate to your raster file (e.g., .tif, .img, .asc).
+- Select the file.
+- Click Open.
+- Click Add.
+
+</details>
+
+<details>
+<summary> Plot Raster: </summary>
+
+- Select Raster Properties 
+- Symbology
+- Render Type: Single Band Pseudo Color
+- Select required color ramp for plotting DEM
+- What color ramp is best for Plotting the DEM?
+
+<img src="Week3_SS/1.jpg" width="400">
+
+</details>
+
+<details>
+<summary> Just for fun: Visualize your DEM in 3D: </summary>
+
+- Go to View option
+- Select 3D Map View > New 3D Map
+- Click on the setting icon
+- Select DEM as the Terrain
+- Optionally, Hillshade can be added for better shading
+- Hold the shift key and toggle with mouse for a fully interactive 3D Map
+- How are the results affected when changing the vertical scale of the 3D Map?
+
+<img src="Week3_SS/2.jpg" width="400">
+
+</details>
+
+## 2. Create a point vector dataset by importing a table
+<details>
+<summary> Open the file stations_bawue_montly_temp.csv: </summary>
+
+- Layer > Add Layer > Add Delimited Text Layer
+- Select stations_bawue_montly_temp.csv
+- In File Format > Select Custom Delimiters > Tick Semicolon
+- In Geometry Definitions > Select Point Co-ordinates
+- X Field = Lon - Y Field = Lat
+- Click Add
+
+</details>
+
+<details>
+<summary> View the Data Table </summary>
+- Right click on csv file
+- Open attribute table
+
+</details>
+
+<details>
+<summary> Access Longitude and Latitude of a specific station: </summary>
+- Open Attribute Table of the csv file added
+- Select by Expression (ε icon) 
+- Type "Station" = 257
+- Click Select
+- The station will be shown on the map
+
+<img src="Week3_SS/3.jpg" width="400">
+
+</details>
+
+<details>
+<summary> Plot Station Locations and convert in vector points: </summary>
+- Select Processing > Toolbox > Create Points Layers from Table
+- Input your csv file
+- Select X field = Lon - Y field = Lat
+- All station locations are plotted in vector format
+- Export the newly formed vector data in 'ESRI Shapefile' format
+- Is the newly formed vector point file visible on QGIS? If not, explain why?   
+**Hint:** Check Longitude and Latitude
+<!--
+- Fix lattitude and longitude by going in the field calculator for the excel data added and using the expression: to_real(replace("latitude", ',', '.'))
+- This converts the , into . for creating vector points from csv
+-->
+
+</details>
+
+<details>
+<summary> Plot the final raster with vector points: </summary>
+- Vector point layer must be above the raster layer
+- Change can be made to both the raster data and vector point data in properties by editing colour, contrast and hue through symbology
+
+<img src="Week3_SS/3.1.jpg" width="400">
+
+</details>
+
+
+## 3. Read a polygon Dataset
+
+<details>
+<summary> Vizualise the Dataset </summary>
+- Add Vector layer: 'AX_KommunalesGebiet.shp'
+
+<img src="Week3_SS/4.jpg" width="400">
+
+- Open the attribute table and visualize the table
+- Select the fifth polygon, what city is this?
+- Plot the Geislingen polygon by clicking the expression button
+- Type NAME = 'Geislingen' > Select Features
+
+<img src="Week3_SS/5.jpg" width="400">
+
+- This can also be plotted by selecting Geislingen and then inverting all the selection and removing it in order for one specific polygon being plotted
+
+</details>
+
+## 4. Projections, transformations and subsetting
+
+<details>
+<summary> Convert Raster to binary mask layer: </summary>
+- Raster > Raster Calculator
+- Enter Expression ("YOUR_DEM" >= 0)
+- What does this do? Explain your results.
+
+</details>
+
+<details>
+<summary> Polygonize the Raster: </summary>
+- Raster > Conversion > Polygonize (Raster to Vector)
+- Select the newly created boundary DEM file 
+- Click Run
+
+</details>
+
+<details>
+<summary> Clip polygons into the DEM boundary: </summary>
+- Vector > Geoprocessing Tools > Clip
+- Input Layer = District Boundary 
+- Overlay Layer = Raster boundary polygon (VECTORIZED)
+- Click Run
+
+<img src="Week3_SS/6.jpg" width="400">
+
+</details>
+
+## 5. Intersection of Raster Layers and Vector Data
+
+<details>
+<summary> Calculate the mean height of each municipality where a meteorological station is present within the DEM: </summary>
+- Open Geoprocessing Toolbox > Raster Analysis > Zonal Statistics
+- Input Layer = Clipped Municipality Polygons
+- Raster Layer = DEM 
+- Statistics to Calculate = Mean (You can also add min, max, median etc for further analysis)
+- Add a Output column prefix (Eg: DEM_)
+- Run
+- A new Vector file is produced with an added column, which shows the mean height for each meteorological station
+
+<img src="Week3_SS/7.jpg" width="400">
+
+</details>
+
+<details>
+<summary> Plot a diagram: </summary>
+- Open properties for the new vector file with mean height data > Diagrams 
+- Select Histogram of bar chart 
+- Value = DEM_mean
+- Mean height diagram plotted on the polygon.
+- **Hint:** Alternatively you can also use the **Data Plotly** plugin in QGIS for better Plots.
+
+<img src="Week3_SS/8.jpg" width="400">
+
+</details>
+
+<details>
+<summary> Plot a map with all polygons lower than 700 m a.s.l displayed as black polygons, all the other polygons in red colour: </summary>
+- Open symbology for vector layer containing calculated mean height
+- At the top dropdown select **Rule-Based**
+- Add a new rule
+- Label = < 700m
+- Filter expression: "DEM_mean" < 700
+- Set fill colour to black
+- Repeat the process for heights above 700m.
+- What would the Filter Expression be for heights above 700m?
+
+<img src="Week3_SS/9.jpg" width="400">
+
+</details>
+
+
+## Homework
+
+<details>
+<summary> 1. Intersection of raster and vector data [Points] </summary>
+
+We only have the temperature values for some weather stations that are scattered across the DEM. To create a spatially explicit raster of temperature, we will use the well-known relationship of air temperature and elevation which often show a high inverse correlation.
+
+Hence, implement a linear regression between DEM heights and temperature values from January 2016 and use this model to perform a simplistic temperature interpolation. Follow the steps below.
+
+- Extract DEM values at the point data coordinates as vector layer dem.heights using extract().
+
+<!-- Go to Toolbox > Raster Analysis > Sample Raster Values
+Input Raster = DEM
+Input Layer = Points from Table
+
+The resulting output creates a new vector point where a new column is generated for the DEM value at each specific station.
+--> 
+
+- Save the temperature data from January 2016 named temp_2016_1 to a numeric vector.
+
+<!-- Use Refactor Tool to fix 2016_1 to convert it into point instead of a comma. 
+Using the expression: to_real(replace("2016_1", ',', '.'))
+-->
+
+- Plot both numeric vectors in a scatterplot.
+
+<!-- Use Plotly  in QGIS to create scatterplot, using DEM_val as x or y axis and 2016_1 as x or y axis
+-->
+
+- Calculate the correlation and the coefficient of determination (r^2). Use the argument corr("DEM_val", "temp_2016_1") in field calculator for your point layer. Why is this argument necessary?
+
+- Detect the linear regression coefficients using the function lm(y ~ x). Which vector is y, which vector is x? Where is gain and offset stored within the resulting object?
+
+- Add the regression line to the scatterplot using abline().
+
+- Summary of the model
+
+- The coefficients are saved in lin_model$coefficients. How to get the intercept and gain of the linear model?
+
+- Interpolate the temperature data of our study area based on the linear model coefficients you just derived. Hint: It is not necessary to use functions such as predict(). You may apply simple algebra with raster data: e.g.if you would like to transform the height of the DEM from m to cm, simply calculate height.in.cm <- DEM/100
+
+- **Hint:** predict() will not work here as a function based on lm(). We will use the function predict() at a later stage…
+
+- Plot your results in a map.
+
+</details>
+
+<details>
+<summary> 2. Intersection of Raster and Vector Data: </summary>
+
+- Open the polygon dataset AX_KommunalesGebiet.shp in QGIS.
+
+- Determine how many polygons the dataset contains.
+
+- Create a new empty field in the attribute table to store mean elevation values for each polygon.
+
+<details>
+<summary> For each polygon in the dataset: </summary>
+
+- Extract the raster values from the DEM that fall within the polygon boundaries
+- Calculate the mean elevation of those raster values
+- Store the calculated mean value in the corresponding attribute field of that polygon
+
+</details>
+
+- Ensure that all polygons in the dataset are processed so that each polygon has an associated mean elevation value.
+- After completing the calculations, join or keep the computed mean elevation values in the polygon attribute table.
+- Visualize the resulting mean elevation values on a map using an appropriate classification method (for example, graduated colors).
+
+</details>
