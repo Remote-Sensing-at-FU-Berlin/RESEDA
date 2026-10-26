@@ -26,8 +26,9 @@ The seminar is divided into several sections. Select a topic below to open the c
 
 2. [Week 2 – Raster Layers](./contents/raster_layer_week2.qmd)
 
-3. [Week 3 – Raster Layers](./contents/raster_vector_week3.qmd)
+3a. [Week 3 – Raster Layers in R](./contents/raster_vector_week3.qmd)
 
+3b. [Week 3 - Raster Layers in QGIS](/AdvancedRS - QGIS/content/W03_VectorRaster.Rmd)
 
 :::
 :::
