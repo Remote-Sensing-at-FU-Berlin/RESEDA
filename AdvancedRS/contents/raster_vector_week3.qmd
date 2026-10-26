@@ -1,436 +1,542 @@
 ---
-title: "Crash course week 3: Raster & Vector data"
+title: "Advanced Geomatics - Intro to R - Week 3: Raster & Vector Data"
 author: "Remote Sensing and Geoinformatics, FU Berlin"
+lang: en
 
-output:
-   html_document:
-     dev: svg
-     fig_height: 4
-     fig_width: 6
-     number_sections: no
-     theme: cerulean
-     toc: yes
-     toc_depth: 3
-     toc_float: yes
+execute:
+  eval: false
+  echo: true
+
+format:
+  html:
+    fig-format: svg
+    fig-height: 4
+    fig-width: 6
+    number-sections: false
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    code-fold: true
+    code-summary: "Show code"
+    code-tools: true
+    code-copy: true
+    code-link: false
 ---
 
-# Visualization and further processing of raster and vector data in R
+## Contents {.unnumbered}
 
-## Contents
+- [This week](#this-week)
+- [Preparation](#preparation)
+- [Function reference](#function-reference)
+- [Start in QGIS: explore the three datasets](#qgis-start)
 
-1. Open and visualize raster data
+1. [Open and visualise the DEM in R](#open-dem)
+2. [From a table to a point dataset](#table-to-points)
+3. [Read and explore municipality polygons](#read-polygons)
+4. [Match coordinate systems and spatial extents](#crs-and-subsetting)
+5. [Combine raster and vector data](#raster-vector)
 
-2. Create a point vector dataset by importing a table
+- [Homework: elevation and January temperature](#homework)
+- [Optional extension: repeat an operation with a loop](#optional-loop)
 
-3. Read a polygon shapefile
+## This week {#this-week}
 
-4. Projections, transformations and subsetting
+Last week, you explored an elevation raster. This week, you will combine it with weather stations and municipality boundaries. Our guiding question is:
 
-5. Intersection of raster and vector data
+**What can an elevation model tell us about weather stations and municipalities, and how could we use it to estimate temperature?**
 
-- Homework
+By the end of this session, you should be able to:
 
----
+- turn a table of coordinates and measurements into a spatial point dataset;
+- inspect vector attributes and select features by attributes or location;
+- explain the difference between assigning a coordinate reference system (CRS), transforming coordinates and cropping data;
+- extract raster values for points and polygons, and explain what the resulting numbers represent.
 
-# This week 
+The homework connects these skills with a simple linear model. The loop exercise is an optional extension.
 
-This week we will get basic knowledge how to work with vector data in R and how to intersect vector and raster data. You will work with three datasets: * You already know the elevation data. * Additionally you will work with a polygon dataset showing the municipalities in this area. * Moreover, you are going to work with a table that consists of meteorological data in the study area. You will learn how to create a point vector layer from this table.
+::: {.callout-tip}
+## How to work with this chapter
 
-You will learn how to work with vector data, e.g. how to have a look at the attribute table and how to select specific vector data. Moreover, you will see how to extract information from a raster layer for the vector data.
+Try each task before opening the code example. Before running a command, predict what it will return; afterwards, check the result. Write short answers to the interpretation questions as comments in your R script. Be prepared to explain and change your code during the seminar.
 
-We will also have a look how “loops” can be implemented and you will try to create a loop yourself.
+If you get stuck, identify the first command that does not work and inspect the objects it uses. Ask during the seminar or use the course discussion forum; include the relevant code and the exact error message.
+:::
 
----
+## Preparation {#preparation}
 
-# Preparation
+Create and save a new R script for week 3. Use the working-directory approach from week 2.
 
-- Open a new R-file and save it. Fill in and run the requested R commands and comment as you like. Please, try to solve the exercises on your own before you have a look at the solution.
+Download the exercise data from [FU Box – Week 3 data](https://box.fu-berlin.de/s/dSPFDwHXZfcnK67) and save them in your working directory. If you download a ZIP archive, extract it before opening the files. The examples below assume that these files are in your working directory:
 
-- Install the package terra if required and load it.
+| File | Content |
+|---|---|
+| `n48_e008_1arc_v3.tif` | The SRTM elevation raster used in week 2 |
+| `stations_bawue_montly_temp.csv` | Station coordinates and monthly temperature data |
+| `AX_KommunalesGebiet.shp` and its accompanying files | Municipality polygons and their attributes |
 
-```r
-#install.packages("terra")
+Keep the spelling `montly` in the CSV filename: it is the name used in the course data. Keep all files belonging to the shapefile together, including the `.shx`, `.dbf` and `.prj` files supplied with it.
+
+This chapter uses **terra** and base R. Install `terra` only if it is not already installed, then load it. Check that R can see your input files.
+
+```{r}
+# Install once, if needed:
+# install.packages("terra")
 
 library(terra)
+
+getwd()
+list.files()
+
+# If necessary, adapt this path before using it:
+# setwd("Y:/Path/To/Your/WorkingDirectory")
+
+dir.create("output", showWarnings = FALSE)
 ```
 
-- Set the working directory to the folder where today's data are located on your computer. Remember to use the right folder delimiter (`\\` or `/`)
+## Function reference {#function-reference}
 
-```r
-setwd('Y:\\Path\\To\\Your\\Workingdirectory')
-```
 
----
+Use R's help pages, for example `?terra::extract`, to inspect arguments and return values. Further documentation:
 
-# 1. Open and Visualise Raster Data
+- [terra: creating vector objects](https://rspatial.github.io/terra/reference/vect.html)
+- [terra: coordinate reference systems](https://rspatial.github.io/terra/reference/crs.html) and [coordinate transformations](https://rspatial.github.io/terra/reference/project.html)
+- [terra: cropping](https://rspatial.github.io/terra/reference/crop.html) and [spatial selection](https://rspatial.github.io/terra/reference/subset_single.html)
+- [terra: extracting raster values](https://rspatial.github.io/terra/reference/extract.html)
+- [R: importing tables](https://stat.ethz.ch/R-manual/R-devel/library/utils/html/read.table.html) and [linear models](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html)
 
-- Open the DEM from the last seminar n48_e008_1arc_v3.tif by using the function `rast()`.
+For later work: raster prediction with fitted models is also supported by [`terra::predict()`](https://rspatial.github.io/terra/reference/predict.html), including linear models when predictor names match. This exercise uses raster algebra to make the equation explicit.
 
-```r
+## Start in QGIS: explore the three datasets {#qgis-start}
+
+Spend about **15–20 minutes** getting to know the data before processing them in R. The steps below also work if you are new to QGIS. Menu names are given in English.
+
+### A. Open QGIS and add the map layers
+
+1. Start QGIS and choose **Project → New**. The central area displays your map; the **Layers** panel lists its datasets. If this panel is missing, enable it under **View → Panels → Layers**.
+2. Drag `n48_e008_1arc_v3.tif` from your file manager into the map area. This is the digital elevation model (**DEM**): each raster cell stores an elevation value.
+3. Drag `AX_KommunalesGebiet.shp` into the map area. Add the `.shp` file only, but keep its accompanying files in the same folder. Each polygon represents a municipality area.
+4. Right-click the DEM in the Layers panel and choose **Zoom to Layer**. Use the mouse wheel to zoom; select the **Pan Map** tool (hand icon) and drag to move around.
+
+### B. Make the elevation raster visible beneath the boundaries
+
+1. In the Layers panel, drag the municipality layer above the DEM. Layers higher in the list are drawn on top.
+2. Right-click the municipality layer and choose **Properties → Symbology**. With **Single Symbol** selected, click the symbol preview, then select **Simple Fill** in the symbol layer tree.
+3. Set **Fill style** to **No brush** and retain a visible stroke colour and solid stroke. Click **OK** to close the dialogs. You should now see municipality outlines over the DEM.
+
+### C. Add the weather stations from the CSV
+
+1. Choose **Layer → Add Layer → Add Delimited Text Layer**. Browse to `stations_bawue_montly_temp.csv`.
+2. Under **File format**, choose **Custom delimiters**, select **Semicolon** and clear the other delimiters. Enable **First record has field names**, **Detect field types** and **Decimal separator is comma**. Check that the preview separates the fields correctly.
+3. Under **Geometry definition**, choose **Point coordinates** and set **X field = `Lon`**, **Y field = `Lat`**. For **Geometry CRS**, select **EPSG:4326 – WGS 84**, using the CRS selector to search for `4326` if needed. This is the longitude/latitude CRS used for the station coordinates in this exercise.
+4. Click **Add**, then **Close**. Drag the station layer to the top of the Layers panel. If the points are difficult to see, open its **Properties → Symbology** and choose a contrasting colour, such as red.
+
+### D. Explore the information behind the map
+
+Right-click the station layer and select **Open Attribute Table**. Each row describes a station; the columns contain its attributes. Find `Station`, `Lon`, `Lat` and the temperature fields. Close the table, then open the municipality layer's attribute table and locate the name field `NAME`.
+
+### E. Check the coordinate reference systems
+
+A **coordinate reference system (CRS)** defines how coordinate values relate to locations on Earth. Geographic CRSs use longitude and latitude in degrees; projected CRSs use coordinates on a flat map, often in metres.
+
+For an introduction, see [QGIS: Coordinate Reference Systems](https://docs.qgis.org/3.44/en/docs/gentle_gis_introduction/coordinate_reference_systems.html#).
+
+For each of the three layers, right-click its name and open **Properties → Information**. Find the CRS and note its name and coordinate units. An **EPSG code**, where shown, identifies a particular CRS. Record each layer's CRS; the project CRS shown at the bottom of the QGIS window describes the map display.
+
+Save your project with **Project → Save As**, for example as `week3_exploration.qgz` in your course folder.
+
+**Observe and explain:**
+
+- Does the DEM cover all stations and all municipalities?
+- Are the stations spread evenly across the area and across low and high terrain?
+- Which information belongs to an individual station, and which belongs to a municipality?
+- If the layers align on screen, does that prove that their stored coordinates use the same CRS?
+
+Keep these observations: you will check them in R.
+
+## 1. Open and visualise the DEM in R {#open-dem}
+
+### Reuse what you learned last week
+
+Read the DEM with `rast()`, inspect it and produce an elevation map. Give the raster layer the name `elevation_m` so that you can recognise its values in later extraction tables.
+
+```{r}
 DEM <- rast("n48_e008_1arc_v3.tif")
+names(DEM) <- "elevation_m"
+
+DEM
+crs(DEM, describe = TRUE)
+res(DEM)
+ext(DEM)
+
+plot(DEM,
+     main = "SRTM elevation",
+     col = terrain.colors(25),
+     plg = list(title = "Elevation (m)"))
 ```
 
-- Plot the DEM using `plot()`
+**Check your understanding:** Are the horizontal coordinate units the same as the units of the elevation values? Explain why a raster can have a resolution expressed in degrees while its cell values represent metres.
 
-```r
-plot(DEM, main="Digital Elevation Model (SRTM)", col=terrain.colors(25))
-```
+## 2. From a table to a point dataset {#table-to-points}
 
-- Just for fun: Two further functions to visualize raster data such as DEMs. Use the functions `levelplot()` and `plot3D()` from the package `rasterVIS`. You will also need to install the raster package. With `plot3D()` a new window opens showing a 3D perspective of the DEM. You may change the view, zoom level etc. by using your mouse wheel. Unfortunately, `plot3D()` only works with a RasterLayer object (format of raster layers with the library (`raster()`) and not with a `SpatRaster` object as used with the `terra` library. Therefore we need to change the data type using the function `raster()`
+### 2.1 Read and inspect the table
 
-```r
-install.packages("rasterVis")
-library(rasterVis)
+Look at the first few lines of `stations_bawue_montly_temp.csv` in a text editor. Which characters separate fields and decimal places?
 
-install.packages("raster")
-library(raster)
+Compare `read.csv()` and `read.csv2()` using their help pages. Choose the function that matches this table, then inspect the result.
 
-levelplot(DEM)
+```{r}
+# read.csv():  sep = ",", dec = "."
+# read.csv2(): sep = ";", dec = ","
+temp <- read.csv2("stations_bawue_montly_temp.csv")
 
-# Convert raster from "SpatRaster" (the terra format) to "RasterLayer" (the raster format; the package raster will not be maintained in # the future)
-DEM.raster <- raster(DEM)
-plot3D(DEM.raster)
-
-# we may detach packages if we do not require them anymore
-detach(package:rasterVis)
-detach(package:raster)
-```
-
-- Just for fun II: Create an interactive display of spatial objects using the function `mapview()` from the package `mapview`. The data are displayed interactively in an html-widget. You may change the zoom level, the background data and may as well switch the displayed data set on and off. Also here we are working with `RasterLayer`.
-
-```r
-install.packages('mapview')
-library(mapview)
-library(raster)
-mapview(raster(DEM))
-
-# we may detach packages if we do not require them anymore
-detach(package:mapview)
-detach(package:raster)
-```
-
----
-
-# 2. Create a point Vector dataset by importing a table
-
-- Open the file `stations_bawue_montly_temp.csv`.
-
-**a.** What is the difference between the functions `read.csv()` and `read.csv2()?`
-
-```r
-# Both functions read tables that are saved in csv-format. They differ in the column separator and the decimal sign. 
-    
-# ``read.csv(file, header = TRUE, sep = ",", quote = "\"", dec = ".", fill = TRUE, comment.char = "", ...)``
-
-# ``read.csv2(file, header = TRUE, sep = ";", quote = "\"", dec = ",", fill = TRUE, comment.char = "", ...)``
-```
-
-**b.** Which function is needed here?
-
-```r
-    temp <- read.csv2("stations_bawue_montly_temp.csv")
-```
-
-- Which kind of datatype are we dealing with?
-
-```r
 class(temp)
-```
-
-- Have a look at the table using the function `View()`
-
-```r
-View(temp)
-```
-
-- How does the structure of the table look like?
-
-```r
+head(temp)
+names(temp)
 str(temp)
 ```
 
-- How can we access the longitude and latitude of the table? Save them to the objects x (longitude) and y (latitude).
+**Check:** There should be separate columns, and `Lon`, `Lat` and temperature measurements should be numeric. A successful import does not automatically mean that the table was read correctly. If these checks fail, revisit the separators before continuing.
 
-```r
-y <- temp$Lat
+Use `View(temp)` in RStudio if you want to browse the complete table.
+
+### 2.2 Access values and plot the coordinates
+
+Retrieve the longitude and latitude of station **257**. Then draw a scatterplot of all station coordinates, with informative axis labels.
+
+```{r}
+temp[temp$Station == 257, c("Station", "Lon", "Lat")]
+
 x <- temp$Lon
+y <- temp$Lat
+
+plot(x, y,
+     xlab = "Longitude (degrees)",
+     ylab = "Latitude (degrees)",
+     main = "Station coordinates",
+     pch = 19)
 ```
 
-- How can we access the longitude and latitude of a specific station, e.g. the station with the ID 257.
+**Explain:** Does this scatterplot already make `temp` a spatial dataset? What information would R still need to interpret these coordinates geographically?
 
-```r
-temp$Lat[temp$Station == 257]
+### 2.3 Create a point layer
+
+Use `vect()` to turn the table into a `SpatVector`. In `geom`, provide the coordinate columns in **x, y order**: longitude first, latitude second.
+
+First check whether any coordinate pairs are missing. Rows without a complete pair cannot provide point locations; report their number and omit them from the point layer. Do not remove a station merely because a temperature measurement is missing.
+
+```{r}
+valid_xy <- complete.cases(temp[, c("Lon", "Lat")])
+sum(!valid_xy)
+
+temp.point <- vect(temp[valid_xy, ],
+                   geom = c("Lon", "Lat"),
+                   crs = "EPSG:4326")
+
+temp.point
+class(temp.point)
+head(values(temp.point))
+head(crds(temp.point))
 ```
 
-- Plot the stations` locations. Do this by creating a scatter plot using the plot() function.
+The CRS describes what the existing coordinates mean. Here, EPSG:4326 follows the WGS 84 assumption in the course exercise. For another dataset, check its source metadata before assigning a CRS.
 
-```r
-plot(x,y)
-   
-#alternative
-plot(temp$Lon, temp$Lat)
-```
+**Change and explain:** What would go wrong if you reversed `Lon` and `Lat`? Would assigning a different CRS label correct that mistake?
 
-- We may create a point vector data layer using `vect()` and the arguments `geom=` and `crs=`.
+## 3. Read and explore municipality polygons {#read-polygons}
 
-```r
-temp.point <- vect(temp, geom=c("Lon","Lat"), crs="+proj=longlat +datum=WGS84")
-```
+Read `AX_KommunalesGebiet.shp` using `vect()`. Inspect its geometry and attribute table.
 
-- Write the shapefile to disc using `writeVector()`.
-
-```r
-writeVector(temp.point,"temp_points.shp",layer = "points_temp", overwrite = TRUE)
-```
-
-- We may access the table of the dataset using e.g. `data.frame()` and `values()`.
-
-```r
-data.frame(temp.point)
-values(temp.point)
-```
-
-- Display the point and raster data in one plot. First, plot the DEM. Afterwards use the argument `add=TRUE` for adding the points on top of the DEM. Use the arguments `pch`, `cex` and `col` to display the points in an appropriate manner.
-
-```r
-plot(DEM, main="Digital Elevation Model (DEM)", col=terrain.colors(25))
-plot(temp.point, add=TRUE, pch=19, cex=1)
-```
-
----
-
-# 3. Read a Polygon Dataset
-
-- Open and visualize the shapefile `AX_KommunalesGebiet.shp`.
-
-```r
+```{r}
 poly <- vect("AX_KommunalesGebiet.shp")
+
+poly
+nrow(poly)
+names(poly)
+head(values(poly))
+
+plot(poly, main = "Municipality polygons")
 ```
 
-Which information is provided in the attribute table?
+Find the field containing municipality names. The examples use `NAME`.
 
-```r
-values(poly)
+### Select by row and by attribute
+
+Plot the fifth feature. Then select and plot the feature or features named **Geislingen**. Check the spelling in the attribute table if the selection is empty.
+
+```{r}
+plot(poly[5, ], main = "Feature in row 5")
+
+geislingen <- poly[poly$NAME == "Geislingen", ]
+nrow(geislingen)
+plot(geislingen, main = "Selection by municipality name")
 ```
 
-- You may also have a look at the column names using the function `names()`
+**Try it yourself:** Select a different municipality by name.
 
-```r
-names(values(poly))
+**Explain:** What do the parts before and after the comma in `poly[5, ]` refer to? Why might a name select more than one feature, and why is row 5 not a permanent municipality identifier?
+
+## 4. Match coordinate systems and spatial extents {#crs-and-subsetting}
+
+### 4.1 Diagnose before transforming
+
+Predict whether the original layers can be combined directly with `plot(..., add = TRUE)`. Inspect their coordinate systems and extents first.
+
+```{r}
+crs(DEM, describe = TRUE)
+crs(temp.point, describe = TRUE)
+crs(poly, describe = TRUE)
+
+ext(DEM)
+ext(temp.point)
+ext(poly)
 ```
 
-- Visualize the shapefile `AX_KommunalesGebiet.shp`.
+Compare CRS names or identifiers and coordinate units. Large differences in coordinate magnitudes can be a clue, but do not identify a CRS on their own.
 
-```r
-plot(poly)
+QGIS can transform layers for display without changing their stored coordinates. For the R overlays below, explicitly bring the vector layers into the DEM's CRS before plotting them together.
+
+### 4.2 Transform the vector layers
+
+Use `terra::project()` and the DEM's CRS as the target. The original objects remain available for comparison. If the points already use the target CRS, their positions should remain unchanged.
+
+```{r}
+temp.dem <- terra::project(temp.point, crs(DEM))
+poly.dem <- terra::project(poly, crs(DEM))
+
+crs(temp.dem, describe = TRUE)
+crs(poly.dem, describe = TRUE)
+
+plot(DEM, col = terrain.colors(25), main = "DEM, municipalities and stations")
+plot(poly.dem, add = TRUE, col = NA, border = "grey30")
+plot(temp.dem, add = TRUE, pch = 19, cex = 0.7, col = "red")
 ```
 
-- Plot the fifth polygon.
+::: {.callout-important}
+## Assigning a CRS is not transforming coordinates
 
-```r
-plot(poly[5,])
+`crs(poly) <- crs(DEM)` would replace the CRS description while leaving the coordinate numbers unchanged. It is not a way to transform the polygons. `project()` calculates coordinates in the target CRS using the known source CRS.
+
+Here we transform the vectors to the DEM's CRS. Reprojecting the raster would require estimating values on a new grid.
+:::
+
+**Explain:** Why are the polygons drawn without a fill, and why are the stations plotted last?
+
+### 4.3 Crop to the DEM extent
+
+The layers now use a common CRS, but they may still cover different areas. Crop the polygons and points to the DEM's rectangular extent.
+
+```{r}
+poly.clip <- crop(poly.dem, ext(DEM))
+temp.clip <- crop(temp.dem, ext(DEM))
+
+nrow(poly.dem)
+nrow(poly.clip)
+nrow(temp.dem)
+nrow(temp.clip)
+
+plot(DEM, col = terrain.colors(25), main = "Layers within the DEM extent")
+plot(poly.clip, add = TRUE, col = NA, border = "grey30")
+plot(temp.clip, add = TRUE, pch = 19, cex = 0.7, col = "red")
 ```
 
-- Plot the polygon of “Geislingen”.
+**Inspect the edges:** Which municipalities have been cut by the boundary of the DEM? Does `crop()` keep their original boundaries? Does being inside the raster's extent guarantee that a location has a non-missing elevation value?
 
-```r
-plot(poly[poly$NAME=="Geislingen",])
+::: {.callout-note}
+## What area will your statistics describe?
+
+For a municipality that crosses the DEM boundary, a mean computed from `poly.clip` describes only its part inside the DEM, using the available elevation cells. It is not necessarily the mean of the whole municipality.
+:::
+
+## 5. Combine raster and vector data {#raster-vector}
+
+### 5.1 Select municipalities that intersect stations
+
+Predict what this spatial selection returns. Run it, inspect the number of features and plot the result.
+
+```{r}
+poly.stations <- poly.clip[temp.clip, ]
+
+nrow(poly.stations)
+plot(poly.clip, col = "grey95", border = "grey70",
+     main = "Municipalities intersecting station locations")
+plot(poly.stations, add = TRUE, col = "lightblue", border = "grey30")
+plot(temp.clip, add = TRUE, pch = 19, cex = 0.7, col = "red")
 ```
 
----
+**Explain:** Why might the number of selected municipalities differ from the number of stations? Consider several stations in one municipality and a station exactly on a shared boundary. If the selection is empty, check coordinates, CRS and spatial overlap before proceeding.
 
-4. Prijections, Transformations and Subsetting
+### 5.2 Inspect the extracted values for one polygon
 
-- Try to display the DEM, the stations and the administrative boundaries in one plot. Remember to use the argument `add=TRUE` where appropriate. Does it work?
+Use `extract()` on the first selected polygon. Inspect only the first rows of the result, rather than printing every cell value.
 
-```r
-plot(DEM, main="Digital Elevation Model (DEM)", col=terrain.colors(25))
-plot(temp.point, add=TRUE, pch=19, cex=0.5)
-plot(poly, add= TRUE)
+```{r}
+DEM.one <- extract(DEM, poly.stations[1, ])
+
+class(DEM.one)
+head(DEM.one)
+nrow(DEM.one)
 ```
 
-- Have a look at the coordinate systems of the three datasets using the function `crs()`.
+**Explain:** What does one row represent? Which column contains elevation? Why is the result a table rather than a polygon layer?
 
-```r
-crs(DEM)
-crs(temp.point)
-crs(poly)
+### 5.3 Calculate and attach mean elevations
+
+Use `fun = mean` to obtain one summary value per polygon. Use `na.rm = TRUE` to omit missing raster values from each mean.
+
+```{r}
+DEM.poly.mean <- extract(DEM, poly.stations,
+                         fun = mean, na.rm = TRUE)
+
+head(DEM.poly.mean)
+nrow(DEM.poly.mean)
 ```
 
-- We may also test for equality of the coordinate systems.
+The `ID` column returned here refers to the **row number in the vector object passed to `extract()`**, not to an official municipality identifier. Keep the polygon order unchanged and check the correspondence before attaching the result.
 
-```r
-crs(DEM) == crs(poly)
-```
+```{r}
+stopifnot(nrow(DEM.poly.mean) == nrow(poly.stations))
+stopifnot(all(DEM.poly.mean$ID == seq_len(nrow(poly.stations))))
 
-- We need to make sure, that the coordinate systems are the same. There is no “on-the-fly” transformation of projections as you may know it from ArcMAP or QGIS. Reproject the polygon data to coordinate systems of the DEM or points, respectively, applying the function `project()`. This function exists in different packages. Depending on the order of loading the packages, you may be warned that a function is masked. In this case we need to specify the package: `terra::project()`. An alternative is to detach packages as we have done before.
-
-```r
-poly.latlon <- terra::project(poly,crs(DEM))
-```
-
-- Try again to plot the three datasets in onec plot. Hint: Order matters...
-
-```r
-plot(DEM, main="Digital Elevation Model (DEM)", col=terrain.colors(25))
-plot(poly.latlon, add= TRUE)
-plot(temp.point, add=TRUE, pch=19, cex=1.5, col="red")
-```
-
-The geographic extent of the data do not match. Create a geographic subset of the polygon data that matches the DEM using `crop()`. We used this function also last week. This week it is even easier as we can simply use the extent of another spatial dataset (here the DEM) to which the polygon data are clipped.
-
-```r
-poly.clip <- crop(poly.latlon, DEM)
-```
-
-- Plot the three datasets in one plot.
-
-```r
-plot(DEM, main="Digital Elevation Model (DEM)", col=terrain.colors(25))
-plot(poly.clip, add= TRUE)
-plot(temp.point, add=TRUE, pch=19, cex=1.5, col="red")
-```
-
----
-
-# 5. Intersection of Raster and Vector Data
-
-Calculate the mean height of each municipality where a meteorological station exists.
-
-**a.** What is happening here?
-
-```r
-poly.stations <- poly.clip[temp.point,]
-plot(poly.stations)
-```
-
-**b.** Extract the values of the DEM for every polygon using the `extract()` function. Be patient, this may take a little while...
-
-Even though `terra` seems to make this function a lot faster. So maybe only time for one espresso.
-
-Have a look at the resulting object. Which data are included? Is it still a spatial data set? Have a look at the class of the variable.
-
-```r
-DEM.poly <- extract(DEM, poly.stations)
-```
-
-**c.** Use the function `extract()` to calculate the mean height. Which is the resulting class fo the created object?
-
-```r
-DEM.poly.mean <- extract(DEM, poly.stations, fun=mean)
-```
-
-**d.** The mean values are stored in a data.frame. If we would like to link the polygons and the mean values we need to join these data. We are doing this by adding a new column to the data table of the polygon data set.
-
-```r
-values(poly.stations) <- data.frame(values(poly.stations), hoehe=DEM.poly.mean[,2])
-
-# check that new column was added to the data:
+poly.stations$mean_elev_m <- DEM.poly.mean$elevation_m
 head(values(poly.stations))
+summary(poly.stations$mean_elev_m)
 ```
 
-**e.** Plot the height values in a diagram.
+**Explain:** What would happen without `na.rm = TRUE` if a polygon included missing DEM values? If it had no valid values at all, would removing missing values create a meaningful mean?
 
-```r
-poly.stations$hoehe
-plot(poly.stations$hoehe)
+These are means of the extracted cell values. They are not exact area-weighted estimates: cell inclusion at polygon boundaries and varying cell areas in a longitude/latitude grid can affect the result.
+
+### 5.4 Visualise and interpret the results
+
+Create a map of mean elevation for the selected municipality parts.
+
+```{r}
+plot(poly.stations, "mean_elev_m",
+     main = "Mean elevation of municipality parts within the DEM",
+     plg = list(title = "Mean elevation (m)"))
+plot(temp.clip, add = TRUE, pch = 19, cex = 0.6, col = "black")
 ```
 
-**f.** Plot a map with all polygons lower than 700 m a.s.l displayed as black polygons, all the other polygons in red colour.
+**Modify the map yourself:** Display municipality parts with a mean elevation **below 700 m** in black and those **at or above 700 m** in red. Include a legend and account for missing means. You can adapt the logical selections from section 3, or create a colour vector using `ifelse()` and `is.na()`.
 
-```r
-plot(poly.stations[poly.stations$hoehe < 700,], col ="black")
-plot(poly.stations[poly.stations$hoehe > 700,], col ="red", add=TRUE)
+**Interpret:** Pick one selected municipality and inspect its terrain. Would its mean elevation be a reasonable substitute for the elevation at a station inside it? Explain using the station location and the variation in terrain. Have a look at former plots or in QGIS.
+
+### 5.5 Save and check in QGIS
+
+Export the selected polygons with their new attribute, and the stations within the DEM extent, as GeoPackages. The following commands overwrite these output files if you rerun them.
+
+```{r}
+writeVector(poly.stations, "output/municipality_elevation.gpkg",
+            overwrite = TRUE)
+writeVector(temp.clip, "output/stations_in_dem.gpkg",
+            overwrite = TRUE)
 ```
 
-**g.** The following code shows how the polygons might be plotted in R illustrating the mean height. It is still not really a good map, but making nice maps in R need some testing and the use of more sophisticated functions such as provided by `ggplot`.
+Open the outputs in QGIS. Check their positions, inspect the new `mean_elev_m` field and reproduce the threshold map. Compare the values and class boundaries with your R result.
 
-```r
-plot(DEM, col=grey.colors(255), plg=list(x="topright", title="Height (m asl)"))
-plot(poly.clip, border="white", add=T)
-plot(poly.stations, "hoehe", breaks=c(0, 250, 500, 1000),add=T, plg=list(x="bottomright", title="Mean height (m asl)"))
-```
+::: {.callout-tip}
+## Before moving on
 
-Often, it might be more efficient to save the files to your disc and work with a GIS software for visualization. you may simply write the data to disc and open them in ArcGIS or QGIS.
+Explain to a neighbour, using your own script:
 
-```r
-writeVector(poly.stations, "poly_hoehe", overwrite=TRUE)
-```
+1. how a table became a point layer;
+2. why transforming coordinates and cropping are different operations;
+3. what the mean elevation attached to a polygon represents;
+4. why a station needs its own elevation value for the temperature model.
+:::
 
----
+## Homework: elevation and January temperature {#homework}
 
+**Question:** How can we use the relationship between elevation and January temperature to create a temperature map?
 
-# Homework 
+The station data used in this exercise show a strong relationship between elevation and January temperature. You will quantify this relationship with a linear regression and apply the fitted model to the DEM.
 
-## 1. Intersecting of Raster and Vecot data (Points)
+Use the temperature column `temp_2016_1`. Save your commands in a commented R script that produces a scatterplot with a regression line and a temperature map. Include brief answers as comments in your script and refer to your own results. No separate written report is needed.
 
-We only have the temperature values for some weather stations that are scattered across the DEM. To create a spatially explicit raster of temperature, we will use the well-known relationship of air temperature and elevation which often show a high inverse correlation.
+### A. Build a station-level analysis table
 
-Hence, implement a linear regression between DEM heights and temperature values from January 2016 and use this model to perform a simplistic temperature interpolation. Follow the steps below.
+1. Extract the DEM value at each station in **`temp.dem`**, the full point layer in the DEM's CRS. Use `extract()` with its default point method, which returns the value of the cell containing the station.
+2. Inspect the returned table. Distinguish its `ID` column from the actual `Station` identifier. Combine the extracted `elevation_m` values with attributes from `values(temp.dem)`, keeping each station's elevation and temperature together.
+3. Keep station identifier, DEM elevation and January temperature in one analysis table. Check that elevation and temperature are numeric, and identify any missing values.
+4. Select the complete elevation–temperature pairs with `complete.cases()`. Use the same pairs for the scatterplot, correlation and regression. Report how many stations are included.
 
-- Extract DEM values at the point data coordinates as vector layer `dem.heights` using `extract()`.
+Useful functions: `extract()`, `values()`, `data.frame()`, `str()`, `lm()`, `abline()`,`is.na()`, `complete.cases()` and `sum()`.
 
-- Save the temperature data from January 2016 named `temp_2016_1` to a numeric vector.
+**Hint:** Stations outside the DEM have no extracted elevation. A location inside the DEM can also have a missing raster value. Remove incomplete rows from the combined table so that elevation and temperature remain paired correctly.
 
-- Plot both numeric vectors in a scatterplot.
+### B. Explore and fit the relationship
 
-- Calculate the correlation and the coefficient of determination (r^2). Use the argument `use = "complete.obs". Why is this argument necessary?
+Before calculating anything, predict the direction of the relationship. Then:
 
-- Detect the linear regression coefficients using the function `lm(y ~ x)`. Which vector is y, which vector is x? Where is gain and offset stored within the resulting object?
+1. Make a scatterplot with **elevation on the x-axis** and **January temperature on the y-axis**. Label both axes with their units.
+2. Calculate Pearson's correlation coefficient, $r$. Explain what `use = "complete.obs"` does in `cor()`. If you have already selected complete pairs, should it change the result?
+3. Fit a linear model with `lm()`. Use temperature as the response and elevation as the predictor. Inspect `summary()` and `coef()` of your fitted model and add its regression line to the scatterplot with `abline()`.
+4. Report the number of stations used, the intercept, the slope, $r$ and the model's $R^2$.
+5. Interpret the slope as a temperature difference per **100 m** of elevation. What temperature does the fitted equation predict at an elevation of 0 m, and which coefficient represents this value?
 
-- Add the regression line to the scatterplot using `abline()`.
+Use this model form:
 
-- Summary of the model
+$$
+\widehat{T}_{\mathrm{Jan}} = a + b\,z,
+$$
 
-- The coefficients are saved in `lin_model$coefficients`. How to get the intercept and gain of the linear model?
+where $z$ is elevation in metres, $a$ is the intercept and $b$ is the slope. For a simple ordinary least-squares model with an intercept, fitted to the same complete pairs, $R^2 = r^2$.
 
-- Interpolate the temperature data of our study area based on the linear model coefficients you just derived. Hint: It is not necessary to use functions such as `predict()`. You may apply simple algebra with raster data: e.g.if you would like to transform the height of the DEM from m to cm, simply calculate `height.in.cm <- DEM/100`
+### C. Apply the model to the DEM
 
-**Hint:** `predict()` will not work here as a function based on `lm()`. We will use the function `predict()` at a later stage…
+Use the fitted intercept and slope to calculate a temperature estimate for every DEM cell with a valid elevation. Apply the equation above through raster algebra. You can obtain the coefficients with `coef()`; check their names before using them.
 
-- Plot your results in a map.
+As a reminder, raster algebra operates on cell values. For example, converting elevations from metres to centimetres would require **multiplying by 100**.
 
-## 2. Intersection of Raster and Vector Data (Loop)
+Map the result with an informative title, a temperature legend in °C and the station locations. Save the raster as a GeoTIFF in your `output` folder using `writeRaster()`.
 
-Usually, using functions such as `lapply()` is very efficient and is preferred over implementing loops. But because of the enormous amount of pixels it might be difficult to detect mean heights for all municipalities using the functions `extract()` and `lapply()` due to the computer`s specifications (limited working memory).
+**Check the result:**
 
-Therefore, alternatively to the exercise, we will implement a loop that is not very elegant but works.
+- How do the sign and magnitude of the fitted slope determine the map's spatial pattern?
+- Choose one relatively high and one relatively low location. Use the fitted equation to explain the difference between their estimated temperatures.
+- Compare the map with your station scatterplot. Does the mapped pattern agree with the relationship you fitted?
 
-That it is how a for `loop looks` like in R.
+### D. Interpret and check your results
 
+Add brief answers as comments in your script:
 
-```r
-# Create a vector with a sequence from 1 to 20 with stepsize 2.
-input <- seq(1,20, 2)
+- What does your $R^2$ tell you about how well the linear model explains the differences in January temperature between the stations?
+- How much does the predicted temperature change for a 100 m increase in elevation? Refer to your fitted slope.
+- Why do we use the DEM elevation at each station to fit the model, rather than the mean elevation of its municipality?
 
-print("This loop calculates the square of the 10 elements of the vector input")
+The map shows temperature estimated from elevation using the relationship fitted to the weather stations for January 2016.
 
-# Initialize vec. There are several ways to initialize vectors. This is one...
-vec <- vector(length=length(input))
+**Check your work:** Run your script from the beginning in a fresh R session. Check that it reproduces both figures and that your comments refer to your own sample size, coefficients and $R^2$. Bring your script and results to the next seminar and be prepared to explain how the fitted equation is applied to the raster. Follow the course instructions for submission.
 
-for(i in 1:length(input)) {
-  # i-th element of `input` squared into `i-th position of `vec`
-  vec[i] <- input[i]*input[i]
-  print(paste0("Loop ", i,": the square of ", input[i], " is ", vec[i]))
+## Optional extension: repeat an operation with a loop {#optional-loop}
+
+The direct call `extract(DEM, poly.clip, fun = mean, na.rm = TRUE)` can calculate means for multiple polygons. A loop is useful here as a programming exercise; do not assume it is automatically faster or more memory-efficient.
+
+### Understand a small example
+
+Before running this code, predict the contents of `squared` after the first two iterations. Explain which value changes in each iteration and where the result is stored.
+
+```{r}
+input <- seq(1, 20, by = 2)
+squared <- numeric(length(input))
+
+for (i in seq_along(input)) {
+  squared[i] <- input[i]^2
 }
 
-print(vec)
+squared
 ```
 
-- Open the polygon dataset `AX_KommunalesGebiet.shp`
+Change the example so that it calculates cubes instead of squares. What does `seq_along(input)` return?
 
-    - Of how many polygons i does the polygon dataset consist of?
+### Transfer the idea to polygons
 
-- Create a loop (maybe test it first of all for 10 elements before performing the loop on the entire dataset)
+Use **`poly.clip`**, so that the polygons are already in the DEM's CRS and clipped to its extent.
 
-    - Create an empty vector of where the mean heights of each polygon can be stored
+1. Start with the first ten features, or all features if there are fewer than ten. Record their order.
+2. Prepare a numeric result vector of the required length, initially filled with `NA_real_`. Useful syntax: `rep(NA_real_, nrow(your_polygons))`.
+3. Loop over `seq_len(nrow(your_polygons))`. Extract the mean elevation for polygon `i`, allowing for missing DEM values, and store the **elevation value**, not the extraction ID, in position `i`.
+4. Compare your result with a single `extract(..., fun = mean, na.rm = TRUE)` call on the same polygons. Explain any differences before extending the loop to all features in `poly.clip`.
+5. Attach the result to the polygon layer in the same row order and make a map. Remember that boundary polygons are incomplete municipality areas.
 
-    - Create a loop which loops over all polygons and, 
-
-        i. Extracts DEM pixels for each polyogn
-       ii. Calculates the mean height
-      iii. stores the mean height of each polygon at position i of the result`s vector
-      
-- After executing the loop you need to join the vector to the polygon data set.
-
-- Show the mean heights in a map (R or ArcMap/QGIS).
+**Reflect:** Which approach is easier to read for this task? Can you think of a situation in which different operations for each polygon would make a loop useful?
