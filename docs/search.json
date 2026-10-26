@@ -1159,7 +1159,7 @@
     "href": "AdvancedRS/index.html",
     "title": "Advanced RS",
     "section": "",
-    "text": "This seminar provides practical exercises in remote sensing, geospatial analysis, GIS, and Earth observation. The exercises introduce and develop workflows using R, raster and vector data, Sentinel-2 imagery, spectral analysis, machine learning, and LiDAR data.\nThe seminar is designed to build the practical skills needed to work with geospatial and remote-sensing datasets. Each section focuses on a specific topic and includes practical exercises to help you apply the concepts covered.\n\nSeminar Exercises\nThe seminar is divided into several sections. Select a topic below to open the corresponding exercise.\n\nWeek 1 – Introduction to R\nWeek 2 – Raster Layers\nWeek 3 – Raster Layers"
+    "text": "This seminar provides practical exercises in remote sensing, geospatial analysis, GIS, and Earth observation. The exercises introduce and develop workflows using R, raster and vector data, Sentinel-2 imagery, spectral analysis, machine learning, and LiDAR data.\nThe seminar is designed to build the practical skills needed to work with geospatial and remote-sensing datasets. Each section focuses on a specific topic and includes practical exercises to help you apply the concepts covered.\n\nSeminar Exercises\nThe seminar is divided into several sections. Select a topic below to open the corresponding exercise.\n\nWeek 1 – Introduction to R\nWeek 2 – Raster Layers\n\n3a. Week 3 – Raster Layers in R\n3b. Week 3 - Raster Layers in QGIS"
   },
   {
     "objectID": "AdvancedRS/contents/IntroToLidar_Week8.html",
