@@ -19,9 +19,9 @@ format:
     toc-location: right
     code-fold: true
     code-summary: "Show code"
-    code-tools: true
-    code-copy: true
-    code-link: false
+    code-tools:
+      source: false
+      toggle: true
 ---
 ## Contents
 - [This week](#This-week)
@@ -284,12 +284,6 @@ plotRGB(result, r = 7, g = 3, b = 2, stretch = "lin")
 
 The output contains all ten selected spectral bands. It can be opened in another R script, SNAP or QGIS. Check that cloudy locations excluded by your mask are missing in the saved file too.
 
-::: {.callout-note}
-## Reflectance versus stored integers
-
-The R workflow above does not explicitly convert the original JP2 values to physical reflectance; bilinear resampling may result in non-integer values. For **quantitative surface-reflectance analysis**, consult the metadata for `BOA_QUANTIFICATION_VALUE` and any applicable `BOA_ADD_OFFSET` values. Do not assume that dividing every product by 10,000 is always sufficient. Likewise, a linear visualization stretch is **only a display setting**; it does not convert the exported image to reflectance.
-:::
-
 ## 3. Quality-control checks
 
 Complete these challenges using the original imagery in SNAP and your processing results in R. Compare your evidence with another group if possible.
@@ -310,7 +304,7 @@ Reopen the **exported** file. Check the following and record the results:
 - 10 spectral bands in the intended order;
 - spatial resolution and CRS;
 - AOI coverage and NoData pattern;
-- whether your stored pixel values are already physical reflectances or still just digital numbers. Do some research!
+- whether your stored pixel values are already physical reflectances or still just digital numbers. Do some research! **Hint:** You may for instance consult the metadata in SNAP (folder `Metadata` and look for `BOA_QUANTIFICATION_VALUE` and any applicable `BOA_ADD_OFFSET` values `Level-2A_DataStrip_ID - Radiometric Info`. 
 
 ## 4. Short group reflection
 
