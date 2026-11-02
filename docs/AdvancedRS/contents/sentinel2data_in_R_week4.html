@@ -183,13 +183,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <li><a href="#contents" id="toc-contents" class="nav-link active" data-scroll-target="#contents">Contents</a></li>
+  <li><a href="#this-week" id="toc-this-week" class="nav-link" data-scroll-target="#this-week">This week</a>
   <ul class="collapse">
   <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning objectives</a></li>
-  <li><a href="#intro-to-working-with-sentinel-2-data" id="toc-intro-to-working-with-sentinel-2-data" class="nav-link" data-scroll-target="#intro-to-working-with-sentinel-2-data">Intro to working with Sentinel-2 data</a></li>
   </ul></li>
-  <li><a href="#first-look-in-snap-everyone" id="toc-first-look-in-snap-everyone" class="nav-link" data-scroll-target="#first-look-in-snap-everyone">1. First look in SNAP (everyone)</a></li>
-  <li><a href="#process-the-image-in-r-with-terra-everyone" id="toc-process-the-image-in-r-with-terra-everyone" class="nav-link" data-scroll-target="#process-the-image-in-r-with-terra-everyone">2. Process the image in R with <code>terra</code> (everyone)</a>
+  <li><a href="#first-look-in-snap" id="toc-first-look-in-snap" class="nav-link" data-scroll-target="#first-look-in-snap">1. First look in SNAP</a></li>
+  <li><a href="#process-the-image-in-r-with-terra" id="toc-process-the-image-in-r-with-terra" class="nav-link" data-scroll-target="#process-the-image-in-r-with-terra">2. Process the image in R with <code>terra</code></a>
   <ul class="collapse">
   <li><a href="#preparation-1" id="toc-preparation-1" class="nav-link" data-scroll-target="#preparation-1">2.1. Preparation</a></li>
   <li><a href="#step-1-load-the-10-m-bands" id="toc-step-1-load-the-10-m-bands" class="nav-link" data-scroll-target="#step-1-load-the-10-m-bands">2.2. Step 1: Load the 10 m bands</a></li>
@@ -200,7 +200,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#step-6-subset-the-image" id="toc-step-6-subset-the-image" class="nav-link" data-scroll-target="#step-6-subset-the-image">2.7. Step 6: Subset the image</a></li>
   <li><a href="#step-7-save-and-reopen-the-geotiff" id="toc-step-7-save-and-reopen-the-geotiff" class="nav-link" data-scroll-target="#step-7-save-and-reopen-the-geotiff">2.8. Step 7: Save and reopen the GeoTIFF</a></li>
   </ul></li>
-  <li><a href="#quality-control-cehcks" id="toc-quality-control-cehcks" class="nav-link" data-scroll-target="#quality-control-cehcks">3. Quality-control cehcks</a>
+  <li><a href="#quality-control-checks" id="toc-quality-control-checks" class="nav-link" data-scroll-target="#quality-control-checks">3. Quality-control checks</a>
   <ul class="collapse">
   <li><a href="#check-a-does-resampling-create-detail" id="toc-check-a-does-resampling-create-detail" class="nav-link" data-scroll-target="#check-a-does-resampling-create-detail">Check A — Does resampling create detail?</a></li>
   <li><a href="#check-b-is-the-scl-mask-reliable" id="toc-check-b-is-the-scl-mask-reliable" class="nav-link" data-scroll-target="#check-b-is-the-scl-mask-reliable">Check B — Is the SCL mask reliable?</a></li>
@@ -240,8 +240,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<section id="contents" class="level2">
+<h2 class="anchored" data-anchor-id="contents">Contents</h2>
+<ul>
+<li><a href="#This-week">This week</a></li>
+<li><a href="#first-look-in-snap">1. Explore the imagery in SNAP</a>
+<ul>
+<li>Inspect spectral bands and RGB composites</li>
+<li>Explore the Scene Classification Layer and individual masks</li>
+</ul></li>
+<li><a href="#process-the-image-in-r-with-terra">2. Process the image in R</a>
+<ul>
+<li>Prepare R and load the spectral bands</li>
+<li>Resample the 20 m bands to 10 m</li>
+<li>Combine and reorder the bands</li>
+<li>Mask clouds and shadows using SCL</li>
+<li>Create a spatial subset</li>
+<li>Save and check the GeoTIFF</li>
+</ul></li>
+<li><a href="#quality-control-checks">3. Quality-control challenges</a></li>
+<li><a href="#short-group-reflection">4. Short group reflection</a></li>
+<li><a href="#homework-prepare-and-evaluate-your-own-image">5. Homework</a></li>
+<li><a href="#looking-ahead">6. Looking ahead</a></li>
+</ul>
+</section>
+<section id="this-week" class="level2">
+<h2 class="anchored" data-anchor-id="this-week">This week</h2>
 <p><strong>Guiding question:</strong> How can we turn a Sentinel-2 Level-2A product into a documented, analysis-ready image—and how do our preprocessing choices influence the result?</p>
 <p>In this session, everyone will explore a Sentinel-2 product, its scene classification and individual masks in <strong>SNAP</strong>. You will then complete the entire processing chain with <strong>R (<code>terra</code>)</strong>: import the original data, create a spatial subset, resample, mask unsuitable observations and export a multiband GeoTIFF. You will compare the output with the original data and explain important methodological choices.</p>
 <section id="learning-objectives" class="level3">
@@ -254,9 +278,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>use the <strong>Scene Classification Layer (SCL)</strong> to mask unwanted observations;</li>
 <li>evaluate whether a processed image is suitable for subsequent analyses.</li>
 </ul>
-</section>
-<section id="intro-to-working-with-sentinel-2-data" class="level3">
-<h3 class="anchored" data-anchor-id="intro-to-working-with-sentinel-2-data">Intro to working with Sentinel-2 data</h3>
 <p>Complete the processing chain, quality-control challenges and homework after the session.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -285,8 +306,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="first-look-in-snap-everyone" class="level2">
-<h2 class="anchored" data-anchor-id="first-look-in-snap-everyone">1. First look in SNAP (everyone)</h2>
+<section id="first-look-in-snap" class="level2">
+<h2 class="anchored" data-anchor-id="first-look-in-snap">1. First look in SNAP</h2>
 <p>Follow the <a href="https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Preprocess-Optical-Data.html#sentinel-2-preprocessing">RESEDA SNAP tutorial</a> as a reference. Menu names can vary slightly between SNAP versions.</p>
 <ol type="1">
 <li><p>Open the provided <strong>L2A</strong> product in SNAP (<code>File → Open Product</code>; SNAP can open supported product archives directly, no need to unzip!):</p></li>
@@ -311,8 +332,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="process-the-image-in-r-with-terra-everyone" class="level2">
-<h2 class="anchored" data-anchor-id="process-the-image-in-r-with-terra-everyone">2. Process the image in R with <code>terra</code> (everyone)</h2>
+<section id="process-the-image-in-r-with-terra" class="level2">
+<h2 class="anchored" data-anchor-id="process-the-image-in-r-with-terra">2. Process the image in R with <code>terra</code></h2>
 <p><strong>Processing target:</strong> a smaller AOI, ten selected spectral bands on a <strong>10 m grid</strong>, with unsuitable SCL classes excluded, saved as a multiband GeoTIFF.</p>
 <p><strong>Recommended band order:</strong> <code>B02, B03, B04, B05, B06, B07, B08, B8A, B11, B12</code>.</p>
 <p>Start from the <strong>original, extracted Sentinel-2 L2A <code>.SAFE</code> directory</strong> (unzip the original data!). The following step-by-step script uses the original band files. Run the code blocks in order in the same R session, adapting the paths.</p>
@@ -537,8 +558,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="quality-control-cehcks" class="level2">
-<h2 class="anchored" data-anchor-id="quality-control-cehcks">3. Quality-control cehcks</h2>
+<section id="quality-control-checks" class="level2">
+<h2 class="anchored" data-anchor-id="quality-control-checks">3. Quality-control checks</h2>
 <p>Complete these challenges using the original imagery in SNAP and your processing results in R. Compare your evidence with another group if possible.</p>
 <section id="check-a-does-resampling-create-detail" class="level3">
 <h3 class="anchored" data-anchor-id="check-a-does-resampling-create-detail">Check A — Does resampling create detail?</h3>
@@ -1082,314 +1103,328 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co">    code-copy: true</span></span>
 <span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co">    code-link: false</span></span>
 <span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="fu">## Introduction</span></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>**Guiding question:** How can we turn a Sentinel-2 Level-2A product into a documented, analysis-ready image—and how do our preprocessing choices influence the result?</span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>In this session, everyone will explore a Sentinel-2 product, its scene classification and individual masks in **SNAP**. You will then complete the entire processing chain with **R (`terra`)**: import the original data, create a spatial subset, resample, mask unsuitable observations and export a multiband GeoTIFF. You will compare the output with the original data and explain important methodological choices.</span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="fu">### Learning objectives</span></span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>After this session you should be able to:</span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>describe Copernicus and the Sentinel-2 mission, and identify relevant spectral bands, spatial resolutions, the CRS and scene classification information in a Sentinel-2 L2A product;</span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>explain the difference between **resampling continuous spectral data** and **resampling categorical classification data**;</span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>create a spatial subset and a multiband GeoTIFF;</span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>use the **Scene Classification Layer (SCL)** to mask unwanted observations;</span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>evaluate whether a processed image is suitable for subsequent analyses.</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## Contents</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">This week</span><span class="co">](#This-week)</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">1. Explore the imagery in SNAP</span><span class="co">](#first-look-in-snap)</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Inspect spectral bands and RGB composites</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Explore the Scene Classification Layer and individual masks</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">2. Process the image in R</span><span class="co">](#process-the-image-in-r-with-terra)</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Prepare R and load the spectral bands</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Resample the 20 m bands to 10 m</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Combine and reorder the bands</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Mask clouds and shadows using SCL</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Create a spatial subset</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Save and check the GeoTIFF</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">3. Quality-control challenges</span><span class="co">](#quality-control-checks)</span></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">4. Short group reflection</span><span class="co">](#short-group-reflection)</span></span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">5. Homework</span><span class="co">](#homework-prepare-and-evaluate-your-own-image)</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">6. Looking ahead</span><span class="co">](#looking-ahead)</span></span>
 <span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a><span class="fu">### Intro to working with Sentinel-2 data</span></span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## This week</span></span>
 <span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>Complete the processing chain, quality-control challenges and homework after the session. </span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>**Guiding question:** How can we turn a Sentinel-2 Level-2A product into a documented, analysis-ready image—and how do our preprocessing choices influence the result?</span>
 <span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a><span class="fu">## Preparation</span></span>
-<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use the provided **Sentinel-2 L2A SAFE product**: https://box.fu-berlin.de/s/PW8Z3FLEAZMrQce</span>
-<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Install ESA SNAP in advance: https://step.esa.int/main/download/snap-download/</span>
-<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If you work on your own laptop, reserve sufficient disk space for extracted SAFE files and temporary rasters. If your computer is not very powerful, we recommend to work in the PC pool. </span>
-<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>**Software:** Everyone uses SNAP for visual exploration and R/RStudio with the <span class="in">`terra`</span> package for processing. Extract the provided <span class="in">`.SAFE`</span> product before importing the original JP2 files into R. You do not need to export an intermediate image from SNAP.</span>
-<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>Background tutorials with detailed instructions (RESEDA):</span>
-<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span><span class="co">[</span><span class="ot">Download Sentinel-2 data from Copernicus Data Space</span><span class="co">](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Download.html#SentinelDataspace)</span></span>
-<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span><span class="co">[</span><span class="ot">Sentinel-2 preprocessing in SNAP</span><span class="co">](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Preprocess-Optical-Data.html#sentinel-2-preprocessing)</span></span>
-<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span><span class="co">[</span><span class="ot">Preprocessing in RStudio</span><span class="co">](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Preprocess-Optical-Data.html#pre-processing-steps-in-rstudio)</span></span>
-<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span><span class="co">[</span><span class="ot">Visualization, RGB composites and contrast stretching</span><span class="co">](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Visualization.html)</span></span>
-<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>In this session, everyone will explore a Sentinel-2 product, its scene classification and individual masks in **SNAP**. You will then complete the entire processing chain with **R (`terra`)**: import the original data, create a spatial subset, resample, mask unsuitable observations and export a multiband GeoTIFF. You will compare the output with the original data and explain important methodological choices.</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a><span class="fu">### Learning objectives</span></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>After this session you should be able to:</span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>describe Copernicus and the Sentinel-2 mission, and identify relevant spectral bands, spatial resolutions, the CRS and scene classification information in a Sentinel-2 L2A product;</span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>explain the difference between **resampling continuous spectral data** and **resampling categorical classification data**;</span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>create a spatial subset and a multiband GeoTIFF;</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>use the **Scene Classification Layer (SCL)** to mask unwanted observations;</span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>evaluate whether a processed image is suitable for subsequent analyses.</span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>Complete the processing chain, quality-control challenges and homework after the session. </span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a><span class="fu">## Preparation</span></span>
 <span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1. First look in SNAP (everyone)</span></span>
-<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>Follow the <span class="co">[</span><span class="ot">RESEDA SNAP tutorial</span><span class="co">](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Preprocess-Optical-Data.html#sentinel-2-preprocessing)</span> as a reference. Menu names can vary slightly between SNAP versions.</span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Use the provided **Sentinel-2 L2A SAFE product**: https://box.fu-berlin.de/s/PW8Z3FLEAZMrQce</span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Install ESA SNAP in advance: https://step.esa.int/main/download/snap-download/</span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>If you work on your own laptop, reserve sufficient disk space for extracted SAFE files and temporary rasters. If your computer is not very powerful, we recommend to work in the PC pool. </span>
 <span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Open the provided **L2A** product in SNAP (<span class="in">`File → Open Product`</span>; SNAP can open supported product archives directly, no need to unzip!): </span>
-<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Inspect the product tree and metadata. Find the product ID, sensing date, CRS and bands.</span>
-<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Open a **true-color composite** and a **vegetation false-color composite**.</span>
-<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Find the folder **quality** and display `quality_scene_classification`. Compare the mask against the RGB composite: how do your rate the quality of the mask? Use **View → Tool Windows → Pixel Info** to inspect the SCL codes. Use the class code of the SCL you have identified in the breakoutgroups.</span>
-<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Find the folder **scl**. Inspect the available individual SCL masks, for example vegetation, water, cloud shadows, medium/high-probability clouds and thin cirrus. Their names may start with <span class="in">`scl_`</span>. If a mask has no visible pixels, what does it mean?</span>
-<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Compare the thin-cirrus mask with the RGB image: are visible hazy areas classified as cirrus (SCL = 10), as another cloud class, or as surface pixels? The classification may miss for instance thin cirrus clouds.</span>
-<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>Compare a native 10 m band with a native 20 m band at the same zoom level, for example B04 and B11.</span>
-<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>**Software:** Everyone uses SNAP for visual exploration and R/RStudio with the <span class="in">`terra`</span> package for processing. Extract the provided <span class="in">`.SAFE`</span> product before importing the original JP2 files into R. You do not need to export an intermediate image from SNAP.</span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>Background tutorials with detailed instructions (RESEDA):</span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span><span class="co">[</span><span class="ot">Download Sentinel-2 data from Copernicus Data Space</span><span class="co">](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Download.html#SentinelDataspace)</span></span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span><span class="co">[</span><span class="ot">Sentinel-2 preprocessing in SNAP</span><span class="co">](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Preprocess-Optical-Data.html#sentinel-2-preprocessing)</span></span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span><span class="co">[</span><span class="ot">Preprocessing in RStudio</span><span class="co">](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Preprocess-Optical-Data.html#pre-processing-steps-in-rstudio)</span></span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span><span class="co">[</span><span class="ot">Visualization, RGB composites and contrast stretching</span><span class="co">](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Visualization.html)</span></span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a><span class="fu">## Record your observations</span></span>
-<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a>Write down: (a) product ID and acquisition date, (b) tile ID and CRS, (c) native pixel sizes of B04, B11 and SCL, and (d) one area where the SCL classification is worth checking against the RGB image.</span>
-<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2. Process the image in R with `terra` (everyone)</span></span>
-<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a>**Processing target:** a smaller AOI, ten selected spectral bands on a **10 m grid**, with unsuitable SCL classes excluded, saved as a multiband GeoTIFF.</span>
-<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a>**Recommended band order:** <span class="in">`B02, B03, B04, B05, B06, B07, B08, B8A, B11, B12`</span>.</span>
-<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a>Start from the **original, extracted Sentinel-2 L2A `.SAFE` directory** (unzip the original data!). The following step-by-step script uses the original band files. Run the code blocks in order in the same R session, adapting the paths. </span>
+<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1. First look in SNAP</span></span>
+<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>Follow the <span class="co">[</span><span class="ot">RESEDA SNAP tutorial</span><span class="co">](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Preprocess-Optical-Data.html#sentinel-2-preprocessing)</span> as a reference. Menu names can vary slightly between SNAP versions.</span>
+<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Open the provided **L2A** product in SNAP (<span class="in">`File → Open Product`</span>; SNAP can open supported product archives directly, no need to unzip!): </span>
+<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Inspect the product tree and metadata. Find the product ID, sensing date, CRS and bands.</span>
+<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Open a **true-color composite** and a **vegetation false-color composite**.</span>
+<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Find the folder **quality** and display `quality_scene_classification`. Compare the mask against the RGB composite: how do your rate the quality of the mask? Use **View → Tool Windows → Pixel Info** to inspect the SCL codes. Use the class code of the SCL you have identified in the breakoutgroups.</span>
+<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>Find the folder **scl**. Inspect the available individual SCL masks, for example vegetation, water, cloud shadows, medium/high-probability clouds and thin cirrus. Their names may start with <span class="in">`scl_`</span>. If a mask has no visible pixels, what does it mean?</span>
+<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>Compare the thin-cirrus mask with the RGB image: are visible hazy areas classified as cirrus (SCL = 10), as another cloud class, or as surface pixels? The classification may miss for instance thin cirrus clouds.</span>
+<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>Compare a native 10 m band with a native 20 m band at the same zoom level, for example B04 and B11.</span>
+<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.1. Preparation</span></span>
-<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a>Open a new R script and save it. Run each code section in sequence and add comments as needed. Attempt the exercises independently before reviewing the solutions.</span>
-<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("terra")</span></span>
-<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a><span class="fu">## Record your observations</span></span>
+<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a>Write down: (a) product ID and acquisition date, (b) tile ID and CRS, (c) native pixel sizes of B04, B11 and SCL, and (d) one area where the SCL classification is worth checking against the RGB image.</span>
+<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2. Process the image in R with `terra`</span></span>
+<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a>**Processing target:** a smaller AOI, ten selected spectral bands on a **10 m grid**, with unsuitable SCL classes excluded, saved as a multiband GeoTIFF.</span>
 <span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a><span class="co"># Update this path to the IMG_DATA folder on your computer.</span></span>
-<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a><span class="co"># Forward slashes also work on Windows.</span></span>
-<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a>path.image <span class="ot">&lt;-</span> <span class="st">"E:/Lehre/2026_MSc/04/S2A_MSIL2A_20241024T101101_N0511_R022_T33UUU_20241024T122648.SAFE/S2A_MSIL2A_20241024T101101_N0511_R022_T33UUU_20241024T122648.SAFE/GRANULE/L2A_T33UUU_A048782_20241024T101201/IMG_DATA"</span></span>
-<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(path.image)</span>
-<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a>**Recommended band order:** <span class="in">`B02, B03, B04, B05, B06, B07, B08, B8A, B11, B12`</span>.</span>
+<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a>Start from the **original, extracted Sentinel-2 L2A `.SAFE` directory** (unzip the original data!). The following step-by-step script uses the original band files. Run the code blocks in order in the same R session, adapting the paths. </span>
+<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.1. Preparation</span></span>
 <span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a>As you have seen in the breakout groups Sentinel-2 spectral bands have different native spatial resolutions:</span>
+<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a>Open a new R script and save it. Run each code section in sequence and add comments as needed. Attempt the exercises independently before reviewing the solutions.</span>
 <span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a>Here we combine the ten selected 10 m and 20 m bands. **Resampling creates a common grid, not new spatial detail:** a 20 m measurement does not become a native 10 m measurement.</span>
-<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.2. Step 1: Load the 10 m bands</span></span>
-<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a><span class="co"># Set working directory to the 10 m data.</span></span>
-<span id="cb9-118"><a href="#cb9-118" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="fu">paste0</span>(path.image, <span class="st">"/R10m"</span>))</span>
-<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a><span class="co"># List spectral bands only (exclude TCI, AOT and WVP).</span></span>
-<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a>jp2files<span class="fl">.10</span>m <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">pattern =</span> <span class="st">"_B(02|03|04|08)_10m</span><span class="sc">\\</span><span class="st">.jp2$"</span>,</span>
-<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a>                         <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(jp2files<span class="fl">.10</span>m)</span>
-<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the printed order: B02, B03, B04, B08.</span></span>
-<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a>sen2.img.hr <span class="ot">&lt;-</span> <span class="fu">rast</span>(jp2files<span class="fl">.10</span>m)</span>
-<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sen2.img.hr) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"B02"</span>, <span class="st">"B03"</span>, <span class="st">"B04"</span>, <span class="st">"B08"</span>)</span>
-<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a><span class="co"># True colour: red, green, blue = layers 3, 2, 1.</span></span>
-<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2.img.hr, <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
-<span id="cb9-131"><a href="#cb9-131" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a>**Important:** `plotRGB()` uses **positions in the current raster**, not Sentinel-2 band numbers. Here, layer 4 is B08, not B04.</span>
-<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.3. Step 2: Load the selected 20 m bands</span></span>
-<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="fu">paste0</span>(path.image, <span class="st">"/R20m"</span>))</span>
-<span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a><span class="co"># Select the six required bands directly by their filename codes.</span></span>
-<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a><span class="co"># The | symbol in this search pattern means OR.</span></span>
-<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a>jp2files<span class="fl">.20</span>m <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">pattern =</span> <span class="st">"_B(05|06|07|8A|11|12)_20m</span><span class="sc">\\</span><span class="st">.jp2$"</span>,</span>
-<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a>                         <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(jp2files<span class="fl">.20</span>m)</span>
-<span id="cb9-147"><a href="#cb9-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-148"><a href="#cb9-148" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the printed order: B05, B06, B07, B11, B12, B8A.</span></span>
-<span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a>sen2.img.lr <span class="ot">&lt;-</span> <span class="fu">rast</span>(jp2files<span class="fl">.20</span>m)</span>
-<span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sen2.img.lr) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"B05"</span>, <span class="st">"B06"</span>, <span class="st">"B07"</span>, <span class="st">"B11"</span>, <span class="st">"B12"</span>, <span class="st">"B8A"</span>)</span>
-<span id="cb9-151"><a href="#cb9-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-152"><a href="#cb9-152" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect the native 20 m SWIR band B11.</span></span>
-<span id="cb9-153"><a href="#cb9-153" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2.img.lr[[<span class="dv">4</span>]], <span class="at">main =</span> <span class="st">"B11 at 20 m"</span>)</span>
-<span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("terra")</span></span>
+<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span>
+<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a><span class="co"># Update this path to the IMG_DATA folder on your computer.</span></span>
+<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a><span class="co"># Forward slashes also work on Windows.</span></span>
+<span id="cb9-118"><a href="#cb9-118" aria-hidden="true" tabindex="-1"></a>path.image <span class="ot">&lt;-</span> <span class="st">"E:/Lehre/2026_MSc/04/S2A_MSIL2A_20241024T101101_N0511_R022_T33UUU_20241024T122648.SAFE/S2A_MSIL2A_20241024T101101_N0511_R022_T33UUU_20241024T122648.SAFE/GRANULE/L2A_T33UUU_A048782_20241024T101201/IMG_DATA"</span></span>
+<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(path.image)</span>
+<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a>As you have seen in the breakout groups Sentinel-2 spectral bands have different native spatial resolutions:</span>
+<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a>Here we combine the ten selected 10 m and 20 m bands. **Resampling creates a common grid, not new spatial detail:** a 20 m measurement does not become a native 10 m measurement.</span>
+<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.2. Step 1: Load the 10 m bands</span></span>
+<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-131"><a href="#cb9-131" aria-hidden="true" tabindex="-1"></a><span class="co"># Set working directory to the 10 m data.</span></span>
+<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="fu">paste0</span>(path.image, <span class="st">"/R10m"</span>))</span>
+<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a><span class="co"># List spectral bands only (exclude TCI, AOT and WVP).</span></span>
+<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a>jp2files<span class="fl">.10</span>m <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">pattern =</span> <span class="st">"_B(02|03|04|08)_10m</span><span class="sc">\\</span><span class="st">.jp2$"</span>,</span>
+<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a>                         <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(jp2files<span class="fl">.10</span>m)</span>
+<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the printed order: B02, B03, B04, B08.</span></span>
+<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a>sen2.img.hr <span class="ot">&lt;-</span> <span class="fu">rast</span>(jp2files<span class="fl">.10</span>m)</span>
+<span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sen2.img.hr) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"B02"</span>, <span class="st">"B03"</span>, <span class="st">"B04"</span>, <span class="st">"B08"</span>)</span>
+<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a><span class="co"># True colour: red, green, blue = layers 3, 2, 1.</span></span>
+<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2.img.hr, <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
+<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-147"><a href="#cb9-147" aria-hidden="true" tabindex="-1"></a>**Important:** `plotRGB()` uses **positions in the current raster**, not Sentinel-2 band numbers. Here, layer 4 is B08, not B04.</span>
+<span id="cb9-148"><a href="#cb9-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.3. Step 2: Load the selected 20 m bands</span></span>
+<span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-153"><a href="#cb9-153" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="fu">paste0</span>(path.image, <span class="st">"/R20m"</span>))</span>
 <span id="cb9-155"><a href="#cb9-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-156"><a href="#cb9-156" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a><span class="fu">## Check the file lists before continuing</span></span>
-<span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a>The first list should contain **four** files and the second **six** files, in the order given above. The filename patterns select the required bands directly, so we do not have to rely on their positions in a list containing other 20 m bands. If a list is empty, check your path and the filenames. Do not assign the short band names until the file order is correct.</span>
-<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-156"><a href="#cb9-156" aria-hidden="true" tabindex="-1"></a><span class="co"># Select the six required bands directly by their filename codes.</span></span>
+<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a><span class="co"># The | symbol in this search pattern means OR.</span></span>
+<span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a>jp2files<span class="fl">.20</span>m <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">pattern =</span> <span class="st">"_B(05|06|07|8A|11|12)_20m</span><span class="sc">\\</span><span class="st">.jp2$"</span>,</span>
+<span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a>                         <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(jp2files<span class="fl">.20</span>m)</span>
 <span id="cb9-161"><a href="#cb9-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.4. Step 3: Resample the 20 m bands to 10 m</span></span>
-<span id="cb9-163"><a href="#cb9-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-164"><a href="#cb9-164" aria-hidden="true" tabindex="-1"></a>Two common methods are:</span>
+<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the printed order: B05, B06, B07, B11, B12, B8A.</span></span>
+<span id="cb9-163"><a href="#cb9-163" aria-hidden="true" tabindex="-1"></a>sen2.img.lr <span class="ot">&lt;-</span> <span class="fu">rast</span>(jp2files<span class="fl">.20</span>m)</span>
+<span id="cb9-164"><a href="#cb9-164" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(sen2.img.lr) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"B05"</span>, <span class="st">"B06"</span>, <span class="st">"B07"</span>, <span class="st">"B11"</span>, <span class="st">"B12"</span>, <span class="st">"B8A"</span>)</span>
 <span id="cb9-165"><a href="#cb9-165" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-166"><a href="#cb9-166" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Bilinear interpolation:** a distance-weighted combination of the four nearest input cells; suitable for continuous spectral values.</span>
-<span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Nearest neighbour:** copies the nearest input value; suitable for categorical data because it preserves the class codes.</span>
-<span id="cb9-168"><a href="#cb9-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-169"><a href="#cb9-169" aria-hidden="true" tabindex="-1"></a>**Question:** Which method would you choose for a spectral band and which for a classification layer? Explain your choices.</span>
-<span id="cb9-170"><a href="#cb9-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a>sen2.img.lr.to10m <span class="ot">&lt;-</span> <span class="fu">resample</span>(sen2.img.lr, sen2.img.hr[[<span class="dv">1</span>]],</span>
-<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a>                             <span class="at">method =</span> <span class="st">"bilinear"</span>)</span>
-<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2.img.lr.to10m[[<span class="dv">4</span>]], <span class="at">main =</span> <span class="st">"B11 resampled to 10 m"</span>)</span>
-<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-166"><a href="#cb9-166" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect the native 20 m SWIR band B11.</span></span>
+<span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2.img.lr[[<span class="dv">4</span>]], <span class="at">main =</span> <span class="st">"B11 at 20 m"</span>)</span>
+<span id="cb9-168"><a href="#cb9-168" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-169"><a href="#cb9-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-170"><a href="#cb9-170" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb9-171"><a href="#cb9-171" aria-hidden="true" tabindex="-1"></a><span class="fu">## Check the file lists before continuing</span></span>
+<span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a>The first list should contain **four** files and the second **six** files, in the order given above. The filename patterns select the required bands directly, so we do not have to rely on their positions in a list containing other 20 m bands. If a list is empty, check your path and the filenames. Do not assign the short band names until the file order is correct.</span>
+<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.4. Step 3: Resample the 20 m bands to 10 m</span></span>
+<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a>Two common methods are:</span>
 <span id="cb9-179"><a href="#cb9-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a>**Check your observation:** What changes in the number of cells? What does not change about the original measurement?</span>
-<span id="cb9-181"><a href="#cb9-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-182"><a href="#cb9-182" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.5. Step 4: Combine and reorder the bands</span></span>
-<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a>The current stacks contain:</span>
-<span id="cb9-185"><a href="#cb9-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-186"><a href="#cb9-186" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**10 m:** B02, B03, B04, B08.</span>
-<span id="cb9-187"><a href="#cb9-187" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Resampled 20 m:** B05, B06, B07, B11, B12, B8A.</span>
-<span id="cb9-188"><a href="#cb9-188" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-189"><a href="#cb9-189" aria-hidden="true" tabindex="-1"></a>Use their positions to create the final order: **B02, B03, B04, B05, B06, B07, B08, B8A, B11, B12**.</span>
+<span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Bilinear interpolation:** a distance-weighted combination of the four nearest input cells; suitable for continuous spectral values.</span>
+<span id="cb9-181"><a href="#cb9-181" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Nearest neighbour:** copies the nearest input value; suitable for categorical data because it preserves the class codes.</span>
+<span id="cb9-182"><a href="#cb9-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a>**Question:** Which method would you choose for a spectral band and which for a classification layer? Explain your choices.</span>
+<span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-187"><a href="#cb9-187" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-188"><a href="#cb9-188" aria-hidden="true" tabindex="-1"></a>sen2.img.lr.to10m <span class="ot">&lt;-</span> <span class="fu">resample</span>(sen2.img.lr, sen2.img.hr[[<span class="dv">1</span>]],</span>
+<span id="cb9-189"><a href="#cb9-189" aria-hidden="true" tabindex="-1"></a>                             <span class="at">method =</span> <span class="st">"bilinear"</span>)</span>
 <span id="cb9-190"><a href="#cb9-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-193"><a href="#cb9-193" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-194"><a href="#cb9-194" aria-hidden="true" tabindex="-1"></a>sen2.full <span class="ot">&lt;-</span> <span class="fu">c</span>(sen2.img.hr[[<span class="dv">1</span>]], sen2.img.hr[[<span class="dv">2</span>]], sen2.img.hr[[<span class="dv">3</span>]],</span>
-<span id="cb9-195"><a href="#cb9-195" aria-hidden="true" tabindex="-1"></a>               sen2.img.lr.to10m[[<span class="dv">1</span>]], sen2.img.lr.to10m[[<span class="dv">2</span>]],</span>
-<span id="cb9-196"><a href="#cb9-196" aria-hidden="true" tabindex="-1"></a>               sen2.img.lr.to10m[[<span class="dv">3</span>]], sen2.img.hr[[<span class="dv">4</span>]],</span>
-<span id="cb9-197"><a href="#cb9-197" aria-hidden="true" tabindex="-1"></a>               sen2.img.lr.to10m[[<span class="dv">6</span>]], sen2.img.lr.to10m[[<span class="dv">4</span>]],</span>
-<span id="cb9-198"><a href="#cb9-198" aria-hidden="true" tabindex="-1"></a>               sen2.img.lr.to10m[[<span class="dv">5</span>]])</span>
+<span id="cb9-191"><a href="#cb9-191" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sen2.img.lr.to10m[[<span class="dv">4</span>]], <span class="at">main =</span> <span class="st">"B11 resampled to 10 m"</span>)</span>
+<span id="cb9-192"><a href="#cb9-192" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-193"><a href="#cb9-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-194"><a href="#cb9-194" aria-hidden="true" tabindex="-1"></a>**Check your observation:** What changes in the number of cells? What does not change about the original measurement?</span>
+<span id="cb9-195"><a href="#cb9-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-196"><a href="#cb9-196" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.5. Step 4: Combine and reorder the bands</span></span>
+<span id="cb9-197"><a href="#cb9-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-198"><a href="#cb9-198" aria-hidden="true" tabindex="-1"></a>The current stacks contain:</span>
 <span id="cb9-199"><a href="#cb9-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-200"><a href="#cb9-200" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">names</span>(sen2.full))</span>
-<span id="cb9-201"><a href="#cb9-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-202"><a href="#cb9-202" aria-hidden="true" tabindex="-1"></a><span class="co"># False colour: B08, B04, B03 = layers 7, 3, 2.</span></span>
-<span id="cb9-203"><a href="#cb9-203" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2.full, <span class="at">r =</span> <span class="dv">7</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
-<span id="cb9-204"><a href="#cb9-204" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-205"><a href="#cb9-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-206"><a href="#cb9-206" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.6. Step 5: Mask clouds and shadows with SCL</span></span>
-<span id="cb9-207"><a href="#cb9-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-208"><a href="#cb9-208" aria-hidden="true" tabindex="-1"></a>Load the SCL band and resample it using **nearest neighbour**. Then apply the same mask to all ten spectral bands in one operation.</span>
-<span id="cb9-209"><a href="#cb9-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-212"><a href="#cb9-212" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-213"><a href="#cb9-213" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="fu">paste0</span>(path.image, <span class="st">"/R20m"</span>))</span>
-<span id="cb9-214"><a href="#cb9-214" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-215"><a href="#cb9-215" aria-hidden="true" tabindex="-1"></a>scl<span class="fl">.20</span>m <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">pattern =</span> <span class="st">"_SCL_20m</span><span class="sc">\\</span><span class="st">.jp2$"</span>, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-216"><a href="#cb9-216" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(scl<span class="fl">.20</span>m)</span>
-<span id="cb9-217"><a href="#cb9-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-218"><a href="#cb9-218" aria-hidden="true" tabindex="-1"></a>scl<span class="fl">.20</span>m.img <span class="ot">&lt;-</span> <span class="fu">rast</span>(scl<span class="fl">.20</span>m)</span>
-<span id="cb9-219"><a href="#cb9-219" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(scl<span class="fl">.20</span>m.img, <span class="at">main =</span> <span class="st">"Scene classification"</span>)</span>
-<span id="cb9-220"><a href="#cb9-220" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-221"><a href="#cb9-221" aria-hidden="true" tabindex="-1"></a><span class="co"># Classification codes must not be interpolated with bilinear!</span></span>
-<span id="cb9-222"><a href="#cb9-222" aria-hidden="true" tabindex="-1"></a>scl<span class="fl">.10</span>m.img <span class="ot">&lt;-</span> <span class="fu">resample</span>(scl<span class="fl">.20</span>m.img, sen2.img.hr[[<span class="dv">1</span>]], <span class="at">method =</span> <span class="st">"near"</span>)</span>
+<span id="cb9-200"><a href="#cb9-200" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**10 m:** B02, B03, B04, B08.</span>
+<span id="cb9-201"><a href="#cb9-201" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Resampled 20 m:** B05, B06, B07, B11, B12, B8A.</span>
+<span id="cb9-202"><a href="#cb9-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-203"><a href="#cb9-203" aria-hidden="true" tabindex="-1"></a>Use their positions to create the final order: **B02, B03, B04, B05, B06, B07, B08, B8A, B11, B12**.</span>
+<span id="cb9-204"><a href="#cb9-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-207"><a href="#cb9-207" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-208"><a href="#cb9-208" aria-hidden="true" tabindex="-1"></a>sen2.full <span class="ot">&lt;-</span> <span class="fu">c</span>(sen2.img.hr[[<span class="dv">1</span>]], sen2.img.hr[[<span class="dv">2</span>]], sen2.img.hr[[<span class="dv">3</span>]],</span>
+<span id="cb9-209"><a href="#cb9-209" aria-hidden="true" tabindex="-1"></a>               sen2.img.lr.to10m[[<span class="dv">1</span>]], sen2.img.lr.to10m[[<span class="dv">2</span>]],</span>
+<span id="cb9-210"><a href="#cb9-210" aria-hidden="true" tabindex="-1"></a>               sen2.img.lr.to10m[[<span class="dv">3</span>]], sen2.img.hr[[<span class="dv">4</span>]],</span>
+<span id="cb9-211"><a href="#cb9-211" aria-hidden="true" tabindex="-1"></a>               sen2.img.lr.to10m[[<span class="dv">6</span>]], sen2.img.lr.to10m[[<span class="dv">4</span>]],</span>
+<span id="cb9-212"><a href="#cb9-212" aria-hidden="true" tabindex="-1"></a>               sen2.img.lr.to10m[[<span class="dv">5</span>]])</span>
+<span id="cb9-213"><a href="#cb9-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-214"><a href="#cb9-214" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">names</span>(sen2.full))</span>
+<span id="cb9-215"><a href="#cb9-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-216"><a href="#cb9-216" aria-hidden="true" tabindex="-1"></a><span class="co"># False colour: B08, B04, B03 = layers 7, 3, 2.</span></span>
+<span id="cb9-217"><a href="#cb9-217" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2.full, <span class="at">r =</span> <span class="dv">7</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
+<span id="cb9-218"><a href="#cb9-218" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-219"><a href="#cb9-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-220"><a href="#cb9-220" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.6. Step 5: Mask clouds and shadows with SCL</span></span>
+<span id="cb9-221"><a href="#cb9-221" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-222"><a href="#cb9-222" aria-hidden="true" tabindex="-1"></a>Load the SCL band and resample it using **nearest neighbour**. Then apply the same mask to all ten spectral bands in one operation.</span>
 <span id="cb9-223"><a href="#cb9-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-224"><a href="#cb9-224" aria-hidden="true" tabindex="-1"></a><span class="co"># Exclude no data (0), defective pixels (1), cloud shadows (3),</span></span>
-<span id="cb9-225"><a href="#cb9-225" aria-hidden="true" tabindex="-1"></a><span class="co"># medium/high-probability clouds (8, 9) and thin cirrus (10).</span></span>
-<span id="cb9-226"><a href="#cb9-226" aria-hidden="true" tabindex="-1"></a>mask.values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>)</span>
-<span id="cb9-227"><a href="#cb9-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-228"><a href="#cb9-228" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional: also exclude topographic shadows (2),</span></span>
-<span id="cb9-229"><a href="#cb9-229" aria-hidden="true" tabindex="-1"></a><span class="co"># unclassified pixels (7) and snow/ice (11).</span></span>
-<span id="cb9-230"><a href="#cb9-230" aria-hidden="true" tabindex="-1"></a><span class="co"># mask.values &lt;- c(mask.values, 2, 7, 11)</span></span>
+<span id="cb9-226"><a href="#cb9-226" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-227"><a href="#cb9-227" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="fu">paste0</span>(path.image, <span class="st">"/R20m"</span>))</span>
+<span id="cb9-228"><a href="#cb9-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-229"><a href="#cb9-229" aria-hidden="true" tabindex="-1"></a>scl<span class="fl">.20</span>m <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">pattern =</span> <span class="st">"_SCL_20m</span><span class="sc">\\</span><span class="st">.jp2$"</span>, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-230"><a href="#cb9-230" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(scl<span class="fl">.20</span>m)</span>
 <span id="cb9-231"><a href="#cb9-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-232"><a href="#cb9-232" aria-hidden="true" tabindex="-1"></a>masked.image <span class="ot">&lt;-</span> <span class="fu">mask</span>(sen2.full, scl<span class="fl">.10</span>m.img, <span class="at">maskvalues =</span> mask.values)</span>
-<span id="cb9-233"><a href="#cb9-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-234"><a href="#cb9-234" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the same false-colour composite before and after masking.</span></span>
-<span id="cb9-235"><a href="#cb9-235" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2.full, <span class="at">r =</span> <span class="dv">7</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
-<span id="cb9-236"><a href="#cb9-236" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(masked.image, <span class="at">r =</span> <span class="dv">7</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
-<span id="cb9-237"><a href="#cb9-237" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-238"><a href="#cb9-238" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-239"><a href="#cb9-239" aria-hidden="true" tabindex="-1"></a><span class="in">`maskvalues`</span> lists the SCL codes to replace with **NA in every spectral band**. All other classes are retained unless SCL is already missing. Decide whether classes 2, 7 and 11 are suitable for your application.</span>
-<span id="cb9-240"><a href="#cb9-240" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-241"><a href="#cb9-241" aria-hidden="true" tabindex="-1"></a>**Check visually:** Are all clouds gone? Has any unobscured surface been removed? Compare with your observations in SNAP. SCL is an automated classification: a cloud incorrectly classified as vegetation or another retained class will remain in the image.</span>
-<span id="cb9-242"><a href="#cb9-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-243"><a href="#cb9-243" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.7. Step 6: Subset the image</span></span>
-<span id="cb9-244"><a href="#cb9-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-245"><a href="#cb9-245" aria-hidden="true" tabindex="-1"></a>Define an area of interest in the **same CRS and coordinate units** as the image. The example uses projected coordinates in meters for Berlin / UTM zone 33N. For another scene, adapt the extent and check that it overlaps your image.</span>
-<span id="cb9-246"><a href="#cb9-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-249"><a href="#cb9-249" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-250"><a href="#cb9-250" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(masked.image)</span>
-<span id="cb9-251"><a href="#cb9-251" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-252"><a href="#cb9-252" aria-hidden="true" tabindex="-1"></a><span class="co"># xmin, xmax, ymin, ymax</span></span>
-<span id="cb9-253"><a href="#cb9-253" aria-hidden="true" tabindex="-1"></a>subset.berlin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">360000</span>, <span class="dv">410000</span>, <span class="dv">5800000</span>, <span class="dv">5840000</span>)</span>
-<span id="cb9-254"><a href="#cb9-254" aria-hidden="true" tabindex="-1"></a>masked.image.cropped <span class="ot">&lt;-</span> <span class="fu">crop</span>(masked.image, subset.berlin)</span>
-<span id="cb9-255"><a href="#cb9-255" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-256"><a href="#cb9-256" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(masked.image.cropped, <span class="at">r =</span> <span class="dv">7</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
-<span id="cb9-257"><a href="#cb9-257" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-232"><a href="#cb9-232" aria-hidden="true" tabindex="-1"></a>scl<span class="fl">.20</span>m.img <span class="ot">&lt;-</span> <span class="fu">rast</span>(scl<span class="fl">.20</span>m)</span>
+<span id="cb9-233"><a href="#cb9-233" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(scl<span class="fl">.20</span>m.img, <span class="at">main =</span> <span class="st">"Scene classification"</span>)</span>
+<span id="cb9-234"><a href="#cb9-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-235"><a href="#cb9-235" aria-hidden="true" tabindex="-1"></a><span class="co"># Classification codes must not be interpolated with bilinear!</span></span>
+<span id="cb9-236"><a href="#cb9-236" aria-hidden="true" tabindex="-1"></a>scl<span class="fl">.10</span>m.img <span class="ot">&lt;-</span> <span class="fu">resample</span>(scl<span class="fl">.20</span>m.img, sen2.img.hr[[<span class="dv">1</span>]], <span class="at">method =</span> <span class="st">"near"</span>)</span>
+<span id="cb9-237"><a href="#cb9-237" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-238"><a href="#cb9-238" aria-hidden="true" tabindex="-1"></a><span class="co"># Exclude no data (0), defective pixels (1), cloud shadows (3),</span></span>
+<span id="cb9-239"><a href="#cb9-239" aria-hidden="true" tabindex="-1"></a><span class="co"># medium/high-probability clouds (8, 9) and thin cirrus (10).</span></span>
+<span id="cb9-240"><a href="#cb9-240" aria-hidden="true" tabindex="-1"></a>mask.values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>)</span>
+<span id="cb9-241"><a href="#cb9-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-242"><a href="#cb9-242" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional: also exclude topographic shadows (2),</span></span>
+<span id="cb9-243"><a href="#cb9-243" aria-hidden="true" tabindex="-1"></a><span class="co"># unclassified pixels (7) and snow/ice (11).</span></span>
+<span id="cb9-244"><a href="#cb9-244" aria-hidden="true" tabindex="-1"></a><span class="co"># mask.values &lt;- c(mask.values, 2, 7, 11)</span></span>
+<span id="cb9-245"><a href="#cb9-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-246"><a href="#cb9-246" aria-hidden="true" tabindex="-1"></a>masked.image <span class="ot">&lt;-</span> <span class="fu">mask</span>(sen2.full, scl<span class="fl">.10</span>m.img, <span class="at">maskvalues =</span> mask.values)</span>
+<span id="cb9-247"><a href="#cb9-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-248"><a href="#cb9-248" aria-hidden="true" tabindex="-1"></a><span class="co"># Compare the same false-colour composite before and after masking.</span></span>
+<span id="cb9-249"><a href="#cb9-249" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(sen2.full, <span class="at">r =</span> <span class="dv">7</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
+<span id="cb9-250"><a href="#cb9-250" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(masked.image, <span class="at">r =</span> <span class="dv">7</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
+<span id="cb9-251"><a href="#cb9-251" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-252"><a href="#cb9-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-253"><a href="#cb9-253" aria-hidden="true" tabindex="-1"></a><span class="in">`maskvalues`</span> lists the SCL codes to replace with **NA in every spectral band**. All other classes are retained unless SCL is already missing. Decide whether classes 2, 7 and 11 are suitable for your application.</span>
+<span id="cb9-254"><a href="#cb9-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-255"><a href="#cb9-255" aria-hidden="true" tabindex="-1"></a>**Check visually:** Are all clouds gone? Has any unobscured surface been removed? Compare with your observations in SNAP. SCL is an automated classification: a cloud incorrectly classified as vegetation or another retained class will remain in the image.</span>
+<span id="cb9-256"><a href="#cb9-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-257"><a href="#cb9-257" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.7. Step 6: Subset the image</span></span>
 <span id="cb9-258"><a href="#cb9-258" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-259"><a href="#cb9-259" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb9-260"><a href="#cb9-260" aria-hidden="true" tabindex="-1"></a><span class="fu">## Processing time</span></span>
-<span id="cb9-261"><a href="#cb9-261" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-262"><a href="#cb9-262" aria-hidden="true" tabindex="-1"></a>This sequence follows the complete scene through stacking and masking before cropping. For larger workflows, cropping the original bands and SCL before resampling reduces processing time and memory requirements.</span>
-<span id="cb9-263"><a href="#cb9-263" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb9-264"><a href="#cb9-264" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-265"><a href="#cb9-265" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.8. Step 7: Save and reopen the GeoTIFF</span></span>
-<span id="cb9-266"><a href="#cb9-266" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-269"><a href="#cb9-269" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb9-270"><a href="#cb9-270" aria-hidden="true" tabindex="-1"></a><span class="co"># Change to your output directory (it must already exist).</span></span>
-<span id="cb9-271"><a href="#cb9-271" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:/Lehre/MSc_neu/04"</span>)</span>
-<span id="cb9-272"><a href="#cb9-272" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(masked.image.cropped, <span class="st">"sen2_20241024.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-273"><a href="#cb9-273" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-274"><a href="#cb9-274" aria-hidden="true" tabindex="-1"></a><span class="co"># Reopen the saved file and check the result.</span></span>
-<span id="cb9-275"><a href="#cb9-275" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"sen2_20241024.tif"</span>)</span>
-<span id="cb9-276"><a href="#cb9-276" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result)</span>
-<span id="cb9-277"><a href="#cb9-277" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(result)</span>
-<span id="cb9-278"><a href="#cb9-278" aria-hidden="true" tabindex="-1"></a><span class="fu">res</span>(result)</span>
-<span id="cb9-279"><a href="#cb9-279" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(result)</span>
+<span id="cb9-259"><a href="#cb9-259" aria-hidden="true" tabindex="-1"></a>Define an area of interest in the **same CRS and coordinate units** as the image. The example uses projected coordinates in meters for Berlin / UTM zone 33N. For another scene, adapt the extent and check that it overlaps your image.</span>
+<span id="cb9-260"><a href="#cb9-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-263"><a href="#cb9-263" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-264"><a href="#cb9-264" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(masked.image)</span>
+<span id="cb9-265"><a href="#cb9-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-266"><a href="#cb9-266" aria-hidden="true" tabindex="-1"></a><span class="co"># xmin, xmax, ymin, ymax</span></span>
+<span id="cb9-267"><a href="#cb9-267" aria-hidden="true" tabindex="-1"></a>subset.berlin <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">360000</span>, <span class="dv">410000</span>, <span class="dv">5800000</span>, <span class="dv">5840000</span>)</span>
+<span id="cb9-268"><a href="#cb9-268" aria-hidden="true" tabindex="-1"></a>masked.image.cropped <span class="ot">&lt;-</span> <span class="fu">crop</span>(masked.image, subset.berlin)</span>
+<span id="cb9-269"><a href="#cb9-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-270"><a href="#cb9-270" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(masked.image.cropped, <span class="at">r =</span> <span class="dv">7</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
+<span id="cb9-271"><a href="#cb9-271" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb9-272"><a href="#cb9-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-273"><a href="#cb9-273" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb9-274"><a href="#cb9-274" aria-hidden="true" tabindex="-1"></a><span class="fu">## Processing time</span></span>
+<span id="cb9-275"><a href="#cb9-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-276"><a href="#cb9-276" aria-hidden="true" tabindex="-1"></a>This sequence follows the complete scene through stacking and masking before cropping. For larger workflows, cropping the original bands and SCL before resampling reduces processing time and memory requirements.</span>
+<span id="cb9-277"><a href="#cb9-277" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-278"><a href="#cb9-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-279"><a href="#cb9-279" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.8. Step 7: Save and reopen the GeoTIFF</span></span>
 <span id="cb9-280"><a href="#cb9-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-281"><a href="#cb9-281" aria-hidden="true" tabindex="-1"></a><span class="co"># True colour: B04, B03, B02.</span></span>
-<span id="cb9-282"><a href="#cb9-282" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(result, <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
-<span id="cb9-283"><a href="#cb9-283" aria-hidden="true" tabindex="-1"></a><span class="co"># False colour: B08, B04, B03.</span></span>
-<span id="cb9-284"><a href="#cb9-284" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(result, <span class="at">r =</span> <span class="dv">7</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
-<span id="cb9-285"><a href="#cb9-285" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb9-286"><a href="#cb9-286" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-287"><a href="#cb9-287" aria-hidden="true" tabindex="-1"></a>The output contains all ten selected spectral bands. It can be opened in another R script, SNAP or QGIS. Check that cloudy locations excluded by your mask are missing in the saved file too.</span>
-<span id="cb9-288"><a href="#cb9-288" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-289"><a href="#cb9-289" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
-<span id="cb9-290"><a href="#cb9-290" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reflectance versus stored integers</span></span>
-<span id="cb9-291"><a href="#cb9-291" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-292"><a href="#cb9-292" aria-hidden="true" tabindex="-1"></a>The R workflow above does not explicitly convert the original JP2 values to physical reflectance; bilinear resampling may result in non-integer values. For **quantitative surface-reflectance analysis**, consult the metadata for `BOA_QUANTIFICATION_VALUE` and any applicable `BOA_ADD_OFFSET` values. Do not assume that dividing every product by 10,000 is always sufficient. Likewise, a linear visualization stretch is **only a display setting**; it does not convert the exported image to reflectance.</span>
-<span id="cb9-293"><a href="#cb9-293" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-283"><a href="#cb9-283" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb9-284"><a href="#cb9-284" aria-hidden="true" tabindex="-1"></a><span class="co"># Change to your output directory (it must already exist).</span></span>
+<span id="cb9-285"><a href="#cb9-285" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"E:/Lehre/MSc_neu/04"</span>)</span>
+<span id="cb9-286"><a href="#cb9-286" aria-hidden="true" tabindex="-1"></a><span class="fu">writeRaster</span>(masked.image.cropped, <span class="st">"sen2_20241024.tif"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-287"><a href="#cb9-287" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-288"><a href="#cb9-288" aria-hidden="true" tabindex="-1"></a><span class="co"># Reopen the saved file and check the result.</span></span>
+<span id="cb9-289"><a href="#cb9-289" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"sen2_20241024.tif"</span>)</span>
+<span id="cb9-290"><a href="#cb9-290" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result)</span>
+<span id="cb9-291"><a href="#cb9-291" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(result)</span>
+<span id="cb9-292"><a href="#cb9-292" aria-hidden="true" tabindex="-1"></a><span class="fu">res</span>(result)</span>
+<span id="cb9-293"><a href="#cb9-293" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(result)</span>
 <span id="cb9-294"><a href="#cb9-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-295"><a href="#cb9-295" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3. Quality-control cehcks</span></span>
-<span id="cb9-296"><a href="#cb9-296" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-297"><a href="#cb9-297" aria-hidden="true" tabindex="-1"></a>Complete these challenges using the original imagery in SNAP and your processing results in R. Compare your evidence with another group if possible.</span>
-<span id="cb9-298"><a href="#cb9-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-299"><a href="#cb9-299" aria-hidden="true" tabindex="-1"></a><span class="fu">### Check A — Does resampling create detail?</span></span>
+<span id="cb9-295"><a href="#cb9-295" aria-hidden="true" tabindex="-1"></a><span class="co"># True colour: B04, B03, B02.</span></span>
+<span id="cb9-296"><a href="#cb9-296" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(result, <span class="at">r =</span> <span class="dv">3</span>, <span class="at">g =</span> <span class="dv">2</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
+<span id="cb9-297"><a href="#cb9-297" aria-hidden="true" tabindex="-1"></a><span class="co"># False colour: B08, B04, B03.</span></span>
+<span id="cb9-298"><a href="#cb9-298" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(result, <span class="at">r =</span> <span class="dv">7</span>, <span class="at">g =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">stretch =</span> <span class="st">"lin"</span>)</span>
+<span id="cb9-299"><a href="#cb9-299" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb9-300"><a href="#cb9-300" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-301"><a href="#cb9-301" aria-hidden="true" tabindex="-1"></a>Show B11 at its native 20 m resolution and resampled to 10 m. Explain in **2–3 sentences** what changes in the raster grid and what remains limited by the original sensor measurement.</span>
+<span id="cb9-301"><a href="#cb9-301" aria-hidden="true" tabindex="-1"></a>The output contains all ten selected spectral bands. It can be opened in another R script, SNAP or QGIS. Check that cloudy locations excluded by your mask are missing in the saved file too.</span>
 <span id="cb9-302"><a href="#cb9-302" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-303"><a href="#cb9-303" aria-hidden="true" tabindex="-1"></a><span class="fu">### Check B — Is the SCL mask reliable?</span></span>
-<span id="cb9-304"><a href="#cb9-304" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-305"><a href="#cb9-305" aria-hidden="true" tabindex="-1"></a>Compare true-color images **before and after masking**. Are you happy with the result?</span>
-<span id="cb9-306"><a href="#cb9-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-307"><a href="#cb9-307" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-308"><a href="#cb9-308" aria-hidden="true" tabindex="-1"></a><span class="fu">### Check C — Is the GeoTIFF analysis-ready?</span></span>
-<span id="cb9-309"><a href="#cb9-309" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-310"><a href="#cb9-310" aria-hidden="true" tabindex="-1"></a>Reopen the **exported** file. Check the following and record the results:</span>
-<span id="cb9-311"><a href="#cb9-311" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-312"><a href="#cb9-312" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>10 spectral bands in the intended order;</span>
-<span id="cb9-313"><a href="#cb9-313" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>spatial resolution and CRS;</span>
-<span id="cb9-314"><a href="#cb9-314" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>AOI coverage and NoData pattern;</span>
-<span id="cb9-315"><a href="#cb9-315" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>whether your stored pixel values are already physical reflectances or still just digital numbers. Do some research!</span>
+<span id="cb9-303"><a href="#cb9-303" aria-hidden="true" tabindex="-1"></a>::: {.callout-note}</span>
+<span id="cb9-304"><a href="#cb9-304" aria-hidden="true" tabindex="-1"></a><span class="fu">## Reflectance versus stored integers</span></span>
+<span id="cb9-305"><a href="#cb9-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-306"><a href="#cb9-306" aria-hidden="true" tabindex="-1"></a>The R workflow above does not explicitly convert the original JP2 values to physical reflectance; bilinear resampling may result in non-integer values. For **quantitative surface-reflectance analysis**, consult the metadata for `BOA_QUANTIFICATION_VALUE` and any applicable `BOA_ADD_OFFSET` values. Do not assume that dividing every product by 10,000 is always sufficient. Likewise, a linear visualization stretch is **only a display setting**; it does not convert the exported image to reflectance.</span>
+<span id="cb9-307"><a href="#cb9-307" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-308"><a href="#cb9-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-309"><a href="#cb9-309" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3. Quality-control checks</span></span>
+<span id="cb9-310"><a href="#cb9-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-311"><a href="#cb9-311" aria-hidden="true" tabindex="-1"></a>Complete these challenges using the original imagery in SNAP and your processing results in R. Compare your evidence with another group if possible.</span>
+<span id="cb9-312"><a href="#cb9-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-313"><a href="#cb9-313" aria-hidden="true" tabindex="-1"></a><span class="fu">### Check A — Does resampling create detail?</span></span>
+<span id="cb9-314"><a href="#cb9-314" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-315"><a href="#cb9-315" aria-hidden="true" tabindex="-1"></a>Show B11 at its native 20 m resolution and resampled to 10 m. Explain in **2–3 sentences** what changes in the raster grid and what remains limited by the original sensor measurement.</span>
 <span id="cb9-316"><a href="#cb9-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-317"><a href="#cb9-317" aria-hidden="true" tabindex="-1"></a><span class="fu">## 4. Short group reflection</span></span>
+<span id="cb9-317"><a href="#cb9-317" aria-hidden="true" tabindex="-1"></a><span class="fu">### Check B — Is the SCL mask reliable?</span></span>
 <span id="cb9-318"><a href="#cb9-318" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-319"><a href="#cb9-319" aria-hidden="true" tabindex="-1"></a>Talk to another group and compare your observations and processing choices.</span>
+<span id="cb9-319"><a href="#cb9-319" aria-hidden="true" tabindex="-1"></a>Compare true-color images **before and after masking**. Are you happy with the result?</span>
 <span id="cb9-320"><a href="#cb9-320" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-321"><a href="#cb9-321" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Which observations in SNAP helped you choose or evaluate your SCL mask in R?</span>
-<span id="cb9-322"><a href="#cb9-322" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>If you processed 50 scenes rather than one, how might your preferred workflow change?</span>
+<span id="cb9-321"><a href="#cb9-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-322"><a href="#cb9-322" aria-hidden="true" tabindex="-1"></a><span class="fu">### Check C — Is the GeoTIFF analysis-ready?</span></span>
 <span id="cb9-323"><a href="#cb9-323" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-324"><a href="#cb9-324" aria-hidden="true" tabindex="-1"></a><span class="fu">## 5. Homework — Prepare and evaluate your own image</span></span>
+<span id="cb9-324"><a href="#cb9-324" aria-hidden="true" tabindex="-1"></a>Reopen the **exported** file. Check the following and record the results:</span>
 <span id="cb9-325"><a href="#cb9-325" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-326"><a href="#cb9-326" aria-hidden="true" tabindex="-1"></a>**Task.** Select a Sentinel-2 **L2A** product for an area of interest of your choice. Inspect the imagery, scene classification and individual masks in SNAP, then complete all preprocessing in R.</span>
-<span id="cb9-327"><a href="#cb9-327" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-328"><a href="#cb9-328" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Select and document the scene:** acquisition date, product/tile ID, AOI and reason for choosing it. Use <span class="co">[</span><span class="ot">RESEDA's Copernicus Data Space tutorial</span><span class="co">](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Download.html#SentinelDataspace)</span> if needed.</span>
-<span id="cb9-329"><a href="#cb9-329" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Preprocess:** create a spatial subset with ten selected bands on a common 10 m grid, apply and document an SCL-based mask, and export a multiband GeoTIFF.</span>
-<span id="cb9-330"><a href="#cb9-330" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Visualize:** create one true-color and one false-color image, using appropriate contrast stretches; consult the <span class="co">[</span><span class="ot">RESEDA visualization chapter</span><span class="co">](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Visualization.html)</span>.</span>
-<span id="cb9-331"><a href="#cb9-331" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-332"><a href="#cb9-332" aria-hidden="true" tabindex="-1"></a>**Submission:**</span>
-<span id="cb9-333"><a href="#cb9-333" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-334"><a href="#cb9-334" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>your commented R script (<span class="in">`.R`</span> / <span class="in">`.qmd`</span>) documenting import, subset, resampling, masking and export;</span>
-<span id="cb9-335"><a href="#cb9-335" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>two labelled visualizations (RGB and False Colour composites) of your area of interest;</span>
-<span id="cb9-336"><a href="#cb9-336" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>a short reflection and basic metadata for the chosen image;</span>
-<span id="cb9-337"><a href="#cb9-337" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>the GeoTIFF of the area of interest, **if the Moodle file limit allows it**; otherwise share via the FU Box.</span>
-<span id="cb9-338"><a href="#cb9-338" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-339"><a href="#cb9-339" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
-<span id="cb9-340"><a href="#cb9-340" aria-hidden="true" tabindex="-1"></a><span class="fu">## Working with code and generative AI</span></span>
+<span id="cb9-326"><a href="#cb9-326" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>10 spectral bands in the intended order;</span>
+<span id="cb9-327"><a href="#cb9-327" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>spatial resolution and CRS;</span>
+<span id="cb9-328"><a href="#cb9-328" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>AOI coverage and NoData pattern;</span>
+<span id="cb9-329"><a href="#cb9-329" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>whether your stored pixel values are already physical reflectances or still just digital numbers. Do some research!</span>
+<span id="cb9-330"><a href="#cb9-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-331"><a href="#cb9-331" aria-hidden="true" tabindex="-1"></a><span class="fu">## 4. Short group reflection</span></span>
+<span id="cb9-332"><a href="#cb9-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-333"><a href="#cb9-333" aria-hidden="true" tabindex="-1"></a>Talk to another group and compare your observations and processing choices.</span>
+<span id="cb9-334"><a href="#cb9-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-335"><a href="#cb9-335" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Which observations in SNAP helped you choose or evaluate your SCL mask in R?</span>
+<span id="cb9-336"><a href="#cb9-336" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>If you processed 50 scenes rather than one, how might your preferred workflow change?</span>
+<span id="cb9-337"><a href="#cb9-337" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-338"><a href="#cb9-338" aria-hidden="true" tabindex="-1"></a><span class="fu">## 5. Homework — Prepare and evaluate your own image</span></span>
+<span id="cb9-339"><a href="#cb9-339" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-340"><a href="#cb9-340" aria-hidden="true" tabindex="-1"></a>**Task.** Select a Sentinel-2 **L2A** product for an area of interest of your choice. Inspect the imagery, scene classification and individual masks in SNAP, then complete all preprocessing in R.</span>
 <span id="cb9-341"><a href="#cb9-341" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-342"><a href="#cb9-342" aria-hidden="true" tabindex="-1"></a>You may use documentation, peers or AI tools to support your learning. **You remain responsible for the work you submit**, including its accuracy and your understanding of the methods and results. The purpose of these exercises is to develop your own skills and judgement. Trying things out, making mistakes and working through difficulties are valuable parts of that process. Use AI thoughtfully: it can help you understand a problem, but letting it do too much of the thinking can take away the very learning opportunities you are here for.</span>
-<span id="cb9-343"><a href="#cb9-343" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb9-344"><a href="#cb9-344" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-345"><a href="#cb9-345" aria-hidden="true" tabindex="-1"></a><span class="fu">## 6. Looking ahead</span></span>
-<span id="cb9-346"><a href="#cb9-346" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-347"><a href="#cb9-347" aria-hidden="true" tabindex="-1"></a>In week 5 we will use the prepared spectral data for **vegetation indices and further image analysis**. Keep your product metadata, processing record and output raster: they are part of a reproducible analytical workflow.</span>
-<span id="cb9-348"><a href="#cb9-348" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-349"><a href="#cb9-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-342"><a href="#cb9-342" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Select and document the scene:** acquisition date, product/tile ID, AOI and reason for choosing it. Use <span class="co">[</span><span class="ot">RESEDA's Copernicus Data Space tutorial</span><span class="co">](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Download.html#SentinelDataspace)</span> if needed.</span>
+<span id="cb9-343"><a href="#cb9-343" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Preprocess:** create a spatial subset with ten selected bands on a common 10 m grid, apply and document an SCL-based mask, and export a multiband GeoTIFF.</span>
+<span id="cb9-344"><a href="#cb9-344" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Visualize:** create one true-color and one false-color image, using appropriate contrast stretches; consult the <span class="co">[</span><span class="ot">RESEDA visualization chapter</span><span class="co">](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Visualization.html)</span>.</span>
+<span id="cb9-345"><a href="#cb9-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-346"><a href="#cb9-346" aria-hidden="true" tabindex="-1"></a>**Submission:**</span>
+<span id="cb9-347"><a href="#cb9-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-348"><a href="#cb9-348" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>your commented R script (<span class="in">`.R`</span> / <span class="in">`.qmd`</span>) documenting import, subset, resampling, masking and export;</span>
+<span id="cb9-349"><a href="#cb9-349" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>two labelled visualizations (RGB and False Colour composites) of your area of interest;</span>
+<span id="cb9-350"><a href="#cb9-350" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>a short reflection and basic metadata for the chosen image;</span>
+<span id="cb9-351"><a href="#cb9-351" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>the GeoTIFF of the area of interest, **if the Moodle file limit allows it**; otherwise share via the FU Box.</span>
+<span id="cb9-352"><a href="#cb9-352" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-353"><a href="#cb9-353" aria-hidden="true" tabindex="-1"></a>::: {.callout-tip}</span>
+<span id="cb9-354"><a href="#cb9-354" aria-hidden="true" tabindex="-1"></a><span class="fu">## Working with code and generative AI</span></span>
+<span id="cb9-355"><a href="#cb9-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-356"><a href="#cb9-356" aria-hidden="true" tabindex="-1"></a>You may use documentation, peers or AI tools to support your learning. **You remain responsible for the work you submit**, including its accuracy and your understanding of the methods and results. The purpose of these exercises is to develop your own skills and judgement. Trying things out, making mistakes and working through difficulties are valuable parts of that process. Use AI thoughtfully: it can help you understand a problem, but letting it do too much of the thinking can take away the very learning opportunities you are here for.</span>
+<span id="cb9-357"><a href="#cb9-357" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb9-358"><a href="#cb9-358" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-359"><a href="#cb9-359" aria-hidden="true" tabindex="-1"></a><span class="fu">## 6. Looking ahead</span></span>
+<span id="cb9-360"><a href="#cb9-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-361"><a href="#cb9-361" aria-hidden="true" tabindex="-1"></a>In week 5 we will use the prepared spectral data for **vegetation indices and further image analysis**. Keep your product metadata, processing record and output raster: they are part of a reproducible analytical workflow.</span>
+<span id="cb9-362"><a href="#cb9-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-363"><a href="#cb9-363" aria-hidden="true" tabindex="-1"></a></span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
