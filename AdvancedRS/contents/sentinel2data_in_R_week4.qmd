@@ -282,7 +282,7 @@ plotRGB(result, r = 3, g = 2, b = 1, stretch = "lin")
 plotRGB(result, r = 7, g = 3, b = 2, stretch = "lin")
 ```
 
-The output contains all ten selected spectral bands. It can be opened in another R script, SNAP or QGIS. Check that cloudy locations excluded by your mask are missing in the saved file too.
+The output contains all ten selected spectral bands. **It can be opened in another R script or QGIS.** Check that cloudy locations excluded by your mask are missing in the saved file too.
 
 ## 3. Quality-control checks
 
