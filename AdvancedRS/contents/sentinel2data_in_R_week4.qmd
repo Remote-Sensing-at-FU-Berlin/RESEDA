@@ -2,209 +2,333 @@
 title: "Week 4: Preprocess Sentinel 2 data in R without SNAP"
 author: "Remote Sensing and Geoinformatics, FU Berlin"
 
-output:
-   html_document:
-     dev: svg
-     fig_height: 4
-     fig_width: 6
-     number_sections: no
-     theme: cerulean
-     toc: yes
-     toc_depth: 3
-     toc_float: yes
+lang: en
+
+execute:
+  eval: false
+  echo: true
+
+format:
+  html:
+    fig-format: svg
+    fig-height: 4
+    fig-width: 6
+    number-sections: false
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    code-fold: true
+    code-summary: "Show code"
+    code-tools: true
+    code-copy: true
+    code-link: false
 ---
 
-# Introduction to Remote Sensing Data in R
+## Introduction
 
-This script provides an introduction to working with Sentinel-2 satellite data in R without using SNAP.
+**Guiding question:** How can we turn a Sentinel-2 Level-2A product into a documented, analysis-ready image—and how do our preprocessing choices influence the result?
 
-## Preprocessing includes:
+In this session, everyone will explore a Sentinel-2 product, its scene classification and individual masks in **SNAP**. You will then complete the entire processing chain with **R (`terra`)**: import the original data, create a spatial subset, resample, mask unsuitable observations and export a multiband GeoTIFF. You will compare the output with the original data and explain important methodological choices.
 
-- Open the spectral bands
-- Resampling 20 m bands to 10 m
-- Creating a multiband raster including all - - - spectral bands (and reorder them)
-- Using the scene classification quality band to mask clouds and their shadows.
-- Writing the data to a Geotif
+### Learning objectives
 
----
+After this session you should be able to:
 
-# Preparation
+- describe Copernicus and the Sentinel-2 mission, and identify relevant spectral bands, spatial resolutions, the CRS and scene classification information in a Sentinel-2 L2A product;
+- explain the difference between **resampling continuous spectral data** and **resampling categorical classification data**;
+- create a spatial subset and a multiband GeoTIFF;
+- use the **Scene Classification Layer (SCL)** to mask unwanted observations;
+- evaluate whether a processed image is suitable for subsequent analyses.
 
-1. Open a new R-script or RMarkdown file and save it. Run each code section in the sequence below and add comments as needed. Attempt the exercises independently before reviewing the solutions.
+### Intro to working with Sentinel-2 data
 
-2. **Install necessary packages:** Make sure the `terra` package is installed and loaded.
+Complete the processing chain, quality-control challenges and homework after the session. 
 
-```r
+::: {.callout-note}
+## Preparation
+
+- Use the provided **Sentinel-2 L2A SAFE product**: https://box.fu-berlin.de/s/PW8Z3FLEAZMrQce
+- Install ESA SNAP in advance: https://step.esa.int/main/download/snap-download/
+- If you work on your own laptop, reserve sufficient disk space for extracted SAFE files and temporary rasters. If your computer is not very powerful, we recommend to work in the PC pool. 
+
+**Software:** Everyone uses SNAP for visual exploration and R/RStudio with the `terra` package for processing. Extract the provided `.SAFE` product before importing the original JP2 files into R. You do not need to export an intermediate image from SNAP.
+
+Background tutorials with detailed instructions (RESEDA):
+
+1. [Download Sentinel-2 data from Copernicus Data Space](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Download.html#SentinelDataspace)
+2. [Sentinel-2 preprocessing in SNAP](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Preprocess-Optical-Data.html#sentinel-2-preprocessing)
+3. [Preprocessing in RStudio](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Preprocess-Optical-Data.html#pre-processing-steps-in-rstudio)
+4. [Visualization, RGB composites and contrast stretching](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Visualization.html)
+:::
+
+## 1. First look in SNAP (everyone)
+
+Follow the [RESEDA SNAP tutorial](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Preprocess-Optical-Data.html#sentinel-2-preprocessing) as a reference. Menu names can vary slightly between SNAP versions.
+
+1. Open the provided **L2A** product in SNAP (`File → Open Product`; SNAP can open supported product archives directly, no need to unzip!): 
+2. Inspect the product tree and metadata. Find the product ID, sensing date, CRS and bands.
+3. Open a **true-color composite** and a **vegetation false-color composite**.
+4. Find the folder **quality** and display `quality_scene_classification`. Compare the mask against the RGB composite: how do your rate the quality of the mask? Use **View → Tool Windows → Pixel Info** to inspect the SCL codes. Use the class code of the SCL you have identified in the breakoutgroups.
+
+5. Find the folder **scl**. Inspect the available individual SCL masks, for example vegetation, water, cloud shadows, medium/high-probability clouds and thin cirrus. Their names may start with `scl_`. If a mask has no visible pixels, what does it mean?
+6. Compare the thin-cirrus mask with the RGB image: are visible hazy areas classified as cirrus (SCL = 10), as another cloud class, or as surface pixels? The classification may miss for instance thin cirrus clouds.
+7. Compare a native 10 m band with a native 20 m band at the same zoom level, for example B04 and B11.
+
+
+::: {.callout-tip}
+## Record your observations
+
+Write down: (a) product ID and acquisition date, (b) tile ID and CRS, (c) native pixel sizes of B04, B11 and SCL, and (d) one area where the SCL classification is worth checking against the RGB image.
+:::
+
+## 2. Process the image in R with `terra` (everyone)
+
+**Processing target:** a smaller AOI, ten selected spectral bands on a **10 m grid**, with unsuitable SCL classes excluded, saved as a multiband GeoTIFF.
+
+**Recommended band order:** `B02, B03, B04, B05, B06, B07, B08, B8A, B11, B12`.
+
+Start from the **original, extracted Sentinel-2 L2A `.SAFE` directory** (unzip the original data!). The following step-by-step script uses the original band files. Run the code blocks in order in the same R session, adapting the paths. 
+
+### 2.1. Preparation
+
+Open a new R script and save it. Run each code section in sequence and add comments as needed. Attempt the exercises independently before reviewing the solutions.
+
+```{r}
 # install.packages("terra")
 library(terra)
+
+# Update this path to the IMG_DATA folder on your computer.
+# Forward slashes also work on Windows.
+path.image <- "E:/Lehre/2026_MSc/04/S2A_MSIL2A_20241024T101101_N0511_R022_T33UUU_20241024T122648.SAFE/S2A_MSIL2A_20241024T101101_N0511_R022_T33UUU_20241024T122648.SAFE/GRANULE/L2A_T33UUU_A048782_20241024T101201/IMG_DATA"
+setwd(path.image)
 ```
 
-3. Set the working directory: Update the path to the directory where today’s data are stored on your computer.
+As you have seen in the breakout groups Sentinel-2 spectral bands have different native spatial resolutions:
 
-```r
-path.image <- "C:\\Users\\stellmes\\Documents\\master\\4_seminar\\S2A_MSIL2A_20241024T101101_N0511_R022_T33UUU_20241024T122648.SAFE\\GRANULE\\L2A_T33UUU_A048782_20241024T101201\\IMG_DATA"
-setwd(pathimage)
-```
+Here we combine the ten selected 10 m and 20 m bands. **Resampling creates a common grid, not new spatial detail:** a 20 m measurement does not become a native 10 m measurement.
 
----
+### 2.2. Step 1: Load the 10 m bands
 
-# Create a multiband layerstack of 10 m spatial resolution
+```{r}
+# Set working directory to the 10 m data.
+setwd(paste0(path.image, "/R10m"))
 
-Sentinel-2 images provide spectral bands at different spatial resolutions, depending on the type of information each band captures:
-
-- **10m resolution:** Bands 2, 3, 4, and 8 – These bands capture visible and near-infrared (NIR) light, making them ideal for high-detail analysis, such as vegetation and land cover mapping.
-- **20m resolution:** Bands 5, 6, 7, 8A, 11, and 12, these bands include red-edge and shortwave infrared (SWIR) information, which is crucial for assessing vegetation health, soil, and water content.
-- **60m resolution:** Bands 1, 9, and 10 – These are primarily used for atmospheric correction and are not typically used in high-resolution analysis of surface features.
-
-Since different bands capture different aspects of the landscape, a combined analysis often requires multiple bands. However, the difference in spatial resolution can cause issues when you try to analyze or visualize them together.
-
-## **Why Resample?**
-
-To solve this, we need to unify the resolutions by **resampling the 20m bands to 10m.** This ensures all bands align spatially and can be analyzed as a cohesive dataset. Resampling adjusts the pixel size of the 20m bands to match the finer detail of the 10m bands.
-
-## Step 1: Load High-Resolution (10m) Bands
-
-Navigate to the R10m directory, which contains the high-resolution bands (B2, B3, B4, B8) at 10m. These bands represent the Blue, Green, Red, and Near Infrared (NIR) wavelengths, respectively, and are commonly used for RGB and NDVI visualizations.
-
-```r
-# Set working directory to R10m resolution data
-setwd(paste0(path.image, "\\R10m"))
-
-# List all JP2 files in the directory (10m bands only)
-jp2files.10m <- list.files(path = ".", pattern = ".*_B.*\\.jp2$", ignore.case = TRUE)
+# List spectral bands only (exclude TCI, AOT and WVP).
+jp2files.10m <- list.files(pattern = "_B(02|03|04|08)_10m\\.jp2$",
+                         ignore.case = TRUE)
 print(jp2files.10m)
 
-# Load selected high-resolution bands (B2, B3, B4, B8) at 10m resolution
-sen2.img.hr <- rast(jp2files.10m[c(1:4)])
+# Check the printed order: B02, B03, B04, B08.
+sen2.img.hr <- rast(jp2files.10m)
+names(sen2.img.hr) <- c("B02", "B03", "B04", "B08")
 
-# Visualize the RGB composite (bands 4, 3, 2 correspond to Red, Green, Blue)
-plotRGB(sen2.img.hr, 4, 3, 2, stretch = "lin")
+# True colour: red, green, blue = layers 3, 2, 1.
+plotRGB(sen2.img.hr, r = 3, g = 2, b = 1, stretch = "lin")
 ```
 
-## Step 2: Load Medium-Resolution (20m) 
+**Important:** `plotRGB()` uses **positions in the current raster**, not Sentinel-2 band numbers. Here, layer 4 is B08, not B04.
 
-Switch to the R20m directory to load 20m resolution bands. These bands include additional spectral information, such as red-edge and SWIR bands.
+### 2.3. Step 2: Load the selected 20 m bands
 
-```r
-# Set working directory to R20m resolution data
-setwd(paste0(path.image, "\\R20m"))
+```{r}
+setwd(paste0(path.image, "/R20m"))
 
-# List all JP2 files in the directory (20m bands only)
-jp2files.20m <- list.files(path = ".", pattern = ".*_B.*\\.jp2$", ignore.case = TRUE)
+# Select the six required bands directly by their filename codes.
+# The | symbol in this search pattern means OR.
+jp2files.20m <- list.files(pattern = "_B(05|06|07|8A|11|12)_20m\\.jp2$",
+                         ignore.case = TRUE)
 print(jp2files.20m)
 
-# Load selected low-resolution bands at 20m resolution (specify indices for desired bands) 
-sen2.img.lr <- rast(jp2files.20m[c(5, 6, 7, 8, 9, 10)])
+# Check the printed order: B05, B06, B07, B11, B12, B8A.
+sen2.img.lr <- rast(jp2files.20m)
+names(sen2.img.lr) <- c("B05", "B06", "B07", "B11", "B12", "B8A")
 
-# Visualize a SWIR, NIR, Red composite for vegetation analysis
-plotRGB(sen2.img.lr, 6, 5, 2, stretch = "lin")
+# Inspect the native 20 m SWIR band B11.
+plot(sen2.img.lr[[4]], main = "B11 at 20 m")
 ```
 
-- Step 3: Extract and Resample Bands for Analysis
+::: {.callout-tip}
+## Check the file lists before continuing
 
-In R, we use the `resample()` function from the terra package to perform this operation. Resampling methods include: Consider the following two resampling methods:
+The first list should contain **four** files and the second **six** files, in the order given above. The filename patterns select the required bands directly, so we do not have to rely on their positions in a list containing other 20 m bands. If a list is empty, check your path and the filenames. Do not assign the short band names until the file order is correct.
+:::
 
-- **Bilinear Interpolation:** Calculates the new pixel values based on the weighted average of the four nearest pixels. This method is best for continuous data, like spectral bands.
+### 2.4. Step 3: Resample the 20 m bands to 10 m
 
-- **Nearest Neighbor:** Simply assigns the nearest pixel value. This method is better for categorical data (e.g., a classification band), as it maintains discrete classes.
+Two common methods are:
 
-**Question:** If you were resampling Sentinel-2 data for the following purposes, which resampling method would you choose and why?
+- **Bilinear interpolation:** a distance-weighted combination of the four nearest input cells; suitable for continuous spectral values.
+- **Nearest neighbour:** copies the nearest input value; suitable for categorical data because it preserves the class codes.
 
-- Resampling spectral bands (e.g., Red or NIR) to match a higher resolution for vegetation analysis.
+**Question:** Which method would you choose for a spectral band and which for a classification layer? Explain your choices.
 
-- Resampling a classification layer (e.g., a land cover map) to match the resolution of other layers in a study area.
-Explain your choices based on the characteristics of each resampling method.
+```{r}
+sen2.img.lr.to10m <- resample(sen2.img.lr, sen2.img.hr[[1]],
+                             method = "bilinear")
 
-Here’s how we apply this to our Sentinel-2 data:
-
-```r
-sen2.img.lr.to10m <- resample(sen2.img.lr, sen2.img.hr, method = "bilinear")
+plot(sen2.img.lr.to10m[[4]], main = "B11 resampled to 10 m")
 ```
 
-## Step 4: Combine All Bands in the Correct Wavelength Order
+**Check your observation:** What changes in the number of cells? What does not change about the original measurement?
 
-Reorder bands to follow the typical Sentinel-2 wavelength progression. This is how the images look like right now: **10m bands:** B2 (Blue), B3 (Green), B4 (Red), B8 (NIR), **Resampled 20m bands**: B5, B6, B7 (Red Edge), B11, B12 (SWIR), B8A (Narrow NIR)
+### 2.5. Step 4: Combine and reorder the bands
 
-```r
-# Stack into a single raster
+The current stacks contain:
+
+- **10 m:** B02, B03, B04, B08.
+- **Resampled 20 m:** B05, B06, B07, B11, B12, B8A.
+
+Use their positions to create the final order: **B02, B03, B04, B05, B06, B07, B08, B8A, B11, B12**.
+
+```{r}
 sen2.full <- c(sen2.img.hr[[1]], sen2.img.hr[[2]], sen2.img.hr[[3]],
-               sen2.img.lr.to10m[[1]], sen2.img.lr.to10m[[2]], sen2.img.lr.to10m[[3]],
-               sen2.img.hr[[4]], sen2.img.lr.to10m[[6]], sen2.img.lr.to10m[[4]],
+               sen2.img.lr.to10m[[1]], sen2.img.lr.to10m[[2]],
+               sen2.img.lr.to10m[[3]], sen2.img.hr[[4]],
+               sen2.img.lr.to10m[[6]], sen2.img.lr.to10m[[4]],
                sen2.img.lr.to10m[[5]])
 
-# Confirm the band order
 print(names(sen2.full))
+
+# False colour: B08, B04, B03 = layers 7, 3, 2.
+plotRGB(sen2.full, r = 7, g = 3, b = 2, stretch = "lin")
 ```
 
-# Masking Clouds and Shadows
+### 2.6. Step 5: Mask clouds and shadows with SCL
 
-Sentinel-2 Level-2A data includes a Scene Classification (SCL) band for e.g. masking clouds, shadows, and snow.
+Load the SCL band and resample it using **nearest neighbour**. Then apply the same mask to all ten spectral bands in one operation.
 
-## Step 5: Load and Use the Scene Classification Band (SCL)
+```{r}
+setwd(paste0(path.image, "/R20m"))
 
-1. Load the SCL band and resample to 10m.
-
-2. Use the `mask()` function to exclude clouds and shadows (values 3, 8, 9, and 10).
-
-```r
-# Load the Scene Classification (SCL) band
-# Set working directory to R20m resolution data
-setwd(paste0(path.image, "\\R20m"))
-
-# List all JP2 files in the directory (20m bands only)
-scl.20m <- list.files(path = ".", pattern = ".*_SCL_20m.*\\.jp2$", ignore.case = TRUE)
+scl.20m <- list.files(pattern = "_SCL_20m\\.jp2$", ignore.case = TRUE)
 print(scl.20m)
 
-# Load selected low-resolution bands at 20m resolution (specify indices for desired bands) 
 scl.20m.img <- rast(scl.20m)
-plot(scl.20m.img)
+plot(scl.20m.img, main = "Scene classification")
 
-# Resample the scene classification --> method "near"!!
-scl.10m.img <- resample(scl.20m.img, sen2.img.hr, method = "near")
+# Classification codes must not be interpolated with bilinear!
+scl.10m.img <- resample(scl.20m.img, sen2.img.hr[[1]], method = "near")
 
-# Mask clouds and shadows using mask()
-mask.values <- c(3, 8, 9, 10)
+# Exclude no data (0), defective pixels (1), cloud shadows (3),
+# medium/high-probability clouds (8, 9) and thin cirrus (10).
+mask.values <- c(0, 1, 3, 8, 9, 10)
+
+# Optional: also exclude topographic shadows (2),
+# unclassified pixels (7) and snow/ice (11).
+# mask.values <- c(mask.values, 2, 7, 11)
+
 masked.image <- mask(sen2.full, scl.10m.img, maskvalues = mask.values)
 
-# Display the masked image in a false color composite
-plotRGB(masked.image, r = 8, g = 3, b = 2, stretch = "lin")
+# Compare the same false-colour composite before and after masking.
+plotRGB(sen2.full, r = 7, g = 3, b = 2, stretch = "lin")
+plotRGB(masked.image, r = 7, g = 3, b = 2, stretch = "lin")
 ```
 
-3. Subset the data to an region of interest.
+`maskvalues` lists the SCL codes to replace with **NA in every spectral band**. All other classes are retained unless SCL is already missing. Decide whether classes 2, 7 and 11 are suitable for your application.
 
-```r
-# create area of interest; you might also use any spatial vector dataset of your area of interest
+**Check visually:** Are all clouds gone? Has any unobscured surface been removed? Compare with your observations in SNAP. SCL is an automated classification: a cloud incorrectly classified as vegetation or another retained class will remain in the image.
+
+### 2.7. Step 6: Subset the image
+
+Define an area of interest in the **same CRS and coordinate units** as the image. The example uses projected coordinates in meters for Berlin / UTM zone 33N. For another scene, adapt the extent and check that it overlaps your image.
+
+```{r}
+crs(masked.image)
+
+# xmin, xmax, ymin, ymax
 subset.berlin <- c(360000, 410000, 5800000, 5840000)
-
-# Crop the image accordingly
 masked.image.cropped <- crop(masked.image, subset.berlin)
 
-# Plot the cropped data
-plotRGB(masked.image.cropped, r = 8, g = 3, b = 2, stretch = "lin")
+plotRGB(masked.image.cropped, r = 7, g = 3, b = 2, stretch = "lin")
 ```
 
-4. Save the data as GeoTiff. You may now open the data in another R script or any remote sensing or GIS software.
+::: {.callout-note}
+## Processing time
 
-```r
-# Export the data as GeoTiff
-setwd("C:\\Users\\stellmes\\Documents\\master\\4_seminar\\")
-writeRaster(masked.image.cropped, "sen2_20241024.tif", overwrite=T)
+This sequence follows the complete scene through stacking and masking before cropping. For larger workflows, cropping the original bands and SCL before resampling reduces processing time and memory requirements.
+:::
+
+### 2.8. Step 7: Save and reopen the GeoTIFF
+
+```{r}
+# Change to your output directory (it must already exist).
+setwd("E:/Lehre/MSc_neu/04")
+writeRaster(masked.image.cropped, "sen2_20241024.tif", overwrite = TRUE)
+
+# Reopen the saved file and check the result.
+result <- rast("sen2_20241024.tif")
+print(result)
+names(result)
+res(result)
+crs(result)
+
+# True colour: B04, B03, B02.
+plotRGB(result, r = 3, g = 2, b = 1, stretch = "lin")
+# False colour: B08, B04, B03.
+plotRGB(result, r = 7, g = 3, b = 2, stretch = "lin")
 ```
 
----
+The output contains all ten selected spectral bands. It can be opened in another R script, SNAP or QGIS. Check that cloudy locations excluded by your mask are missing in the saved file too.
 
-# Homework
+::: {.callout-note}
+## Reflectance versus stored integers
 
-- Download an S2 image of your choice
-- Pre-process the data according to the process chain, either in SNAP or R
-- Subset your data to an area of interest
-- Save the data as Geotif
-- Visualize the data
+The R workflow above does not explicitly convert the original JP2 values to physical reflectance; bilinear resampling may result in non-integer values. For **quantitative surface-reflectance analysis**, consult the metadata for `BOA_QUANTIFICATION_VALUE` and any applicable `BOA_ADD_OFFSET` values. Do not assume that dividing every product by 10,000 is always sufficient. Likewise, a linear visualization stretch is **only a display setting**; it does not convert the exported image to reflectance.
+:::
 
----
+## 3. Quality-control cehcks
 
-This completes our initial exploration of Sentinel-2 data in SNAP and R. In the next session, we will dive deeper into calculating vegetation indices and extracting land cover information using the bands we’ve processed today.
+Complete these challenges using the original imagery in SNAP and your processing results in R. Compare your evidence with another group if possible.
 
+### Check A — Does resampling create detail?
+
+Show B11 at its native 20 m resolution and resampled to 10 m. Explain in **2–3 sentences** what changes in the raster grid and what remains limited by the original sensor measurement.
+
+### Check B — Is the SCL mask reliable?
+
+Compare true-color images **before and after masking**. Are you happy with the result?
+
+
+### Check C — Is the GeoTIFF analysis-ready?
+
+Reopen the **exported** file. Check the following and record the results:
+
+- 10 spectral bands in the intended order;
+- spatial resolution and CRS;
+- AOI coverage and NoData pattern;
+- whether your stored pixel values are already physical reflectances or still just digital numbers. Do some research!
+
+## 4. Short group reflection
+
+Talk to another group and compare your observations and processing choices.
+
+1. Which observations in SNAP helped you choose or evaluate your SCL mask in R?
+2. If you processed 50 scenes rather than one, how might your preferred workflow change?
+
+## 5. Homework — Prepare and evaluate your own image
+
+**Task.** Select a Sentinel-2 **L2A** product for an area of interest of your choice. Inspect the imagery, scene classification and individual masks in SNAP, then complete all preprocessing in R.
+
+1. **Select and document the scene:** acquisition date, product/tile ID, AOI and reason for choosing it. Use [RESEDA's Copernicus Data Space tutorial](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Download.html#SentinelDataspace) if needed.
+2. **Preprocess:** create a spatial subset with ten selected bands on a common 10 m grid, apply and document an SCL-based mask, and export a multiband GeoTIFF.
+3. **Visualize:** create one true-color and one false-color image, using appropriate contrast stretches; consult the [RESEDA visualization chapter](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Visualization.html).
+
+**Submission:**
+
+- your commented R script (`.R` / `.qmd`) documenting import, subset, resampling, masking and export;
+- two labelled visualizations (RGB and False Colour composites) of your area of interest;
+- a short reflection and basic metadata for the chosen image;
+- the GeoTIFF of the area of interest, **if the Moodle file limit allows it**; otherwise share via the FU Box.
+
+::: {.callout-tip}
+## Working with code and generative AI
+
+You may use documentation, peers or AI tools to support your learning. **You remain responsible for the work you submit**, including its accuracy and your understanding of the methods and results. The purpose of these exercises is to develop your own skills and judgement. Trying things out, making mistakes and working through difficulties are valuable parts of that process. Use AI thoughtfully: it can help you understand a problem, but letting it do too much of the thinking can take away the very learning opportunities you are here for.
+:::
+
+## 6. Looking ahead
+
+In week 5 we will use the prepared spectral data for **vegetation indices and further image analysis**. Keep your product metadata, processing record and output raster: they are part of a reproducible analytical workflow.
 
 
 
