@@ -23,8 +23,24 @@ format:
     code-copy: true
     code-link: false
 ---
+## Contents
+- [This week](#This-week)
+- [1. Explore the imagery in SNAP](#first-look-in-snap)
+  - Inspect spectral bands and RGB composites
+  - Explore the Scene Classification Layer and individual masks
+- [2. Process the image in R](#process-the-image-in-r-with-terra)
+  - Prepare R and load the spectral bands
+  - Resample the 20 m bands to 10 m
+  - Combine and reorder the bands
+  - Mask clouds and shadows using SCL
+  - Create a spatial subset
+  - Save and check the GeoTIFF
+- [3. Quality-control challenges](#quality-control-checks)
+- [4. Short group reflection](#short-group-reflection)
+- [5. Homework](#homework-prepare-and-evaluate-your-own-image)
+- [6. Looking ahead](#looking-ahead)
 
-## Introduction
+## This week
 
 **Guiding question:** How can we turn a Sentinel-2 Level-2A product into a documented, analysis-ready image—and how do our preprocessing choices influence the result?
 
@@ -39,8 +55,6 @@ After this session you should be able to:
 - create a spatial subset and a multiband GeoTIFF;
 - use the **Scene Classification Layer (SCL)** to mask unwanted observations;
 - evaluate whether a processed image is suitable for subsequent analyses.
-
-### Intro to working with Sentinel-2 data
 
 Complete the processing chain, quality-control challenges and homework after the session. 
 
@@ -61,7 +75,7 @@ Background tutorials with detailed instructions (RESEDA):
 4. [Visualization, RGB composites and contrast stretching](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Visualization.html)
 :::
 
-## 1. First look in SNAP (everyone)
+## 1. First look in SNAP
 
 Follow the [RESEDA SNAP tutorial](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Preprocess-Optical-Data.html#sentinel-2-preprocessing) as a reference. Menu names can vary slightly between SNAP versions.
 
@@ -81,7 +95,7 @@ Follow the [RESEDA SNAP tutorial](https://remote-sensing-at-fu-berlin.github.io/
 Write down: (a) product ID and acquisition date, (b) tile ID and CRS, (c) native pixel sizes of B04, B11 and SCL, and (d) one area where the SCL classification is worth checking against the RGB image.
 :::
 
-## 2. Process the image in R with `terra` (everyone)
+## 2. Process the image in R with `terra`
 
 **Processing target:** a smaller AOI, ten selected spectral bands on a **10 m grid**, with unsuitable SCL classes excluded, saved as a multiband GeoTIFF.
 
@@ -276,7 +290,7 @@ The output contains all ten selected spectral bands. It can be opened in another
 The R workflow above does not explicitly convert the original JP2 values to physical reflectance; bilinear resampling may result in non-integer values. For **quantitative surface-reflectance analysis**, consult the metadata for `BOA_QUANTIFICATION_VALUE` and any applicable `BOA_ADD_OFFSET` values. Do not assume that dividing every product by 10,000 is always sufficient. Likewise, a linear visualization stretch is **only a display setting**; it does not convert the exported image to reflectance.
 :::
 
-## 3. Quality-control cehcks
+## 3. Quality-control checks
 
 Complete these challenges using the original imagery in SNAP and your processing results in R. Compare your evidence with another group if possible.
 
