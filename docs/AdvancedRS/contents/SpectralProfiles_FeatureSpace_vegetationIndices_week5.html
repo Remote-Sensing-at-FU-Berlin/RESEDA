@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.11.9">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-
 <meta name="author" content="Remote Sensing and Geoinformatics, FU Berlin">
-
-<title>Week 5 - Spectral Profiles, Feature Space and Vegetation Indices</title>
+<title>Week 5: Spectral Profiles, Feature Spaces and Vegetation Indices</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -64,7 +61,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
-
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -82,8 +78,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-0ffd885f25c2d4ed3bd4f1070efa26ad.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<script id="quarto-search-options" type="application/json">{
+<link href="../../site_libs/bootstrap/bootstrap-0ffd885f25c2d4ed3bd4f1070efa26ad.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -108,29 +103,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script>
-
-
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 </head>
-
 <body class="nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
-      <div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="../../index.html" class="navbar-brand navbar-brand-logo">
-    <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo light-content">
-    <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo dark-content">
-    </a>
+    <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo light-content"><img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo dark-content"></a>
   </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
+<li class="nav-item">
     <a class="nav-link" href="../../staff/index.html"> 
 <span class="menu-text">Staff</span></a>
   </li>  
@@ -151,8 +164,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">ADVANCED RS</span></a>
   </li>  
 </ul>
-            <ul class="navbar-nav navbar-nav-scroll ms-auto">
-  <li class="nav-item compact">
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item compact">
     <a class="nav-link" href="https://blogs.fu-berlin.de/reseda/"> <i class="bi bi-folder-symlink" role="img">
 </i> 
 <span class="menu-text"></span></a>
@@ -168,56 +181,83 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text"></span></a>
   </li>  
 </ul>
-          </div> <!-- /navcollapse -->
+</div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
             <div id="quarto-search" class="" title="Search"></div>
       </div> <!-- /container-fluid -->
-    </nav>
-</header>
-<!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#preparation" id="toc-preparation" class="nav-link active" data-scroll-target="#preparation">1. Preparation</a></li>
-  <li><a href="#open-a-satellite-image" id="toc-open-a-satellite-image" class="nav-link" data-scroll-target="#open-a-satellite-image">2. Open a satellite image</a></li>
-  <li><a href="#google-earth-ge" id="toc-google-earth-ge" class="nav-link" data-scroll-target="#google-earth-ge">3. Google Earth (GE)</a></li>
-  <li><a href="#open-a-kml-file-and-plot-it" id="toc-open-a-kml-file-and-plot-it" class="nav-link" data-scroll-target="#open-a-kml-file-and-plot-it">4. Open a kml-file and Plot it</a></li>
-  <li><a href="#calculate-mean-reflectance-spectra" id="toc-calculate-mean-reflectance-spectra" class="nav-link" data-scroll-target="#calculate-mean-reflectance-spectra">5.Calculate Mean Reflectance Spectra</a></li>
-  <li><a href="#illustrate-mean-reflectance-spectra" id="toc-illustrate-mean-reflectance-spectra" class="nav-link" data-scroll-target="#illustrate-mean-reflectance-spectra">6. Illustrate Mean Reflectance Spectra</a></li>
-  <li><a href="#feature-space" id="toc-feature-space" class="nav-link" data-scroll-target="#feature-space">7. Feature Space</a></li>
-  <li><a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework">Homework</a>
+<li><a href="#contents" id="toc-contents" class="nav-link active" data-scroll-target="#contents">Contents</a></li>
+  <li>
+<a href="#this-week" id="toc-this-week" class="nav-link" data-scroll-target="#this-week">This week</a>
   <ul class="collapse">
-  <li><a href="#feature-space-1" id="toc-feature-space-1" class="nav-link" data-scroll-target="#feature-space-1">1. Feature Space</a></li>
-  <li><a href="#ndvi" id="toc-ndvi" class="nav-link" data-scroll-target="#ndvi">2. NDVI</a></li>
-  <li><a href="#evi" id="toc-evi" class="nav-link" data-scroll-target="#evi">3. EVI</a></li>
-  <li><a href="#pvi" id="toc-pvi" class="nav-link" data-scroll-target="#pvi">4. PVI</a>
-  <ul class="collapse">
-  <li><a href="#intro" id="toc-intro" class="nav-link" data-scroll-target="#intro">Intro</a></li>
-  </ul></li>
-  </ul></li>
-  <li><a href="#derivation-of-the-soil-line" id="toc-derivation-of-the-soil-line" class="nav-link" data-scroll-target="#derivation-of-the-soil-line">Derivation of the soil line</a>
-  <ul class="collapse">
-  <li><a href="#a.-plot-the-feature-space-between-the-red-band-and-the-nir-band." id="toc-a.-plot-the-feature-space-between-the-red-band-and-the-nir-band." class="nav-link" data-scroll-target="#a.-plot-the-feature-space-between-the-red-band-and-the-nir-band.">a. Plot the feature space between the red band and the NIR band.</a></li>
-  <li><a href="#b.-inspect-the-soil-line." id="toc-b.-inspect-the-soil-line." class="nav-link" data-scroll-target="#b.-inspect-the-soil-line.">b. Inspect the soil line.</a></li>
-  <li><a href="#c.-derive-the-soil-line-by-calculating-gain-a-and-intercept-b." id="toc-c.-derive-the-soil-line-by-calculating-gain-a-and-intercept-b." class="nav-link" data-scroll-target="#c.-derive-the-soil-line-by-calculating-gain-a-and-intercept-b.">c.&nbsp;Derive the soil line by calculating gain <strong>a</strong> and intercept <strong>b</strong>.</a></li>
-  <li><a href="#d.-calculate-the-pvi-and-plot-it." id="toc-d.-calculate-the-pvi-and-plot-it." class="nav-link" data-scroll-target="#d.-calculate-the-pvi-and-plot-it.">d.&nbsp;Calculate the PVI and plot it.</a></li>
-  <li><a href="#ndvi-vs.-evi-vs.-pvi" id="toc-ndvi-vs.-evi-vs.-pvi" class="nav-link" data-scroll-target="#ndvi-vs.-evi-vs.-pvi">5. NDVI vs.&nbsp;EVI (vs.&nbsp;PVI)</a></li>
-  </ul></li>
+<li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning objectives</a></li>
   </ul>
-</nav>
+</li>
+  <li>
+<a href="#revisit-image" id="toc-revisit-image" class="nav-link" data-scroll-target="#revisit-image">1. Revisit your Sentinel-2 image</a>
+  <ul class="collapse">
+<li><a href="#load-and-inspect-the-data" id="toc-load-and-inspect-the-data" class="nav-link" data-scroll-target="#load-and-inspect-the-data">1.1 Load and inspect the data</a></li>
+  <li><a href="#make-the-band-order-explicit" id="toc-make-the-band-order-explicit" class="nav-link" data-scroll-target="#make-the-band-order-explicit">1.2 Make the band order explicit</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#reference-polygons" id="toc-reference-polygons" class="nav-link" data-scroll-target="#reference-polygons">2. Create reference polygons in QGIS</a>
+  <ul class="collapse">
+<li><a href="#display-the-sentinel-2-image" id="toc-display-the-sentinel-2-image" class="nav-link" data-scroll-target="#display-the-sentinel-2-image">2.1 Display the Sentinel-2 image</a></li>
+  <li><a href="#add-an-optional-high-resolution-basemap" id="toc-add-an-optional-high-resolution-basemap" class="nav-link" data-scroll-target="#add-an-optional-high-resolution-basemap">2.2 Add an optional high-resolution basemap</a></li>
+  <li><a href="#create-a-geopackage-polygon-layer" id="toc-create-a-geopackage-polygon-layer" class="nav-link" data-scroll-target="#create-a-geopackage-polygon-layer">2.3 Create a GeoPackage polygon layer</a></li>
+  <li><a href="#digitize-your-reference-areas" id="toc-digitize-your-reference-areas" class="nav-link" data-scroll-target="#digitize-your-reference-areas">2.4 Digitize your reference areas</a></li>
+  </ul>
+</li>
+  <li><a href="#import-polygons" id="toc-import-polygons" class="nav-link" data-scroll-target="#import-polygons">3. Import reference polygons in R</a></li>
+  <li>
+<a href="#spectral-profiles" id="toc-spectral-profiles" class="nav-link" data-scroll-target="#spectral-profiles">4. Calculate mean spectral reflectance profiles</a>
+  <ul class="collapse">
+<li><a href="#extract-reflectance-for-every-polygon" id="toc-extract-reflectance-for-every-polygon" class="nav-link" data-scroll-target="#extract-reflectance-for-every-polygon">4.1 Extract reflectance for every polygon</a></li>
+  <li><a href="#plot-spectral-profiles" id="toc-plot-spectral-profiles" class="nav-link" data-scroll-target="#plot-spectral-profiles">4.2 Plot spectral profiles</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#feature-spaces" id="toc-feature-spaces" class="nav-link" data-scroll-target="#feature-spaces">5. Explore spectral feature spaces</a>
+  <ul class="collapse">
+<li><a href="#green-vs.-red" id="toc-green-vs.-red" class="nav-link" data-scroll-target="#green-vs.-red">5.1 Green vs.&nbsp;red</a></li>
+  <li><a href="#red-vs.-nir" id="toc-red-vs.-nir" class="nav-link" data-scroll-target="#red-vs.-nir">5.2 Red vs.&nbsp;NIR</a></li>
+  <li><a href="#nir-vs.-swir1" id="toc-nir-vs.-swir1" class="nav-link" data-scroll-target="#nir-vs.-swir1">5.3 NIR vs.&nbsp;SWIR1</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#vegetation-indices" id="toc-vegetation-indices" class="nav-link" data-scroll-target="#vegetation-indices">6. Calculate vegetation indices</a>
+  <ul class="collapse">
+<li><a href="#ndvi-normalized-difference-vegetation-index" id="toc-ndvi-normalized-difference-vegetation-index" class="nav-link" data-scroll-target="#ndvi-normalized-difference-vegetation-index">6.1 NDVI – Normalized Difference Vegetation Index</a></li>
+  <li><a href="#evi-enhanced-vegetation-index" id="toc-evi-enhanced-vegetation-index" class="nav-link" data-scroll-target="#evi-enhanced-vegetation-index">6.2 EVI – Enhanced Vegetation Index</a></li>
+  <li><a href="#pvi-perpendicular-vegetation-index" id="toc-pvi-perpendicular-vegetation-index" class="nav-link" data-scroll-target="#pvi-perpendicular-vegetation-index">6.3 PVI – Perpendicular Vegetation Index</a></li>
+  <li><a href="#ndvi-vs.-evi-vs.-pvi" id="toc-ndvi-vs.-evi-vs.-pvi" class="nav-link" data-scroll-target="#ndvi-vs.-evi-vs.-pvi">5. NDVI vs.&nbsp;EVI vs.&nbsp;PVI</a></li>
+  </ul>
+</li>
+  <li><a href="#compare-indices" id="toc-compare-indices" class="nav-link" data-scroll-target="#compare-indices">7. Compare the indices</a></li>
+  <li>
+<a href="#qgis-map" id="toc-qgis-map" class="nav-link" data-scroll-target="#qgis-map">8. Create a simple map in QGIS</a>
+  <ul class="collapse">
+<li><a href="#export-the-index" id="toc-export-the-index" class="nav-link" data-scroll-target="#export-the-index">8.1 Export the index</a></li>
+  <li><a href="#symbolize-the-vegetation-index-raster" id="toc-symbolize-the-vegetation-index-raster" class="nav-link" data-scroll-target="#symbolize-the-vegetation-index-raster">8.2 Symbolize the Vegetation index raster</a></li>
+  <li><a href="#produce-one-simple-map" id="toc-produce-one-simple-map" class="nav-link" data-scroll-target="#produce-one-simple-map">8.3 Produce one simple map</a></li>
+  </ul>
+</li>
+  <li><a href="#homework" id="toc-homework" class="nav-link" data-scroll-target="#homework">10. Homework — Spectral analysis of your own image</a></li>
+  <li><a href="#reference" id="toc-reference" class="nav-link" data-scroll-target="#reference">10. Function reference and useful links</a></li>
+  <li><a href="#looking-ahead" id="toc-looking-ahead" class="nav-link" data-scroll-target="#looking-ahead">11. Looking ahead</a></li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content" tabindex="-1">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Week 5 - Spectral Profiles, Feature Space and Vegetation Indices</h1>
+<main class="content" id="quarto-document-content" tabindex="-1"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Week 5: Spectral Profiles, Feature Spaces and Vegetation Indices</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
 </div>
 
 
@@ -237,288 +277,751 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header>
-
-
-<section id="preparation" class="level1">
-<h1>1. Preparation</h1>
+</header><section id="contents" class="level2"><h2 class="anchored" data-anchor-id="contents">Contents</h2>
 <ul>
-<li><p>Open a new R-file or Rmd-file and save it. Fill in and run the requested R commands and comment as you like. Please, try to solve the exercises on your own before you have a look at the solution.</p></li>
-<li><p>Install the package terra and load it.</p></li>
+<li><a href="#this-week">This week</a></li>
+<li>
+<a href="#revisit-image">1. Revisit your Sentinel-2 image</a>
+<ul>
+<li>Load the image, check scaling and band names</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages("terra")</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(terra)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</li>
+<li>
+<a href="#reference-polygons">2. Create reference polygons in QGIS</a>
 <ul>
-<li>Set the working directory to the folder where today’s data are located on your computer. Remember to use the right folder delimiter (\ or /)</li>
+<li>Display the image and optional background imagery</li>
+<li>Digitize and save reference areas in a GeoPackage</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"W:</span><span class="sc">\\</span><span class="st">Path</span><span class="sc">\\</span><span class="st">2</span><span class="sc">\\</span><span class="st">Your</span><span class="sc">\\</span><span class="st">folder"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<hr>
-</section>
-<section id="open-a-satellite-image" class="level1">
-<h1>2. Open a satellite image</h1>
+</li>
+<li><a href="#import-polygons">3. Import reference polygons in R</a></li>
+<li><a href="#spectral-profiles">4. Calculate spectral reflectance profiles</a></li>
+<li>
+<a href="#feature-spaces">5. Explore spectral feature spaces</a>
 <ul>
-<li>Open the Sentinel2 image. The given data are surface reflectance data, which means they corrected for observation geometry, as well as atmospheric and topographic effects. The data are saved in a range of 0 to 10000. To work with reflectance values in % we are dividing the data by 100.</li>
+<li>Green–red, red–NIR and NIR–SWIR1</li>
 </ul>
-<p>If you would like to know more about different processing levels of Sentinel-2, please, have a look here: <a href="https://documentation.dataspace.copernicus.eu/">https://documentation.dataspace.copernicus.eu/</a></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>image <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"sen2r_berlin_20230908_v2.tif"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>image <span class="ot">&lt;-</span> image<span class="sc">/</span><span class="dv">100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<hr>
-</section>
-<section id="google-earth-ge" class="level1">
-<h1>3. Google Earth (GE)</h1>
+</li>
+<li>
+<a href="#vegetation-indices">6. Calculate vegetation indices</a>
 <ul>
-<li>Open Google Earth and open the file studyarea.kmlthat illustrates the boundary of the study area. Have a look at the area and try to differentiate land cover and land use types. For those of you who are interested in how created the boundary:</li>
+<li>NDVI, EVI and PVI (including the soil line)</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>img.boundary <span class="ot">&lt;-</span> <span class="fu">as.polygons</span>(<span class="fu">ext</span>(image))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">crs</span>(img.boundary) <span class="ot">&lt;-</span> <span class="fu">crs</span>(image)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>img.boundary.utm <span class="ot">&lt;-</span> <span class="fu">project</span>(img.boundary,<span class="fu">crs</span>(<span class="st">"EPSG:4326"</span>))</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">writeVector</span>(img.boundary.utm,<span class="st">"studyareatest.kml"</span>,<span class="at">layer =</span> <span class="st">"studyarea"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</li>
+<li><a href="#compare-indices">7. Compare the indices</a></li>
+<li><a href="#qgis-map">8. Create a simple map in QGIS</a></li>
+<li><a href="#homework">9. Homework</a></li>
+<li><a href="#reference">10. Function reference and useful links</a></li>
+<li><a href="#looking-ahead">11. Looking ahead</a></li>
+</ul></section><section id="this-week" class="level2"><h2 class="anchored" data-anchor-id="this-week">This week</h2>
+<p><strong>Guiding question:</strong> How can we use spectral signatures, two-band feature spaces and vegetation indices to distinguish land-cover types and interpret vegetation characteristics in our own Sentinel-2 image?</p>
+<p>Last week you prepared a <strong>cloud-masked Sentinel-2 multiband GeoTIFF</strong>. This week you will work with <strong>your own image</strong> to digitize reference areas in <strong>QGIS</strong>, extract their spectral signatures in <strong>R (<code>terra</code>)</strong>, explore feature spaces and calculate three vegetation indices: <strong>NDVI, EVI and PVI</strong>. Finally, you will create a <strong>simple NDVI map in QGIS</strong>.</p>
+<p>If you did not yet finish your pre-procssing or did have problems that are not solved yet, use the <strong>backup GeoTIFF</strong> (https://box.fu-berlin.de/s/DtyPf28bSjZDsg9). Use the same image throughout all exercises and document which image you used.</p>
+<section id="learning-objectives" class="level3"><h3 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h3>
+<p>After this session you should be able to:</p>
 <ul>
-<li><p>Open as well <code>landcover.kml</code>. I have already prepared 4 polygons representing 4 land cover types. Add at least 6 other polygons.</p></li>
-<li><p>Prepare polygons that represent the different land cover/land use types. Rename the polygons according to the land cover/ land use they represent:</p>
-<ul>
-<li>Forest</li>
-<li>Grassland</li>
-<li>Agriculture (differentiate between different types, e.g.agricultural fields that are barren or vegetated in Google Earth)</li>
-<li>Settlements (industrial, residential)</li>
-<li>Water (lakes, river) eventually open soil areas</li>
-</ul></li>
-<li><p>Save the polygons as kml-file (not kmz!)</p></li>
+<li>identify and digitize homogeneous land-cover samples in QGIS and save them as a GeoPackage;</li>
+<li>extract and interpret mean spectral reflectance profiles using Sentinel-2 bands;</li>
+<li>explain a spectral feature space and compare the separability of land-cover types;</li>
+<li>calculate and interpret <strong>NDVI, EVI and PVI</strong>, including the role of the soil line;</li>
+<li>create and interpret a simple vegetation-index map.</li>
 </ul>
-<hr>
-</section>
-<section id="open-a-kml-file-and-plot-it" class="level1">
-<h1>4. Open a kml-file and Plot it</h1>
+<p>Continue the remaining analyses and homework during the week. It is not necessary to complete every section during the seminar itself.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Preparation
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ul>
-<li>The kml-file can be opened with the same function as a shapefile.</li>
+<li>Copy your <strong>preprocessed Sentinel-2 GeoTIFF from Week 4</strong> (the ten spectral bands) to a new folder, or use the backup provided via FU Box (https://box.fu-berlin.de/s/DtyPf28bSjZDsg9).</li>
+<li>Use <strong>QGIS</strong> for reference polygon digitization and for the final map. <strong>QuickMapServices</strong> is optional and can provide additional high-resolution background imagery.</li>
+<li>Use <strong>R/RStudio</strong> with the <code>terra</code> package for the analysis.</li>
+<li>Create an <strong>organized working directory</strong>, for example <code>week05/data</code>, <code>week05/reference</code>, <code>week05/results</code> and <code>week05/figures</code>. Save your R script in <code>week05</code> so that the relative paths in this tutorial work.</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>landcover <span class="ot">&lt;-</span> <span class="fu">vect</span>(<span class="st">"landcover.kml"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Compare the coordinate systems of the polygons and the image data. If necessary transform the projection system of the polygon data. Using an if-statement can be used to combine both functions.</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">crs</span>(landcover) <span class="sc">!=</span> <span class="fu">crs</span>(image)){</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>landcover.utm <span class="ot">&lt;-</span> terra<span class="sc">::</span><span class="fu">project</span>(landcover, image)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Write the land cover polygons to a shapefile using <code>writeVector()</code></li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">writeVector</span>(landcover.utm,<span class="st">"landcover_utm.shp"</span>,<span class="at">layer =</span> <span class="st">"landcover"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Plot the Landsat image and add your polygons. Mine are very small, so it might be hard to see them.</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotRGB</span>(image, <span class="at">r=</span><span class="dv">8</span>, <span class="at">g=</span><span class="dv">3</span>, <span class="at">b=</span><span class="dv">2</span>, <span class="at">stretch=</span><span class="st">"lin"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(landcover.utm, <span class="at">add=</span><span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"green"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<hr>
-</section>
-<section id="calculate-mean-reflectance-spectra" class="level1">
-<h1>5.Calculate Mean Reflectance Spectra</h1>
-<p>Extract for each polygon the mean reflectance spectra for the image using extract() with the argument <code>fun=mean</code></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>image.extract <span class="ot">&lt;-</span> <span class="fu">extract</span>(image, landcover.utm, <span class="at">fun=</span>mean)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Have a look at the result. How are the results saved? Optionally, you may add the polygon names from the kml-file using the function <code>row.names()</code> and the column names using <code>names()</code></li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(image.extract) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ID"</span>, <span class="st">"blue"</span>, <span class="st">"green"</span>, <span class="st">"red"</span>, <span class="st">"RE1"</span>, <span class="st">"RE2"</span>, <span class="st">"RE3"</span>, <span class="st">"NIR_b"</span>, <span class="st">"NIR_a"</span>, <span class="st">"SWIR1"</span>, <span class="st">"SWIR2"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(image.extract) <span class="ot">&lt;-</span> <span class="fu">c</span>(landcover.utm<span class="sc">$</span>Name)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>image.extract</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Row entries of data.frames might be addressed using <code>dataframe.name[row,]</code> or <code>dataframe.name[rowname,]</code>.</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>image.extract[<span class="dv">2</span>,]   <span class="co"># addressing a list entry using double brackets</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>image.extract[<span class="st">"Lake"</span>,]  <span class="co"># adressing the same entry using the name</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Within the rows you may select 1 or several elements with e.g.&nbsp;<code>dataframe[row,column]</code> or <code>dataframe[row, columnstart:columnend]</code></li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>image.extract[<span class="dv">2</span>,<span class="dv">3</span>] <span class="co"># addressing a list entry using double brackets</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>image.extract[<span class="dv">2</span>,<span class="dv">3</span><span class="sc">:</span><span class="dv">5</span>]</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>image.extract[<span class="dv">2</span>,<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>)]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<hr>
-</section>
-<section id="illustrate-mean-reflectance-spectra" class="level1">
-<h1>6. Illustrate Mean Reflectance Spectra</h1>
-<ul>
-<li><p>Create a plot that illustrates the mean reflectance spectra of the land cover/land use polygons for July.</p>
-<ul>
-<li><p>Remember to use the <code>lines()</code> function when plotting additional spectra.</p></li>
-<li><p>Please, add a legend illustrating the land cover types of your polygons.</p></li>
-<li><p>Adapt the x-axis using the central wavelengths of the Landsat bands. These should be available from last week’s seminar.</p></li>
-<li><p>Adapt as well the y-axis. We use level2 data. This means surface reflectance is scaled between 0 and 10000 (=100% reflectance). If the plot looks a bit weird (e.g.&nbsp;does not show the axis), you may use the command dev.off() which resets the plot properties. After applying this command, the plot should look fine. <code>dev.off()</code> does also cancel the <code>par()</code> settings that you might have applied.</p></li>
-</ul></li>
-</ul>
-<p>To make it a bit more convenient, we get rid of the ID column and convert the data.frame to a matrix. This makes it easier to handle the data for instance for plotting purposes.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>image.extract.alternative1 <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(image.extract[,<span class="dv">2</span><span class="sc">:</span><span class="dv">11</span>])</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>image.extract.alternative2 <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(image.extract[,<span class="sc">-</span><span class="dv">1</span>])</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>image.extract <span class="ot">&lt;-</span> image.extract.alternative1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><p>Hint: The plots are created for a kml with 10 polygons. If you use more or less polygons remember to change the plotting functions accordingly.</p></li>
-<li><p>The colors are arbitrary, change according to your preferences.</p></li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#dev.off() #--&gt; use this command if you work with a normal R-script. In RMD this is often not necessary.</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>lambda<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="dv">490</span>,<span class="dv">560</span>, <span class="dv">665</span>, <span class="dv">705</span>, <span class="dv">740</span>, <span class="dv">783</span>, <span class="dv">842</span>, <span class="dv">865</span>, <span class="dv">1610</span>, <span class="dv">2190</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>landcover_col <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"forest green"</span>, <span class="st">"blue1"</span>, <span class="st">"light blue"</span>, <span class="st">"grey"</span>, <span class="st">"brown"</span>, <span class="st">"forestgreen"</span>, <span class="st">"darkseagreen"</span>, <span class="st">"red"</span>, <span class="st">"black"</span>, <span class="st">"dark orange"</span>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lambda, image.extract[<span class="dv">1</span>,], <span class="at">xlab=</span><span class="st">"Wavelength [nm]"</span>, <span class="at">ylab=</span><span class="st">"reflectance (%)"</span>, <span class="at">main=</span><span class="st">"reflectance spectra"</span>, <span class="at">sub=</span><span class="st">"July"</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">400</span>,<span class="dv">2700</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">30</span>), <span class="at">col=</span>landcover_col[<span class="dv">1</span>], <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">type=</span><span class="st">'b'</span>)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(lambda, image.extract[<span class="dv">2</span>,], </span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">ylab=</span><span class="st">"grey value"</span>,</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab=</span><span class="st">"wavelenght [nm]"</span>, <span class="at">type=</span><span class="st">'b'</span>, <span class="at">col=</span>landcover_col[<span class="dv">2</span>], <span class="at">lwd=</span><span class="dv">2</span>)</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(lambda, image.extract[<span class="dv">3</span>,], </span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">ylab=</span><span class="st">"grey value"</span>,</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab=</span><span class="st">"wavelenght [nm]"</span>, <span class="at">type=</span><span class="st">'b'</span>, <span class="at">col=</span>landcover_col[<span class="dv">3</span>], <span class="at">lwd=</span><span class="dv">2</span>)</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(lambda, image.extract[<span class="dv">4</span>,], </span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">ylab=</span><span class="st">"grey value"</span>,</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab=</span><span class="st">"wavelenght [nm]"</span>, <span class="at">type=</span><span class="st">'b'</span>, <span class="at">col=</span>landcover_col[<span class="dv">4</span>], <span class="at">lwd=</span><span class="dv">2</span>)</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="co"># lines(lambda, image.extract[5,], </span></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="co">#       ylab="grey value",</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="co">#       xlab="wavelenght [nm]", type='b', col=landcover_col[5], lwd=2)</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="co"># lines(lambda, image.extract[6,], </span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="co">#       ylab="grey value",</span></span>
-<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a><span class="co">#       xlab="wavelenght [nm]", type='b', col=landcover_col[6], lwd=2)</span></span>
-<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a><span class="co"># lines(lambda, image.extract[7,], </span></span>
-<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="co">#       ylab="grey value",</span></span>
-<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a><span class="co">#       xlab="wavelenght [nm]", type='b', col=landcover_col[7], lwd=2)</span></span>
-<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="co"># lines(lambda, image.extract[8,], </span></span>
-<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a><span class="co">#       ylab="grey value",</span></span>
-<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a><span class="co">#       xlab="wavelenght [nm]", type='b', col=landcover_col[8], lwd=2)</span></span>
-<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a><span class="co"># lines(lambda, image.extract[9,], </span></span>
-<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="co">#       ylab="grey value",</span></span>
-<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="co">#       xlab="wavelenght [nm]", type='b', col=landcover_col[9], lwd=2)</span></span>
-<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a><span class="co"># lines(lambda, image.extract[10,], </span></span>
-<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a><span class="co">#       ylab="grey value",</span></span>
-<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a><span class="co">#       xlab="wavelenght [nm]", type='b', col=landcover_col[10], lwd=2)</span></span>
-<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'topright'</span>, <span class="at">title=</span><span class="st">'Landcover'</span>, </span>
-<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">row.names</span>(image.extract),</span>
-<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill=</span>landcover_col,</span>
-<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">bty=</span><span class="st">"n"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<hr>
-</section>
-<section id="feature-space" class="level1">
-<h1>7. Feature Space</h1>
-<p>Create a scatterplot (in remote sensing we name it <strong>feature space</strong>) between the red and the green band. Select four spectra (<strong>(a) water</strong>, <strong>(b) vegetation</strong>, <strong>(c) settlement</strong>, <strong>(d) soil</strong> -or alternatively, one of your other prepared land cover types) and plot them within the feature space. Similarly to the function <code>lines()</code> the function <code>points()</code> allows adding point data to a diagram. You may set the argument <code>maxcell</code> to increase the number of pixel data used for the feature space. If you set the number very high, creating the diagram may take a little while. In this example I used all spectra but as mentioned before, you may restrict yourself to four land cover types.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#dev.off() #--&gt; use this command if you work with a normal R-script. In RMD this is often not necessary.</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># feature space green (band 2) vs. red (band 3)</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(image[[<span class="dv">2</span>]], image[[<span class="dv">3</span>]],  <span class="at">xlab=</span><span class="st">"green"</span>, <span class="at">ylab=</span><span class="st">"red"</span>, <span class="at">xlim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">40</span>), <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">40</span>), <span class="at">maxcell =</span> <span class="dv">1000000</span>,  <span class="at">col=</span> <span class="st">"gray35"</span>)</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(image.extract[<span class="dv">1</span>,<span class="dv">2</span>],image.extract[<span class="dv">1</span>,<span class="dv">3</span>], <span class="at">col=</span>landcover_col[<span class="dv">1</span>], <span class="at">cex=</span><span class="dv">2</span>, <span class="at">pch=</span><span class="dv">19</span>)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(image.extract[<span class="dv">2</span>,<span class="dv">2</span>],image.extract[<span class="dv">2</span>,<span class="dv">3</span>], <span class="at">col=</span>landcover_col[<span class="dv">2</span>], <span class="at">cex=</span><span class="dv">2</span>, <span class="at">pch=</span><span class="dv">19</span>)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(image.extract[<span class="dv">3</span>,<span class="dv">2</span>],image.extract[<span class="dv">3</span>,<span class="dv">3</span>],  <span class="at">col=</span>landcover_col[<span class="dv">3</span>], <span class="at">cex=</span><span class="dv">2</span>, <span class="at">pch=</span><span class="dv">19</span>)</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(image.extract[<span class="dv">4</span>,<span class="dv">2</span>],image.extract[<span class="dv">4</span>,<span class="dv">3</span>],  <span class="at">col=</span>landcover_col[<span class="dv">4</span>], <span class="at">cex=</span><span class="dv">2</span>, <span class="at">pch=</span><span class="dv">19</span>)</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="co"># points(image.extract[5,2],image.extract[5,3],  col=landcover_col[5], cex=2, pch=19)</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co"># points(image.extract[6,2],image.extract[6,3],  col=landcover_col[6], cex=2, pch=19)</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># points(image.extract[7,2],image.extract[7,3],  col=landcover_col[7], cex=2, pch=19)</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co"># points(image.extract[8,2],image.extract[8,3],  col=landcover_col[8], cex=2, pch=19)</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co"># points(image.extract[9,2],image.extract[9,3],  col=landcover_col[9], cex=2, pch=19)</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co"># points(image.extract[10,2],image.extract[10,3g],  col=landcover_col[10], cex=2, pch=19)</span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'topright'</span>, <span class="at">title=</span><span class="st">'Landcover'</span>, </span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend=</span><span class="fu">row.names</span>(image.extract),</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill=</span>landcover_col,</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">bty=</span><span class="st">"n"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<hr>
-</section>
-<section id="homework" class="level1">
-<h1>Homework</h1>
-<section id="feature-space-1" class="level2">
-<h2 class="anchored" data-anchor-id="feature-space-1">1. Feature Space</h2>
-<p>Create two more feature space plots</p>
-<ul>
-<li>red vs.&nbsp;NIR</li>
-<li>NIR vs.&nbsp;MIR 1 / SWIR 1</li>
-</ul>
-<ol type="a">
-<li><p>Compare the feature spaces regarding their information contents, i.e.&nbsp;are the bands correlated?</p></li>
-<li><p>Where are the reflectance values of the four land cover types located. Are all of them separable in the three feature spaces?</p></li>
+<p><strong>Background tutorials (RESEDA and QGIS):</strong></p>
+<ol type="1">
+<li><a href="https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Classification-in-R.html#sample-in-qgis">RESEDA: Sampling in QGIS</a></li>
+<li><a href="https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Visualization.html">RESEDA: Visualization and band composites</a></li>
+<li><a href="https://docs.qgis.org/3.44/en/docs/gentle_gis_introduction/coordinate_reference_systems.html">QGIS: Introduction to coordinate reference systems</a></li>
+<li><a href="https://docs.qgis.org/3.44/en/docs/user_manual/working_with_vector/editing_geometry_attributes.html">QGIS: Digitizing and editing polygon features</a></li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="ndvi" class="level2">
-<h2 class="anchored" data-anchor-id="ndvi">2. NDVI</h2>
+</div>
+</div>
+</section></section><section id="revisit-image" class="level2"><h2 class="anchored" data-anchor-id="revisit-image">1. Revisit your Sentinel-2 image</h2>
+<section id="load-and-inspect-the-data" class="level3"><h3 class="anchored" data-anchor-id="load-and-inspect-the-data">1.1 Load and inspect the data</h3>
+<p>Open a new R script. Change the path to your image. If you use the backup, indicate this in your script. <strong>Here we assume that the data are in the folder “C:/your/folder/data”, your script in the folder “C:/your/folder”</strong></p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/">terra</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"C:/your/folder"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Change the filename to YOUR preprocessed Sentinel-2 image:</span></span>
+<span><span class="va">image_raw</span> <span class="op">&lt;-</span> <span class="fu">rast</span><span class="op">(</span><span class="st">"data/my_sentinel2_preprocessed.tif"</span><span class="op">)</span><span class="co"># we assume that the data are in the folder "C:/your/folder/data", your script in the folder "C:/your/folder"</span></span>
+<span></span>
+<span><span class="va">image_raw</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">image_raw</span><span class="op">)</span></span>
+<span><span class="fu">global</span><span class="op">(</span><span class="va">image_raw</span>, <span class="st">"range"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Questions</strong> 1. In which units or scaling are the pixel values stored? 2. What is the coordinate reference system (CRS)?</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Reflectance scaling matters
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sentinel-2 images store reflectance information as scaled digital numbers (DNs). Before calculating vegetation indices such as NDVI and EVI, we convert these values to <strong>surface reflectance</strong>:</p>
+<p><span class="math display">\[
+\rho = \frac{DN + BOA\_ADD\_OFFSET}{BOA\_QUANTIFICATION\_VALUE}
+\]</span></p>
+<p>The required values are provided in the <strong>Sentinel-2 metadata</strong> (<code>MTD_MSIL2A.xml</code> in the SAFE folder). Look for <code>BOA_QUANTIFICATION_VALUE</code> and <code>BOA_ADD_OFFSET</code>. Note that the XML <code>band_id</code> numbering differs from Sentinel-2 band names (e.g., <code>band_id="1"</code> refers to B02 as they are starting to count from 0).</p>
+<p>The <strong>scaling factor</strong> is usually <strong>10,000</strong>, while the <strong>offset</strong> depends on the processing baseline (typically <strong>−1,000</strong> for baseline/version 04.00 and later). Always check your product’s metadata.</p>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## Choose based on your inspected GeoTIFF:</span></span>
+<span><span class="va">scale_factor</span> <span class="op">&lt;-</span> <span class="fl">10000</span>  <span class="co"># &lt;-- CHECK and adjust for your processed image</span></span>
+<span><span class="va">offset</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="fl">1000</span> <span class="co"># &lt;-- CHECK and adjust for your processed image</span></span>
+<span><span class="va">image</span> <span class="op">&lt;-</span> <span class="va">image_raw</span> <span class="op">/</span> <span class="va">scale_factor</span></span>
+<span><span class="co"># Important: this is correct only if your data are zero-offset scaled reflectance.</span></span>
+<span><span class="co"># If your original L2A product has an applicable additive offset that was</span></span>
+<span><span class="co"># not corrected in Week 4, apply the metadata-defined offset BEFORE scaling.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section><section id="make-the-band-order-explicit" class="level3"><h3 class="anchored" data-anchor-id="make-the-band-order-explicit">1.2 Make the band order explicit</h3>
+<p>Your Week 4 output should contain ten bands in the order <code>B02, B03, B04, B05, B06, B07, B08, B8A, B11, B12</code>. We use shorter names (<code>B2</code> rather than <code>B02</code>) for the code below. If you used a different processing workflow, check the names and order carefully.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Do not blindly rename bands
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>First inspect <code>names(image)</code>. If your raster has <strong>exactly the ten Week 4 bands in the order shown</strong>, you may use the code below. Otherwise, adapt the selection and naming to your file. Do not confuse <strong>B8 (broad NIR)</strong> with <strong>B8A (narrow NIR)</strong>.</p>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">## Run ONLY if the current band order is:</span></span>
+<span><span class="co">## B02, B03, B04, B05, B06, B07, B08, B8A, B11, B12</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html">stopifnot</a></span><span class="op">(</span><span class="fu">nlyr</span><span class="op">(</span><span class="va">image</span><span class="op">)</span> <span class="op">==</span> <span class="fl">10</span><span class="op">)</span> <span class="co"># you may adapt this line if you have another number of spectral bands and know why!</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">image</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B2"</span>, <span class="st">"B3"</span>, <span class="st">"B4"</span>, <span class="st">"B5"</span>, <span class="st">"B6"</span>, <span class="st">"B7"</span>,</span>
+<span>                  <span class="st">"B8"</span>, <span class="st">"B8A"</span>, <span class="st">"B11"</span>, <span class="st">"B12"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">plotRGB</span><span class="op">(</span><span class="va">image</span>, r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="st">"B4"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">image</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>        g <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="st">"B3"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">image</span><span class="op">)</span><span class="op">)</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="st">"B2"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">image</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>        stretch <span class="op">=</span> <span class="st">"lin"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Check:</strong> Does the image look reasonable? Is your study area free from major unmasked clouds? If not, first investigate your preprocessing.</p>
+</section></section><section id="reference-polygons" class="level2"><h2 class="anchored" data-anchor-id="reference-polygons">2. Create reference polygons in QGIS</h2>
+<p>You will identify a small selection of <strong>homogeneous land-cover areas</strong> and later inspect their reflectance in R. These polygons are <strong>reference samples for spectral exploration</strong>, not yet a statistically designed training/validation dataset.</p>
+<p><strong>Recommended classes (where available):</strong> forest, grassland, agricultural vegetation, bare soil / harvested fields, built-up surfaces and water. Aim for <strong>10 to 15 small polygons</strong> covering at least four contrasting classes. If a class is absent in your study area, do not invent it.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Additional guidance: Digitizing reference polygons in QGIS
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For step-by-step instructions with illustrations, use our <a href="https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Classification-in-R.html#sample-in-qgis"><strong>RESEDA – Sample in QGIS</strong></a> tutorial.</p>
+<p><strong>Note:</strong> The RESEDA example uses Landsat imagery and shapefiles. In this exercise, you will use <strong>Sentinel-2 imagery and a GeoPackage</strong> instead.</p>
+</div>
+</div>
+<section id="display-the-sentinel-2-image" class="level3"><h3 class="anchored" data-anchor-id="display-the-sentinel-2-image">2.1 Display the Sentinel-2 image</h3>
+<ol type="1">
+<li>Open <strong>QGIS</strong> and save a new project (<code>week05_reference.qgz</code>).</li>
+<li>Choose <strong>Layer → Add Layer → Add Raster Layer</strong>, browse to your Sentinel-2 GeoTIFF and open it. You can also drag the file into QGIS.</li>
+<li>Right-click the raster → <strong>Properties → Symbology</strong> and choose <strong>Multiband color</strong>.</li>
+<li>Set <strong>Red = B4</strong>, <strong>Green = B3</strong>, <strong>Blue = B2</strong>. Use the raster’s actual band numbers/names. If necessary, adjust the min/max contrast stretch.</li>
+<li>Check the <strong>project CRS</strong> (bottom-right of QGIS) and the <strong>raster CRS</strong> (Layer Properties → Information). They should be geographically compatible; QGIS can reproject layers on the fly.</li>
+</ol></section><section id="add-an-optional-high-resolution-basemap" class="level3"><h3 class="anchored" data-anchor-id="add-an-optional-high-resolution-basemap">2.2 Add an optional high-resolution basemap</h3>
+<p>A basemap can help you recognize vegetation, buildings, water and fields. It <strong>must not replace your Sentinel-2 image</strong> as the main reference for spectral properties.</p>
+<ol type="1">
+<li>In QGIS, open <strong>Plugins → Manage and Install Plugins</strong>.</li>
+<li>Search for <strong>QuickMapServices</strong> and install it (if permitted on your computer).</li>
+<li>Open <strong>Web → QuickMapServices</strong> and select an available basemap (e.g.&nbsp;an imagery basemap, if offered). Availability and licensing vary.</li>
+<li>In the <strong>Layers panel</strong>, place the basemap <strong>below</strong> your Sentinel-2 raster. Temporarily toggle the Sentinel-2 layer on/off or adjust its transparency to compare them.</li>
+<li>
+<strong>Important:</strong> Basemap imagery may be older or newer than your Sentinel-2 acquisition. If land cover differs, digitize what is visible in your <strong>Sentinel-2 scene</strong>.</li>
+</ol>
+<p>You do not need QuickMapServices to complete the exercise. The provided RESEDA sampling guide also explains the workflow with imagery in QGIS.</p>
+</section><section id="create-a-geopackage-polygon-layer" class="level3"><h3 class="anchored" data-anchor-id="create-a-geopackage-polygon-layer">2.3 Create a GeoPackage polygon layer</h3>
+<ol type="1">
+<li><p>Select <strong>Layer → Create Layer → New GeoPackage Layer</strong>.</p></li>
+<li><p>Save it as <code>reference/landcover_samples.gpkg</code> and set the <strong>table name</strong> to <code>landcover</code>.</p></li>
+<li><p>Choose <strong>Geometry type: Polygon</strong>.</p></li>
+<li><p>Set the layer CRS to <strong>the CRS of your Sentinel-2 raster</strong>, if possible.</p></li>
+<li>
+<p>Add the following attribute fields:</p>
+<table class="caption-top table">
+<thead><tr class="header">
+<th style="text-align: left;">Field name</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Example</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>class</code></td>
+<td style="text-align: left;">Text</td>
+<td style="text-align: left;"><code>forest</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>sample_id</code></td>
+<td style="text-align: left;">Whole number</td>
+<td style="text-align: left;"><code>1</code></td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>Click <strong>OK</strong>. The empty polygon layer should appear in the Layers panel.</p></li>
+</ol></section><section id="digitize-your-reference-areas" class="level3"><h3 class="anchored" data-anchor-id="digitize-your-reference-areas">2.4 Digitize your reference areas</h3>
+<ol type="1">
+<li>Select the <code>landcover</code> layer in the Layers panel.</li>
+<li>Click <strong>Toggle Editing</strong> (pencil icon).</li>
+<li>Click <strong>Add Polygon Feature</strong>.</li>
+<li>Left-click to place polygon vertices around a homogeneous area; <strong>right-click to finish</strong> the polygon.</li>
+<li>Enter its <code>class</code>, a unique <code>sample_id</code>, and optional <code>notes</code> in the attribute form.</li>
+<li>Repeat for your reference areas. Save edits regularly and <strong>toggle editing off</strong> when done.</li>
+<li>Open the <strong>attribute table</strong> and check that all polygons have valid class labels and unique IDs.</li>
+<li>Save the QGIS project.</li>
+</ol>
+<p><strong>Sampling tips</strong></p>
 <ul>
-<li><p>Calculate the NDVI and plot it. Adapt the argument <code>range</code> if necessary.</p></li>
-<li><p>Change the color representation as you wish</p></li>
+<li>Prefer <strong>several small homogeneous polygons</strong> over a single very large polygon.</li>
+<li>Avoid mixed pixels, borders of fields, coastlines, roads and deep shadows.</li>
+<li>Allow for Sentinel-2’s pixel size: a polygon should contain several useful pixels, not just a tiny feature visible in the high-resolution basemap.</li>
+<li>Sample <strong>different locations</strong> within a class where possible; different kinds of forest, grass and cropland are not spectrally identical.</li>
+<li>If your scene has a large seasonal difference from the basemap, rely on the Sentinel-2 appearance and note any uncertainty.</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Troubleshooting:</strong> If <strong>Add Polygon Feature</strong> is disabled, verify that the polygon layer (not the raster) is selected and editing is enabled. If your polygons appear in the wrong location, check the layer CRS and raster CRS; do not simply assign a different CRS to move geometries.</p>
+<p>Useful additional reference: <a href="https://documentation.qgis.org/3.44/en/docs/user_manual/working_with_vector/editing_geometry_attributes.html">QGIS 3.44 documentation – Editing vector features</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Wiki checkpoint 2 – Reference areas
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Add a screenshot of the Sentinel-2 image with your polygons, report the <strong>number of polygons per class</strong>, and explain briefly how you avoided mixed pixels. Mention at least one possible source of uncertainty.</p>
+</div>
+</div>
+</section></section><section id="import-polygons" class="level2"><h2 class="anchored" data-anchor-id="import-polygons">3. Import reference polygons in R</h2>
+<p>We assume that you have saved the reference vector data in the folder “C:/your/folder/reference”.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">landcover</span> <span class="op">&lt;-</span> <span class="fu">vect</span><span class="op">(</span><span class="st">"reference/landcover_samples.gpkg"</span>, layer <span class="op">=</span> <span class="st">"landcover"</span><span class="op">)</span> <span class="co">#We assume that you have saved the reference vector data in the folder "C:/your/folder/reference".</span></span>
+<span><span class="va">landcover</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">landcover</span><span class="op">$</span><span class="va">class</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## Reproject the geometries if needed (without changing their locations).</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu">same.crs</span><span class="op">(</span><span class="va">landcover</span>, <span class="va">image</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">landcover</span> <span class="op">&lt;-</span> <span class="fu">project</span><span class="op">(</span><span class="va">landcover</span>, <span class="fu">crs</span><span class="op">(</span><span class="va">image</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu">plotRGB</span><span class="op">(</span><span class="va">image</span>, r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="st">"B8"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">image</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>        g <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="st">"B4"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">image</span><span class="op">)</span><span class="op">)</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="st">"B3"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">image</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>        stretch <span class="op">=</span> <span class="st">"lin"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">landcover</span>, add <span class="op">=</span> <span class="cn">TRUE</span>, border <span class="op">=</span> <span class="st">"yellow"</span>, lwd <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Questions:</strong> Why must the raster and polygons refer to the same geographic locations? What difference is there between <strong>assigning</strong> a CRS and <strong>reprojecting</strong> spatial data?</p>
+</section><section id="spectral-profiles" class="level2"><h2 class="anchored" data-anchor-id="spectral-profiles">4. Calculate mean spectral reflectance profiles</h2>
+<section id="extract-reflectance-for-every-polygon" class="level3"><h3 class="anchored" data-anchor-id="extract-reflectance-for-every-polygon">4.1 Extract reflectance for every polygon</h3>
+<p>Use <code>terra::extract()</code> to calculate the mean reflectance for all bands within each polygon. Areas covered by <code>NA</code> pixels (e.g.&nbsp;masked clouds) are ignored.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Extract the mean reflectance of each spectral band for every polygon.</span></span>
+<span><span class="co"># Missing pixel values (NA), e.g. from cloud masking, are ignored.</span></span>
+<span><span class="va">ref</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu">extract</span><span class="op">(</span><span class="va">image</span>, <span class="va">landcover</span>, fun <span class="op">=</span> <span class="va">mean</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Add the land cover class of each polygon to the extracted data.</span></span>
+<span><span class="co"># ref$ID identifies the corresponding polygon in 'landcover'.</span></span>
+<span><span class="va">ref</span><span class="op">$</span><span class="va">class</span> <span class="op">&lt;-</span> <span class="va">landcover</span><span class="op">$</span><span class="va">class</span><span class="op">[</span><span class="va">ref</span><span class="op">$</span><span class="va">ID</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Add the sample ID from the original polygons.</span></span>
+<span><span class="va">ref</span><span class="op">$</span><span class="va">sample_id</span> <span class="op">&lt;-</span> <span class="va">landcover</span><span class="op">$</span><span class="va">sample_id</span><span class="op">[</span><span class="va">ref</span><span class="op">$</span><span class="va">ID</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Display the first six rows of the resulting data frame.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">ref</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Inspect:</strong> What does one row represent? Why do we use <code>mean</code> here? What might be the disadvantage of using a large or heterogeneous polygon?</p>
+</section><section id="plot-spectral-profiles" class="level3"><h3 class="anchored" data-anchor-id="plot-spectral-profiles">4.2 Plot spectral profiles</h3>
+<p>Approximate central wavelengths (nm) for the ten selected Sentinel-2 MSI bands:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+</colgroup>
+<thead><tr class="header">
+<th>Band</th>
+<th style="text-align: right;">B2</th>
+<th style="text-align: right;">B3</th>
+<th style="text-align: right;">B4</th>
+<th style="text-align: right;">B5</th>
+<th style="text-align: right;">B6</th>
+<th style="text-align: right;">B7</th>
+<th style="text-align: right;">B8</th>
+<th style="text-align: right;">B8A</th>
+<th style="text-align: right;">B11</th>
+<th style="text-align: right;">B12</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td>Wavelength (nm)</td>
+<td style="text-align: right;">490</td>
+<td style="text-align: right;">560</td>
+<td style="text-align: right;">665</td>
+<td style="text-align: right;">705</td>
+<td style="text-align: right;">740</td>
+<td style="text-align: right;">783</td>
+<td style="text-align: right;">842</td>
+<td style="text-align: right;">865</td>
+<td style="text-align: right;">1610</td>
+<td style="text-align: right;">2190</td>
+</tr></tbody>
+</table>
+<p>The wavelengths are rounded and may differ slightly by satellite (Sentinel-2A/B/C).</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Define the Sentinel-2 band names and their central wavelengths (in nm).</span></span>
+<span><span class="co"># The order must match the columns in the extracted reflectance data.</span></span>
+<span><span class="va">band_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"B2"</span>, <span class="st">"B3"</span>, <span class="st">"B4"</span>, <span class="st">"B5"</span>, <span class="st">"B6"</span>, <span class="st">"B7"</span>,</span>
+<span>                <span class="st">"B8"</span>, <span class="st">"B8A"</span>, <span class="st">"B11"</span>, <span class="st">"B12"</span><span class="op">)</span></span>
+<span><span class="va">lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">490</span>, <span class="fl">560</span>, <span class="fl">665</span>, <span class="fl">705</span>, <span class="fl">740</span>, <span class="fl">783</span>, <span class="fl">842</span>, <span class="fl">865</span>, <span class="fl">1610</span>, <span class="fl">2190</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Select the reflectance values for all polygons and spectral bands.</span></span>
+<span><span class="co"># Convert the data frame into a matrix for plotting.</span></span>
+<span><span class="co"># Reflectance values range approximately from 0 to 1.</span></span>
+<span><span class="co"># Multiplying by 100 converts them into percentages.</span></span>
+<span><span class="va">spectra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="va">ref</span><span class="op">[</span>, <span class="va">band_names</span><span class="op">]</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span></span>
+<span></span>
+<span><span class="co"># Identify the different land cover classes in the reference polygons.</span></span>
+<span><span class="va">classes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">ref</span><span class="op">$</span><span class="va">class</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Assign a different colour to each land cover class.</span></span>
+<span><span class="co"># Polygons belonging to the same class receive the same colour.</span></span>
+<span><span class="va">class_col</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">hcl.colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">classes</span><span class="op">)</span>, <span class="st">"Dark 3"</span><span class="op">)</span>, <span class="va">classes</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot the spectral profile of each reference polygon.</span></span>
+<span><span class="co"># lambda defines the x-axis (wavelengths).</span></span>
+<span><span class="co"># t(spectra) transposes the matrix so that each polygon is plotted as a line.</span></span>
+<span><span class="co"># Line colours indicate the corresponding land cover classes.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/matplot.html">matplot</a></span><span class="op">(</span><span class="va">lambda</span>, <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">spectra</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"l"</span>, lty <span class="op">=</span> <span class="fl">1</span>, lwd <span class="op">=</span> <span class="fl">1.5</span>,</span>
+<span>        col <span class="op">=</span> <span class="va">class_col</span><span class="op">[</span><span class="va">ref</span><span class="op">$</span><span class="va">class</span><span class="op">]</span>, xlab <span class="op">=</span> <span class="st">"Wavelength (nm)"</span>,</span>
+<span>        ylab <span class="op">=</span> <span class="st">"Surface reflectance (%)"</span>, main <span class="op">=</span> <span class="st">"Sentinel-2 spectral profiles"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Add a legend showing the land cover classes and their colours.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"topright"</span>, legend <span class="op">=</span> <span class="va">classes</span>, col <span class="op">=</span> <span class="va">class_col</span><span class="op">[</span><span class="va">classes</span><span class="op">]</span>,</span>
+<span>       lty <span class="op">=</span> <span class="fl">1</span>, lwd <span class="op">=</span> <span class="fl">2</span>, cex <span class="op">=</span> <span class="fl">0.8</span>, bty <span class="op">=</span> <span class="st">"n"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Interpretation</strong></p>
+<ol type="1">
+<li>Where do healthy green vegetation spectra show strong absorption and high reflectance?</li>
+<li>Which bands help distinguish vegetation from soil and built-up surfaces?</li>
+<li>Are all polygons of the same class similar? Give a possible reason for differences.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Checkpoint – Spectral signatures
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Insert your spectral-profile plot and explain <strong>two characteristic differences</strong> between land-cover classes. Refer to wavelengths or bands, not just colours in the diagram.</p>
+</div>
+</div>
+</section></section><section id="feature-spaces" class="level2"><h2 class="anchored" data-anchor-id="feature-spaces">5. Explore spectral feature spaces</h2>
+<p>Create a scatterplot (in remote sensing we name it <strong>feature space</strong>) between the red and the green band. Select four spectra ((a) water, (b) vegetation, (c) settlement, (d) soil -or alternatively, one of your other prepared land cover types) and plot them within the feature space. Similarly to the function lines() the function points() allows adding point data to a diagram. You may set the argument maxcell to increase the number of pixel data used for the feature space. If you set the number very high, creating the diagram may take a little while. In this example I used all spectra but as mentioned before, you may restrict yourself to four land cover types. A <strong>feature space</strong> plots the values of one spectral band against another. Each grey point represents an image pixel. Your coloured points represent <strong>mean reflectance of individual reference polygons</strong>.</p>
+<section id="green-vs.-red" class="level3"><h3 class="anchored" data-anchor-id="green-vs.-red">5.1 Green vs.&nbsp;red</h3>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Create a spectral feature space using the green and red bands.</span></span>
+<span><span class="co"># Each grey point represents a pixel from the Sentinel-2 image.</span></span>
+<span><span class="co"># The x-axis shows green reflectance, the y-axis red reflectance.</span></span>
+<span><span class="co"># maxcell limits the number of pixels used to create the scatterplot.</span></span>
+<span><span class="co"># pty = 's' helps to create a aquare plot (may not work if you work with Markdown)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">image</span><span class="op">[[</span><span class="st">"B3"</span><span class="op">]</span><span class="op">]</span>, <span class="va">image</span><span class="op">[[</span><span class="st">"B4"</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">"Green reflectance (B3)"</span>,</span>
+<span>     ylab <span class="op">=</span> <span class="st">"Red reflectance (B4)"</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"grey50"</span>, maxcell <span class="op">=</span> <span class="fl">100000</span>,</span>
+<span>     xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span>, ylim<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.5</span><span class="op">)</span>,</span>
+<span>     pty <span class="op">=</span> <span class="st">"s"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Add the mean reflectance values of the digitized reference polygons.</span></span>
+<span><span class="co"># Each coloured point represents one polygon.</span></span>
+<span><span class="co"># Colours indicate the corresponding land cover classes.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html">points</a></span><span class="op">(</span><span class="va">ref</span><span class="op">$</span><span class="va">B3</span>, <span class="va">ref</span><span class="op">$</span><span class="va">B4</span>,</span>
+<span>       col <span class="op">=</span> <span class="va">class_col</span><span class="op">[</span><span class="va">ref</span><span class="op">$</span><span class="va">class</span><span class="op">]</span>, pch <span class="op">=</span> <span class="fl">19</span>, cex <span class="op">=</span> <span class="fl">1.4</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Add a legend identifying the land cover classes.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">"topright"</span>, legend <span class="op">=</span> <span class="va">classes</span>, col <span class="op">=</span> <span class="va">class_col</span><span class="op">[</span><span class="va">classes</span><span class="op">]</span>,</span>
+<span>       pch <span class="op">=</span> <span class="fl">19</span>, bty <span class="op">=</span> <span class="st">"n"</span>, cex <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Interpretation</strong> Where do the different reference classes appear? Which overlap?</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Checkpoint – Spectral feature space
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Create two more feature space plots * Compare the feature spaces regarding their information contents, i.e.&nbsp;are the bands correlated? * Where are the reflectance values of the four land cover types located. Are all of them separable in the three feature spaces? * Which band combination separates your reference classes most clearly? Which combinations show strong correlation? Are all classes separable with only two bands?</p>
+<p>Include <strong>one especially informative feature-space plot</strong> and explain why you chose it. Identify one pair of land-cover types that is difficult to distinguish.</p>
+</div>
+</div>
+</section><section id="red-vs.-nir" class="level3"><h3 class="anchored" data-anchor-id="red-vs.-nir">5.2 Red vs.&nbsp;NIR</h3>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># your code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section><section id="nir-vs.-swir1" class="level3"><h3 class="anchored" data-anchor-id="nir-vs.-swir1">5.3 NIR vs.&nbsp;SWIR1</h3>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#your code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section></section><section id="vegetation-indices" class="level2"><h2 class="anchored" data-anchor-id="vegetation-indices">6. Calculate vegetation indices</h2>
+<p>Vegetation indices combine spectral bands to emphasize specific characteristics of the surface. They are <strong>proxies</strong>, not direct measurements of vegetation amount or health. Different indices are sensitive to different conditions.</p>
+<section id="ndvi-normalized-difference-vegetation-index" class="level3"><h3 class="anchored" data-anchor-id="ndvi-normalized-difference-vegetation-index">6.1 NDVI – Normalized Difference Vegetation Index</h3>
+<p><span class="math display">\[
+NDVI = \frac{\rho_{\mathrm{NIR}} - \rho_{\mathrm{RED}}}
+{\rho_{\mathrm{NIR}} + \rho_{\mathrm{RED}}}
+\]</span></p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">red</span> <span class="op">&lt;-</span> <span class="va">image</span><span class="op">[[</span><span class="st">"B4"</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">nir</span> <span class="op">&lt;-</span> <span class="va">image</span><span class="op">[[</span><span class="st">"B8"</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="va">blue</span> <span class="op">&lt;-</span> <span class="va">image</span><span class="op">[[</span><span class="st">"B2"</span><span class="op">]</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">ndvi</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">nir</span> <span class="op">-</span> <span class="va">red</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">nir</span> <span class="op">+</span> <span class="va">red</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ndvi</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"NDVI"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">ndvi</span>, main <span class="op">=</span> <span class="st">"NDVI"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Questions:</strong> What does NDVI emphasize? Why does water often have low or negative NDVI values? Can a single NDVI threshold always distinguish water from other land cover types?</p>
+<section id="optional-test-an-ndvi-threshold" class="level4"><h4 class="anchored" data-anchor-id="optional-test-an-ndvi-threshold">Optional: Test an NDVI threshold</h4>
+<p>Reclassifiy the NDVI into two classes: (i) water and (ii) non-water. Try to find a threshold that nicely separates water from non-water (have a look at the SRTM exercise if you do not remember how to split data into classes). Are you satisfied with the result? If not what may be reasons?</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#your code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section></section><section id="evi-enhanced-vegetation-index" class="level3"><h3 class="anchored" data-anchor-id="evi-enhanced-vegetation-index">6.2 EVI – Enhanced Vegetation Index</h3>
+<p>The EVI is calculated as following:</p>
+<p><span class="math display">\[
+EVI = G \cdot
+\frac{\rho_{\mathrm{NIR}} - \rho_{\mathrm{RED}}}
+{\rho_{\mathrm{NIR}} + C_1 \rho_{\mathrm{RED}} - C_2 \rho_{\mathrm{BLUE}} + L}
+\]</span> where the parameters are G = 2.5, C1 = 6, C2 = 7.5 and L = 1 (after Huete et al.&nbsp;2002).</p>
+<p>Calculate the EVI and plot it. <strong>Hint:</strong> The EVI requires reflectance data scaled between 0 and 1. Always check before you calculate the EVI</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co">#your code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Questions:</strong> Why does EVI include the blue band? Why is the reflectance scale particularly important for this formula? Do unusual values occur in your result?</p>
+</section><section id="pvi-perpendicular-vegetation-index" class="level3"><h3 class="anchored" data-anchor-id="pvi-perpendicular-vegetation-index">6.3 PVI – Perpendicular Vegetation Index</h3>
+<section id="introduction" class="level4"><h4 class="anchored" data-anchor-id="introduction">Introduction</h4>
+<p>The perpendicular vegetation index (PVI) describes vegetation in a two-dimensional feature space defined by reflectance in the red and near-infrared spectral regions. The PVI is defined as the <strong>perpendicular distance of an observation from the soil line</strong>.</p>
+<p>A line in two dimensions can be described by its slope <span class="math inline">\(a\)</span> and intercept <span class="math inline">\(b\)</span>:</p>
+<p><span class="math display">\[
+y = ax + b
+\]</span></p>
+<p>In our red–NIR feature space, the <strong>x-axis represents red reflectance</strong> and the <strong>y-axis represents NIR reflectance</strong>.</p>
+<p>To define the soil line, we can select two points representing dark and bright soil, <span class="math inline">\(P_1=(X_1,Y_1)\)</span> and <span class="math inline">\(P_2=(X_2,Y_2)\)</span>, as illustrated below.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure"><p><img src="pvi.jpg" class="img-fluid figure-img" style="width:45.0%"></p>
+<figcaption>Concept of the perpendicular vegetation index (PVI)</figcaption></figure>
+</div>
+<p>These two points can be used to derive:</p>
+<p><strong>Slope of the soil line:</strong></p>
+<p><span class="math display">\[
+a = \frac{Y_2-Y_1}{X_2-X_1}
+\]</span></p>
+<p><strong>Intercept of the soil line:</strong></p>
+<p><span class="math display">\[
+b = Y_1-aX_1
+\]</span></p>
+<p>Once the soil line has been defined, the PVI can be calculated as:</p>
+<p><span class="math display">\[
+PVI = \frac{\rho_{\mathrm{NIR}}-a\rho_{\mathrm{RED}}-b}{\sqrt{1+a^2}}
+\]</span></p>
+<p>where <span class="math inline">\(\rho_{\mathrm{NIR}}\)</span> and <span class="math inline">\(\rho_{\mathrm{RED}}\)</span> represent reflectance in the near-infrared and red bands, respectively.</p>
+<p>The soil line itself has a PVI of zero. With this sign convention, pixels above the soil line have positive PVI values.</p>
+</section><section id="derivation-of-the-soil-line" class="level4"><h4 class="anchored" data-anchor-id="derivation-of-the-soil-line">Derivation of the soil line</h4>
+<p>Define the soil line for your <strong>Sentinel-2 image</strong> by selecting two points representing dark and bright soil in the red–NIR feature space. Use these points to calculate the slope and intercept of the soil line and finally derive the PVI for your image.</p>
+<p><strong>1. Plot the feature space between the red (B4) and NIR (B8) bands.</strong></p>
 <ul>
-<li>Reclassifiy the NDVI into two classes: <strong>(i) water</strong> and <strong>(ii) non-water</strong>. Try to find a threshold that nicely separates water from non-water (have a look at the SRTM exercise if you do not remember how to split data into classes). Are you satisfied with the result? If not what may be reasons?</li>
+<li>Create a square plot with equal axis scales.</li>
+<li>Use <code>xlim</code> and <code>ylim</code> to restrict both axes to values between 0 and 1.</li>
+<li>The function <code><a href="https://rdrr.io/r/graphics/grid.html">grid()</a></code> can be used to add grid lines to the plot.</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="evi" class="level2">
-<h2 class="anchored" data-anchor-id="evi">3. EVI</h2>
-<p>The EVI is calculated as following: <strong>EVI=G∗((ρNIR−ρRED)/(ρNIR+C1∗ρRED−C2∗ρBLUE+L))</strong></p>
-<p>where the parameters are G = 2.5, C1 = 6, C2 = 7.5 and L = 1 (after Huete et al.&nbsp;2002).</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Your code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>2. Inspect the soil line.</strong></p>
 <ul>
-<li><p>Calculate the EVI and plot it.</p></li>
-<li><p>Hint: The EVI requires reflectance data scaled between 0 and 1. Always check before you calculate the EVI</p></li>
+<li>Identify two points in the feature space, one representing dark soil and the other bright soil.</li>
+<li>Add these points to your feature space using <code><a href="https://rdrr.io/r/graphics/points.html">points()</a></code>.</li>
+<li>Draw the soil line connecting the two points.</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="pvi" class="level2">
-<h2 class="anchored" data-anchor-id="pvi">4. PVI</h2>
-<section id="intro" class="level3">
-<h3 class="anchored" data-anchor-id="intro">Intro</h3>
-<p>The perpendicular vegetation index (PVI) is used to describe vegetation amount in a 2-dimensional space defined by the reflectance in the red and near infrared spectral regions. The PVI is defined as the distance of an observation perpendicular to the soil line.</p>
-<p>A line in two dimensions can be parameterised by its slope <strong>a</strong> and intercept <strong>b</strong> according to the equation <strong>y=a∗x+b</strong>. To define the soil line in the 2-dimensional space of our red - near infrared scatterplot, where the x-axis represents the red band and the y-axis represents the near infrared band, we could choose two points representing dark and bright soil, like P1 (X1, Y1) and P2 (X2, Y2) in the example below:</p>
-<p><img src="images/5.H.png" class="img-fluid"></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Hint
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can use <code><a href="https://rdrr.io/r/graphics/abline.html">abline()</a></code> to add a straight line to your feature space once you have determined its slope and intercept.</p>
+<p>If you are working with several code chunks in Quarto, remember to recreate the plot before adding points or lines in a new chunk.</p>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Your code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>3. Derive the soil line by calculating its slope (a) and intercept (b).</strong></p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Your code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>4. Calculate the PVI and plot it.</strong></p>
 <ul>
-<li><p>These two points can be employed to derive the slope of the soil line <strong>a=(Y2−Y1)/(X2−X1)</strong>, where <strong>a</strong> is the slope of the line.</p></li>
-<li><p>The intercept <strong>b (x = 0)</strong> can be derived as follows <strong>b=Y1−a∗X1</strong></p></li>
+<li>Apply the PVI equation to the red and NIR bands of your Sentinel-2 image.</li>
+<li>Visualize the resulting raster.</li>
+<li>Compare its spatial patterns with the NDVI and EVI.</li>
 </ul>
-<p>If the soil line is parameterised in this manner, the formula to compute the PVI is given by:</p>
-<p><strong>PVI=((ρNIR−a∗ρRED−b))/(√1+a2)</strong></p>
-<p>where <strong>ρNIR</strong> and <strong>ρRED</strong> are the reflectances in the near infrared and red spectral bands. The lines sketched in the figure above are lines of equal PVI. The soil line itself is the line where the PVI is zero.</p>
-</section>
-</section>
-</section>
-<section id="derivation-of-the-soil-line" class="level1">
-<h1>Derivation of the soil line</h1>
-<p>Define the soil line for the Landsat OLI reflectance image by (a+b) determining two points in its feature space (of the red and the NIR band) representing dark and bright soil, and then (c) use the point-slope equation to determine the line’s parameters and (d) Compute the PVI for the image by applying the equation above using the parameters you obtained for the soil line.</p>
-<section id="a.-plot-the-feature-space-between-the-red-band-and-the-nir-band." class="level3">
-<h3 class="anchored" data-anchor-id="a.-plot-the-feature-space-between-the-red-band-and-the-nir-band.">a. Plot the feature space between the red band and the NIR band.</h3>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Your code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<hr></section></section><section id="ndvi-vs.-evi-vs.-pvi" class="level3"><h3 class="anchored" data-anchor-id="ndvi-vs.-evi-vs.-pvi">5. NDVI vs.&nbsp;EVI vs.&nbsp;PVI</h3>
+<p>Create two-dimensional scatterplots to compare the three vegetation indices.</p>
 <ul>
-<li>Using the function <code>par(mfrow = c(1, 1), pty="s")</code> you force the plot to be square.</li>
-<li>The function <code>grid()</code> may be used to add grid lines to the plot.</li>
+<li>Compare the relationships between NDVI, EVI and PVI. Are they strongly correlated?</li>
+<li>Where do the indices differ most, and what might explain these differences?</li>
+<li>What are the limitations of NDVI compared with indices such as EVI and PVI?</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="b.-inspect-the-soil-line." class="level3">
-<h3 class="anchored" data-anchor-id="b.-inspect-the-soil-line.">b. Inspect the soil line.</h3>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Your code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>checkpoint – Vegetation indices
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Record the three index equations and add a figure or screenshot comparing <strong>NDVI, EVI and PVI</strong>. State your <strong>soil-line points and parameters <code>a</code> and <code>b</code></strong>, and explain one limitation of each index.</p>
+</div>
+</div>
+</section></section><section id="compare-indices" class="level2"><h2 class="anchored" data-anchor-id="compare-indices">7. Compare the indices</h2>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">ndvi</span>, <span class="va">evi</span>, xlab <span class="op">=</span> <span class="st">"NDVI"</span>, ylab <span class="op">=</span> <span class="st">"EVI"</span>, maxcell <span class="op">=</span> <span class="fl">50000</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"grey40"</span>, main <span class="op">=</span> <span class="st">"NDVI vs. EVI"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">ndvi</span>, <span class="va">pvi</span>, xlab <span class="op">=</span> <span class="st">"NDVI"</span>, ylab <span class="op">=</span> <span class="st">"PVI"</span>, maxcell <span class="op">=</span> <span class="fl">50000</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"grey40"</span>, main <span class="op">=</span> <span class="st">"NDVI vs. PVI"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Explain similarities and differences. Consider:</p>
 <ul>
-<li><p>Define two points, one for a dark soil and one for a bright soil.</p></li>
-<li><p>Plot them in the feature space.</p></li>
-<li><p>Hint: If you are using R markdown and put the code in several chunks make sure to re-plot the feature space first. Unfortunately, plots can not be created using several chunks.</p></li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="c.-derive-the-soil-line-by-calculating-gain-a-and-intercept-b." class="level3">
-<h3 class="anchored" data-anchor-id="c.-derive-the-soil-line-by-calculating-gain-a-and-intercept-b.">c.&nbsp;Derive the soil line by calculating gain <strong>a</strong> and intercept <strong>b</strong>.</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="d.-calculate-the-pvi-and-plot-it." class="level3">
-<h3 class="anchored" data-anchor-id="d.-calculate-the-pvi-and-plot-it.">d.&nbsp;Calculate the PVI and plot it.</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="ndvi-vs.-evi-vs.-pvi" class="level2">
-<h2 class="anchored" data-anchor-id="ndvi-vs.-evi-vs.-pvi">5. NDVI vs.&nbsp;EVI (vs.&nbsp;PVI)</h2>
+<li>NDVI saturation at high vegetation density;</li>
+<li>the influence of background soil and the soil-line choice;</li>
+<li>the additional blue band and coefficients used in EVI;</li>
+<li>how reflectance scaling influences EVI and PVI;</li>
+<li>possible noise, shadows, masking artefacts and unusual values.</li>
+</ul></section><section id="qgis-map" class="level2"><h2 class="anchored" data-anchor-id="qgis-map">8. Create a simple map in QGIS</h2>
+<p>You have already generated a vegetation index in R. Now display it as a <strong>map</strong>. The goal is <strong>one clear, readable map</strong>, not a complex cartographic layout.</p>
+<section id="export-the-index" class="level3"><h3 class="anchored" data-anchor-id="export-the-index">8.1 Export the index</h3>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="st">"results"</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu">writeRaster</span><span class="op">(</span><span class="va">ndvi</span>, <span class="st">"results/ndvi_week05.tif"</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">## Optional:</span></span>
+<span><span class="co">## writeRaster(evi, "results/evi_week05.tif", overwrite = TRUE)</span></span>
+<span><span class="co">## writeRaster(pvi, "results/pvi_week05.tif", overwrite = TRUE)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section><section id="symbolize-the-vegetation-index-raster" class="level3"><h3 class="anchored" data-anchor-id="symbolize-the-vegetation-index-raster">8.2 Symbolize the Vegetation index raster</h3>
+<ol type="1">
+<li>Open your existing QGIS project.</li>
+<li>Add e.g.&nbsp;<code>results/ndvi_week05.tif</code> via <strong>Layer → Add Layer → Add Raster Layer</strong>.</li>
+<li>Right-click the VI layer → <strong>Properties → Symbology</strong>.</li>
+<li>Select <strong>Singleband pseudocolor</strong> and a suitable sequential or diverging colour ramp. Choose a meaningful display range and make sure the legend explains the values. You may modify class breaks if needed.</li>
+<li>Keep the Sentinel-2 image underneath for context (optional). Avoid a basemap that distracts from the index.</li>
+<li>Inspect the result: Do low and high values occur where you expect?</li>
+</ol></section><section id="produce-one-simple-map" class="level3"><h3 class="anchored" data-anchor-id="produce-one-simple-map">8.3 Produce one simple map</h3>
+<ol type="1">
+<li>Choose <strong>Project → New Print Layout</strong> and give it a name.</li>
+<li>Click <strong>Add Map</strong> and drag a map frame on the page.</li>
+<li>Add a short informative <strong>title</strong> and a <strong>legend</strong> with the VI colour ramp (and only relevant layers).</li>
+<li>Optionally add a scale bar if appropriate for your map and CRS.</li>
+<li>Export the layout as <strong>PNG or PDF</strong>.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>QGIS refresher
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>See the <a href="https://docs.qgis.org/3.44/en/docs/training_manual/map_composer/index.html">QGIS Training Manual</a> for additional print-layout guidance. You do <strong>not</strong> need to recreate every step of that tutorial for this exercise.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>checkpoint – Map
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Minimum requirement:</strong> one map showing your study area with the chosen Vegetation index, a meaningful colour legend, and a title including the place and acquisition date. Include your map in the presentation.</p>
+</div>
+</div>
+</section></section><section id="homework" class="level2"><h2 class="anchored" data-anchor-id="homework">10. Homework — Spectral analysis of your own image</h2>
+<p>Work through the script, answer the questions and work on the tasks. <strong>Submit one clearly organized R script and the requested figures/files</strong> (in a document) via Moodle, using meaningful filenames. We should be able to inspect your work easily. Please, zip the files to one file before uploading.</p>
+<p><strong>Required</strong></p>
+<ol type="1">
+<li>
+<strong>Reference polygons and signatures:</strong> Submit your GeoPackage and one plot showing spectral profiles. Briefly interpret at least two differences between land-cover classes.</li>
+<li>
+<strong>Feature spaces:</strong> Create green–red, red–NIR and NIR–SWIR1 plots with your reference samples. Explain which combination best separates your classes and where overlap remain.</li>
+<li>
+<strong>Vegetation indices:</strong> Calculate NDVI, EVI and PVI. Document your chosen soil-line points, and compare the indices (including NDVI–EVI, NDVI–PVI, EVI-PVI scatterplots).</li>
+<li>
+<strong>QGIS map:</strong> Submit one simple map of NDVI (PNG or PDF) with title and legend.</li>
+<li>
+<strong>Short reflection:</strong> What is one important limitation of your sampling or vegetation-index results?</li>
+</ol>
+<p><strong>Optional challenge:</strong> Experiment with an NDVI threshold to identify low-index areas. Can you really distinguish water? Explain errors and suggest a better method.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>What we expect
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Your code should be <strong>readable, commented and reproducible</strong>. Do not submit unexplained settings or code generated by a tool that you cannot interpret. Please include the source of your imagery, your sample definitions and a short interpretation of the results.</p>
+</div>
+</div>
+</section><section id="reference" class="level2"><h2 class="anchored" data-anchor-id="reference">10. Function reference and useful links</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">R function / QGIS tool</th>
+<th style="text-align: left;">Purpose</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>terra::rast()</code></td>
+<td style="text-align: left;">Open raster data</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>terra::vect()</code></td>
+<td style="text-align: left;">Open GeoPackage vector data</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>terra::project()</code></td>
+<td style="text-align: left;">Reproject vector geometries to another CRS</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>terra::extract(..., fun=mean)</code></td>
+<td style="text-align: left;">Extract mean band values for polygons</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>terra::plotRGB()</code></td>
+<td style="text-align: left;">Display a colour composite</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>terra::plot()</code></td>
+<td style="text-align: left;">Display rasters or two-band feature spaces</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">
+<code><a href="https://rdrr.io/r/graphics/points.html">points()</a></code>, <code><a href="https://rdrr.io/r/graphics/lines.html">lines()</a></code>, <code><a href="https://rdrr.io/r/graphics/abline.html">abline()</a></code>
+</td>
+<td style="text-align: left;">Add information to an existing plot</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>terra::ifel()</code></td>
+<td style="text-align: left;">Apply a raster-based condition</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>terra::writeRaster()</code></td>
+<td style="text-align: left;">Export raster results</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>QGIS: New GeoPackage Layer</strong></td>
+<td style="text-align: left;">Create a polygon dataset</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>QGIS: Toggle Editing / Add Polygon Feature</strong></td>
+<td style="text-align: left;">Digitize reference areas</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>QGIS: Singleband pseudocolor</strong></td>
+<td style="text-align: left;">Style a vegetation-index raster</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>QGIS: New Print Layout</strong></td>
+<td style="text-align: left;">Create a simple map</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li><p>Create 2d-Scatterplots to compare the three indices by creating scatterplots. Describe the relationship of the different indices and the implications.</p></li>
-<li><p>What are the disadvantages of the NDVI compared to more enhanced indices like the EVI and the PVI?</p></li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<hr>
+<li><a href="https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Classification-in-R.html#sample-in-qgis">RESEDA – Sample in QGIS</a></li>
+<li><a href="https://docs.qgis.org/3.44/en/docs/gentle_gis_introduction/coordinate_reference_systems.html">QGIS documentation – CRS introduction</a></li>
+<li><a href="https://documentation.qgis.org/3.44/en/docs/user_manual/working_with_vector/editing_geometry_attributes.html">QGIS documentation – Vector editing</a></li>
+<li><a href="https://documentation.dataspace.copernicus.eu/">Copernicus Data Space documentation</a></li>
+</ul></section><section id="looking-ahead" class="level2"><h2 class="anchored" data-anchor-id="looking-ahead">11. Looking ahead</h2>
+<p>You have now created reference areas, explored how their reflectance differs, and derived vegetation indices. These concepts will help you understand how <strong>spectral features and training data</strong> are used in subsequent classification and analysis workflows.</p>
 
 
-</section>
-</section>
-
-</main> <!-- /main -->
-<script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
     const anchorJS = new window.AnchorJS();
@@ -588,6 +1091,57 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         container: window.document.getElementById('quarto-embedded-source-code-modal')
       });
       clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
@@ -990,13 +1544,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       }
     }
   });
-  </script>
-  <script type="application/javascript">
+  </script><script type="application/javascript">
   window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
   </script>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
+<footer class="footer"><div class="nav-footer">
     <div class="nav-footer-left">
 <p><span class="faux-block">© 2023 Fernerkundung und Geoinformatik 1.0</span></p>
 </div>   
@@ -1008,8 +1560,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
   </div>
 </footer>
-
-
 
 
 </body></html>
