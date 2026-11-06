@@ -1,353 +1,647 @@
 ---
-title: "Week 5 - Spectral Profiles, Feature Space and Vegetation Indices"
+title: "Week 5: Spectral Profiles, Feature Spaces and Vegetation Indices"
 author: "Remote Sensing and Geoinformatics, FU Berlin"
 
-output:
-   html_document:
-     dev: svg
-     fig_height: 4
-     fig_width: 6
-     number_sections: no
-     theme: cerulean
-     toc: yes
-     toc_depth: 3
-     toc_float: yes
+lang: en
+
+execute:
+  eval: false
+  echo: true
+
+format:
+  html:
+    fig-format: svg
+    fig-height: 4
+    fig-width: 6
+    number-sections: false
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    code-fold: true
+    code-summary: "Show code"
+    code-tools:
+      source: false
+      toggle: true
 ---
 
-# 1. Preparation
+## Contents
+- [This week](#this-week)
+- [1. Revisit your Sentinel-2 image](#revisit-image)
+  - Load the image, check scaling and band names
+- [2. Create reference polygons in QGIS](#reference-polygons)
+  - Display the image and optional background imagery
+  - Digitize and save reference areas in a GeoPackage
+- [3. Import reference polygons in R](#import-polygons)
+- [4. Calculate spectral reflectance profiles](#spectral-profiles)
+- [5. Explore spectral feature spaces](#feature-spaces)
+  - Green–red, red–NIR and NIR–SWIR1
+- [6. Calculate vegetation indices](#vegetation-indices)
+  - NDVI, EVI and PVI (including the soil line)
+- [7. Compare the indices](#compare-indices)
+- [8. Create a simple map in QGIS](#qgis-map)
+- [9. Homework](#homework)
+- [10. Function reference and useful links](#reference)
+- [11. Looking ahead](#looking-ahead)
 
-- Open a new R-file or Rmd-file and save it. Fill in and run the requested R commands and comment as you like. Please, try to solve the exercises on your own before you have a look at the solution.
+## This week
 
-- Install the package terra and load it.
+**Guiding question:** How can we use spectral signatures, two-band feature spaces and vegetation indices to distinguish land-cover types and interpret vegetation characteristics in our own Sentinel-2 image?
 
-```r
-#install.packages("terra")
+Last week you prepared a **cloud-masked Sentinel-2 multiband GeoTIFF**. This week you will work with **your own image** to digitize reference areas in **QGIS**, extract their spectral signatures in **R (`terra`)**, explore feature spaces and calculate three vegetation indices: **NDVI, EVI and PVI**. Finally, you will create a **simple NDVI map in QGIS**.
+
+
+If you did not yet finish your pre-procssing or did have problems that are not solved yet, use the **backup GeoTIFF** (https://box.fu-berlin.de/s/DtyPf28bSjZDsg9). Use the same image throughout all exercises and document which image you used.
+
+### Learning objectives
+
+After this session you should be able to:
+
+- identify and digitize homogeneous land-cover samples in QGIS and save them as a GeoPackage;
+- extract and interpret mean spectral reflectance profiles using Sentinel-2 bands;
+- explain a spectral feature space and compare the separability of land-cover types;
+- calculate and interpret **NDVI, EVI and PVI**, including the role of the soil line;
+- create and interpret a simple vegetation-index map.
+
+Continue the remaining analyses and homework during the week. It is not necessary to complete every section during the seminar itself.
+
+::: {.callout-note}
+## Preparation
+
+- Copy your **preprocessed Sentinel-2 GeoTIFF from Week 4** (the ten spectral bands) to a new folder, or use the backup provided via FU Box (https://box.fu-berlin.de/s/DtyPf28bSjZDsg9).
+- Use **QGIS** for reference polygon digitization and for the final map. **QuickMapServices** is optional and can provide additional high-resolution background imagery.
+- Use **R/RStudio** with the `terra` package for the analysis.
+- Create an **organized working directory**, for example `week05/data`, `week05/reference`, `week05/results` and `week05/figures`. Save your R script in `week05` so that the relative paths in this tutorial work.
+
+**Background tutorials (RESEDA and QGIS):**
+
+1. [RESEDA: Sampling in QGIS](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Classification-in-R.html#sample-in-qgis)
+2. [RESEDA: Visualization and band composites](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Visualization.html)
+3. [QGIS: Introduction to coordinate reference systems](https://docs.qgis.org/3.44/en/docs/gentle_gis_introduction/coordinate_reference_systems.html)
+4. [QGIS: Digitizing and editing polygon features](https://docs.qgis.org/3.44/en/docs/user_manual/working_with_vector/editing_geometry_attributes.html)
+:::
+
+## 1. Revisit your Sentinel-2 image {#revisit-image}
+
+### 1.1 Load and inspect the data
+
+Open a new R script. Change the path to your image. If you use the backup, indicate this in your script. **Here we assume that the data are in the folder "C:/your/folder/data", your script in the folder "C:/your/folder"**
+
+```{r}
 library(terra)
+setwd("C:/your/folder")
+
+## Change the filename to YOUR preprocessed Sentinel-2 image:
+image_raw <- rast("data/my_sentinel2_preprocessed.tif")# we assume that the data are in the folder "C:/your/folder/data", your script in the folder "C:/your/folder"
+
+image_raw
+names(image_raw)
+global(image_raw, "range", na.rm = TRUE)
 ```
 
-- Set the working directory to the folder where today’s data are located on your computer. Remember to use the right folder delimiter (\\ or /)
-```r
-setwd("W:\\Path\\2\\Your\\folder")
+**Questions**
+1. In which units or scaling are the pixel values stored?
+2. What is the coordinate reference system (CRS)?
+
+::: {.callout-important title="Reflectance scaling matters"}
+Sentinel-2 images store reflectance information as scaled digital numbers (DNs). Before calculating vegetation indices such as NDVI and EVI, we convert these values to **surface reflectance**:
+
+$$
+\rho = \frac{DN + BOA\_ADD\_OFFSET}{BOA\_QUANTIFICATION\_VALUE}
+$$
+
+The required values are provided in the **Sentinel-2 metadata** (`MTD_MSIL2A.xml` in the SAFE folder). Look for `BOA_QUANTIFICATION_VALUE` and `BOA_ADD_OFFSET`. Note that the XML `band_id` numbering differs from Sentinel-2 band names (e.g., `band_id="1"` refers to B02 as they are starting to count from 0).
+
+The **scaling factor** is usually **10,000**, while the **offset** depends on the processing baseline (typically **−1,000** for baseline/version 04.00 and later). Always check your product's metadata.
+:::
+
+```{r}
+## Choose based on your inspected GeoTIFF:
+scale_factor <- 10000  # <-- CHECK and adjust for your processed image
+offset <- -1000 # <-- CHECK and adjust for your processed image
+image <- image_raw / scale_factor
+# Important: this is correct only if your data are zero-offset scaled reflectance.
+# If your original L2A product has an applicable additive offset that was
+# not corrected in Week 4, apply the metadata-defined offset BEFORE scaling.
 ```
 
----
+### 1.2 Make the band order explicit
 
-# 2. Open a satellite image
+Your Week 4 output should contain ten bands in the order `B02, B03, B04, B05, B06, B07, B08, B8A, B11, B12`. We use shorter names (`B2` rather than `B02`) for the code below. If you used a different processing workflow, check the names and order carefully.
 
-- Open the Sentinel2 image. The given data are surface reflectance data, which means they corrected for observation geometry, as well as atmospheric and topographic effects. The data are saved in a range of 0 to 10000. To work with reflectance values in % we are dividing the data by 100.
+::: {.callout-warning title="Do not blindly rename bands"}
+First inspect `names(image)`. If your raster has **exactly the ten Week 4 bands in the order shown**, you may use the code below. Otherwise, adapt the selection and naming to your file. Do not confuse **B8 (broad NIR)** with **B8A (narrow NIR)**.
+:::
 
-If you would like to know more about different processing levels of Sentinel-2, please, have a look here: [https://documentation.dataspace.copernicus.eu/](https://documentation.dataspace.copernicus.eu/)
+```{r}
+## Run ONLY if the current band order is:
+## B02, B03, B04, B05, B06, B07, B08, B8A, B11, B12
+stopifnot(nlyr(image) == 10) # you may adapt this line if you have another number of spectral bands and know why!
+names(image) <- c("B2", "B3", "B4", "B5", "B6", "B7",
+                  "B8", "B8A", "B11", "B12")
 
-```r
-image <- rast("sen2r_berlin_20230908_v2.tif")
-image <- image/100
-```
----
-
-# 3. Google Earth (GE)
-
-- Open Google Earth and open the file studyarea.kmlthat illustrates the boundary of the study area. Have a look at the area and try to differentiate land cover and land use types. For those of you who are interested in how created the boundary:
-
-```r
-img.boundary <- as.polygons(ext(image))
-crs(img.boundary) <- crs(image)
-img.boundary.utm <- project(img.boundary,crs("EPSG:4326"))
-writeVector(img.boundary.utm,"studyareatest.kml",layer = "studyarea", overwrite = TRUE)
+plotRGB(image, r = match("B4", names(image)),
+        g = match("B3", names(image)), b = match("B2", names(image)),
+        stretch = "lin")
 ```
 
-- Open as well `landcover.kml`. I have already prepared 4 polygons representing 4 land cover types. Add at least 6 other polygons.
+**Check:** Does the image look reasonable? Is your study area free from major unmasked clouds? If not, first investigate your preprocessing.
 
-- Prepare polygons that represent the different land cover/land use types. Rename the polygons according to the land cover/ land use they represent:
-    - Forest
-    - Grassland
-    - Agriculture (differentiate between different types, e.g.agricultural fields that are barren or vegetated in Google Earth)
-    - Settlements (industrial, residential)
-    - Water (lakes, river) eventually open soil areas
 
-- Save the polygons as kml-file (not kmz!)
+## 2. Create reference polygons in QGIS {#reference-polygons}
 
----
+You will identify a small selection of **homogeneous land-cover areas** and later inspect their reflectance in R. These polygons are **reference samples for spectral exploration**, not yet a statistically designed training/validation dataset.
 
-# 4. Open a kml-file and Plot it
+**Recommended classes (where available):** forest, grassland, agricultural vegetation, bare soil / harvested fields, built-up surfaces and water. Aim for **10 to 15 small polygons** covering at least four contrasting classes. If a class is absent in your study area, do not invent it.
 
-- The kml-file can be opened with the same function as a shapefile.
+::: {.callout-tip}
+## Additional guidance: Digitizing reference polygons in QGIS
 
-```r
-landcover <- vect("landcover.kml")
-```
+For step-by-step instructions with illustrations, use our [**RESEDA – Sample in QGIS**](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Classification-in-R.html#sample-in-qgis) tutorial.
 
-- Compare the coordinate systems of the polygons and the image data. If necessary transform the projection system of the polygon data. Using an if-statement can be used to combine both functions.
+**Note:** The RESEDA example uses Landsat imagery and shapefiles. In this exercise, you will use **Sentinel-2 imagery and a GeoPackage** instead.
+:::
 
-```r
-if (crs(landcover) != crs(image)){
-landcover.utm <- terra::project(landcover, image)
+### 2.1 Display the Sentinel-2 image
+
+1. Open **QGIS** and save a new project (`week05_reference.qgz`).
+2. Choose **Layer → Add Layer → Add Raster Layer**, browse to your Sentinel-2 GeoTIFF and open it. You can also drag the file into QGIS.
+3. Right-click the raster → **Properties → Symbology** and choose **Multiband color**.
+4. Set **Red = B4**, **Green = B3**, **Blue = B2**. Use the raster's actual band numbers/names. If necessary, adjust the min/max contrast stretch.
+5. Check the **project CRS** (bottom-right of QGIS) and the **raster CRS** (Layer Properties → Information). They should be geographically compatible; QGIS can reproject layers on the fly.
+
+### 2.2 Add an optional high-resolution basemap
+
+A basemap can help you recognize vegetation, buildings, water and fields. It **must not replace your Sentinel-2 image** as the main reference for spectral properties.
+
+1. In QGIS, open **Plugins → Manage and Install Plugins**.
+2. Search for **QuickMapServices** and install it (if permitted on your computer).
+3. Open **Web → QuickMapServices** and select an available basemap (e.g. an imagery basemap, if offered). Availability and licensing vary.
+4. In the **Layers panel**, place the basemap **below** your Sentinel-2 raster. Temporarily toggle the Sentinel-2 layer on/off or adjust its transparency to compare them.
+5. **Important:** Basemap imagery may be older or newer than your Sentinel-2 acquisition. If land cover differs, digitize what is visible in your **Sentinel-2 scene**.
+
+You do not need QuickMapServices to complete the exercise. The provided RESEDA sampling guide also explains the workflow with imagery in QGIS.
+
+### 2.3 Create a GeoPackage polygon layer
+
+1. Select **Layer → Create Layer → New GeoPackage Layer**.
+2. Save it as `reference/landcover_samples.gpkg` and set the **table name** to `landcover`.
+3. Choose **Geometry type: Polygon**.
+4. Set the layer CRS to **the CRS of your Sentinel-2 raster**, if possible.
+5. Add the following attribute fields:
+
+   | Field name | Type | Example |
+   |:--|:--|:--|
+   | `class` | Text | `forest` |
+   | `sample_id` | Whole number | `1` |
+
+6. Click **OK**. The empty polygon layer should appear in the Layers panel.
+
+### 2.4 Digitize your reference areas
+
+1. Select the `landcover` layer in the Layers panel.
+2. Click **Toggle Editing** (pencil icon).
+3. Click **Add Polygon Feature**.
+4. Left-click to place polygon vertices around a homogeneous area; **right-click to finish** the polygon.
+5. Enter its `class`, a unique `sample_id`, and optional `notes` in the attribute form.
+6. Repeat for your reference areas. Save edits regularly and **toggle editing off** when done.
+7. Open the **attribute table** and check that all polygons have valid class labels and unique IDs.
+8. Save the QGIS project.
+
+**Sampling tips**
+
+- Prefer **several small homogeneous polygons** over a single very large polygon.
+- Avoid mixed pixels, borders of fields, coastlines, roads and deep shadows.
+- Allow for Sentinel-2's pixel size: a polygon should contain several useful pixels, not just a tiny feature visible in the high-resolution basemap.
+- Sample **different locations** within a class where possible; different kinds of forest, grass and cropland are not spectrally identical.
+- If your scene has a large seasonal difference from the basemap, rely on the Sentinel-2 appearance and note any uncertainty.
+
+**Troubleshooting:** If **Add Polygon Feature** is disabled, verify that the polygon layer (not the raster) is selected and editing is enabled. If your polygons appear in the wrong location, check the layer CRS and raster CRS; do not simply assign a different CRS to move geometries.
+
+Useful additional reference: [QGIS 3.44 documentation – Editing vector features](https://documentation.qgis.org/3.44/en/docs/user_manual/working_with_vector/editing_geometry_attributes.html).
+
+::: {.callout-note title="Wiki checkpoint 2 – Reference areas"}
+Add a screenshot of the Sentinel-2 image with your polygons, report the **number of polygons per class**, and explain briefly how you avoided mixed pixels. Mention at least one possible source of uncertainty.
+:::
+
+## 3. Import reference polygons in R {#import-polygons}
+We assume that you have saved the reference vector data in the folder "C:/your/folder/reference".
+```{r}
+landcover <- vect("reference/landcover_samples.gpkg", layer = "landcover") #We assume that you have saved the reference vector data in the folder "C:/your/folder/reference".
+landcover
+table(landcover$class)
+
+## Reproject the geometries if needed (without changing their locations).
+if (!same.crs(landcover, image)) {
+  landcover <- project(landcover, crs(image))
 }
+
+plotRGB(image, r = match("B8", names(image)),
+        g = match("B4", names(image)), b = match("B3", names(image)),
+        stretch = "lin")
+plot(landcover, add = TRUE, border = "yellow", lwd = 1.5)
 ```
 
-- Write the land cover polygons to a shapefile using `writeVector()`
+**Questions:** Why must the raster and polygons refer to the same geographic locations? What difference is there between **assigning** a CRS and **reprojecting** spatial data?
 
-```r
-writeVector(landcover.utm,"landcover_utm.shp",layer = "landcover", overwrite = TRUE)
+## 4. Calculate mean spectral reflectance profiles {#spectral-profiles}
+
+### 4.1 Extract reflectance for every polygon
+
+Use `terra::extract()` to calculate the mean reflectance for all bands within each polygon. Areas covered by `NA` pixels (e.g. masked clouds) are ignored.
+
+```{r}
+# Extract the mean reflectance of each spectral band for every polygon.
+# Missing pixel values (NA), e.g. from cloud masking, are ignored.
+ref <- terra::extract(image, landcover, fun = mean, na.rm = TRUE)
+
+# Add the land cover class of each polygon to the extracted data.
+# ref$ID identifies the corresponding polygon in 'landcover'.
+ref$class <- landcover$class[ref$ID]
+
+# Add the sample ID from the original polygons.
+ref$sample_id <- landcover$sample_id[ref$ID]
+
+# Display the first six rows of the resulting data frame.
+head(ref)
 ```
 
-- Plot the Landsat image and add your polygons. Mine are very small, so it might be hard to see them.
+**Inspect:** What does one row represent? Why do we use `mean` here? What might be the disadvantage of using a large or heterogeneous polygon?
 
-```r
-plotRGB(image, r=8, g=3, b=2, stretch="lin")
-plot(landcover.utm, add=TRUE, col = "green")
+### 4.2 Plot spectral profiles
+
+Approximate central wavelengths (nm) for the ten selected Sentinel-2 MSI bands:
+
+| Band | B2 | B3 | B4 | B5 | B6 | B7 | B8 | B8A | B11 | B12 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Wavelength (nm) | 490 | 560 | 665 | 705 | 740 | 783 | 842 | 865 | 1610 | 2190 |
+
+The wavelengths are rounded and may differ slightly by satellite (Sentinel-2A/B/C).
+
+```{r}
+# Define the Sentinel-2 band names and their central wavelengths (in nm).
+# The order must match the columns in the extracted reflectance data.
+band_names <- c("B2", "B3", "B4", "B5", "B6", "B7",
+                "B8", "B8A", "B11", "B12")
+lambda <- c(490, 560, 665, 705, 740, 783, 842, 865, 1610, 2190)
+
+# Select the reflectance values for all polygons and spectral bands.
+# Convert the data frame into a matrix for plotting.
+# Reflectance values range approximately from 0 to 1.
+# Multiplying by 100 converts them into percentages.
+spectra <- as.matrix(ref[, band_names]) * 100
+
+# Identify the different land cover classes in the reference polygons.
+classes <- unique(ref$class)
+
+# Assign a different colour to each land cover class.
+# Polygons belonging to the same class receive the same colour.
+class_col <- setNames(grDevices::hcl.colors(length(classes), "Dark 3"), classes)
+
+# Plot the spectral profile of each reference polygon.
+# lambda defines the x-axis (wavelengths).
+# t(spectra) transposes the matrix so that each polygon is plotted as a line.
+# Line colours indicate the corresponding land cover classes.
+matplot(lambda, t(spectra), type = "l", lty = 1, lwd = 1.5,
+        col = class_col[ref$class], xlab = "Wavelength (nm)",
+        ylab = "Surface reflectance (%)", main = "Sentinel-2 spectral profiles")
+
+# Add a legend showing the land cover classes and their colours.
+legend("topright", legend = classes, col = class_col[classes],
+       lty = 1, lwd = 2, cex = 0.8, bty = "n")
 ```
 
----
+**Interpretation**
 
-# 5.Calculate Mean Reflectance Spectra
+1. Where do healthy green vegetation spectra show strong absorption and high reflectance?
+2. Which bands help distinguish vegetation from soil and built-up surfaces?
+3. Are all polygons of the same class similar? Give a possible reason for differences.
 
-Extract for each polygon the mean reflectance spectra for the image using extract() with the argument `fun=mean`
+::: {.callout-note title="Checkpoint – Spectral signatures"}
+Insert your spectral-profile plot and explain **two characteristic differences** between land-cover classes. Refer to wavelengths or bands, not just colours in the diagram.
+:::
 
-```r
-image.extract <- extract(image, landcover.utm, fun=mean)
+## 5. Explore spectral feature spaces {#feature-spaces}
+
+Create a scatterplot (in remote sensing we name it **feature space**) between the red and the green band. Select four spectra ((a) water, (b) vegetation, (c) settlement, (d) soil -or alternatively, one of your other prepared land cover types) and plot them within the feature space. Similarly to the function lines() the function points() allows adding point data to a diagram. You may set the argument maxcell to increase the number of pixel data used for the feature space. If you set the number very high, creating the diagram may take a little while. In this example I used all spectra but as mentioned before, you may restrict yourself to four land cover types.
+A **feature space** plots the values of one spectral band against another. Each grey point represents an image pixel. Your coloured points represent **mean reflectance of individual reference polygons**.
+
+### 5.1 Green vs. red
+
+```{r}
+# Create a spectral feature space using the green and red bands.
+# Each grey point represents a pixel from the Sentinel-2 image.
+# The x-axis shows green reflectance, the y-axis red reflectance.
+# maxcell limits the number of pixels used to create the scatterplot.
+# pty = 's' helps to create a aquare plot (may not work if you work with Markdown)
+plot(image[["B3"]], image[["B4"]],
+     xlab = "Green reflectance (B3)",
+     ylab = "Red reflectance (B4)",
+     col = "grey50", maxcell = 100000,
+     xlim = c(0,0.5), ylim= c(0,0.5),
+     pty = "s")
+
+# Add the mean reflectance values of the digitized reference polygons.
+# Each coloured point represents one polygon.
+# Colours indicate the corresponding land cover classes.
+points(ref$B3, ref$B4,
+       col = class_col[ref$class], pch = 19, cex = 1.4)
+
+# Add a legend identifying the land cover classes.
+legend("topright", legend = classes, col = class_col[classes],
+       pch = 19, bty = "n", cex = 0.8)
 ```
 
-- Have a look at the result. How are the results saved? Optionally, you may add the polygon names from the kml-file using the function `row.names()` and the column names using `names()`
+**Interpretation** Where do the different reference classes appear? Which overlap?
 
-```r
-names(image.extract) <- c("ID", "blue", "green", "red", "RE1", "RE2", "RE3", "NIR_b", "NIR_a", "SWIR1", "SWIR2")
-row.names(image.extract) <- c(landcover.utm$Name)
-image.extract
-```
-
-- Row entries of data.frames might be addressed using `dataframe.name[row,]` or `dataframe.name[rowname,]`.
-
-```r
-image.extract[2,]   # addressing a list entry using double brackets
-image.extract["Lake",]  # adressing the same entry using the name
-```
-
-- Within the rows you may select 1 or several elements with e.g. `dataframe[row,column]` or `dataframe[row, columnstart:columnend]`
-
-```r
-image.extract[2,3] # addressing a list entry using double brackets
-
-image.extract[2,3:5]
-
-image.extract[2,c(3,4,5)]
-```
-
----
-
-# 6. Illustrate Mean Reflectance Spectra
-
-- Create a plot that illustrates the mean reflectance spectra of the land cover/land use polygons for July.
-
-    - Remember to use the `lines()` function when plotting additional spectra.
-    
-    - Please, add a legend illustrating the land cover types of your polygons.
-    
-    - Adapt the x-axis using the central wavelengths of the Landsat bands. These should be available from last week’s seminar.
-    
-    - Adapt as well the y-axis. We use level2 data. This means surface reflectance is scaled between 0 and 10000 (=100% reflectance). If the plot looks a bit weird (e.g. does not show the axis), you may use the command dev.off() which resets the plot properties. After applying this command, the plot should look fine. `dev.off()` does also cancel the `par()` settings that you might have applied.
-
-To make it a bit more convenient, we get rid of the ID column and convert the data.frame to a matrix. This makes it easier to handle the data for instance for plotting purposes.
-
-```r
-image.extract.alternative1 <- as.matrix(image.extract[,2:11])
-
-image.extract.alternative2 <- as.matrix(image.extract[,-1])
-
-image.extract <- image.extract.alternative1
-```
-
-- Hint: The plots are created for a kml with 10 polygons. If you use more or less polygons remember to change the plotting functions accordingly.
-
-- The colors are arbitrary, change according to your preferences.
-
-```r
-#dev.off() #--> use this command if you work with a normal R-script. In RMD this is often not necessary.
-
-lambda<-c(490,560, 665, 705, 740, 783, 842, 865, 1610, 2190)
-
-landcover_col <- c("forest green", "blue1", "light blue", "grey", "brown", "forestgreen", "darkseagreen", "red", "black", "dark orange")
-
-plot(lambda, image.extract[1,], xlab="Wavelength [nm]", ylab="reflectance (%)", main="reflectance spectra", sub="July", xlim=c(400,2700), ylim=c(0,30), col=landcover_col[1], lwd=2, type='b')
-lines(lambda, image.extract[2,], 
-      ylab="grey value",
-      xlab="wavelenght [nm]", type='b', col=landcover_col[2], lwd=2)
-lines(lambda, image.extract[3,], 
-      ylab="grey value",
-      xlab="wavelenght [nm]", type='b', col=landcover_col[3], lwd=2)
-lines(lambda, image.extract[4,], 
-      ylab="grey value",
-      xlab="wavelenght [nm]", type='b', col=landcover_col[4], lwd=2)
-# lines(lambda, image.extract[5,], 
-#       ylab="grey value",
-#       xlab="wavelenght [nm]", type='b', col=landcover_col[5], lwd=2)
-# lines(lambda, image.extract[6,], 
-#       ylab="grey value",
-#       xlab="wavelenght [nm]", type='b', col=landcover_col[6], lwd=2)
-# lines(lambda, image.extract[7,], 
-#       ylab="grey value",
-#       xlab="wavelenght [nm]", type='b', col=landcover_col[7], lwd=2)
-# lines(lambda, image.extract[8,], 
-#       ylab="grey value",
-#       xlab="wavelenght [nm]", type='b', col=landcover_col[8], lwd=2)
-# lines(lambda, image.extract[9,], 
-#       ylab="grey value",
-#       xlab="wavelenght [nm]", type='b', col=landcover_col[9], lwd=2)
-# lines(lambda, image.extract[10,], 
-#       ylab="grey value",
-#       xlab="wavelenght [nm]", type='b', col=landcover_col[10], lwd=2)
-
-
-legend('topright', title='Landcover', 
-       legend=row.names(image.extract),
-       fill=landcover_col,
-       cex = 0.8, bty="n") 
-```
-
----
-
-
-# 7. Feature Space
-
-Create a scatterplot (in remote sensing we name it **feature space**) between the red and the green band. Select four spectra (**(a) water**, **(b) vegetation**, **(c) settlement**, **(d) soil** -or alternatively, one of your other prepared land cover types) and plot them within the feature space. Similarly to the function `lines()` the function `points()` allows adding point data to a diagram. You may set the argument `maxcell` to increase the number of pixel data used for the feature space. If you set the number very high, creating the diagram may take a little while. In this example I used all spectra but as mentioned before, you may restrict yourself to four land cover types.
-
-```r
-#dev.off() #--> use this command if you work with a normal R-script. In RMD this is often not necessary.
-
-# feature space green (band 2) vs. red (band 3)
-plot(image[[2]], image[[3]],  xlab="green", ylab="red", xlim=c(0,40), ylim=c(0,40), maxcell = 1000000,  col= "gray35")
-points(image.extract[1,2],image.extract[1,3], col=landcover_col[1], cex=2, pch=19)
-points(image.extract[2,2],image.extract[2,3], col=landcover_col[2], cex=2, pch=19)
-points(image.extract[3,2],image.extract[3,3],  col=landcover_col[3], cex=2, pch=19)
-points(image.extract[4,2],image.extract[4,3],  col=landcover_col[4], cex=2, pch=19)
-# points(image.extract[5,2],image.extract[5,3],  col=landcover_col[5], cex=2, pch=19)
-# points(image.extract[6,2],image.extract[6,3],  col=landcover_col[6], cex=2, pch=19)
-# points(image.extract[7,2],image.extract[7,3],  col=landcover_col[7], cex=2, pch=19)
-# points(image.extract[8,2],image.extract[8,3],  col=landcover_col[8], cex=2, pch=19)
-# points(image.extract[9,2],image.extract[9,3],  col=landcover_col[9], cex=2, pch=19)
-# points(image.extract[10,2],image.extract[10,3g],  col=landcover_col[10], cex=2, pch=19)
-
-legend('topright', title='Landcover', 
-       legend=row.names(image.extract),
-       fill=landcover_col,
-       cex = 0.8, bty="n")
-```
-
----
-
-# Homework
-
-## 1. Feature Space
-
+::: {.callout-note title="Checkpoint – Spectral feature space"}
 Create two more feature space plots
+* Compare the feature spaces regarding their information contents, i.e. are the bands correlated?
+* Where are the reflectance values of the four land cover types located. Are all of them separable in the three feature spaces?
+* Which band combination separates your reference classes most clearly? Which combinations show strong correlation? Are all classes separable with only two bands?
 
-- red vs. NIR
-- NIR vs. MIR 1 / SWIR 1
+Include **one especially informative feature-space plot** and explain why you chose it. Identify one pair of land-cover types that is difficult to distinguish.
+:::
 
-a. Compare the feature spaces regarding their information contents, i.e. are the bands correlated?
-
-b. Where are the reflectance values of the four land cover types located. Are all of them separable in the three feature spaces?
-
-```r
+### 5.2 Red vs. NIR
+```{r}
 # your code
 ```
 
-## 2. NDVI
+### 5.3 NIR vs. SWIR1
 
-- Calculate the NDVI and plot it. Adapt the argument `range` if necessary.
-
-- Change the color representation as you wish
-
-```r
-# your code
+```{r}
+#your code
 ```
 
-- Reclassifiy the NDVI into two classes: **(i) water** and **(ii) non-water**. Try to find a threshold that nicely separates water from non-water (have a look at the SRTM exercise if you do not remember how to split data into classes). Are you satisfied with the result? If not what may be reasons?
 
-```r
-# your code
+
+## 6. Calculate vegetation indices {#vegetation-indices}
+
+Vegetation indices combine spectral bands to emphasize specific characteristics of the surface. They are **proxies**, not direct measurements of vegetation amount or health. Different indices are sensitive to different conditions.
+
+### 6.1 NDVI – Normalized Difference Vegetation Index
+
+
+$$
+NDVI = \frac{\rho_{\mathrm{NIR}} - \rho_{\mathrm{RED}}}
+{\rho_{\mathrm{NIR}} + \rho_{\mathrm{RED}}}
+$$
+
+```{r}
+red <- image[["B4"]]
+nir <- image[["B8"]]
+blue <- image[["B2"]]
+
+ndvi <- (nir - red) / (nir + red)
+names(ndvi) <- "NDVI"
+plot(ndvi, main = "NDVI")
 ```
 
-## 3. EVI
+**Questions:** What does NDVI emphasize? Why does water often have low or negative NDVI values? Can a single NDVI threshold always distinguish water from other land cover types?
 
-The EVI is calculated as following:
-**EVI=G∗((ρNIR−ρRED)/(ρNIR+C1∗ρRED−C2∗ρBLUE+L))**
+#### Optional: Test an NDVI threshold
 
+Reclassifiy the NDVI into two classes: (i) water and (ii) non-water. Try to find a threshold that nicely separates water from non-water (have a look at the SRTM exercise if you do not remember how to split data into classes). Are you satisfied with the result? If not what may be reasons?
+
+```{r}
+#your code
+```
+
+### 6.2 EVI – Enhanced Vegetation Index
+
+The EVI is calculated as following: 
+
+$$
+EVI = G \cdot
+\frac{\rho_{\mathrm{NIR}} - \rho_{\mathrm{RED}}}
+{\rho_{\mathrm{NIR}} + C_1 \rho_{\mathrm{RED}} - C_2 \rho_{\mathrm{BLUE}} + L}
+$$
 where the parameters are G = 2.5, C1 = 6, C2 = 7.5 and L = 1 (after Huete et al. 2002).
 
-- Calculate the EVI and plot it.
+Calculate the EVI and plot it.
+**Hint:** The EVI requires reflectance data scaled between 0 and 1. Always check before you calculate the EVI
 
-- Hint: The EVI requires reflectance data scaled between 0 and 1. Always check before you calculate the EVI
-
-```r
-# your code
-```
- 
-## 4. PVI
-
-### Intro
-
-The perpendicular vegetation index (PVI) is used to describe vegetation amount in a 2-dimensional space defined by the reflectance in the red and near infrared spectral regions. The PVI is defined as the distance of an observation perpendicular to the soil line.
-
-A line in two dimensions can be parameterised by its slope **a** and intercept **b** according to the equation **y=a∗x+b**. To define the soil line in the 2-dimensional space of our red - near infrared scatterplot, where the x-axis represents the red band and the y-axis represents the near infrared band, we could choose two points representing dark and bright soil, like P1 (X1, Y1) and P2 (X2, Y2) in the example below:
-
-![](images/5.H.png)
-
-- These two points can be employed to derive the slope of the soil line **a=(Y2−Y1)/(X2−X1)**, where **a** is the slope of the line.
-
-- The intercept **b (x = 0)** can be derived as follows **b=Y1−a∗X1**
-
-If the soil line is parameterised in this manner, the formula to compute the PVI is given by:
-
-**PVI=((ρNIR−a∗ρRED−b))/(√1+a2)**
-
-where **ρNIR** and **ρRED** are the reflectances in the near infrared and red spectral bands. The lines sketched in the figure above are lines of equal PVI. The soil line itself is the line where the PVI is zero.
-
-# Derivation of the soil line
-
-Define the soil line for the Landsat OLI reflectance image by (a+b) determining two points in its feature space (of the red and the NIR band) representing dark and bright soil, and then (c) use the point-slope equation to determine the line’s parameters and (d) Compute the PVI for the image by applying the equation above using the parameters you obtained for the soil line.
-
-### a. Plot the feature space between the red band and the NIR band.
-
-- Using the function `par(mfrow = c(1, 1), pty="s")` you force the plot to be square.
-- The function `grid()` may be used to add grid lines to the plot.
-    
-```r
-# your code
+```{r}
+#your code
 ```
 
-### b. Inspect the soil line.
+**Questions:** Why does EVI include the blue band? Why is the reflectance scale particularly important for this formula? Do unusual values occur in your result?
 
-- Define two points, one for a dark soil and one for a bright soil.
-- Plot them in the feature space.
-    
-- Hint: If you are using R markdown and put the code in several chunks make sure to re-plot the feature space first. Unfortunately, plots can not be created using several chunks.
+### 6.3 PVI – Perpendicular Vegetation Index
 
-```r
-# your code
+#### Introduction
+
+The perpendicular vegetation index (PVI) describes vegetation in a two-dimensional feature space defined by reflectance in the red and near-infrared spectral regions. The PVI is defined as the **perpendicular distance of an observation from the soil line**.
+
+A line in two dimensions can be described by its slope $a$ and intercept $b$:
+
+$$
+y = ax + b
+$$
+
+In our red–NIR feature space, the **x-axis represents red reflectance** and the **y-axis represents NIR reflectance**.
+
+To define the soil line, we can select two points representing dark and bright soil, $P_1=(X_1,Y_1)$ and $P_2=(X_2,Y_2)$, as illustrated below.
+
+![Concept of the perpendicular vegetation index (PVI)](pvi.jpg){width="45%" fig-align="center"}
+
+These two points can be used to derive:
+
+**Slope of the soil line:**
+
+$$
+a = \frac{Y_2-Y_1}{X_2-X_1}
+$$
+
+**Intercept of the soil line:**
+
+$$
+b = Y_1-aX_1
+$$
+
+Once the soil line has been defined, the PVI can be calculated as:
+
+$$
+PVI = \frac{\rho_{\mathrm{NIR}}-a\rho_{\mathrm{RED}}-b}{\sqrt{1+a^2}}
+$$
+
+where $\rho_{\mathrm{NIR}}$ and $\rho_{\mathrm{RED}}$ represent reflectance in the near-infrared and red bands, respectively.
+
+The soil line itself has a PVI of zero. With this sign convention, pixels above the soil line have positive PVI values.
+
+#### Derivation of the soil line
+
+Define the soil line for your **Sentinel-2 image** by selecting two points representing dark and bright soil in the red–NIR feature space. Use these points to calculate the slope and intercept of the soil line and finally derive the PVI for your image.
+
+**1. Plot the feature space between the red (B4) and NIR (B8) bands.**
+
+- Create a square plot with equal axis scales.
+- Use `xlim` and `ylim` to restrict both axes to values between 0 and 1.
+- The function `grid()` can be used to add grid lines to the plot.
+
+```{r}
+# Your code
 ```
 
-### c. Derive the soil line by calculating gain **a** and intercept **b**.
+**2. Inspect the soil line.**
 
-```r
-# your code
+- Identify two points in the feature space, one representing dark soil and the other bright soil.
+- Add these points to your feature space using `points()`.
+- Draw the soil line connecting the two points.
+
+::: {.callout-tip}
+## Hint
+
+You can use `abline()` to add a straight line to your feature space once you have determined its slope and intercept.
+
+If you are working with several code chunks in Quarto, remember to recreate the plot before adding points or lines in a new chunk.
+:::
+
+```{r}
+# Your code
 ```
 
-### d. Calculate the PVI and plot it.
+**3. Derive the soil line by calculating its slope \(a\) and intercept \(b\).**
 
-```r
-# your code
+```{r}
+# Your code
 ```
 
+**4. Calculate the PVI and plot it.**
 
-## 5. NDVI vs. EVI (vs. PVI)
+- Apply the PVI equation to the red and NIR bands of your Sentinel-2 image.
+- Visualize the resulting raster.
+- Compare its spatial patterns with the NDVI and EVI.
 
-- Create 2d-Scatterplots to compare the three indices by creating scatterplots. Describe the relationship of the different indices and the implications.
-
-- What are the disadvantages of the NDVI compared to more enhanced indices like the EVI and the PVI?
-
-```r
-# your code
+```{r}
+# Your code
 ```
+
 ---
+
+### 5. NDVI vs. EVI vs. PVI
+
+Create two-dimensional scatterplots to compare the three vegetation indices.
+
+- Compare the relationships between NDVI, EVI and PVI. Are they strongly correlated?
+- Where do the indices differ most, and what might explain these differences?
+- What are the limitations of NDVI compared with indices such as EVI and PVI?
+
+```{r}
+# Your code
+```
+
+
+
+::: {.callout-note title="checkpoint – Vegetation indices"}
+Record the three index equations and add a figure or screenshot comparing **NDVI, EVI and PVI**. State your **soil-line points and parameters `a` and `b`**, and explain one limitation of each index.
+:::
+
+## 7. Compare the indices {#compare-indices}
+
+```{r}
+plot(ndvi, evi, xlab = "NDVI", ylab = "EVI", maxcell = 50000,
+     col = "grey40", main = "NDVI vs. EVI")
+plot(ndvi, pvi, xlab = "NDVI", ylab = "PVI", maxcell = 50000,
+     col = "grey40", main = "NDVI vs. PVI")
+```
+
+Explain similarities and differences. Consider:
+
+- NDVI saturation at high vegetation density;
+- the influence of background soil and the soil-line choice;
+- the additional blue band and coefficients used in EVI;
+- how reflectance scaling influences EVI and PVI;
+- possible noise, shadows, masking artefacts and unusual values.
+
+## 8. Create a simple map in QGIS {#qgis-map}
+
+You have already generated a vegetation index in R. Now display it as a **map**. The goal is **one clear, readable map**, not a complex cartographic layout.
+
+### 8.1 Export the index
+
+```{r}
+dir.create("results", showWarnings = FALSE)
+writeRaster(ndvi, "results/ndvi_week05.tif", overwrite = TRUE)
+## Optional:
+## writeRaster(evi, "results/evi_week05.tif", overwrite = TRUE)
+## writeRaster(pvi, "results/pvi_week05.tif", overwrite = TRUE)
+```
+
+### 8.2 Symbolize the Vegetation index raster
+
+1. Open your existing QGIS project.
+2. Add e.g. `results/ndvi_week05.tif` via **Layer → Add Layer → Add Raster Layer**.
+3. Right-click the VI layer → **Properties → Symbology**.
+4. Select **Singleband pseudocolor** and a suitable sequential or diverging colour ramp. Choose a meaningful display range and make sure the legend explains the values. You may modify class breaks if needed.
+5. Keep the Sentinel-2 image underneath for context (optional). Avoid a basemap that distracts from the index.
+6. Inspect the result: Do low and high values occur where you expect?
+
+### 8.3 Produce one simple map
+
+1. Choose **Project → New Print Layout** and give it a name.
+2. Click **Add Map** and drag a map frame on the page.
+3. Add a short informative **title** and a **legend** with the VI colour ramp (and only relevant layers).
+4. Optionally add a scale bar if appropriate for your map and CRS.
+5. Export the layout as **PNG or PDF**.
+
+
+
+::: {.callout-tip title="QGIS refresher"}
+See the [QGIS Training Manual](https://docs.qgis.org/3.44/en/docs/training_manual/map_composer/index.html) for additional print-layout guidance. You do **not** need to recreate every step of that tutorial for this exercise.
+:::
+
+::: {.callout-note title="checkpoint – Map"}
+
+**Minimum requirement:** one map showing your study area with the chosen Vegetation index, a meaningful colour legend, and a title including the place and acquisition date. Include your map in the presentation.
+:::
+
+
+## 10. Homework — Spectral analysis of your own image {#homework}
+
+Work through the script, answer the questions and work on the tasks. **Submit one clearly organized R script and the requested figures/files** (in a document) via Moodle, using meaningful filenames. We should be able to inspect your work easily. Please, zip the files to one file before uploading.
+
+**Required**
+
+1. **Reference polygons and signatures:** Submit your GeoPackage and one plot showing spectral profiles. Briefly interpret at least two differences between land-cover classes.
+2. **Feature spaces:** Create green–red, red–NIR and NIR–SWIR1 plots with your reference samples. Explain which combination best separates your classes and where overlap remain.
+3. **Vegetation indices:** Calculate NDVI, EVI and PVI. Document your chosen soil-line points, and compare the indices (including NDVI–EVI, NDVI–PVI, EVI-PVI scatterplots).
+4. **QGIS map:** Submit one simple map of NDVI (PNG or PDF) with title and legend.
+5. **Short reflection:** What is one important limitation of your sampling or vegetation-index results?
+
+**Optional challenge:** Experiment with an NDVI threshold to identify low-index areas. Can you really distinguish water? Explain errors and suggest a better method.
+
+::: {.callout-note title="What we expect"}
+Your code should be **readable, commented and reproducible**. Do not submit unexplained settings or code generated by a tool that you cannot interpret. Please include the source of your imagery, your sample definitions and a short interpretation of the results.
+:::
+
+## 10. Function reference and useful links {#reference}
+
+
+| R function / QGIS tool | Purpose |
+|:--|:--|
+| `terra::rast()` | Open raster data |
+| `terra::vect()` | Open GeoPackage vector data |
+| `terra::project()` | Reproject vector geometries to another CRS |
+| `terra::extract(..., fun=mean)` | Extract mean band values for polygons |
+| `terra::plotRGB()` | Display a colour composite |
+| `terra::plot()` | Display rasters or two-band feature spaces |
+| `points()`, `lines()`, `abline()` | Add information to an existing plot |
+| `terra::ifel()` | Apply a raster-based condition |
+| `terra::writeRaster()` | Export raster results |
+| **QGIS: New GeoPackage Layer** | Create a polygon dataset |
+| **QGIS: Toggle Editing / Add Polygon Feature** | Digitize reference areas |
+| **QGIS: Singleband pseudocolor** | Style a vegetation-index raster |
+| **QGIS: New Print Layout** | Create a simple map |
+
+- [RESEDA – Sample in QGIS](https://remote-sensing-at-fu-berlin.github.io/RESEDA/RESEDA/contents/Classification-in-R.html#sample-in-qgis)
+- [QGIS documentation – CRS introduction](https://docs.qgis.org/3.44/en/docs/gentle_gis_introduction/coordinate_reference_systems.html)
+- [QGIS documentation – Vector editing](https://documentation.qgis.org/3.44/en/docs/user_manual/working_with_vector/editing_geometry_attributes.html)
+- [Copernicus Data Space documentation](https://documentation.dataspace.copernicus.eu/)
+
+
+## 11. Looking ahead {#looking-ahead}
+
+You have now created reference areas, explored how their reflectance differs, and derived vegetation indices. These concepts will help you understand how **spectral features and training data** are used in subsequent classification and analysis workflows.
 
 
