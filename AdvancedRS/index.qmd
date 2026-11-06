@@ -30,6 +30,8 @@ The seminar is divided into several sections. Select a topic below to open the c
 
 4. [Week 4 – Sentinel 2 data](./contents/sentinel2data_in_R_week4.qmd)
 
+5. [Week 5 - Feature Space and Vegetation Indices (./contents/SpectralProfiles_FeatureSpace_vegetationIndices_week5.qmd)
+
 :::
 :::
 :::
