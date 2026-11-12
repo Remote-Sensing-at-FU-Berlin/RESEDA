@@ -443,7 +443,7 @@ In our red–NIR feature space, the **x-axis represents red reflectance** and th
 
 To define the soil line, we can select two points representing dark and bright soil, $P_1=(X_1,Y_1)$ and $P_2=(X_2,Y_2)$, as illustrated below.
 
-![Concept of the perpendicular vegetation index (PVI)](images/pvi.jpg){width="45%" fig-align="center"}
+![Concept of the perpendicular vegetation index (PVI)](./images/pvi.jpg){width="45%" fig-align="center"}
 
 These two points can be used to derive:
 
