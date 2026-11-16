@@ -56,7 +56,7 @@ The three images below show the same area on different dates. Imagine that one l
 
 ## 1. Opening questions — define “best available”
 
-**Work in small groups**, then give short explanation. Consult the [HU Berlin BAP tutorial](https://eol.pages.cms.hu-berlin.de/gcg_eo/04_baps.html) and [FORCE QAI documentation](https://force-eo.readthedocs.io/en/latest/howto/qai.html).
+**Work in smallgroups**, then shortly summarize your explanation. Consult the [HU Berlin BAP tutorial](https://eol.pages.cms.hu-berlin.de/gcg_eo/04_baps.html) and [FORCE QAI documentation](https://force-eo.readthedocs.io/en/latest/howto/qai.html).
 
 - **Question A — Compositing:** Why combine observations? How does selecting one observed spectrum differ from calculating a median separately for each band? Can a composite always fill every gap?
 - **Question B — Time:** How would you choose observations for a spring image of one particular year? What changes if observations from neighbouring years are allowed? Which information would you need to check the result?
@@ -649,7 +649,7 @@ dput(settings, file = paste0(prefix, "_settings.txt"))
 3. **Compare** coverage, source-date contributions and two example pixel selections. Show a source-ID or observation-count visualization and explain any gaps or visible seams.
 4. **Map and discuss:** make one simple QGIS map of your variant and justify your choice. Explain one remaining limitations, including possible phenological differences between selected dates.
 
-**Submit via Moodle:** your structured R-code, the source/parameter records, the map, one diagnostic visualization and the short comparison. Include raster outputs. Label your pair and variants clearly.
+**Submit via Moodle:** Your answers for Question A and B, your structured R-code, the source/parameter records, the map, one diagnostic visualization and the short comparison. Include raster outputs. Label your pair and variants clearly.
 
 ## 9. Function reference
 
