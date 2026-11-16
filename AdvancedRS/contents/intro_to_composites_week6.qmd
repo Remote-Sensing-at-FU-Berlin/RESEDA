@@ -1,21 +1,29 @@
 ---
-title: "Best-Available-Pixel compositing"
+title: "Week 6: Best-Available-Pixel compositing"
 subtitle: "Screen FORCE observations with QAI and select pixels by temporal suitability"
 author: "Remote Sensing and Geoinformatics | Freie Universität Berlin"
+
 lang: en
-format:
-  html:
-    toc: true
-    toc-depth: 3
-    number-sections: false
-    code-fold: true
-    code-summary: "Show code"
-    embed-resources: true
+
 execute:
   eval: false
   echo: true
-  warning: false
-  message: false
+
+format:
+  html:
+    fig-format: svg
+    fig-height: 4
+    fig-width: 6
+    number-sections: false
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    code-fold: true
+    code-summary: "Show code"
+    code-tools:
+      source: false
+      toggle: true
+---
 ---
 
 ## Introduction
