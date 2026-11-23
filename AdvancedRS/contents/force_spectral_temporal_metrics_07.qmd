@@ -453,7 +453,7 @@ if (nrow(inputs) < 5L) warning("Very sparse series: interpret only as a demonstr
 ::: {.callout-important}
 ## Choosing the time window
 
-For a direct comparison with last week's BAP, use `start_date <- as.Date("2020-06-01") - 45` and `end_date <- as.Date("2020-06-01") + 45`. This is **17 April–16 July 2020**. In a collection containing only 2 April and 2 May, only one date remains: the script stops at `min_obs = 2`. 
+For a direct comparison with last week's BAP, use `start_date <- as.Date("2020-06-01") - 45` and `end_date <- as.Date("2020-06-01") + 45`. This is **17 April–16 July 2020**. In a collection containing for isntance only 2 April and 2 May, not all statistics may make sense; the script stops at `min_obs = 2`. 
 :::
 
 ## 4. Reuse the quality screen and calculate EVI per date
