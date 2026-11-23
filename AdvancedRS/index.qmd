@@ -34,6 +34,8 @@ The seminar is divided into several sections. Select a topic below to open the c
 
 6. [Week 6 - Intro to Composites](./contents/intro_to_composites_week6.qmd)
 
+7. [Week 7 - Intro to Spectral Temporal Metrics](./contents/force_spectral_temporal_metrics_07.qmd)
+
 :::
 :::
 :::
