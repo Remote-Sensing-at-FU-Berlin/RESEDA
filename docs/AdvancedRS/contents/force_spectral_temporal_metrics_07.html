@@ -1,0 +1,1943 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta charset="UTF-8">
+<meta name="generator" content="quarto-1.11.9">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Remote Sensing and Geoinformatics | Freie Universität Berlin">
+<title>Week 7: Spectral-temporal metrics</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../img/favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-1159979423eb2a977f10591c10392a81.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+</head>
+<body class="nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo light-content"><img src="../../img/RSG-Logo-RGB.png" alt="" class="navbar-logo dark-content"></a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../../staff/index.html"> 
+<span class="menu-text">Staff</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../R-Crash-Course/index.html"> 
+<span class="menu-text">R Crash Course</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../RESEDA/index.html"> 
+<span class="menu-text">RESEDA</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../About/index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../AdvancedRS/index.html"> 
+<span class="menu-text">ADVANCED RS</span></a>
+  </li>  
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item compact">
+    <a class="nav-link" href="https://blogs.fu-berlin.de/reseda/"> <i class="bi bi-folder-symlink" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://github.com/Remote-Sensing-at-FU-Berlin"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text">Github</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:marion.stellmes@fu-berlin.de"> <i class="bi bi-envelope" role="img" aria-label="email">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+</div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+            <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li>
+<a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+<li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning objectives</a></li>
+  </ul>
+</li>
+  <li><a href="#what-does-a-maximum-tell-us" id="toc-what-does-a-maximum-tell-us" class="nav-link" data-scroll-target="#what-does-a-maximum-tell-us">1. What does a maximum tell us?</a></li>
+  <li><a href="#function-reference" id="toc-function-reference" class="nav-link" data-scroll-target="#function-reference">2. Function reference</a></li>
+  <li>
+<a href="#reuse-the-boaqai-import" id="toc-reuse-the-boaqai-import" class="nav-link" data-scroll-target="#reuse-the-boaqai-import">3. Reuse the BOA/QAI import</a>
+  <ul class="collapse">
+<li><a href="#select-the-analysis-period" id="toc-select-the-analysis-period" class="nav-link" data-scroll-target="#select-the-analysis-period">Select the analysis period</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#reuse-the-quality-screen-and-calculate-evi-per-date" id="toc-reuse-the-quality-screen-and-calculate-evi-per-date" class="nav-link" data-scroll-target="#reuse-the-quality-screen-and-calculate-evi-per-date">4. Reuse the quality screen and calculate EVI per date</a>
+  <ul class="collapse">
+<li><a href="#additional-animate-the-evi-maps" id="toc-additional-animate-the-evi-maps" class="nav-link" data-scroll-target="#additional-animate-the-evi-maps">Additional: Animate the EVI maps</a></li>
+  </ul>
+</li>
+  <li><a href="#calculate-magnitude-and-variability-metrics" id="toc-calculate-magnitude-and-variability-metrics" class="nav-link" data-scroll-target="#calculate-magnitude-and-variability-metrics">5. Calculate magnitude and variability metrics</a></li>
+  <li><a href="#save-the-date-of-the-observed-maximum" id="toc-save-the-date-of-the-observed-maximum" class="nav-link" data-scroll-target="#save-the-date-of-the-observed-maximum">6. Save the date of the observed maximum</a></li>
+  <li><a href="#count-observations-and-inspect-example-time-series" id="toc-count-observations-and-inspect-example-time-series" class="nav-link" data-scroll-target="#count-observations-and-inspect-example-time-series">7. Count observations and inspect example time series</a></li>
+  <li><a href="#export-and-check-the-results" id="toc-export-and-check-the-results" class="nav-link" data-scroll-target="#export-and-check-the-results">8. Export and check the results</a></li>
+  <li><a href="#inspect-in-qgis-and-make-one-map" id="toc-inspect-in-qgis-and-make-one-map" class="nav-link" data-scroll-target="#inspect-in-qgis-and-make-one-map">9. Inspect in QGIS and make one map</a></li>
+  <li><a href="#homework-compare-two-meaningful-choices" id="toc-homework-compare-two-meaningful-choices" class="nav-link" data-scroll-target="#homework-compare-two-meaningful-choices">10. Homework — compare two meaningful choices</a></li>
+  <li><a href="#optional-extension-other-indices-and-spectral-bands" id="toc-optional-extension-other-indices-and-spectral-bands" class="nav-link" data-scroll-target="#optional-extension-other-indices-and-spectral-bands">Optional extension — other indices and spectral bands</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content" tabindex="-1"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">Week 7: Spectral-temporal metrics</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li></ul></div></div>
+<p class="subtitle lead">From FORCE observations to peak EVI, its timing and temporal variability</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Remote Sensing and Geoinformatics | Freie Universität Berlin </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header><section id="introduction" class="level2"><h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p><strong>Guiding question:</strong> Can two locations have the same maximum EVI but behave differently over time?</p>
+<p>Last week, our BAP selected one suitable observation near <strong>1 June (±45 days)</strong> and retained its complete spectrum. This week, we return to the <strong>original BOA/QAI pairs</strong> and summarise the suitable observations over a defined period. We begin with <strong>maximum EVI, the date of that maximum, median EVI and the observed range</strong>. These are examples of spectral-temporal metrics (STMs).</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">BAP from last week</th>
+<th style="text-align: left;">STMs today</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Select one suitable observation per pixel</td>
+<td style="text-align: left;">Summarise multiple suitable observations per pixel</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Target date and allowed time window</td>
+<td style="text-align: left;">Explicit start and end dates</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">All bands share one source observation</td>
+<td style="text-align: left;">Each metric describes a different property of the time series</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Source date explains the selected spectrum</td>
+<td style="text-align: left;">Observation count and dates help interpret the summaries</td>
+</tr>
+</tbody>
+</table>
+<section id="learning-objectives" class="level3"><h3 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h3>
+<ul>
+<li>create a quality-screened EVI time series from the same FORCE data;</li>
+<li>calculate and distinguish magnitude, variability and timing metrics;</li>
+<li>explain why observation count and temporal coverage matter;</li>
+<li>interpret example pixels and make one simple QGIS map.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Preparation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Use <code>terra</code>, QGIS and <strong>one spatial tile</strong> and the input data from last week in <code>data/force</code>. Keep <code>.dat</code> and <code>.hdr</code> files together. I have added some other files from September to December in the fu-box (this time tif-files”. This script is self-contained; no objects from last week’s R session are required.</p>
+<p>Use <strong>all available dates of 2020</strong>, rather than the BAP output. If your collection only contains few observations, it demonstrates statistics for this subset, <strong>not an annual trajectory</strong>. Missing dates cannot be recovered by calculating more metrics.</p>
+</div>
+</div>
+</section></section><section id="what-does-a-maximum-tell-us" class="level2"><h2 class="anchored" data-anchor-id="what-does-a-maximum-tell-us">1. What does a maximum tell us?</h2>
+<p>Give a short explanations.</p>
+<ul>
+<li>
+<strong>Question A:</strong> Two fields have the same peak EVI. What might still differ between them? Sketch two possible time series.</li>
+<li>
+<strong>Question B:</strong> Which information is lost when a whole time series becomes one median value? Suggest one additional metric.</li>
+<li>
+<strong>Question C:</strong> One pixel has two clear observations and another has twenty. How would that affect your interpretation of their maxima and ranges?</li>
+</ul>
+<p><strong>Discuss:</strong> Which metric would help distinguish your sketches? What information would you need before interpreting the maximum date as a vegetation peak?</p>
+</section><section id="function-reference" class="level2"><h2 class="anchored" data-anchor-id="function-reference">2. Function reference</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Functions</th>
+<th style="text-align: left;">Role today</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">
+<code><a href="https://rdrr.io/r/base/list.files.html">list.files()</a></code>, <code><a href="https://rdrr.io/r/base/grep.html">sub()</a></code>, <code><a href="https://rdrr.io/r/base/as.Date.html">as.Date()</a></code>
+</td>
+<td style="text-align: left;">Match files and select acquisition dates</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">
+<code>rast()</code>, <code>crop()</code>, <code>compareGeom()</code>
+</td>
+<td style="text-align: left;">Import and check the common grid</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">
+<code>ifel()</code>, <code>mask()</code>
+</td>
+<td style="text-align: left;">Screen observations and handle invalid divisions</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>app()</code></td>
+<td style="text-align: left;">Summarise through time at each pixel</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">
+<code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, <code><a href="https://rdrr.io/r/stats/median.html">median()</a></code>, <code><a href="https://rdrr.io/r/stats/sd.html">sd()</a></code>, <code><a href="https://rdrr.io/r/stats/quantile.html">quantile()</a></code>
+</td>
+<td style="text-align: left;">Describe magnitude and variability</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code><a href="https://rdrr.io/r/base/which.min.html">which.max()</a></code></td>
+<td style="text-align: left;">Find the first observed maximum</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">
+<code>extract()</code>, <code>xyFromCell()</code>
+</td>
+<td style="text-align: left;">Inspect individual pixel time series</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">
+<code>writeRaster()</code>, <code><a href="https://rdrr.io/r/utils/write.table.html">write.csv()</a></code>
+</td>
+<td style="text-align: left;">Save metrics and processing records</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Read the help:</strong> For <code>app()</code>, layers are the observations being summarised. For <code>global()</code>, cells within a layer are summarised. Which direction do we need today?</p>
+</section><section id="reuse-the-boaqai-import" class="level2"><h2 class="anchored" data-anchor-id="reuse-the-boaqai-import">3. Reuse the BOA/QAI import</h2>
+<p>As before, the ten supplied FORCE bands are <strong>BLUE, GREEN, RED, RE1, RE2, RE3, BNIR, NIR, SWIR1, SWIR2</strong>. BNIR is Sentinel-2 <strong>B08</strong>, whereas NIR is <strong>B8A</strong>. Today we consistently use <strong>B08 (BNIR)</strong> for both vegetation indices. Inspect the original band descriptions before assigning names.</p>
+<p>The supplied BOA files use NoData <strong>−9999</strong> and a reflectance divisor of <strong>10,000</strong>. Apply this once. QAI remains an integer. These are already processed FORCE outputs; do not apply an additional Sentinel-2 SAFE offset. The initial AOI is the same central <strong>6 × 6 km</strong> area used last week.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Run this once if terra is not installed yet:</span></span>
+<span><span class="co"># install.packages("terra")</span></span>
+<span></span>
+<span><span class="co"># Load terra for reading, processing and plotting raster data.</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/">terra</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Set your working directory.</span></span>
+<span><span class="co"># Relative paths below, such as "data/force", start from this folder.</span></span>
+<span><span class="co"># Replace this example path with your own.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"Y:/your/working/directory"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># ── 1. Define input and output folders ──────────────────────────────────────</span></span>
+<span></span>
+<span><span class="co"># Folder containing the FORCE BOA images and their matching QAI files.</span></span>
+<span><span class="co"># BOA = bottom-of-atmosphere reflectance.</span></span>
+<span><span class="co"># QAI = quality information, such as cloud and shadow flags.</span></span>
+<span><span class="va">data_dir</span> <span class="op">&lt;-</span> <span class="st">"data/force"</span></span>
+<span></span>
+<span><span class="co"># Folder for the outputs of this STM variant.</span></span>
+<span><span class="co"># Using separate folders makes it easier to compare different variants.</span></span>
+<span><span class="va">out_dir</span> <span class="op">&lt;-</span> <span class="st">"data/output/stm_variant_1"</span></span>
+<span></span>
+<span><span class="co"># Create the output folder if it does not already exist.</span></span>
+<span><span class="co"># recursive = TRUE also creates missing parent folders.</span></span>
+<span><span class="co"># showWarnings = FALSE suppresses the warning if the folder already exists.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">out_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># ── 2. Find the BOA files ──────────────────────────────────────────────────</span></span>
+<span></span>
+<span><span class="co"># Search the input folder for filenames matching the expected FORCE format,</span></span>
+<span><span class="co"># for example: 20160502_LEVEL2_SEN2A_BOA.dat</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># The pattern is a regular expression:</span></span>
+<span><span class="co">#   ^                  beginning of the filename</span></span>
+<span><span class="co">#   [0-9]{8}           exactly eight digits: the date as YYYYMMDD</span></span>
+<span><span class="co">#   _LEVEL2_SEN2[ABC]   Sentinel-2A, Sentinel-2B or Sentinel-2C</span></span>
+<span><span class="co">#   _BOA               the BOA reflectance product</span></span>
+<span><span class="co">#   \\.                a literal dot; R requires the backslash to be doubled</span></span>
+<span><span class="co">#   (dat|tif|tiff)     one of the permitted file extensions</span></span>
+<span><span class="co">#   $                  end of the filename</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># full.names = TRUE includes data_dir in the returned file paths.</span></span>
+<span><span class="co"># ignore.case = TRUE accepts uppercase and lowercase filename characters.</span></span>
+<span><span class="co"># Subfolders are not searched because recursive = TRUE is not specified.</span></span>
+<span><span class="va">boa_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span></span>
+<span>  <span class="va">data_dir</span>, pattern <span class="op">=</span> <span class="st">"^[0-9]{8}_LEVEL2_SEN2[ABC]_BOA\\.(dat|tif|tiff)$"</span>,</span>
+<span>  full.names <span class="op">=</span> <span class="cn">TRUE</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Stop if fewer than two BOA observations were found.</span></span>
+<span><span class="co"># The exercise requires multiple observations to calculate temporal metrics.</span></span>
+<span><span class="co"># A matching QAI file for each observation is checked below.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># length() counts the files in the vector.</span></span>
+<span><span class="co"># 2L is the integer value 2.</span></span>
+<span><span class="co"># stop() ends execution and displays the supplied message.</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">boa_files</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">2L</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"Provide at least two BOA/QAI pairs."</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># ── 3. Check for duplicate observations and missing QAI files ───────────────</span></span>
+<span></span>
+<span><span class="co"># Create an observation key from each BOA filename:</span></span>
+<span><span class="co">#   20160502_LEVEL2_SEN2A_BOA.dat → 20160502_LEVEL2_SEN2A</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># basename() removes the folder path.</span></span>
+<span><span class="co"># sub() removes the final "_BOA" part and the file extension.</span></span>
+<span><span class="co"># In the pattern, [^.]+ means one or more characters other than a dot.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># These keys let us identify the same observation saved in multiple formats,</span></span>
+<span><span class="co"># for example as both .dat and .tif.</span></span>
+<span><span class="va">keys</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"_BOA\\.[^.]+$"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">boa_files</span><span class="op">)</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># anyDuplicated() returns 0 if all keys are unique.</span></span>
+<span><span class="co"># A positive result identifies a duplicate, causing this check to stop.</span></span>
+<span><span class="co"># Duplicate observations would otherwise receive extra weight in the STM.</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">anyDuplicated</a></span><span class="op">(</span><span class="va">keys</span><span class="op">)</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"Duplicate observations: check formats/tiles."</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Derive the expected QAI path for each BOA image by replacing "_BOA."</span></span>
+<span><span class="co"># with "_QAI.".</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Example:</span></span>
+<span><span class="co">#   data/force/20160502_LEVEL2_SEN2A_BOA.dat</span></span>
+<span><span class="co">#   data/force/20160502_LEVEL2_SEN2A_QAI.dat</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># This assumes that each QAI file is in the same folder and uses the</span></span>
+<span><span class="co"># same extension as its BOA file.</span></span>
+<span><span class="va">qai_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"_BOA\\."</span>, <span class="st">"_QAI."</span>, <span class="va">boa_files</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># file.exists() returns TRUE or FALSE for each expected QAI path.</span></span>
+<span><span class="co"># ! reverses these results, so TRUE now means that a file is missing.</span></span>
+<span><span class="co"># any() returns TRUE if at least one expected QAI file is missing.</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html">any</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="va">qai_files</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"A matching QAI file is missing."</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># ── 4. Check ENVI header files ─────────────────────────────────────────────</span></span>
+<span></span>
+<span><span class="co"># Combine the BOA and QAI paths into one vector.</span></span>
+<span><span class="va">envi</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">boa_files</span>, <span class="va">qai_files</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Retain only paths ending in ".dat".</span></span>
+<span><span class="co"># grepl() tests each path against the pattern and returns TRUE or FALSE.</span></span>
+<span><span class="co"># Subsetting with these logical values keeps the matching paths.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># The .dat files in this workflow use the ENVI format and need headers.</span></span>
+<span><span class="co"># GeoTIFF files contain their metadata internally and do not need .hdr files.</span></span>
+<span><span class="va">envi</span> <span class="op">&lt;-</span> <span class="va">envi</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"\\.dat$"</span>, <span class="va">envi</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Construct the expected header paths by replacing ".dat" with ".hdr".</span></span>
+<span><span class="co"># Headers describe how to read the binary data, including its dimensions,</span></span>
+<span><span class="co"># number of bands, data type and spatial reference.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Stop if any expected header is missing.</span></span>
+<span><span class="co"># This check assumes headers named "filename.hdr".</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/any.html">any</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html">file.exists</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"\\.dat$"</span>, <span class="st">".hdr"</span>, <span class="va">envi</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"A .dat file is missing its .hdr."</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># ── 5. Build and sort an observation table ─────────────────────────────────</span></span>
+<span></span>
+<span><span class="co"># Create a table with one row per BOA/QAI pair.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># substr(..., 1, 8) extracts the first eight filename characters.</span></span>
+<span><span class="co"># as.Date(..., "%Y%m%d") interprets these as year, month and day.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># The boa and qai columns retain the matching file paths.</span></span>
+<span><span class="va">inputs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">boa_files</span><span class="op">)</span>, <span class="fl">1</span>, <span class="fl">8</span><span class="op">)</span>, <span class="st">"%Y%m%d"</span><span class="op">)</span>,</span>
+<span>  boa <span class="op">=</span> <span class="va">boa_files</span>, qai <span class="op">=</span> <span class="va">qai_files</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Dates that cannot be interpreted become NA.</span></span>
+<span><span class="co"># Stop if at least one observation has an invalid date.</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">anyNA</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">$</span><span class="va">date</span><span class="op">)</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"Invalid date in a filename."</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Sort the observations chronologically.</span></span>
+<span><span class="co"># If dates are identical, use the BOA path as a secondary sorting criterion.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># order() returns the required row positions.</span></span>
+<span><span class="co"># The empty position after the comma means "keep all columns".</span></span>
+<span><span class="va">inputs</span> <span class="op">&lt;-</span> <span class="va">inputs</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html">order</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">$</span><span class="va">date</span>, <span class="va">inputs</span><span class="op">$</span><span class="va">boa</span><span class="op">)</span>, <span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Reset the row labels after sorting so that they run consecutively again.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
+<span></span>
+<span><span class="co"># Assign a consecutive source ID to each observation in the sorted table.</span></span>
+<span><span class="co"># seq_len(nrow(inputs)) produces 1, 2, ..., number of observations.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># These IDs can later link raster outputs back to their source observations.</span></span>
+<span><span class="va">inputs</span><span class="op">$</span><span class="va">source_id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Display the source IDs and acquisition dates for inspection.</span></span>
+<span><span class="co"># This selects columns for display; it does not remove the other columns.</span></span>
+<span><span class="va">inputs</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"source_id"</span>, <span class="st">"date"</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># ── 6. Read and inspect the first BOA image ─────────────────────────────────</span></span>
+<span></span>
+<span><span class="co"># Define short names for the ten spectral bands in their expected order.</span></span>
+<span><span class="co"># RE = red edge; BNIR = broad near infrared; NIR = near infrared;</span></span>
+<span><span class="co"># SWIR = shortwave infrared.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># IMPORTANT: assigning names does not reorder the raster layers.</span></span>
+<span><span class="co"># Check that this order matches the actual order in your FORCE BOA files.</span></span>
+<span><span class="va">band_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"BLUE"</span>, <span class="st">"GREEN"</span>, <span class="st">"RED"</span>, <span class="st">"RE1"</span>, <span class="st">"RE2"</span>, <span class="st">"RE3"</span>,</span>
+<span>                <span class="st">"BNIR"</span>, <span class="st">"NIR"</span>, <span class="st">"SWIR1"</span>, <span class="st">"SWIR2"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Open the first BOA image in the chronologically sorted observation table.</span></span>
+<span><span class="co"># rast() creates a SpatRaster object and reads its metadata.</span></span>
+<span><span class="co"># Pixel values are generally read from disk when an operation needs them.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># This first image provides the spatial reference for the example area.</span></span>
+<span><span class="va">template</span> <span class="op">&lt;-</span> <span class="fu">rast</span><span class="op">(</span><span class="va">inputs</span><span class="op">$</span><span class="va">boa</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Print raster information, including dimensions, resolution, extent,</span></span>
+<span><span class="co"># coordinate reference system and number of layers.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">template</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Display the original layer names before replacing them.</span></span>
+<span><span class="co"># Use these and, if necessary, the header metadata to check the band order.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">template</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Display the coordinate reference system as a PROJ string.</span></span>
+<span><span class="co"># Inspect its units: the example below assumes coordinates in metres.</span></span>
+<span><span class="fu">crs</span><span class="op">(</span><span class="va">template</span>, proj <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Check that the image contains the expected ten bands.</span></span>
+<span><span class="co"># nlyr() returns the number of raster layers.</span></span>
+<span><span class="co"># This checks the band count, but does not verify the band order.</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu">nlyr</span><span class="op">(</span><span class="va">template</span><span class="op">)</span> <span class="op">!=</span> <span class="fl">10L</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"Expected ten Sentinel-2 bands."</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Assign the band names defined above.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">template</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">band_names</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># ── 7. Select a small example area ─────────────────────────────────────────</span></span>
+<span></span>
+<span><span class="co"># Calculate the centre coordinates of the first image's bounding box.</span></span>
+<span><span class="co"># xmin()/xmax() return its western/eastern coordinate limits.</span></span>
+<span><span class="co"># ymin()/ymax() return its southern/northern coordinate limits.</span></span>
+<span><span class="va">cx</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fu">xmin</span><span class="op">(</span><span class="va">template</span><span class="op">)</span> <span class="op">+</span> <span class="fu">xmax</span><span class="op">(</span><span class="va">template</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span></span>
+<span><span class="va">cy</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fu">ymin</span><span class="op">(</span><span class="va">template</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ymax</span><span class="op">(</span><span class="va">template</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span></span>
+<span></span>
+<span><span class="co"># Define an area of interest (AOI) extending 3,000 m from the centre</span></span>
+<span><span class="co"># in every direction: a nominal 6 × 6 km example area.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># ext() expects the limits in this order:</span></span>
+<span><span class="co">#   xmin, xmax, ymin, ymax</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Working with a subset reduces processing time and memory requirements.</span></span>
+<span><span class="va">aoi</span> <span class="op">&lt;-</span> <span class="fu">ext</span><span class="op">(</span><span class="va">cx</span> <span class="op">-</span> <span class="fl">3000</span>, <span class="va">cx</span> <span class="op">+</span> <span class="fl">3000</span>, <span class="va">cy</span> <span class="op">-</span> <span class="fl">3000</span>, <span class="va">cy</span> <span class="op">+</span> <span class="fl">3000</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Crop all ten bands of the first image to the AOI.</span></span>
+<span><span class="co"># terra aligns the crop to the existing raster grid.</span></span>
+<span><span class="co"># The resulting extent therefore follows pixel boundaries.</span></span>
+<span><span class="va">example</span> <span class="op">&lt;-</span> <span class="fu">crop</span><span class="op">(</span><span class="va">template</span>, <span class="va">aoi</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># ── 8. Replace NoData values and scale reflectance ──────────────────────────</span></span>
+<span></span>
+<span><span class="co"># Replace the FORCE NoData value (-9999) with R's missing-value marker, NA.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># ifel(condition, value_if_true, value_if_false) works cell by cell:</span></span>
+<span><span class="co">#   if a cell equals -9999 → return NA;</span></span>
+<span><span class="co">#   otherwise             → retain its original value.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Then divide the valid values by 10,000 to convert the scaled FORCE BOA</span></span>
+<span><span class="co"># integers into reflectance values; for example, 2500 becomes 0.25.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># This prepares the values for calculations such as vegetation indices.</span></span>
+<span><span class="co"># No QAI-based cloud or shadow masking has been applied at this stage.</span></span>
+<span><span class="va">example</span> <span class="op">&lt;-</span> <span class="fu">ifel</span><span class="op">(</span><span class="va">example</span> <span class="op">==</span> <span class="op">-</span><span class="fl">9999</span>, <span class="cn">NA</span>, <span class="va">example</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10000</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># ── 9. Display a true-colour preview ───────────────────────────────────────</span></span>
+<span></span>
+<span><span class="co"># Display RED, GREEN and BLUE as the red, green and blue screen channels.</span></span>
+<span><span class="co"># With the band order defined above:</span></span>
+<span><span class="co">#   layer 3 = RED, layer 2 = GREEN, layer 1 = BLUE.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># stretch = "lin" applies a linear contrast stretch for visualization.</span></span>
+<span><span class="co"># The stretch affects the display; it does not modify the reflectance data.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># This preview is useful for checking the selected area and band assignment.</span></span>
+<span><span class="co"># Clouds or shadows may still be visible because QAI masking comes later.</span></span>
+<span><span class="fu">plotRGB</span><span class="op">(</span><span class="va">example</span>, r <span class="op">=</span> <span class="fl">3</span>, g <span class="op">=</span> <span class="fl">2</span>, b <span class="op">=</span> <span class="fl">1</span>, stretch <span class="op">=</span> <span class="st">"lin"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<section id="select-the-analysis-period" class="level3"><h3 class="anchored" data-anchor-id="select-the-analysis-period">Select the analysis period</h3>
+<p>Unlike BAP, these summaries have <strong>no target-date score</strong>. Every suitable acquisition in the chosen period contributes equally. We are using the observations of a single calendar year. A narrower window answers a different question as well as a broader one.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># ── 1. Define the analysis period and processing settings ───────────────────</span></span>
+<span></span>
+<span><span class="co"># Set the first and last acquisition dates to include in the analysis.</span></span>
+<span><span class="co"># as.Date() converts the text strings into R Date objects.</span></span>
+<span><span class="co"># Both boundary dates are included when filtering below.</span></span>
+<span><span class="va">start_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="st">"2020-01-01"</span><span class="op">)</span></span>
+<span><span class="va">end_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="st">"2020-12-31"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Choose the quality-mask settings used later in the workflow.</span></span>
+<span><span class="co"># FALSE uses the standard criteria; TRUE applies the additional strict</span></span>
+<span><span class="co"># criteria defined in the quality_mask() function.</span></span>
+<span><span class="co"># This line stores the setting; it does not apply a mask yet.</span></span>
+<span><span class="va">strict_qai</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span>
+<span></span>
+<span><span class="co"># Minimum number of valid observations required per pixel when calculating</span></span>
+<span><span class="co"># the temporal metrics later in the workflow.</span></span>
+<span><span class="co"># Here, we also require at least this many acquisitions in the input table.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># 2L means the integer value 2.</span></span>
+<span><span class="co"># Two observations are sufficient for a demonstration, but do not guarantee</span></span>
+<span><span class="co"># that the series represents seasonal variation or provides robust metrics.</span></span>
+<span><span class="va">min_obs</span> <span class="op">&lt;-</span> <span class="fl">2L</span></span>
+<span></span>
+<span><span class="co"># Check that the analysis period and minimum observation count are valid.</span></span>
+<span><span class="co"># stopifnot() stops execution if either condition is not TRUE:</span></span>
+<span><span class="co">#   - the start date must be on or before the end date;</span></span>
+<span><span class="co">#   - the minimum observation count must be at least two.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html">stopifnot</a></span><span class="op">(</span><span class="va">start_date</span> <span class="op">&lt;=</span> <span class="va">end_date</span>, <span class="va">min_obs</span> <span class="op">&gt;=</span> <span class="fl">2L</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># ── 2. Keep acquisitions within the selected period ────────────────────────</span></span>
+<span></span>
+<span><span class="co"># Retain only rows whose acquisition dates fall within the analysis period.</span></span>
+<span><span class="co"># &gt;= and &lt;= include the start and end dates.</span></span>
+<span><span class="co"># &amp; means that BOTH conditions must be TRUE.</span></span>
+<span><span class="co"># The empty position after the comma keeps all columns.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># This replaces inputs with the filtered table. To subsequently expand</span></span>
+<span><span class="co"># the period, first rebuild the original input table.</span></span>
+<span><span class="va">inputs</span> <span class="op">&lt;-</span> <span class="va">inputs</span><span class="op">[</span><span class="va">inputs</span><span class="op">$</span><span class="va">date</span> <span class="op">&gt;=</span> <span class="va">start_date</span> <span class="op">&amp;</span> <span class="va">inputs</span><span class="op">$</span><span class="va">date</span> <span class="op">&lt;=</span> <span class="va">end_date</span>, <span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Reset row labels after filtering so that they run consecutively again.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
+<span></span>
+<span><span class="co"># Count the remaining acquisitions and stop if there are too few.</span></span>
+<span><span class="co"># nrow() returns the number of rows, with one row per BOA/QAI pair.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># This is a check of the available acquisitions, not of valid observations</span></span>
+<span><span class="co"># at individual pixels. Clouds, shadows or missing data may leave a pixel</span></span>
+<span><span class="co"># with fewer than min_obs usable observations.</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">)</span> <span class="op">&lt;</span> <span class="va">min_obs</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"Too few acquisitions: inspect the period and the available BOA/QAI pairs."</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># ── 3. Check that each date occurs only once ────────────────────────────────</span></span>
+<span></span>
+<span><span class="co"># Identify dates that appear in more than one row.</span></span>
+<span><span class="co"># anyDuplicated() returns 0 if all dates are unique and a positive integer</span></span>
+<span><span class="co"># if a duplicate exists. In an if() condition, a positive value acts as TRUE.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># For this exercise, we require one acquisition per date so that dates with</span></span>
+<span><span class="co"># multiple acquisitions do not contribute more observations to the metrics.</span></span>
+<span><span class="co"># This check stops execution; it does not automatically select a file.</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/duplicated.html">anyDuplicated</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">$</span><span class="va">date</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"Multiple acquisitions on one date: select one per day for this exercise."</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># ── 4. Update source IDs and inspect temporal sampling ─────────────────────</span></span>
+<span></span>
+<span><span class="co"># Assign consecutive source IDs to the remaining acquisitions.</span></span>
+<span><span class="co"># seq_len(nrow(inputs)) produces 1, 2, ..., number of remaining rows.</span></span>
+<span><span class="co"># The chronological order established earlier is retained.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># These IDs now refer to the filtered input table and may differ from</span></span>
+<span><span class="co"># the IDs assigned before filtering.</span></span>
+<span><span class="va">inputs</span><span class="op">$</span><span class="va">source_id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Display the source ID and acquisition date of each selected observation.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"source_id"</span>, <span class="st">"date"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Count the acquisitions available in each represented calendar month.</span></span>
+<span><span class="co"># format(..., "%m") extracts the month as "01", "02", ..., "12".</span></span>
+<span><span class="co"># table() counts how often each month occurs.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Months without acquisitions are omitted rather than displayed as zero.</span></span>
+<span><span class="co"># These counts describe input acquisitions, not cloud-free observations</span></span>
+<span><span class="co"># at individual pixels.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">$</span><span class="va">date</span>, <span class="st">"%m"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Warn if fewer than five acquisitions remain.</span></span>
+<span><span class="co"># warning() displays a message but allows the script to continue.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># Five is an illustrative warning threshold, not a quality guarantee:</span></span>
+<span><span class="co"># even a larger number of acquisitions may be clustered in a short period</span></span>
+<span><span class="co"># or contain too few valid observations after quality masking.</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">5L</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/warning.html">warning</a></span><span class="op">(</span><span class="st">"Very sparse series: interpret only as a demonstration."</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Checkpoint:</strong> How many dates are available, and which months are missing?</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Choosing the time window
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For a direct comparison with last week’s BAP, use <code>start_date &lt;- as.Date("2020-06-01") - 45</code> and <code>end_date &lt;- as.Date("2020-06-01") + 45</code>. This is <strong>17 April–16 July 2020</strong>. In a collection containing only 2 April and 2 May, only one date remains: the script stops at <code>min_obs = 2</code>.</p>
+</div>
+</div>
+</section></section><section id="reuse-the-quality-screen-and-calculate-evi-per-date" class="level2"><h2 class="anchored" data-anchor-id="reuse-the-quality-screen-and-calculate-evi-per-date">4. Reuse the quality screen and calculate EVI per date</h2>
+<p>The mask is the same as last week: exclude missing data, every flagged cloud state (including the existing buffer), shadows, snow, high/fallback aerosol, subzero/saturation, low sun and poor/shadowed illumination. Water remains available. <code>strict_qai = TRUE</code> additionally excludes interpolated aerosol and medium illumination. <strong>No cloud-distance calculation is needed.</strong> Consult the <a href="https://force-eo.readthedocs.io/en/latest/howto/qai.html">FORCE QAI definitions</a>.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Identify pixels that meet our quality criteria.</span></span>
+<span><span class="va">quality_mask</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">q</span>, <span class="va">strict</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">good</span> <span class="op">&lt;-</span> <span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">q</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">q</span> <span class="op">&gt;=</span> <span class="fl">0</span> <span class="op">&amp;</span>                 <span class="co"># QAI available and non-negative</span></span>
+<span>    <span class="fu">qai_field</span><span class="op">(</span><span class="va">q</span>, <span class="fl">0</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">&amp;</span>                    <span class="co"># Valid data</span></span>
+<span>    <span class="fu">qai_field</span><span class="op">(</span><span class="va">q</span>, <span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">&amp;</span>                 <span class="co"># Clear: no cloud or cloud buffer</span></span>
+<span>    <span class="fu">qai_field</span><span class="op">(</span><span class="va">q</span>, <span class="fl">3</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="fu">qai_field</span><span class="op">(</span><span class="va">q</span>, <span class="fl">4</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="co"># No cloud shadow or snow</span></span>
+<span>    <span class="fu">qai_field</span><span class="op">(</span><span class="va">q</span>, <span class="fl">6</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="fl">1</span> <span class="op">&amp;</span>                 <span class="co"># Estimated or interpolated aerosol</span></span>
+<span>    <span class="fu">qai_field</span><span class="op">(</span><span class="va">q</span>, <span class="fl">8</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="fu">qai_field</span><span class="op">(</span><span class="va">q</span>, <span class="fl">9</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="co"># No subzero or saturation flag</span></span>
+<span>    <span class="fu">qai_field</span><span class="op">(</span><span class="va">q</span>, <span class="fl">10</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">&amp;</span>                   <span class="co"># No high sun zenith flag</span></span>
+<span>    <span class="fu">qai_field</span><span class="op">(</span><span class="va">q</span>, <span class="fl">11</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="fl">1</span>                  <span class="co"># Good or medium illumination</span></span>
+<span></span>
+<span>  <span class="co"># Strict mode additionally requires estimated aerosol and good illumination.</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">strict</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">good</span> <span class="op">&lt;-</span> <span class="va">good</span> <span class="op">&amp;</span> <span class="fu">qai_field</span><span class="op">(</span><span class="va">q</span>, <span class="fl">6</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span> <span class="op">&amp;</span> <span class="fu">qai_field</span><span class="op">(</span><span class="va">q</span>, <span class="fl">11</span>, <span class="fl">2</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span></span>
+<span>  <span class="op">}</span></span>
+<span></span>
+<span>  <span class="co"># Return an acceptance mask; treat any remaining NA as rejected (0).</span></span>
+<span>  <span class="fu">ifel</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">good</span><span class="op">)</span>, <span class="fl">0</span>, <span class="va">good</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>We calculate EVI <strong>for each acquisition before</strong> temporal aggregation:</p>
+<p><span class="math display">\[
+\mathrm{EVI}=2.5\,\frac{\rho_{\mathrm{BNIR}}-\rho_{\mathrm{RED}}}
+{\rho_{\mathrm{BNIR}}+6\rho_{\mathrm{RED}}-7.5\rho_{\mathrm{BLUE}}+1}.
+\]</span></p>
+<p>The blue band helps compensate for atmospheric effects; it does not replace quality screening. The additive constant requires physical reflectance.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Create two empty lists with one entry per acquisition:</span></span>
+<span><span class="co"># boa stores the masked reflectance images;</span></span>
+<span><span class="co"># evi_layers stores the corresponding single-layer EVI rasters.</span></span>
+<span><span class="va">boa</span> <span class="op">&lt;-</span> <span class="va">evi_layers</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html">vector</a></span><span class="op">(</span><span class="st">"list"</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Process each acquisition in the input table.</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span></span>
+<span>  <span class="co"># Display the acquisition date to track processing progress.</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html">message</a></span><span class="op">(</span><span class="st">"Preparing "</span>, <span class="va">inputs</span><span class="op">$</span><span class="va">date</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Open the matching reflectance image and quality information raster.</span></span>
+<span>  <span class="va">b</span> <span class="op">&lt;-</span> <span class="fu">rast</span><span class="op">(</span><span class="va">inputs</span><span class="op">$</span><span class="va">boa</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
+<span>  <span class="va">q</span> <span class="op">&lt;-</span> <span class="fu">rast</span><span class="op">(</span><span class="va">inputs</span><span class="op">$</span><span class="va">qai</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Require ten spectral bands and one QAI layer.</span></span>
+<span>  <span class="co"># || means OR: stop if either band count is incorrect.</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu">nlyr</span><span class="op">(</span><span class="va">b</span><span class="op">)</span> <span class="op">!=</span> <span class="fl">10L</span> <span class="op">||</span> <span class="fu">nlyr</span><span class="op">(</span><span class="va">q</span><span class="op">)</span> <span class="op">!=</span> <span class="fl">1L</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"Unexpected band count."</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Check that the spatial grids match before processing.</span></span>
+<span>  <span class="co"># Compare the BOA image with the template, then QAI with BOA.</span></span>
+<span>  <span class="co"># [[1]] selects the first band; all bands share the image's spatial grid.</span></span>
+<span>  <span class="co"># stopOnError = TRUE stops execution if the geometries differ.</span></span>
+<span>  <span class="fu">compareGeom</span><span class="op">(</span><span class="va">template</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">b</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, stopOnError <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="fu">compareGeom</span><span class="op">(</span><span class="va">b</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, <span class="va">q</span>, stopOnError <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Crop reflectance to the common area of interest, replace NoData with NA,</span></span>
+<span>  <span class="co"># and convert scaled integer values to reflectance.</span></span>
+<span>  <span class="va">b</span> <span class="op">&lt;-</span> <span class="fu">crop</span><span class="op">(</span><span class="va">b</span>, <span class="va">aoi</span><span class="op">)</span></span>
+<span>  <span class="va">b</span> <span class="op">&lt;-</span> <span class="fu">ifel</span><span class="op">(</span><span class="va">b</span> <span class="op">==</span> <span class="op">-</span><span class="fl">9999</span>, <span class="cn">NA</span>, <span class="va">b</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10000</span></span>
+<span></span>
+<span>  <span class="co"># Assign the band names so individual bands can be selected by name.</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">band_names</span></span>
+<span></span>
+<span>  <span class="co"># Crop QAI to the same area.</span></span>
+<span>  <span class="co"># QAI values encode flags and must NOT be divided by 10,000.</span></span>
+<span>  <span class="va">q</span> <span class="op">&lt;-</span> <span class="fu">crop</span><span class="op">(</span><span class="va">q</span>, <span class="va">aoi</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Retain the same complete-spectrum requirement as in the BAP script.</span></span>
+<span>  <span class="co"># !is.na(b) identifies valid values in each band.</span></span>
+<span>  <span class="co"># app(..., "sum") counts the valid bands at each pixel.</span></span>
+<span>  <span class="co"># A pixel passes only if all ten bands contain values.</span></span>
+<span>  <span class="va">complete_spectrum</span> <span class="op">&lt;-</span> <span class="fu">app</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">b</span><span class="op">)</span>, <span class="st">"sum"</span><span class="op">)</span> <span class="op">==</span> <span class="fu">nlyr</span><span class="op">(</span><span class="va">b</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Accept a pixel only if BOTH the QAI criteria and the complete-spectrum</span></span>
+<span>  <span class="co"># requirement are met. strict_qai controls the optional stricter criteria.</span></span>
+<span>  <span class="va">good</span> <span class="op">&lt;-</span> <span class="fu">quality_mask</span><span class="op">(</span><span class="va">q</span>, strict <span class="op">=</span> <span class="va">strict_qai</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">complete_spectrum</span></span>
+<span></span>
+<span>  <span class="co"># Set rejected pixels (good == 0) to NA across all spectral bands.</span></span>
+<span>  <span class="va">b</span> <span class="op">&lt;-</span> <span class="fu">mask</span><span class="op">(</span><span class="va">b</span>, <span class="va">good</span>, maskvalues <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Store the masked reflectance image for this acquisition.</span></span>
+<span>  <span class="co"># Double brackets select a single list entry.</span></span>
+<span>  <span class="va">boa</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">b</span></span>
+<span></span>
+<span>  <span class="co"># Calculate the EVI denominator using broad NIR, red and blue reflectance.</span></span>
+<span>  <span class="co"># Reflectance must already be scaled because the formula includes +1.</span></span>
+<span>  <span class="va">denominator</span> <span class="op">&lt;-</span> <span class="va">b</span><span class="op">[[</span><span class="st">"BNIR"</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span> <span class="fl">6</span> <span class="op">*</span> <span class="va">b</span><span class="op">[[</span><span class="st">"RED"</span><span class="op">]</span><span class="op">]</span> <span class="op">-</span> <span class="fl">7.5</span> <span class="op">*</span> <span class="va">b</span><span class="op">[[</span><span class="st">"BLUE"</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span> <span class="fl">1</span></span>
+<span></span>
+<span>  <span class="co"># Replace denominators very close to zero with NA before dividing.</span></span>
+<span>  <span class="co"># abs() checks their magnitude regardless of sign.</span></span>
+<span>  <span class="co"># 1e-6 means 0.000001; this avoids division by zero or tiny denominators.</span></span>
+<span>  <span class="va">denominator</span> <span class="op">&lt;-</span> <span class="fu">ifel</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">denominator</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">1e-6</span>, <span class="cn">NA</span>, <span class="va">denominator</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Calculate EVI for every accepted pixel.</span></span>
+<span>  <span class="co"># Pixels masked earlier remain NA.</span></span>
+<span>  <span class="va">evi</span> <span class="op">&lt;-</span> <span class="fl">2.5</span> <span class="op">*</span> <span class="op">(</span><span class="va">b</span><span class="op">[[</span><span class="st">"BNIR"</span><span class="op">]</span><span class="op">]</span> <span class="op">-</span> <span class="va">b</span><span class="op">[[</span><span class="st">"RED"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">/</span> <span class="va">denominator</span></span>
+<span></span>
+<span>  <span class="co"># Store the EVI raster, replacing any infinite or undefined results with NA.</span></span>
+<span>  <span class="co"># Finite values are retained without clipping, including values outside 0–1.</span></span>
+<span>  <span class="va">evi_layers</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">ifel</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/is.finite.html">is.finite</a></span><span class="op">(</span><span class="va">evi</span><span class="op">)</span>, <span class="va">evi</span>, <span class="cn">NA</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Combine the individual EVI rasters into one multilayer SpatRaster.</span></span>
+<span><span class="co"># Each layer represents one acquisition in the order of the input table.</span></span>
+<span><span class="va">evi_ts</span> <span class="op">&lt;-</span> <span class="fu">rast</span><span class="op">(</span><span class="va">evi_layers</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Give each layer a descriptive name, for example "EVI_20200615".</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">evi_ts</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"EVI_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">$</span><span class="va">date</span>, <span class="st">"%Y%m%d"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Attach acquisition dates as time metadata.</span></span>
+<span><span class="co"># These dates can be used to select or group layers by time.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/time.html">time</a></span><span class="op">(</span><span class="va">evi_ts</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">inputs</span><span class="op">$</span><span class="va">date</span></span>
+<span></span>
+<span><span class="co"># Display the fourth acquisition and its date.</span></span>
+<span><span class="co"># This line requires at least four acquisitions in the filtered input table.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">evi_ts</span><span class="op">[[</span><span class="fl">4</span><span class="op">]</span><span class="op">]</span>, main <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"EVI"</span>, <span class="va">inputs</span><span class="op">$</span><span class="va">date</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Checkpoint:</strong> Why do we mask before summarising? Why might EVI still contain outliers? Would calculating EVI from the temporal maximum of each individual band give the same result as calculating EVI for every acquisition first and then taking its temporal maximum? Consider whether the band maxima occur on the same date.</p>
+<section id="additional-animate-the-evi-maps" class="level3"><h3 class="anchored" data-anchor-id="additional-animate-the-evi-maps">Additional: Animate the EVI maps</h3>
+<p>Watch the quality-screened EVI maps in chronological order. Every frame uses the <strong>same colour scale</strong>. Grey cells indicate missing or excluded observations; completely empty acquisitions are labelled accordingly.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Run once if needed: install.packages("magick")</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://docs.ropensci.org/magick/">magick</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create a folder for the PNG frames and the final GIF.</span></span>
+<span><span class="va">animation_dir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">out_dir</span>, <span class="st">"animation"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="va">animation_dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Require matching numbers of layers and dates, and at least two observations.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html">stopifnot</a></span><span class="op">(</span><span class="fu">nlyr</span><span class="op">(</span><span class="va">evi_ts</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">)</span>, <span class="fu">nlyr</span><span class="op">(</span><span class="va">evi_ts</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">2L</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Use a fixed colour scale so colours remain comparable across dates.</span></span>
+<span><span class="va">display_limits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.2</span>, <span class="fl">1.0</span><span class="op">)</span></span>
+<span><span class="va">evi_colours</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html">colorRampPalette</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#ffffe5"</span>, <span class="st">"#c2e699"</span>, <span class="st">"#78c679"</span>, <span class="st">"#238443"</span>, <span class="st">"#004529"</span><span class="op">)</span></span>
+<span><span class="op">)</span><span class="op">(</span><span class="fl">100</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Count valid pixels per date to identify completely empty layers.</span></span>
+<span><span class="va">valid_counts</span> <span class="op">&lt;-</span> <span class="fu">global</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/is.finite.html">is.finite</a></span><span class="op">(</span><span class="va">evi_ts</span><span class="op">)</span>, <span class="st">"sum"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>date <span class="op">=</span> <span class="va">inputs</span><span class="op">$</span><span class="va">date</span>, valid_pixels <span class="op">=</span> <span class="va">valid_counts</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Define the exact frame files to include, excluding any old PNGs.</span></span>
+<span><span class="va">frame_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span></span>
+<span>  <span class="va">animation_dir</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"EVI_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">$</span><span class="va">date</span>, <span class="st">"%Y%m%d"</span><span class="op">)</span>, <span class="st">".png"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Function to save one acquisition as a PNG.</span></span>
+<span><span class="va">render_evi_frame</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">r</span> <span class="op">&lt;-</span> <span class="va">evi_ts</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span></span>
+<span>  <span class="va">frame_title</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"EVI |"</span>, <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">$</span><span class="va">date</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, <span class="st">"%Y-%m-%d"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/grDevices/png.html">png</a></span><span class="op">(</span><span class="va">frame_files</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>, width <span class="op">=</span> <span class="fl">1000</span>, height <span class="op">=</span> <span class="fl">900</span>,</span>
+<span>      res <span class="op">=</span> <span class="fl">120</span>, bg <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/on.exit.html">on.exit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>  <span class="co"># Close the graphics device when the function exits.</span></span>
+<span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="va">valid_counts</span><span class="op">[</span><span class="va">i</span><span class="op">]</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span></span>
+<span>      <span class="va">r</span>,</span>
+<span>      main <span class="op">=</span> <span class="va">frame_title</span>,</span>
+<span>      type <span class="op">=</span> <span class="st">"continuous"</span>,</span>
+<span>      col <span class="op">=</span> <span class="va">evi_colours</span>,</span>
+<span>      range <span class="op">=</span> <span class="va">display_limits</span>,</span>
+<span>      fill_range <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>      colNA <span class="op">=</span> <span class="st">"grey85"</span>,</span>
+<span>      smooth <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>      axes <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>      maxcell <span class="op">=</span> <span class="fu">ncell</span><span class="op">(</span><span class="va">r</span><span class="op">)</span>,</span>
+<span>      mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">7</span><span class="op">)</span>,</span>
+<span>      plg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"EVI"</span>, at <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.2</span>, <span class="fl">1.0</span>, by <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>    <span class="co"># Use a grey placeholder if no valid pixels remain after masking.</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/graphics/frame.html">plot.new</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/graphics/plot.window.html">plot.window</a></span><span class="op">(</span></span>
+<span>      xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu">xmin</span><span class="op">(</span><span class="va">r</span><span class="op">)</span>, <span class="fu">xmax</span><span class="op">(</span><span class="va">r</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>      ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu">ymin</span><span class="op">(</span><span class="va">r</span><span class="op">)</span>, <span class="fu">ymax</span><span class="op">(</span><span class="va">r</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>      asp <span class="op">=</span> <span class="fl">1</span></span>
+<span>    <span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span><span class="op">(</span><span class="fu">xmin</span><span class="op">(</span><span class="va">r</span><span class="op">)</span>, <span class="fu">ymin</span><span class="op">(</span><span class="va">r</span><span class="op">)</span>, <span class="fu">xmax</span><span class="op">(</span><span class="va">r</span><span class="op">)</span>, <span class="fu">ymax</span><span class="op">(</span><span class="va">r</span><span class="op">)</span>,</span>
+<span>         col <span class="op">=</span> <span class="st">"grey85"</span>, border <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/graphics/title.html">title</a></span><span class="op">(</span>main <span class="op">=</span> <span class="va">frame_title</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span></span>
+<span>      <span class="op">(</span><span class="fu">xmin</span><span class="op">(</span><span class="va">r</span><span class="op">)</span> <span class="op">+</span> <span class="fu">xmax</span><span class="op">(</span><span class="va">r</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span>,</span>
+<span>      <span class="op">(</span><span class="fu">ymin</span><span class="op">(</span><span class="va">r</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ymax</span><span class="op">(</span><span class="va">r</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span>,</span>
+<span>      <span class="st">"No valid EVI observations"</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span></span>
+<span>  <span class="co"># Add the observation number and explain the grey areas.</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/graphics/mtext.html">mtext</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span><span class="op">(</span><span class="st">"Observation %d of %d | Grey: no valid EVI"</span>,</span>
+<span>            <span class="va">i</span>, <span class="fu">nlyr</span><span class="op">(</span><span class="va">evi_ts</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    side <span class="op">=</span> <span class="fl">1</span>, line <span class="op">=</span> <span class="fl">1</span>, cex <span class="op">=</span> <span class="fl">0.85</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Render all acquisitions in chronological order.</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="fu">nlyr</span><span class="op">(</span><span class="va">evi_ts</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">render_evi_frame</span><span class="op">(</span><span class="va">i</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Read the PNGs and combine them into a continuously looping GIF.</span></span>
+<span><span class="co"># Frames have equal duration, regardless of the time between acquisitions.</span></span>
+<span><span class="va">frames</span> <span class="op">&lt;-</span> <span class="fu">magick</span><span class="fu">::</span><span class="fu">image_read</span><span class="op">(</span><span class="va">frame_files</span><span class="op">)</span></span>
+<span><span class="va">animation</span> <span class="op">&lt;-</span> <span class="fu">magick</span><span class="fu">::</span><span class="fu">image_animate</span><span class="op">(</span></span>
+<span>  <span class="va">frames</span>,</span>
+<span>  fps <span class="op">=</span> <span class="fl">2</span>,               <span class="co"># Two acquisitions per second.</span></span>
+<span>  loop <span class="op">=</span> <span class="fl">0</span>,              <span class="co"># Repeat indefinitely.</span></span>
+<span>  dispose <span class="op">=</span> <span class="st">"background"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the GIF and display its location.</span></span>
+<span><span class="va">gif_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">animation_dir</span>, <span class="st">"EVI_animation.gif"</span><span class="op">)</span></span>
+<span><span class="fu">magick</span><span class="fu">::</span><span class="fu">image_write</span><span class="op">(</span><span class="va">animation</span>, path <span class="op">=</span> <span class="va">gif_path</span>, format <span class="op">=</span> <span class="st">"gif"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/message.html">message</a></span><span class="op">(</span><span class="st">"Animation saved: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/normalizePath.html">normalizePath</a></span><span class="op">(</span><span class="va">gif_path</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>Open <code>EVI_animation.gif</code> from the output folder to watch the animation. The individual PNGs are saved alongside it.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Interpreting the animation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Each acquisition is displayed for the same duration, even when the dates are unevenly spaced. No intermediate observations are interpolated and no cloud gaps are filled.</p>
+<p>Values outside the display range receive the “end colours”; the original EVI values remain unchanged.</p>
+</div>
+</div>
+</section></section><section id="calculate-magnitude-and-variability-metrics" class="level2"><h2 class="anchored" data-anchor-id="calculate-magnitude-and-variability-metrics">5. Calculate magnitude and variability metrics</h2>
+<p>For a pixel with valid values <span class="math inline">\(x_1,\ldots,x_n\)</span>, the <strong>observed range</strong> is <span class="math inline">\(\max(x)-\min(x)\)</span>. We also calculate the <strong>P90–P10 range</strong>, which gives less weight to isolated extremes when many observations are available. Neither is automatically the full annual amplitude.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Metric</th>
+<th style="text-align: left;">Interpretation</th>
+<th style="text-align: left;">Important limitation</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Maximum</td>
+<td style="text-align: left;">Highest observed EVI in the period</td>
+<td style="text-align: left;">Sensitive to outliers and missed peaks</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Median</td>
+<td style="text-align: left;">Middle value among valid observations</td>
+<td style="text-align: left;">Depends on which dates were observed</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Minimum</td>
+<td style="text-align: left;">Lowest observed EVI</td>
+<td style="text-align: left;">Residual clouds/shadows can affect it</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Range</td>
+<td style="text-align: left;">Maximum minus minimum</td>
+<td style="text-align: left;">Not a fitted seasonal amplitude</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mean</td>
+<td style="text-align: left;">Average of the available values</td>
+<td style="text-align: left;">Not weighted by elapsed time</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Standard deviation</td>
+<td style="text-align: left;">Spread around the mean</td>
+<td style="text-align: left;">Sample SD; requires at least two values</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">P10 / P90</td>
+<td style="text-align: left;">Lower / upper distribution quantiles</td>
+<td style="text-align: left;">Weakly supported in sparse series</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">P90–P10</td>
+<td style="text-align: left;">Range between these quantiles</td>
+<td style="text-align: left;">With two dates, not a robust seasonal estimate</td>
+</tr>
+</tbody>
+</table>
+<p>The function explicitly removes missing/non-finite values and returns <code>NA</code> when fewer than <code>min_obs</code> remain. This avoids <code>Inf</code>/<code>-Inf</code> at empty pixels. R’s default <strong>type 7</strong> quantile interpolation is used.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Define a function that calculates nine temporal metrics for one pixel.</span></span>
+<span><span class="co"># x contains this pixel's EVI values across all selected acquisition dates.</span></span>
+<span><span class="co"># min_obs specifies the minimum number of valid observations required.</span></span>
+<span><span class="va">stm_values</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">min_obs</span> <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span> <span class="op">{</span></span>
+<span></span>
+<span>  <span class="co"># Keep only finite values: remove NA, NaN and positive/negative infinity.</span></span>
+<span>  <span class="co"># The remaining observations may differ between pixels because of masking.</span></span>
+<span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/is.finite.html">is.finite</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span>  <span class="co"># If too few valid observations remain, return nine missing values:</span></span>
+<span>  <span class="co"># one for each metric. Otherwise, continue with the calculations below.</span></span>
+<span>  <span class="co">#</span></span>
+<span>  <span class="co"># rep() repeats a value; NA_real_ explicitly represents a missing number.</span></span>
+<span>  <span class="co"># Returning the same number of values for every pixel ensures that the</span></span>
+<span>  <span class="co"># raster output always has nine metric layers.</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;</span> <span class="va">min_obs</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="cn">NA_real_</span>, <span class="fl">9L</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Calculate two percentiles of the valid observations:</span></span>
+<span>  <span class="co">#   p[1] = 10th percentile (p10): describes the lower part of the distribution.</span></span>
+<span>  <span class="co">#   p[2] = 90th percentile (p90): describes the upper part.</span></span>
+<span>  <span class="co">#</span></span>
+<span>  <span class="co"># names = FALSE returns the values without labels such as "10%".</span></span>
+<span>  <span class="co"># type = 7 is R's default method and interpolates between ordered values.</span></span>
+<span>  <span class="co"># A percentile therefore does not necessarily equal an observed EVI value.</span></span>
+<span>  <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">x</span>, probs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.9</span><span class="op">)</span>, names <span class="op">=</span> <span class="cn">FALSE</span>, type <span class="op">=</span> <span class="fl">7</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Combine the nine metrics into one numeric vector.</span></span>
+<span>  <span class="co"># Their order must match metric_names below:</span></span>
+<span>  <span class="co">#</span></span>
+<span>  <span class="co"># maximum: highest observed EVI.</span></span>
+<span>  <span class="co"># median:  central value after sorting; for an even number of observations,</span></span>
+<span>  <span class="co">#          the mean of the two central values.</span></span>
+<span>  <span class="co"># minimum: lowest observed EVI.</span></span>
+<span>  <span class="co"># range:   maximum minus minimum; the full observed spread.</span></span>
+<span>  <span class="co"># mean:    arithmetic average of the observations.</span></span>
+<span>  <span class="co"># sd:      sample standard deviation; spread around the mean.</span></span>
+<span>  <span class="co"># p10:     10th percentile.</span></span>
+<span>  <span class="co"># p90:     90th percentile.</span></span>
+<span>  <span class="co"># p90_p10: spread between these percentiles, less sensitive to individual</span></span>
+<span>  <span class="co">#          extreme values than the full range.</span></span>
+<span>  <span class="co">#</span></span>
+<span>  <span class="co"># The final expression is returned automatically by the function.</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="va">p</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">p</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">p</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">-</span> <span class="va">p</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Define the metric names in exactly the same order as the returned values.</span></span>
+<span><span class="va">metric_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"maximum"</span>, <span class="st">"median"</span>, <span class="st">"minimum"</span>, <span class="st">"range"</span>, <span class="st">"mean"</span>, <span class="st">"sd"</span>,</span>
+<span>                  <span class="st">"p10"</span>, <span class="st">"p90"</span>, <span class="st">"p90_p10"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Test the function on a small example before processing the raster.</span></span>
+<span><span class="co"># stm_values() calculates the nine metrics.</span></span>
+<span><span class="co"># setNames() attaches their names.</span></span>
+<span><span class="co"># round(..., 3) rounds this example output to three decimal places.</span></span>
+<span><span class="co"># This rounding does not affect the raster calculations below.</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/setNames.html">setNames</a></span><span class="op">(</span><span class="fu">stm_values</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.6</span>, <span class="cn">NA</span>, <span class="fl">0.4</span>, <span class="fl">0.3</span>, <span class="fl">0.9</span>, <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span>, <span class="va">metric_names</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Apply the function separately to the time series of EACH raster cell.</span></span>
+<span><span class="co"># For each pixel, app() passes its values across all EVI layers to stm_values().</span></span>
+<span><span class="co"># It summarizes observations through time, not neighbouring pixels in space.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># min_obs = min_obs passes the threshold defined earlier in the script</span></span>
+<span><span class="co"># to the function, overriding its default if a different value was selected.</span></span>
+<span><span class="co">#</span></span>
+<span><span class="co"># The result is a SpatRaster with nine layers, one per metric.</span></span>
+<span><span class="co"># Pixels with too few valid observations receive NA in all nine layers.</span></span>
+<span><span class="va">evi_stm</span> <span class="op">&lt;-</span> <span class="fu">app</span><span class="op">(</span><span class="va">evi_ts</span>, <span class="va">stm_values</span>, min_obs <span class="op">=</span> <span class="va">min_obs</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Label the output layers, for example "EVI_maximum" and "EVI_median".</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">evi_stm</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"EVI_"</span>, <span class="va">metric_names</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Select three metric layers by name and display them.</span></span>
+<span><span class="co"># range = c(-1, 1) sets common display limits; it does not change saved values.</span></span>
+<span><span class="co"># Maximum and median describe EVI levels, whereas range describes variability</span></span>
+<span><span class="co"># and is always non-negative where it can be calculated.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">evi_stm</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"EVI_maximum"</span>, <span class="st">"EVI_median"</span>, <span class="st">"EVI_range"</span><span class="op">)</span><span class="op">]</span><span class="op">]</span>, range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</section><section id="save-the-date-of-the-observed-maximum" class="level2"><h2 class="anchored" data-anchor-id="save-the-date-of-the-observed-maximum">6. Save the date of the observed maximum</h2>
+<p>A maximum value alone cannot tell us <strong>when</strong> it occurred. We retain the acquisition index, calendar date and day of year. Exact ties use the <strong>earliest date</strong> because the inputs are sorted. The date is an observed acquisition date, and must not represent the timing of the real peak.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Find the position of the highest valid EVI in one pixel's time series.</span></span>
+<span><span class="va">peak_index</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">min_obs</span> <span class="op">=</span> <span class="fl">2L</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">valid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/is.finite.html">is.finite</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Return NA if too few valid observations remain.</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">valid</span><span class="op">)</span> <span class="op">&lt;</span> <span class="va">min_obs</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="cn">NA_integer_</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Replace invalid values with negative infinity so they cannot be selected.</span></span>
+<span>  <span class="co"># Keep their positions to preserve the link to the acquisition dates.</span></span>
+<span>  <span class="va">x</span><span class="op">[</span><span class="op">!</span><span class="va">valid</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="cn">Inf</span></span>
+<span></span>
+<span>  <span class="co"># Return the position of the maximum, not its EVI value.</span></span>
+<span>  <span class="co"># Ties select the first occurrence: the earliest date in our sorted series.</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.max</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Identify the acquisition containing each pixel's observed EVI maximum.</span></span>
+<span><span class="co"># Layer positions correspond to source IDs in the filtered inputs table.</span></span>
+<span><span class="va">peak_id</span> <span class="op">&lt;-</span> <span class="fu">app</span><span class="op">(</span><span class="va">evi_ts</span>, <span class="va">peak_index</span>, min_obs <span class="op">=</span> <span class="va">min_obs</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">peak_id</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"EVI_peak_source_id"</span></span>
+<span></span>
+<span><span class="co"># Translate raster indices into values from a lookup vector.</span></span>
+<span><span class="co"># For example, index 3 retrieves the third acquisition date; NA remains NA.</span></span>
+<span><span class="va">lookup_raster</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">index</span>, <span class="va">lookup</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">app</span><span class="op">(</span><span class="va">index</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">lookup</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Convert source IDs into numeric dates, for example 20200715.</span></span>
+<span><span class="va">peak_date</span> <span class="op">&lt;-</span> <span class="fu">lookup_raster</span><span class="op">(</span><span class="va">peak_id</span>,</span>
+<span>                          <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">$</span><span class="va">date</span>, <span class="st">"%Y%m%d"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Convert source IDs into day of year (DOY): January 1 = 1.</span></span>
+<span><span class="va">peak_doy</span> <span class="op">&lt;-</span> <span class="fu">lookup_raster</span><span class="op">(</span><span class="va">peak_id</span>, <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">$</span><span class="va">date</span>, <span class="st">"%j"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">peak_date</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"EVI_peak_date_YYYYMMDD"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">peak_doy</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"EVI_peak_DOY"</span></span>
+<span></span>
+<span><span class="co"># Display the timing of the observed maximum.</span></span>
+<span><span class="co"># This is the highest EVI among available valid observations;</span></span>
+<span><span class="co"># the actual seasonal peak may fall between acquisitions or within data gaps.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">peak_doy</span>, main <span class="op">=</span> <span class="st">"Day of year of the observed EVI maximum"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Checkpoint:</strong> Could two pixels with the same peak date have different maximum EVI? Could a cloud gap make the apparent maximum date misleading? If you compare different years, keep the calendar date and account for leap years when interpreting DOY.</p>
+</section><section id="count-observations-and-inspect-example-time-series" class="level2"><h2 class="anchored" data-anchor-id="count-observations-and-inspect-example-time-series">7. Count observations and inspect example time series</h2>
+<p>Counts must refer to the same valid values used in the metrics. Empty pixels remain 0. First and last dates describe temporal coverage.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Count finite EVI observations across all dates for each pixel.</span></span>
+<span><span class="co"># TRUE counts as 1 and FALSE as 0.</span></span>
+<span><span class="va">n_obs</span> <span class="op">&lt;-</span> <span class="fu">app</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/is.finite.html">is.finite</a></span><span class="op">(</span><span class="va">evi_ts</span><span class="op">)</span>, <span class="st">"sum"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">n_obs</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"EVI_n_obs"</span></span>
+<span></span>
+<span><span class="co"># Find the first and last valid acquisition dates for one pixel.</span></span>
+<span><span class="va">date_bounds</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">date_numbers</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">ok</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/is.finite.html">is.finite</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Return two missing values if no valid observations exist.</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/any.html">any</a></span><span class="op">(</span><span class="va">ok</span><span class="op">)</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="cn">NA_real_</span>, <span class="cn">NA_real_</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Select dates with valid EVI and return their minimum and maximum.</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="va">date_numbers</span><span class="op">[</span><span class="va">ok</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Apply the function to each pixel, supplying dates as YYYYMMDD numbers.</span></span>
+<span><span class="co"># These numbers preserve date order but should not be subtracted for durations.</span></span>
+<span><span class="va">bounds</span> <span class="op">&lt;-</span> <span class="fu">app</span><span class="op">(</span><span class="va">evi_ts</span>, <span class="va">date_bounds</span>,</span>
+<span>              date_numbers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">$</span><span class="va">date</span>, <span class="st">"%Y%m%d"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">bounds</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"first_valid_date_YYYYMMDD"</span>, <span class="st">"last_valid_date_YYYYMMDD"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Combine observation counts, peak information and date bounds into one raster.</span></span>
+<span><span class="co"># These layers help assess the temporal support behind the calculated metrics.</span></span>
+<span><span class="va">info</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">n_obs</span>, <span class="va">peak_id</span>, <span class="va">peak_date</span>, <span class="va">peak_doy</span>, <span class="va">bounds</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">n_obs</span>, main <span class="op">=</span> <span class="st">"Number of valid EVI observations"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Calculate the percentage of AOI pixels meeting the observation threshold.</span></span>
+<span><span class="co"># The mean of a TRUE/FALSE raster is the fraction of pixels that are TRUE.</span></span>
+<span><span class="va">coverage</span> <span class="op">&lt;-</span> <span class="fu">global</span><span class="op">(</span><span class="va">n_obs</span> <span class="op">&gt;=</span> <span class="va">min_obs</span>, <span class="st">"mean"</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span> <span class="op">*</span> <span class="fl">100</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>min_obs <span class="op">=</span> <span class="va">min_obs</span>, coverage_percent <span class="op">=</span> <span class="va">coverage</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Warn if no pixels have enough valid observations to calculate the metrics.</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="va">coverage</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/warning.html">warning</a></span><span class="op">(</span><span class="st">"No supported pixels: inspect the mask and date selection."</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>We compare the time series of three contrasting locations. The code uses evenly spaced cells only to make the example reproducible.You might of course choose other locations e.g.&nbsp;by providing a point shape file etc.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Select three example cells distributed across the raster's cell-number range.</span></span>
+<span><span class="co"># seq() generates seven positions; [c(2, 4, 6)] selects three of them.</span></span>
+<span><span class="co"># round() and as.integer() produce cell numbers; unique() removes duplicates.</span></span>
+<span><span class="co"># Use the same cell numbers for all variants with the same raster grid.</span></span>
+<span><span class="va">example_cells</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu">ncell</span><span class="op">(</span><span class="va">evi_ts</span><span class="op">)</span>, length.out <span class="op">=</span> <span class="fl">7</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">4</span>, <span class="fl">6</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Extract EVI values: rows represent example cells, columns acquisition dates.</span></span>
+<span><span class="va">series</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="fu">extract</span><span class="op">(</span><span class="va">evi_ts</span>, <span class="va">example_cells</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Retrieve the centre coordinates of the selected cells.</span></span>
+<span><span class="va">xy</span> <span class="op">&lt;-</span> <span class="fu">xyFromCell</span><span class="op">(</span><span class="va">evi_ts</span>, <span class="va">example_cells</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Build a table with one row per cell and acquisition date.</span></span>
+<span><span class="co"># rep() repeats cell IDs and coordinates for each date.</span></span>
+<span><span class="co"># t() transposes the matrix so as.vector() lists all dates for one cell</span></span>
+<span><span class="co"># before moving to the next cell, matching the other table columns.</span></span>
+<span><span class="va">example_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  cell <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">example_cells</span>, each <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">xy</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, each <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">xy</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span>, each <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">$</span><span class="va">date</span>, times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">example_cells</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  EVI <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">series</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Export the table for inspection or comparison with other variants.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span><span class="op">(</span><span class="va">example_table</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">out_dir</span>, <span class="st">"example_time_series.csv"</span><span class="op">)</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Define a plotting function that can be reused on screen and for PNG export.</span></span>
+<span><span class="va">plot_example_series</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span></span>
+<span>  <span class="co"># Arrange one panel per cell; restore previous settings when finished.</span></span>
+<span>  <span class="va">old_par</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">example_cells</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/on.exit.html">on.exit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span><span class="op">(</span><span class="va">old_par</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="co"># Use common EVI limits to make the panels comparable.</span></span>
+<span>  <span class="co"># Provide fallback limits if all values are missing, and expand constant ranges.</span></span>
+<span>  <span class="va">limits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="va">series</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/is.finite.html">is.finite</a></span><span class="op">(</span><span class="va">limits</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="va">limits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.2</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="va">limits</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="va">limits</span> <span class="op">&lt;-</span> <span class="va">limits</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span>, <span class="fl">0.05</span><span class="op">)</span></span>
+<span></span>
+<span>  <span class="kw">for</span> <span class="op">(</span><span class="va">j</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_along</a></span><span class="op">(</span><span class="va">example_cells</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="va">values_j</span> <span class="op">&lt;-</span> <span class="va">series</span><span class="op">[</span><span class="va">j</span>, <span class="op">]</span></span>
+<span></span>
+<span>    <span class="co"># Show actual observations as points, leaving missing dates blank.</span></span>
+<span>    <span class="co"># All panels cover the full analysis period.</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">$</span><span class="va">date</span>, <span class="va">values_j</span>, type <span class="op">=</span> <span class="st">"p"</span>, pch <span class="op">=</span> <span class="fl">16</span>, ylim <span class="op">=</span> <span class="va">limits</span>,</span>
+<span>         xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">start_date</span>, <span class="va">end_date</span><span class="op">)</span>, xlab <span class="op">=</span> <span class="st">"Date"</span>, ylab <span class="op">=</span> <span class="st">"EVI"</span>,</span>
+<span>         main <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"Cell"</span>, <span class="va">example_cells</span><span class="op">[</span><span class="va">j</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span>    <span class="co"># Add summaries only if the cell meets the observation threshold.</span></span>
+<span>    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/is.finite.html">is.finite</a></span><span class="op">(</span><span class="va">values_j</span><span class="op">)</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="va">min_obs</span><span class="op">)</span> <span class="op">{</span></span>
+<span></span>
+<span>      <span class="co"># Dashed blue line: median of the available observations.</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">values_j</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, lty <span class="op">=</span> <span class="fl">2</span>, col <span class="op">=</span> <span class="st">"steelblue"</span><span class="op">)</span></span>
+<span></span>
+<span>      <span class="co"># Red circle: observed EVI maximum, selected using our helper function.</span></span>
+<span>      <span class="va">k</span> <span class="op">&lt;-</span> <span class="fu">peak_index</span><span class="op">(</span><span class="va">values_j</span>, <span class="va">min_obs</span><span class="op">)</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/graphics/points.html">points</a></span><span class="op">(</span><span class="va">inputs</span><span class="op">$</span><span class="va">date</span><span class="op">[</span><span class="va">k</span><span class="op">]</span>, <span class="va">values_j</span><span class="op">[</span><span class="va">k</span><span class="op">]</span>, pch <span class="op">=</span> <span class="fl">21</span>, cex <span class="op">=</span> <span class="fl">1.5</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span>
+<span>    <span class="op">}</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># Display the plots on screen.</span></span>
+<span><span class="fu">plot_example_series</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Draw the same plots into a PNG file, then close the graphics device.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/grDevices/png.html">png</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">out_dir</span>, <span class="st">"example_time_series.png"</span><span class="op">)</span>, width <span class="op">=</span> <span class="fl">1500</span>, height <span class="op">=</span> <span class="fl">600</span>, res <span class="op">=</span> <span class="fl">130</span><span class="op">)</span></span>
+<span><span class="fu">plot_example_series</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/grDevices/dev.html">dev.off</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Interpret:</strong> Compare the time series. What can you tell about the example pixels without knowing exaclty which land cover they represent?</p>
+</section><section id="export-and-check-the-results" class="level2"><h2 class="anchored" data-anchor-id="export-and-check-the-results">8. Export and check the results</h2>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Include the analysis period in the raster filenames, e.g. 20200101_20201231.</span></span>
+<span><span class="va">tag</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">start_date</span>, <span class="st">"%Y%m%d"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span><span class="op">(</span><span class="va">end_date</span>, <span class="st">"%Y%m%d"</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span></span>
+<span><span class="va">stm_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">out_dir</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"STM_EVI_"</span>, <span class="va">tag</span>, <span class="st">".tif"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">info_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">out_dir</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"STM_EVI_"</span>, <span class="va">tag</span>, <span class="st">"_info.tif"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the nine EVI metrics as a GeoTIFF with 32-bit floating-point values.</span></span>
+<span><span class="co"># DEFLATE provides lossless compression; overwrite replaces an existing file.</span></span>
+<span><span class="fu">writeRaster</span><span class="op">(</span><span class="va">evi_stm</span>, <span class="va">stm_path</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span>, datatype <span class="op">=</span> <span class="st">"FLT4S"</span>,</span>
+<span>            gdal <span class="op">=</span> <span class="st">"COMPRESS=DEFLATE"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save the information layers with 64-bit floating-point values.</span></span>
+<span><span class="co"># This preserves YYYYMMDD date integers exactly; 32-bit floats cannot</span></span>
+<span><span class="co"># represent every eight-digit date integer without rounding.</span></span>
+<span><span class="fu">writeRaster</span><span class="op">(</span><span class="va">info</span>, <span class="va">info_path</span>, overwrite <span class="op">=</span> <span class="cn">TRUE</span>, datatype <span class="op">=</span> <span class="st">"FLT8S"</span>,</span>
+<span>            gdal <span class="op">=</span> <span class="st">"COMPRESS=DEFLATE"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Export the source IDs, dates and input filenames.</span></span>
+<span><span class="co"># Work on a copy of inputs so its original file paths remain available.</span></span>
+<span><span class="co"># basename() removes folder paths, making the exported table easier to read.</span></span>
+<span><span class="va">source_table</span> <span class="op">&lt;-</span> <span class="va">inputs</span></span>
+<span><span class="va">source_table</span><span class="op">$</span><span class="va">boa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">source_table</span><span class="op">$</span><span class="va">boa</span><span class="op">)</span></span>
+<span><span class="va">source_table</span><span class="op">$</span><span class="va">qai</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/basename.html">basename</a></span><span class="op">(</span><span class="va">source_table</span><span class="op">$</span><span class="va">qai</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span><span class="op">(</span><span class="va">source_table</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">out_dir</span>, <span class="st">"sources.csv"</span><span class="op">)</span>, row.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Record the main processing choices so the results can be reproduced.</span></span>
+<span><span class="co"># Besides the period and mask settings, document the EVI formula,</span></span>
+<span><span class="co"># observation requirements, percentile method and handling of peak ties.</span></span>
+<span><span class="va">settings</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>start_date <span class="op">=</span> <span class="va">start_date</span>, end_date <span class="op">=</span> <span class="va">end_date</span>,</span>
+<span>                 strict_qai <span class="op">=</span> <span class="va">strict_qai</span>, min_obs <span class="op">=</span> <span class="va">min_obs</span>,</span>
+<span>                 aoi <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html">as.vector</a></span><span class="op">(</span><span class="va">aoi</span><span class="op">)</span>, bands <span class="op">=</span> <span class="va">band_names</span>,</span>
+<span>                 reflectance_divisor <span class="op">=</span> <span class="fl">10000</span>, nir_band <span class="op">=</span> <span class="st">"BNIR (B08)"</span>,</span>
+<span>                 evi <span class="op">=</span> <span class="st">"2.5*(BNIR-RED)/(BNIR+6*RED-7.5*BLUE+1)"</span>,</span>
+<span>                 denominator_tolerance <span class="op">=</span> <span class="fl">1e-6</span>, quantile_type <span class="op">=</span> <span class="fl">7</span>,</span>
+<span>                 metric_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">evi_stm</span><span class="op">)</span>,</span>
+<span>                 completeness <span class="op">=</span> <span class="st">"all ten BOA bands required per observation"</span>,</span>
+<span>                 temporal_weighting <span class="op">=</span> <span class="st">"equal weight per valid acquisition; no interpolation"</span>,</span>
+<span>                 peak_ties <span class="op">=</span> <span class="st">"earliest acquisition"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Save settings as an R-readable text representation.</span></span>
+<span><span class="co"># They can later be loaded with dget("path/to/settings.txt").</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/dput.html">dput</a></span><span class="op">(</span><span class="va">settings</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">out_dir</span>, <span class="st">"settings.txt"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Record the R version, platform and package versions for reproducibility.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/capture.output.html">capture.output</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>, file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">out_dir</span>, <span class="st">"sessionInfo.txt"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Reopen the exported rasters to check that they can be read.</span></span>
+<span><span class="va">saved</span> <span class="op">&lt;-</span> <span class="fu">rast</span><span class="op">(</span><span class="va">stm_path</span><span class="op">)</span></span>
+<span><span class="va">saved_info</span> <span class="op">&lt;-</span> <span class="fu">rast</span><span class="op">(</span><span class="va">info_path</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Verify that their spatial grids match the original raster objects.</span></span>
+<span><span class="fu">compareGeom</span><span class="op">(</span><span class="va">evi_stm</span>, <span class="va">saved</span>, stopOnError <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu">compareGeom</span><span class="op">(</span><span class="va">info</span>, <span class="va">saved_info</span>, stopOnError <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Require nine metric layers and six information layers.</span></span>
+<span><span class="co"># These checks verify geometry and layer counts, not individual pixel values.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html">stopifnot</a></span><span class="op">(</span><span class="fu">nlyr</span><span class="op">(</span><span class="va">saved</span><span class="op">)</span> <span class="op">==</span> <span class="fl">9L</span>, <span class="fu">nlyr</span><span class="op">(</span><span class="va">saved_info</span><span class="op">)</span> <span class="op">==</span> <span class="fl">6L</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p>The metric raster contains nine EVI summaries; the information raster contains <strong>count, peak source ID, peak calendar date, peak DOY, first valid date and last valid date</strong>. Keep the source and settings records with the rasters. No additional reflectance scaling is needed after export.</p>
+</section><section id="inspect-in-qgis-and-make-one-map" class="level2"><h2 class="anchored" data-anchor-id="inspect-in-qgis-and-make-one-map">9. Inspect in QGIS and make one map</h2>
+<ol type="1">
+<li>Open QGIS and add both exported GeoTIFFs using <strong>Layer → Add Layer → Add Raster Layer</strong> (or drag the files into the map).</li>
+<li>Open <strong>Layer Properties → Symbology → Singleband pseudocolor</strong>. Choose <code>EVI_maximum</code>; repeat for median and range. Use the same fixed colour limits when comparing the <strong>same metric</strong> between variants. A range needs a different scale from a maximum.</li>
+<li>Display <code>EVI_peak_DOY</code> from the information raster. For this single-year period, use a sequential ramp and a legend labelled <strong>Day of year</strong>. Use <strong>Identify Features</strong> to check <code>EVI_peak_date_YYYYMMDD</code> at the same location.</li>
+<li>Inspect <code>EVI_n_obs</code> beside the metrics. A missing metric may mean that too few valid observations remain. A count of zero is not EVI = 0.</li>
+<li>Create <strong>one simple map</strong> of a chosen metric using <strong>Project → New Print Layout</strong>, then <strong>Add Map</strong>. A clear title, metric/period, legend, scale bar and short data-source note are sufficient. Export as PDF or PNG.</li>
+</ol>
+<p><strong>Discuss:</strong> An RGB made from three temporal metrics is a feature visualisation, not a true-colour image acquired on one day. Do not interpret it as one observed spectrum.</p>
+</section><section id="homework-compare-two-meaningful-choices" class="level2"><h2 class="anchored" data-anchor-id="homework-compare-two-meaningful-choices">10. Homework — compare two meaningful choices</h2>
+<ol type="1">
+<li>
+<strong>Define and document</strong> your AOI, period, available dates, quality rules and <code>min_obs</code>. Create the four main outputs: maximum, maximum date, median and observed range, together with observation count.</li>
+<li>
+<strong>Create a second variant</strong> by changing the analysis period to June 1st +- 45 days. Use a separate <code>out_dir</code> and keep the AOI and example pixels fixed. State a prediction before running it. If the collection is sparse, an entirely masked second variant is informative; explain the cause instead of lowering the threshold silently.</li>
+<li>
+<strong>Compare and explain</strong> coverage and the metrics at three locations using their actual EVI time series. Which differences describe vegetation, and which could reflect sampling or residual noise?</li>
+<li>
+<strong>Map and discuss:</strong> make one simple QGIS map of your chosen metric and compare the variants. Explain what the maximum date does and does not tell you.</li>
+</ol>
+<p><strong>Submit via Moodle:</strong> clearly structured <code>.R</code> or <code>.rmd</code>, source/parameter records, one simple map, example time-series figure/table and the short comparison. Label your pair and both variants clearly.</p>
+</section><section id="optional-extension-other-indices-and-spectral-bands" class="level2"><h2 class="anchored" data-anchor-id="optional-extension-other-indices-and-spectral-bands">Optional extension — other indices and spectral bands</h2>
+<p>The core workflow ends above. To see why these are <strong>spectral-temporal</strong> metrics, apply the same summaries to an individual band or a second index. Each resulting layer describes that variable through time; separate band maxima need not originate on the same date.</p>
+<div class="cell">
+<details class="code-fold"><summary>Show code</summary><div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html">setwd</a></span><span class="op">(</span><span class="st">"D:/Lehre/master_2026"</span><span class="op">)</span></span>
+<span><span class="co"># Red reflectance through time: one layer per acquisition.</span></span>
+<span><span class="va">red_ts</span> <span class="op">&lt;-</span> <span class="fu">rast</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">boa</span>, <span class="kw">function</span><span class="op">(</span><span class="va">b</span><span class="op">)</span> <span class="va">b</span><span class="op">[[</span><span class="st">"RED"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">red_stm</span> <span class="op">&lt;-</span> <span class="fu">app</span><span class="op">(</span><span class="va">red_ts</span>, <span class="va">stm_values</span>, min_obs <span class="op">=</span> <span class="va">min_obs</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">red_stm</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"RED_"</span>, <span class="va">metric_names</span><span class="op">)</span></span>
+<span><span class="fu">writeRaster</span><span class="op">(</span><span class="va">red_stm</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">out_dir</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"STM_RED_"</span>, <span class="va">tag</span>, <span class="st">".tif"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>            overwrite <span class="op">=</span> <span class="cn">TRUE</span>, datatype <span class="op">=</span> <span class="st">"FLT4S"</span>, gdal <span class="op">=</span> <span class="st">"COMPRESS=DEFLATE"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># NDVI from each original masked observation, consistently using B08.</span></span>
+<span><span class="va">ndvi_ts</span> <span class="op">&lt;-</span> <span class="fu">rast</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">boa</span>, <span class="kw">function</span><span class="op">(</span><span class="va">b</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">denominator</span> <span class="op">&lt;-</span> <span class="va">b</span><span class="op">[[</span><span class="st">"BNIR"</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span> <span class="va">b</span><span class="op">[[</span><span class="st">"RED"</span><span class="op">]</span><span class="op">]</span></span>
+<span>  <span class="va">denominator</span> <span class="op">&lt;-</span> <span class="fu">ifel</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">denominator</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">1e-6</span>, <span class="cn">NA</span>, <span class="va">denominator</span><span class="op">)</span></span>
+<span>  <span class="va">ndvi</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">b</span><span class="op">[[</span><span class="st">"BNIR"</span><span class="op">]</span><span class="op">]</span> <span class="op">-</span> <span class="va">b</span><span class="op">[[</span><span class="st">"RED"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">/</span> <span class="va">denominator</span></span>
+<span>  <span class="fu">ifel</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/is.finite.html">is.finite</a></span><span class="op">(</span><span class="va">ndvi</span><span class="op">)</span>, <span class="va">ndvi</span>, <span class="cn">NA</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">ndvi_stm</span> <span class="op">&lt;-</span> <span class="fu">app</span><span class="op">(</span><span class="va">ndvi_ts</span>, <span class="va">stm_values</span>, min_obs <span class="op">=</span> <span class="va">min_obs</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ndvi_stm</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"NDVI_"</span>, <span class="va">metric_names</span><span class="op">)</span></span>
+<span><span class="va">ndvi_count</span> <span class="op">&lt;-</span> <span class="fu">app</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/is.finite.html">is.finite</a></span><span class="op">(</span><span class="va">ndvi_ts</span><span class="op">)</span>, <span class="st">"sum"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">ndvi_count</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"NDVI_n_obs"</span></span>
+<span><span class="fu">writeRaster</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">ndvi_stm</span>, <span class="va">ndvi_count</span><span class="op">)</span>,</span>
+<span>            <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">out_dir</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"STM_NDVI_"</span>, <span class="va">tag</span>, <span class="st">".tif"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>            overwrite <span class="op">=</span> <span class="cn">TRUE</span>, datatype <span class="op">=</span> <span class="st">"FLT4S"</span>, gdal <span class="op">=</span> <span class="st">"COMPRESS=DEFLATE"</span><span class="op">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<p><strong>Question:</strong> Is median EVI equal to EVI calculated from separately median-composited blue, red and NIR reflectance? Explain why the order of a nonlinear index calculation and temporal aggregation matters. NDVI and EVI may also have different valid counts because their denominators differ.</p>
+</section><section id="references" class="level2"><h2 class="anchored" data-anchor-id="references">References</h2>
+<ul>
+<li>
+<a href="https://force-eo.readthedocs.io/en/latest/howto/qai.html">FORCE — Quality Assurance Information</a>: quality fields used in the screen.</li>
+<li>
+<a href="https://force-eo.readthedocs.io/en/latest/components/lower-level/level2/format.html">FORCE — Level-2 output format</a>: BOA/QAI products and metadata.</li>
+<li>
+<a href="https://rspatial.github.io/terra/reference/app.html"><code>terra::app()</code></a>: pixel-wise aggregation across layers.</li>
+<li>
+<a href="https://rspatial.github.io/terra/reference/extract.html"><code>terra::extract()</code></a>: pixel values and example locations.</li>
+</ul>
+<p><em>This exercise calculates descriptive statistics from the original valid observations. It does not fit a phenology model or interpolate missing acquisitions. Revised on 16 November 2026.</em></p>
+
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const cellDetails = window.document.querySelectorAll(".cell details.code-fold");
+        for (let i=0; i<cellDetails.length; i++) {
+          const details = cellDetails[i];
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell div.sourceCode.cell-code");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+          if (!link.classList.contains('no-external-icon')) {
+          }
+        }
+      }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
+          if (lineIds.length > 0) {
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            placeBand(gutterDiv, el, lastEl);
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p><span class="faux-block">© 2023 Fernerkundung und Geoinformatik 1.0</span></p>
+</div>   
+    <div class="nav-footer-center">
+<p><span class="faux-block"><a href="https://www.marvinschmitt.com/blog/website-tutorial-quarto/">View the tutorial for this template!</a></span></p>
+</div>
+    <div class="nav-footer-right">
+<p><span class="faux-block"><a href="https://github.com/marvinschmitt/quarto-website-template/">View source on GitHub</a></span></p>
+</div>
+  </div>
+</footer>
+
+
+</body></html>
