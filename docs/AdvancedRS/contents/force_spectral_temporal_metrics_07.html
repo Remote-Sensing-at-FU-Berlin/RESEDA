@@ -278,9 +278,9 @@ window.Quarto = {
 </table>
 <section id="learning-objectives" class="level3"><h3 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h3>
 <p>Spectral-temporal metrics summarize the valid observations of each pixel over a selected period. The figure illustrates how an EVI time series can be described by its maximum, minimum, mean, median and quartiles. These statistics describe the distribution of EVI values but do not retain their temporal order.</p>
-<div id="fig-stm-example" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-width="5">
+<div id="fig-stm-example" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-stm-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="./images/tutorial-stm-example.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-width="5">
+<img src="./images/tutorial-stm-example.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-stm-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Temporal statistics derived from an example EVI time series. DOY = day of year; q25 and q75 = 25th and 75th percentiles; IQR = q75 − q25. Source: <a href="https://eol.pages.cms.hu-berlin.de/gcg_eo/04_stms.html">HU Berlin, Earth Observation Lab – S04 STMs</a>.
@@ -744,7 +744,7 @@ Figure&nbsp;1: Temporal statistics derived from an example EVI time series. DOY 
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>For a direct comparison with last week’s BAP, use <code>start_date &lt;- as.Date("2020-06-01") - 45</code> and <code>end_date &lt;- as.Date("2020-06-01") + 45</code>. This is <strong>17 April–16 July 2020</strong>. In a collection containing only 2 April and 2 May, only one date remains: the script stops at <code>min_obs = 2</code>.</p>
+<p>For a direct comparison with last week’s BAP, use <code>start_date &lt;- as.Date("2020-06-01") - 45</code> and <code>end_date &lt;- as.Date("2020-06-01") + 45</code>. This is <strong>17 April–16 July 2020</strong>. In a collection containing for isntance only 2 April and 2 May, not all statistics may make sense; the script stops at <code>min_obs = 2</code>.</p>
 </div>
 </div>
 </section></section><section id="reuse-the-quality-screen-and-calculate-evi-per-date" class="level2"><h2 class="anchored" data-anchor-id="reuse-the-quality-screen-and-calculate-evi-per-date">4. Reuse the quality screen and calculate EVI per date</h2>
