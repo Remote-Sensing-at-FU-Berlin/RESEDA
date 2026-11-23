@@ -278,9 +278,9 @@ window.Quarto = {
 </table>
 <section id="learning-objectives" class="level3"><h3 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h3>
 <p>Spectral-temporal metrics summarize the valid observations of each pixel over a selected period. The figure illustrates how an EVI time series can be described by its maximum, minimum, mean, median and quartiles. These statistics describe the distribution of EVI values but do not retain their temporal order.</p>
-<div id="fig-stm-example" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-width="7">
+<div id="fig-stm-example" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" data-fig-width="5">
 <figure class="quarto-float quarto-float-fig figure"><div aria-describedby="fig-stm-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="./images/tutorial-stm-example.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-width="7">
+<img src="./images/tutorial-stm-example.png" class="img-fluid quarto-figure quarto-figure-center figure-img" data-fig-width="5">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-stm-example-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;1: Temporal statistics derived from an example EVI time series. DOY = day of year; q25 and q75 = 25th and 75th percentiles; IQR = q75 − q25. Source: <a href="https://eol.pages.cms.hu-berlin.de/gcg_eo/04_stms.html">HU Berlin, Earth Observation Lab – S04 STMs</a>.
@@ -303,7 +303,7 @@ Figure&nbsp;1: Temporal statistics derived from an example EVI time series. DOY 
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Use <code>terra</code>, QGIS and <strong>one spatial tile</strong> and the input data from last week in <code>data/force</code>. Keep <code>.dat</code> and <code>.hdr</code> files together. <strong>I have added some other files from September to December</strong> in the fu-box (this time tif-files): https://box.fu-berlin.de/s/XmmcrkrBPcCkAzs This script is self-contained; no objects from last week’s R session are required.</p>
+<p>Use <code>terra</code>, QGIS and <strong>one spatial tile</strong> and the input data from last week in <code>data/force</code>. Keep <code>.dat</code> and <code>.hdr</code> files together. <strong>I have added some other files from September to December</strong> in the fu-box (this time tif-files): <a href="https://box.fu-berlin.de/s/XmmcrkrBPcCkAzs">Link FU-Box</a>. This script is self-contained; no objects from last week’s R session are required.</p>
 <p>Use <strong>all available dates of 2020</strong>, rather than the BAP output. If your collection only contains few observations, it demonstrates statistics for this subset, <strong>not an annual trajectory</strong>. Missing dates cannot be recovered by calculating more metrics.</p>
 </div>
 </div>
@@ -1402,6 +1402,7 @@ Figure&nbsp;1: Temporal statistics derived from an example EVI time series. DOY 
 <a href="https://force-eo.readthedocs.io/en/latest/howto/qai.html">FORCE — Quality Assurance Information</a>: quality fields used in the screen.</li>
 <li>
 <a href="https://force-eo.readthedocs.io/en/latest/components/lower-level/level2/format.html">FORCE — Level-2 output format</a>: BOA/QAI products and metadata.</li>
+<li><a href="https://eol.pages.cms.hu-berlin.de/gcg_eo/04_stms.html">HU Berlin, Earth Observation Lab – S04 STMs</a></li>
 <li>
 <a href="https://rspatial.github.io/terra/reference/app.html"><code>terra::app()</code></a>: pixel-wise aggregation across layers.</li>
 <li>
