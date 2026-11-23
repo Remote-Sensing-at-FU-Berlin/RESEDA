@@ -56,7 +56,8 @@ In our script, we calculate similar metrics, using the 10th and 90th percentiles
 ::: {.callout-note}
 ## Preparation
 
-Use `terra`, QGIS and **one spatial tile** and the input data from last week in `data/force`. Keep `.dat` and `.hdr` files together. I have added some other files from September to December in the fu-box (this time tif-files". This script is self-contained; no objects from last week's R session are required. 
+Use `terra`, QGIS and **one spatial tile** and the input data from last week in `data/force`. Keep `.dat` and `.hdr` files together. **I have added some other files from September to December** in the fu-box (this time tif-files): https://box.fu-berlin.de/s/XmmcrkrBPcCkAzs
+This script is self-contained; no objects from last week's R session are required. 
 
 Use **all available dates of 2020**, rather than the BAP output. If your collection only contains few observations, it demonstrates statistics for this subset, **not an annual trajectory**. Missing dates cannot be recovered by calculating more metrics.
 :::
