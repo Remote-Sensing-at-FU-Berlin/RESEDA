@@ -461,6 +461,18 @@ For a direct comparison with last week's BAP, use `start_date <- as.Date("2020-0
 The mask is the same as last week: exclude missing data, every flagged cloud state (including the existing buffer), shadows, snow, high/fallback aerosol, subzero/saturation, low sun and poor/shadowed illumination. Water remains available. `strict_qai = TRUE` additionally excludes interpolated aerosol and medium illumination. **No cloud-distance calculation is needed.** Consult the [FORCE QAI definitions](https://force-eo.readthedocs.io/en/latest/howto/qai.html).
 
 ```{r}
+
+# A single QAI value stores several quality flags as bits in one integer.
+# This function extracts the value of one field, such as cloud or aerosol.
+#   q     = one QAI value or a vector of QAI values
+#   start = position of the field's first bit, counting from 0 on the right
+#   width = number of bits in the field (1 bit by default)
+qai_field <- function(q, start, width = 1L) {
+  # Divide by 2^start and round down to discard the bits to the right.
+  # Then take the remainder modulo 2^width to keep only the selected bits.
+  floor(q / 2^start) %% 2^width
+}
+
 # Identify pixels that meet our quality criteria.
 quality_mask <- function(q, strict = FALSE) {
   good <- !is.na(q) & q >= 0 &                 # QAI available and non-negative
